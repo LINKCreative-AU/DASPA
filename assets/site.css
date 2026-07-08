@@ -142,6 +142,18 @@ input[type=range]{width:100%;accent-color:var(--blue);height:30px}
 .est-foot .btn{width:100%}
 .est-foot .fine{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.5}
 
+/* ---------- feature cards (why DASPA) ---------- */
+.features{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:640px){.features{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.features{grid-template-columns:repeat(3,1fr)}}
+.feat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+.feat .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;background:#eff4ff;color:var(--blue)}
+.feat .ic svg{width:20px;height:20px}
+.feat h3{font-size:15.5px;font-weight:700;margin-bottom:4px;line-height:1.3}
+.feat p{font-size:13.5px;color:var(--muted)}
+.feat.hl{border-color:#b7e6cd;background:#f4fbf7}
+.feat.hl .ic{background:#e3f5ec;color:var(--green)}
+
 /* ---------- trust checklist ---------- */
 .checklist{list-style:none;display:grid;grid-template-columns:1fr;gap:9px;margin:0}
 .checklist li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;font-weight:500}
