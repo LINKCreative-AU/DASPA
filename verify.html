@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Your Identity | DASPA</title>
+<meta name="description" content="Payment received — verify your identity with your passport and a selfie to complete your DASP claim.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://daspa.com.au/verify">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2250'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' fill='%23fae541' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="/">DASPA<span>.</span><small>Get your super back</small></a>
+    <a class="rta-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><b>Registered Tax Agent</b>26076969</a>
+    <span class="head-spacer"></span>
+    <a class="wa-btn" href="#" data-wa aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg><span class="wa-label">WhatsApp</span></a>
+    <span></span>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="crumbs">Claim progress</div>
+    <h1>Payment received. <em>One last step.</em></h1>
+    <p class="sub">Verify your identity with your passport and a quick selfie — it takes about two minutes on your phone.</p>
+  </div>
+</section>
+
+<main class="page">
+  <div class="wrap-narrow">
+    <div class="form-card">
+      <div class="form-head"><h2>Identity verification</h2><span class="stepnum">STEP 3 OF 3 — VERIFY</span></div>
+      <div class="form-body">
+        <ul class="checklist" style="grid-template-columns:1fr;margin-bottom:16px">
+          <li>Claim form received</li>
+          <li>Payment confirmed — $163.90 flat fee</li>
+        </ul>
+        <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Didit</b> and happens in their secure environment — have your <b>passport</b> ready and allow <b>camera access</b> when asked.</p>
+        <div class="note">Tip: use your phone, find decent light, and take the selfie without a hat or sunglasses. Most people are done in under two minutes.</div>
+        <div class="stop hidden" id="verify-error">We couldn't start the verification session. Please try again in a moment — your payment is safe and your claim is saved. Stuck? Message us on <a href="#" data-wa>WhatsApp</a>.</div>
+        <button class="btn block" id="verify-btn" type="button">Verify my identity now</button>
+        <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Prefer to do it later? We'll email you this link — but claims can't be lodged until it's done.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="disclaimer" style="border-top:none;margin-top:0;padding-top:0">
+      Operated by Australian Registration Office Pty Ltd · ABN <a href="https://abr.business.gov.au/ABN/View?abn=58645964156" target="_blank" rel="noopener">58 645 964 156</a> · Registered Tax Agent <a href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener">26076969</a> · <a href="/tpb">Important Information for Clients</a> · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a><br>
+      Identity verification is powered by <a href="https://didit.me" target="_blank" rel="noopener">Didit</a>. Your super is paid by your fund or the ATO directly to you — we never hold client money.
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var cid = params.get('cid');
+  var btn = document.getElementById('verify-btn');
+
+  if (!cid) {
+    btn.disabled = true;
+    document.getElementById('verify-error').classList.remove('hidden');
+    document.getElementById('verify-error').innerHTML = 'This link is missing its claim reference. Open the link from your confirmation email, or message us on <a href="#" data-wa>WhatsApp</a>.';
+    wireWhatsApp();
+    return;
+  }
+
+  // Full-page redirect to Didit's hosted flow — the most reliable route to the
+  // phone camera (in-context iframes can lose getUserMedia permissions inside
+  // in-app browsers like Instagram/WhatsApp webviews).
+  btn.addEventListener('click', async function () {
+    btn.disabled = true;
+    btn.textContent = 'Opening secure verification…';
+    document.getElementById('verify-error').classList.add('hidden');
+    try {
+      var r = await fetch('/api/didit-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ claimId: cid })
+      });
+      var data = await r.json();
+      if (!r.ok || !data.url) throw new Error(data.error || 'no url');
+      window.location.href = data.url;
+    } catch (e) {
+      document.getElementById('verify-error').classList.remove('hidden');
+      wireWhatsApp();
+      btn.disabled = false;
+      btn.textContent = 'Verify my identity now';
+    }
+  });
+})();
+</script>
+</body>
+</html>

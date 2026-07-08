@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /claim
+Disallow: /verify
+Disallow: /confirmation
+Disallow: /api/
+
+Sitemap: https://daspa.com.au/sitemap.xml
