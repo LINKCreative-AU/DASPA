@@ -49,7 +49,7 @@ Your claim form just arrived safely — thanks for trusting us with it.
 
 Nothing more is needed right now. Once your payment and identity check are done, our registered agents review everything, find every super account in your name (including money already at the ATO), and ${lodgementLine()}.
 
-Your super is paid by your fund or the ATO directly to your bank — we never hold your money.
+Your super is paid by your fund or the ATO directly to your bank — we never hold your money. And it's no-win-no-fee: if we can't recover any super for you, your fee is refunded in full.
 
 ${wa()}
 
@@ -63,7 +63,7 @@ ${sig}`
       'Payment received — one step to go',
       `Hi ${firstName(c)},
 
-Payment received: $163.90, the flat fee, all inclusive. That's the only thing you'll ever pay us.
+Payment received: $163.90, the flat fee, all inclusive. That's the only thing you'll ever pay us — and if we can't recover any super for you, it comes straight back (no super, no fee).
 
 One step left: verify your identity with your passport and a quick selfie (about two minutes, from your phone):
 

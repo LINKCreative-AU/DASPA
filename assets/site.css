@@ -40,6 +40,7 @@ header.site{background:var(--navy);color:#fff;position:sticky;top:0;z-index:50;b
 header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
 .logo{color:#fff;text-decoration:none;font-weight:700;font-size:24px;letter-spacing:.04em;line-height:1;flex:none}
 .logo span{color:var(--yellow)}
+.logo .a{color:#3ecf8e}
 .logo small{display:block;font-size:9.5px;font-weight:500;letter-spacing:.14em;color:#aeb6d8;text-transform:uppercase;margin-top:2px}
 .rta-badge{display:inline-flex;flex-direction:column;color:#c9cfe8;text-decoration:none;font-size:10px;font-weight:600;letter-spacing:.05em;line-height:1.25;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:5px 9px;margin-left:2px}
 .rta-badge b{color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em}
@@ -123,7 +124,10 @@ section.band .band-sub{color:var(--muted);font-size:15px;margin-bottom:22px;max-
 .seg label:has(input:checked){border-color:var(--blue);background:#eff4ff;font-weight:700}
 .est-slider{margin:18px 0 4px}
 .est-slider .lab-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:600;margin-bottom:6px}
-.est-slider .lab-row output{font-size:19px;font-weight:700;color:var(--navy)}
+.est-amt{display:flex;align-items:center;gap:2px;border:2px solid var(--line);border-radius:10px;padding:2px 12px;margin-bottom:10px;background:#fff}
+.est-amt:focus-within{border-color:var(--blue)}
+.est-amt span{font-size:22px;font-weight:700;color:var(--muted)}
+.est-amt input{border:none!important;outline:none;width:100%;font-family:inherit;font-size:24px;font-weight:700;color:var(--navy);padding:8px 4px}
 input[type=range]{width:100%;accent-color:var(--blue);height:30px}
 .est-lines{border-top:1px solid var(--line);margin-top:12px;padding-top:4px}
 .est-line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:14px;border-bottom:1px dashed var(--line)}

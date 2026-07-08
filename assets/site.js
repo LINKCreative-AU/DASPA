@@ -42,7 +42,7 @@ function initEstimator() {
   if (!card) return;
 
   var slider = card.querySelector('#est-balance');
-  var out = card.querySelector('#est-balance-out');
+  var amtIn = card.querySelector('#est-balance-in');
   var lineBal = card.querySelector('#est-line-balance');
   var lineTax = card.querySelector('#est-line-tax');
   var lineTaxLabel = card.querySelector('#est-tax-label');
@@ -54,22 +54,34 @@ function initEstimator() {
     return whm ? 0.65 : 0.35;
   }
 
+  var balance = Number(slider.value);
+
   function render() {
-    var bal = Number(slider.value);
     var r = rate();
-    var tax = bal * r;
-    var netAmt = Math.max(0, bal - tax - FEE_INC_GST);
-    out.textContent = aud.format(bal);
-    lineBal.textContent = aud.format(bal);
+    var tax = balance * r;
+    var netAmt = Math.max(0, balance - tax - FEE_INC_GST);
+    lineBal.textContent = aud.format(balance);
     lineTaxLabel.textContent = 'DASP tax withheld (' + Math.round(r * 100) + '%)';
     lineTax.textContent = '−' + aud.format(tax);
     lineFee.textContent = '−' + aud2.format(FEE_INC_GST);
     net.textContent = aud.format(netAmt);
   }
 
-  slider.addEventListener('input', render);
+  // Typed estimate is the primary input; the slider mirrors it (and vice versa).
+  function setBalance(n, source) {
+    balance = Math.max(0, Math.min(500000, n || 0));
+    if (source !== 'slider') slider.value = Math.max(slider.min, Math.min(slider.max, balance));
+    if (source !== 'input') amtIn.value = balance ? balance.toLocaleString('en-AU') : '';
+    render();
+  }
+
+  amtIn.addEventListener('input', function () {
+    setBalance(Number(amtIn.value.replace(/[^0-9]/g, '')), 'input');
+  });
+  amtIn.addEventListener('blur', function () { setBalance(balance); });
+  slider.addEventListener('input', function () { setBalance(Number(slider.value), 'slider'); });
   card.querySelectorAll('input[name=est-visa]').forEach(function (i) { i.addEventListener('change', render); });
-  render();
+  setBalance(balance);
 }
 
 /* ---------- eligibility quiz ---------- */
