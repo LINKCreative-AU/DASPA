@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Your Completed Form | DASPA</title>
+<meta name="description" content="Send your completed DASPA paper application back to us — upload a photo or scan of every page and a registered tax agent takes it from there.">
+<link rel="canonical" href="https://daspa.com.au/upload-form">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2250'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' fill='%23fae541' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.up-drop{border:2px dashed #c9cce0;border-radius:12px;background:#f4f6ff;padding:26px 16px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.up-drop:hover,.up-drop.drag{border-color:#74c0fc;background:#eef5ff}
+.up-drop b{display:block;color:#1e2250;font-size:15px;margin-bottom:4px}
+.up-drop span{color:#5b5f7a;font-size:13px}
+.up-list{list-style:none;padding:0;margin:12px 0 0}
+.up-list li{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid #e3e5f2;border-radius:9px;margin-bottom:7px;font-size:13.5px;background:#fff}
+.up-list .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#1e2250;font-weight:600}
+.up-list .sz{color:#5b5f7a;flex:none}
+.up-list .st{flex:none;font-weight:700}
+.up-list .st.ok{color:#1a7f37}
+.up-list .st.err{color:#c62828}
+.up-list button{flex:none;border:0;background:none;color:#c62828;font-size:15px;cursor:pointer;line-height:1}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="/">DASP<span class="a">A</span><span>.</span><small>Get your super back</small></a>
+    <a class="rta-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><b>Registered Tax Agent</b>26076969</a>
+    <span class="head-spacer"></span>
+    <a class="calc-link" href="/dasp-calculator" aria-label="DASP calculator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 7h7"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01"/></svg><span class="cl-label">DASP Calculator</span></a>
+    <a class="wa-btn" href="#" data-wa aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg><span class="wa-label">WhatsApp</span></a>
+    <a class="btn start" href="/claim" style="visibility:hidden">Start my claim</a>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="crumbs"><a href="/">DASPA</a> › Upload your form</div>
+    <h1>Send your completed form <em>back to us</em></h1>
+    <p class="sub">Upload a photo or scan of every page of your <a href="/dasp-application-form" style="color:inherit">DASPA paper application</a>. A registered tax agent takes it from there.</p>
+  </div>
+</section>
+
+<main class="page">
+  <div class="wrap-narrow">
+    <form class="form-card" id="upload-form" novalidate>
+      <div class="form-head"><h2>Upload your form</h2><span class="stepnum">PHOTOS OR SCANS — BOTH PAGES</span></div>
+      <div class="form-body">
+
+        <fieldset>
+          <div class="fs-title">So we know who it's from</div>
+          <div class="field"><label for="up_name">Full name <span class="why">as written on the form</span></label>
+            <input type="text" id="up_name" name="name" autocomplete="name" required>
+            <div class="err">Please enter your full name.</div></div>
+          <div class="row2">
+            <div class="field"><label for="up_email">Email <span class="why">we confirm receipt here</span></label>
+              <input type="email" id="up_email" name="email" autocomplete="email" required>
+              <div class="err">Please enter a valid email address.</div></div>
+            <div class="field"><label for="up_phone">Phone <span class="why">optional, with country code</span></label>
+              <input type="tel" id="up_phone" name="phone" autocomplete="tel" placeholder="+44 7…"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="fs-title">Your form</div>
+          <div class="field">
+            <div class="up-drop" id="up-drop" role="button" tabindex="0" aria-label="Choose files to upload">
+              <b>Tap to choose files — or drop them here</b>
+              <span>Photos or scans of both pages · PDF, JPG, PNG, WEBP or HEIC · up to 5 files, 3&nbsp;MB each</span>
+            </div>
+            <input type="file" id="up_files" accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,application/pdf,image/*" multiple hidden>
+            <ul class="up-list" id="up-list"></ul>
+            <div class="err" id="files-err">Please add at least one photo or scan of your completed form.</div>
+          </div>
+          <div class="field"><label for="up_note">Anything we should know? <span class="why">optional</span></label>
+            <textarea id="up_note" name="note" rows="2" placeholder="e.g. page 2 is coming separately, or my visa status changed"></textarea></div>
+        </fieldset>
+
+        <div class="field">
+          <button type="submit" class="btn" id="up-submit">Send my form to DASPA</button>
+          <div class="err" id="submit-err">Something went wrong sending your files. Please try again — or WhatsApp us and we'll sort it out.</div>
+        </div>
+
+      </div>
+    </form>
+
+    <div class="form-card" id="thanks" style="display:none">
+      <div class="form-head"><h2>Got it — your form is with us ✓</h2></div>
+      <div class="form-body">
+        <p>Thanks <b id="thanks-name"></b> — your form arrived safely and a confirmation email is on its way to <b id="thanks-email"></b>.</p>
+        <p>What happens next: a registered tax agent reviews your form, we email you a secure payment link ($149 + GST flat, refunded in full if no super can be recovered), and you verify your identity from your phone with your passport and a selfie. Then we find every fund in your name and lodge your claim.</p>
+        <p>Questions in the meantime? <a href="#" data-wa>Message us on WhatsApp</a> any time.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="/">DASP<span class="a">A</span><span>.</span></a>
+        <div class="entity">
+          Operated by Australian Registration Office Pty Ltd<br>
+          ABN <a href="https://abr.business.gov.au/ABN/View?abn=58645964156" target="_blank" rel="noopener">58 645 964 156</a><br>
+          Tax Agent Number <a href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener">26076969</a><br>
+          <a href="/tpb">Important Information for Clients</a>
+        </div>
+      </div>
+      <div class="foot-links">
+        <a href="/dasp-calculator">DASP tax calculator</a>
+        <a href="/dasp-online-application">DASP online application</a>
+        <a href="/dasp-application-form">DASP application form (PDF)</a>
+        <a href="/claim-super-leaving-australia">Claiming super when leaving Australia</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/faq">FAQ</a>
+        <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="#" data-wa>WhatsApp us</a>
+      </div>
+      <div>
+        <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-badge-white-26076969.png" alt="Tax Practitioners Board — Registered Tax Practitioner 26076969" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="disclaimer">
+      DASPA is a lodgement service operated by a registered tax agent; we are not a financial adviser and nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO — no agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account — we never hold client money. Identity verification is powered by <a href="https://didit.me" target="_blank" rel="noopener">Didit</a>. © Australian Registration Office Pty Ltd.
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var MAX_FILES = 5;
+  var MAX_BYTES = 3 * 1024 * 1024;
+  var OK_TYPES = /^(application\/pdf|image\/(jpeg|png|webp|heic|heif))$/i;
+  var OK_EXT = /\.(pdf|jpe?g|png|webp|heic|heif)$/i;
+
+  var drop = document.getElementById('up-drop');
+  var input = document.getElementById('up_files');
+  var list = document.getElementById('up-list');
+  var form = document.getElementById('upload-form');
+  var filesErr = document.getElementById('files-err');
+  var submitErr = document.getElementById('submit-err');
+  var submitBtn = document.getElementById('up-submit');
+  var picked = []; // { file, li, st }
+
+  function fmtSize(b) { return b < 1024 * 1024 ? Math.round(b / 1024) + ' KB' : (b / 1048576).toFixed(1) + ' MB'; }
+
+  function addFiles(fileList) {
+    for (var i = 0; i < fileList.length; i++) {
+      var f = fileList[i];
+      if (picked.length >= MAX_FILES) break;
+      if (!OK_TYPES.test(f.type) && !OK_EXT.test(f.name)) continue;
+      var li = document.createElement('li');
+      var tooBig = f.size > MAX_BYTES;
+      li.innerHTML = '<span class="nm"></span><span class="sz"></span><span class="st"></span><button type="button" aria-label="Remove">✕</button>';
+      li.querySelector('.nm').textContent = f.name;
+      li.querySelector('.sz').textContent = fmtSize(f.size);
+      if (tooBig) { li.querySelector('.st').textContent = 'too big — 3 MB max'; li.querySelector('.st').className = 'st err'; }
+      (function (entry) {
+        li.querySelector('button').addEventListener('click', function () {
+          picked.splice(picked.indexOf(entry), 1); entry.li.remove();
+        });
+      })(picked[picked.push({ file: f, li: li, bad: tooBig }) - 1]);
+      list.appendChild(li);
+    }
+    filesErr.style.display = 'none';
+  }
+
+  drop.addEventListener('click', function () { input.click(); });
+  drop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
+  input.addEventListener('change', function () { addFiles(input.files); input.value = ''; });
+  ['dragover', 'dragenter'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('drag'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('drag'); });
+  });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files); });
+
+  function b64(file) {
+    return new Promise(function (resolve, reject) {
+      var r = new FileReader();
+      r.onload = function () { resolve(String(r.result).split(',')[1]); };
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+  }
+
+  function uuid() {
+    return (crypto.randomUUID && crypto.randomUUID()) ||
+      'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    submitErr.style.display = 'none';
+
+    var name = document.getElementById('up_name');
+    var emailEl = document.getElementById('up_email');
+    var ok = true;
+    [name, emailEl].forEach(function (el) {
+      var bad = !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value));
+      el.closest('.field').querySelector('.err').style.display = bad ? 'block' : 'none';
+      if (bad) ok = false;
+    });
+    var good = picked.filter(function (p) { return !p.bad; });
+    if (!good.length) { filesErr.style.display = 'block'; ok = false; }
+    if (!ok) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    var submissionId = uuid();
+
+    try {
+      for (var i = 0; i < good.length; i++) {
+        var p = good[i];
+        var st = p.li.querySelector('.st');
+        st.textContent = 'sending…'; st.className = 'st';
+        var r = await fetch('/api/upload-form', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            submissionId: submissionId,
+            name: name.value.trim(),
+            email: emailEl.value.trim(),
+            phone: document.getElementById('up_phone').value.trim() || null,
+            note: document.getElementById('up_note').value.trim() || null,
+            fileIndex: i + 1,
+            fileCount: good.length,
+            finalize: i === good.length - 1,
+            file: { name: p.file.name, type: p.file.type || 'application/octet-stream', dataBase64: await b64(p.file) }
+          })
+        });
+        if (!r.ok) throw new Error('upload failed: ' + r.status);
+        st.textContent = 'sent ✓'; st.className = 'st ok';
+      }
+      document.getElementById('thanks-name').textContent = name.value.trim().split(/\s+/)[0];
+      document.getElementById('thanks-email').textContent = emailEl.value.trim();
+      form.style.display = 'none';
+      document.getElementById('thanks').style.display = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error(err);
+      submitErr.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send my form to DASPA';
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -3,6 +3,7 @@ Allow: /
 Disallow: /claim
 Disallow: /verify
 Disallow: /confirmation
+Disallow: /upload-form
 Disallow: /api/
 
 Sitemap: https://daspa.com.au/sitemap.xml
