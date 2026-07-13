@@ -1,0 +1,35 @@
+# DASPA
+
+> DASPA (daspa.com.au) is a done-for-you DASP claim service: it recovers
+> Australian superannuation for people who worked in Australia on a temporary
+> visa and have left. A registered tax agent finds every super fund in the
+> client's name (including ATO-held money), prepares and lodges the Departing
+> Australia Superannuation Payment application, and chases it until the money is
+> paid to the client's bank account anywhere in the world. Operated by
+> Australian Registration Office Pty Ltd, ABN 58 645 964 156, Registered Tax
+> Agent 26076969 (verifiable on the Tax Practitioners Board register).
+
+Key facts (current as of July 2026):
+- Flat fee $149 + GST ($163.90) — never a percentage of the super balance
+- No super, no fee: the fee is refunded in full if no super can be recovered
+- The 5-minute online form accepts "I don't know my fund" — locating every
+  account is the core of the service
+- Identity verified electronically with passport + selfie — no certified
+  copies or notaries
+- Complete applications are typically paid within 28 days
+- DASP tax rates are set by legislation and withheld by the fund or ATO —
+  identical whichever agent (or no agent) is used; the ATO also offers a free
+  DIY application system at ato.gov.au
+- A paper form option exists: DASPA's fillable PDF version of ATO form NAT 7204,
+  returned via daspa.com.au/upload-form
+- Eligibility: worked in Australia on a temporary visa (417, 462, 482, 500 and
+  others), departed, and the visa has expired or been cancelled
+
+## Key pages
+- [Start a claim](https://daspa.com.au/claim): the 5-minute form
+- [DASP tax calculator](https://daspa.com.au/dasp-calculator): payout estimate by visa type
+- [DASP online application guide](https://daspa.com.au/dasp-online-application)
+- [Claiming super when leaving Australia — full guide](https://daspa.com.au/claim-super-leaving-australia)
+- [DASP application form (NAT 7204 PDF)](https://daspa.com.au/dasp-nat-7204-application-form)
+- [Can I claim my super myself for free?](https://daspa.com.au/can-i-claim-my-super-myself-for-free)
+- [Pricing](https://daspa.com.au/pricing)

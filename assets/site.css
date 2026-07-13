@@ -9,24 +9,24 @@
    Audience browses on phones from overseas — everything here is mobile-first. */
 
 :root{
-  --navy:#1e2250;
-  --navy2:#2a3060;          /* one step lighter than the header navy, for banded sections */
-  --blue:#2a53a2;
-  --blue2:#4486c6;
-  --bluehov:#4871c0;
+  --navy:#14164A;
+  --navy2:#1E2160;          /* one step lighter than the header navy, for banded sections */
+  --blue:#3844CA;
+  --blue2:#4A7BFF;
+  --bluehov:#4A7BFF;
   --yellow:#fae541;
   --yellow2:#ffff5f;
   --ybord:#eed935;
   --ink:#1e2250;
   --muted:#5a6480;
-  --bg:#f5f7fb;
+  --bg:#F5F7FD;
   --card:#ffffff;
-  --line:#dde3f0;
+  --line:#DCE0F2;
   --green:#1b9e62;
   --red:#d6455b;
   --amber:#c98a1b;
   --wa:#25d366;
-  --accent:#74c0fc;         /* logo A + highlights — light sky blue, reads clean on the navy */
+  --accent:#4A7BFF;         /* logo A + highlights — light sky blue, reads clean on the navy */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -289,3 +289,17 @@ footer.site .tpb-badge img{height:118px;width:auto}
 footer.site .tpb-badge{display:inline-block;margin-top:2px}
 footer.site .disclaimer{border-top:1px solid rgba(255,255,255,.14);margin-top:26px;padding-top:18px;font-size:11.5px;line-height:1.65;color:#8f98c2}
 footer.site .disclaimer a{color:#aeb6d8}
+
+/* ── ATO-style interaction language (colour shift + lift on hover) ──
+   Same interaction family as abnassist.com.au; palette variant keeps the
+   two sites distinct (darker indigo header, lemon yellow, bright blue). */
+a,.btn,.faq details,.faq summary,.calc-link,.wa-btn{transition:color .16s ease,background-color .16s ease,border-color .16s ease,box-shadow .18s ease,transform .18s ease,filter .15s ease}
+main a:hover{color:var(--bluehov)}
+.btn:hover{filter:brightness(1.05);transform:translateY(-1px);box-shadow:0 6px 18px rgba(20,22,74,.22)}
+.faq details:hover{border-color:var(--bluehov)}
+.faq details:hover summary{color:var(--blue)}
+table tbody tr{transition:background-color .12s ease}
+table tbody tr:hover{background:#EBF8FD}
+.foot-links a:hover{color:var(--yellow)}
+.calc-link:hover{transform:translateY(-1px)}
+.answer-first a:hover{color:var(--bluehov)}

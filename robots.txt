@@ -7,3 +7,6 @@ Disallow: /upload-form
 Disallow: /api/
 
 Sitemap: https://daspa.com.au/sitemap.xml
+
+# AI/answer engines: welcome under the same rules as everyone else
+# (default Allow above). Site summary for LLMs: https://daspa.com.au/llms.txt
