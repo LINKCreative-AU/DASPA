@@ -49,6 +49,10 @@ header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
 .wa-btn{display:inline-flex;align-items:center;gap:7px;background:var(--wa);color:#fff;text-decoration:none;font-weight:600;font-size:13.5px;padding:9px 13px;border-radius:99px;flex:none}
 .wa-btn svg{width:17px;height:17px;flex:none}
 .wa-btn .wa-label{display:none}
+.calc-link{display:inline-flex;align-items:center;gap:6px;color:#c9cfe8;border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:8px 12px;font-size:13.5px;font-weight:600;text-decoration:none;flex:none}
+.calc-link:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+.calc-link svg{width:16px;height:16px;flex:none}
+.calc-link .cl-label{display:none}
 .btn{display:inline-block;background:linear-gradient(to bottom,var(--yellow2) 0%,var(--yellow) 100%);border:1px solid var(--ybord);color:var(--navy);font-family:inherit;font-weight:700;font-size:16px;padding:13px 26px;border-radius:10px;cursor:pointer;text-decoration:none;text-align:center}
 .btn:hover{background:linear-gradient(to bottom,var(--bluehov) 0%,var(--blue) 100%);border-color:#1e4796;color:#fff}
 .btn:disabled{opacity:.5;cursor:default;pointer-events:none}
@@ -58,16 +62,18 @@ header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
 header.site .btn.start{font-size:13.5px;padding:10px 14px;border-radius:99px;flex:none}
 @media(min-width:640px){
   .wa-btn .wa-label{display:inline}
+  .calc-link .cl-label{display:inline}
   header.site .btn.start{font-size:14px;padding:10px 18px}
 }
 @media(max-width:520px){
-  .logo{font-size:20px}
+  .logo{font-size:19px}
   .logo small{display:none}
-  .rta-badge{font-size:8.5px;padding:4px 7px}
+  .rta-badge{font-size:8.5px;padding:4px 6px}
   .rta-badge b{font-size:9.5px}
-  header.site .btn.start{font-size:12.5px;padding:9px 11px}
-  .wa-btn{padding:8px 10px}
-  header.site .wrap{gap:7px;padding:10px 12px}
+  header.site .btn.start{font-size:12px;padding:8px 9px}
+  .wa-btn{padding:7px 8px}
+  .calc-link{padding:6px 8px}
+  header.site .wrap{gap:6px;padding:9px 10px}
 }
 @media(max-width:339px){.rta-badge{display:none}}
 
