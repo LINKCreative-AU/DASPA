@@ -285,7 +285,7 @@ footer.site .entity{margin-top:12px;line-height:1.7}
 footer.site a{color:#c9cfe8}
 footer.site a:hover{color:var(--yellow)}
 footer.site .foot-links{display:flex;flex-direction:column;gap:7px;font-weight:500}
-footer.site .tpb-badge img{height:118px;width:auto}
+footer.site .tpb-badge img{height:150px;width:auto}
 footer.site .tpb-badge{display:inline-block;margin-top:2px}
 footer.site .disclaimer{border-top:1px solid rgba(255,255,255,.14);margin-top:26px;padding-top:18px;font-size:11.5px;line-height:1.65;color:#8f98c2}
 footer.site .disclaimer a{color:#aeb6d8}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 502 642" role="img" aria-label="Tax Practitioners Board — Registered Tax Agent 26076969">
+  <defs>
+    <path id="arcTop" d="M 251,251 m -193,0 a 193,193 0 1 1 386,0" fill="none"/>
+    <path id="arcBot" d="M 251,251 m -188,0 a 188,188 0 1 0 376,0" fill="none"/>
+  </defs>
+  <!-- roundel -->
+  <circle cx="251" cy="251" r="246" fill="#FFFFFF" stroke="#000000" stroke-width="4"/>
+  <circle cx="251" cy="251" r="148" fill="#C7D301"/>
+  <!-- swoosh + tick -->
+  <path d="M118,262 C170,175 300,138 392,196 C300,168 205,205 152,268 C140,268 126,266 118,262 Z" fill="#FFFFFF"/>
+  <path d="M148,270 C176,278 200,296 216,322 C258,240 320,190 392,196 C310,224 258,282 232,366 C210,318 182,288 148,270 Z" fill="#000000"/>
+  <!-- circular text -->
+  <text font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="36" fill="#000000" letter-spacing="2.5">
+    <textPath href="#arcTop" startOffset="50%" text-anchor="middle">TAX PRACTITIONERS BOARD</textPath>
+  </text>
+  <text font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="38" fill="#000000" letter-spacing="8">
+    <textPath href="#arcBot" startOffset="50%" text-anchor="middle" side="right">REGISTERED</textPath>
+  </text>
+  <!-- caption -->
+  <text x="251" y="576" font-family="Arial, Helvetica, sans-serif" font-size="56" fill="#000000" text-anchor="middle">Tax agent</text>
+  <text x="251" y="634" font-family="Arial, Helvetica, sans-serif" font-size="56" fill="#000000" text-anchor="middle">26076969</text>
+</svg>
