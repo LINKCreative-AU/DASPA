@@ -13,7 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2250'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' fill='%23fae541' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">
 {
@@ -120,7 +120,7 @@
         <a class="btn" href="/claim">Start my claim</a>
         <a class="btn ghost" href="#eligibility">60-second eligibility check</a>
       </div>
-      <p class="microtrust">Registered Tax Agent 26076969 · Flat fee $149 + GST — never a percentage · <b style="color:#3ecf8e">No super, no fee: 100% refund</b> · Paid out in about 28 days</p>
+      <p class="microtrust">Registered Tax Agent 26076969 · Don't pay a percentage of your balance — just a small fixed fee of $149 + GST · <b style="color:var(--accent)">No super, no fee: 100% refund</b> · Paid out in about 28 days</p>
     </div>
 
     <!-- live payment-summary estimator -->
@@ -131,8 +131,10 @@
       </div>
       <div class="est-body">
         <div class="seg" role="radiogroup" aria-label="Visa type">
-          <label><input type="radio" name="est-visa" value="whm" checked>Working holiday<small>417 / 462 — taxed 65%</small></label>
-          <label><input type="radio" name="est-visa" value="other">Other temporary visa<small>student, 482… — taxed 35%</small></label>
+          <label><input type="radio" name="est-visa" value="417" checked>Working Holiday<small>417 — taxed 65%</small></label>
+          <label><input type="radio" name="est-visa" value="462">Work &amp; Holiday<small>462 — taxed 65%</small></label>
+          <label><input type="radio" name="est-visa" value="482">Skilled<small>482 — taxed 35%</small></label>
+          <label><input type="radio" name="est-visa" value="500">Student<small>500 — taxed 35%</small></label>
         </div>
         <div class="est-slider">
           <div class="lab-row"><label for="est-balance-in">Your estimated super balance <span style="font-weight:500;color:var(--muted)">— a rough guess is fine</span></label></div>
@@ -148,7 +150,7 @@
       </div>
       <div class="est-foot">
         <a class="btn" href="/claim">Claim it now</a>
-        <p class="fine">Estimate only. DASP tax rates are set by legislation and withheld by your fund or the ATO — the exact amount depends on the components of your balance. Fee is $149 + GST, charged once, whatever your balance and however many funds you have — and refunded in full if we can't recover any super for you.</p>
+        <p class="fine">Estimate only. DASP tax rates are set by legislation and withheld by your fund or the ATO — the exact amount depends on the components of your balance. Fee is $149 + GST, charged once, whatever your balance and however many funds you have — and refunded in full if we can't recover any super for you. Want the full breakdown, including ATO-held super and a balance estimator? <a href="/dasp-calculator" style="color:var(--blue);font-weight:600">Try the DASP calculator</a>.</p>
       </div>
     </div>
   </div>
@@ -176,8 +178,8 @@
       </div>
       <div class="feat">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l-8.5 8.5a2.1 2.1 0 01-3 0L3 15a2.1 2.1 0 010-3L11.5 3.5H17a3 3 0 013 3z" transform="rotate(90 12 12)"/><circle cx="15" cy="9" r="1.3"/></svg></div>
-        <h3>Flat $149 + GST — never a percentage</h3>
-        <p>The same fee whether your super is $800 or $80,000, however many funds you have. It's tax deductible, and it's the only thing you'll ever pay us.</p>
+        <h3>Don't pay a percentage of your balance</h3>
+        <p>Just a small, fixed flat fee — $149 + GST, the same whether your super is $800 or $80,000, however many funds you have. It's tax deductible, and it's the only thing you'll ever pay us.</p>
       </div>
       <div class="feat hl">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><path d="M3 4v5h5"/><path d="M9 12l2 2 4-4.5"/></svg></div>
@@ -327,6 +329,7 @@
         </div>
       </div>
       <div class="foot-links">
+        <a href="/dasp-calculator">DASP calculator</a>
         <a href="/pricing">Pricing</a>
         <a href="/faq">FAQ</a>
         <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>

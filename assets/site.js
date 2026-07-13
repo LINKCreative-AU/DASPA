@@ -49,9 +49,11 @@ function initEstimator() {
   var lineFee = card.querySelector('#est-line-fee');
   var net = card.querySelector('#est-net');
 
+  // DASP withholding by visa subclass: working holiday family (417/462) 65%,
+  // other temporary visas (482 skilled, 500 student) 35% on the taxed element.
+  var RATES = { '417': 0.65, '462': 0.65, '482': 0.35, '500': 0.35 };
   function rate() {
-    var whm = card.querySelector('input[name=est-visa]:checked').value === 'whm';
-    return whm ? 0.65 : 0.35;
+    return RATES[card.querySelector('input[name=est-visa]:checked').value] || 0.35;
   }
 
   var balance = Number(slider.value);

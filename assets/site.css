@@ -26,11 +26,12 @@
   --red:#d6455b;
   --amber:#c98a1b;
   --wa:#25d366;
+  --accent:#74c0fc;         /* logo A + highlights — light sky blue, reads clean on the navy */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Fira Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
 .wrap{max-width:1060px;margin:0 auto;padding:0 18px}
 .wrap-narrow{max-width:740px;margin:0 auto;padding:0 18px}
 img{max-width:100%}
@@ -40,7 +41,7 @@ header.site{background:var(--navy);color:#fff;position:sticky;top:0;z-index:50;b
 header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
 .logo{color:#fff;text-decoration:none;font-weight:700;font-size:24px;letter-spacing:.04em;line-height:1;flex:none}
 .logo span{color:var(--yellow)}
-.logo .a{color:#3ecf8e}
+.logo .a{color:var(--accent)}
 .logo small{display:block;font-size:9.5px;font-weight:500;letter-spacing:.14em;color:#aeb6d8;text-transform:uppercase;margin-top:2px}
 .rta-badge{display:inline-flex;flex-direction:column;color:#c9cfe8;text-decoration:none;font-size:10px;font-weight:600;letter-spacing:.05em;line-height:1.25;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:5px 9px;margin-left:2px}
 .rta-badge b{color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em}
@@ -117,8 +118,9 @@ section.band .band-sub{color:var(--muted);font-size:15px;margin-bottom:22px;max-
 .est-head h2{font-size:18px;font-weight:700}
 .est-head p{font-size:12.5px;color:var(--muted);margin-top:2px}
 .est-body{padding:14px 22px 20px}
-.seg{display:flex;gap:8px}
-.seg label{flex:1;border:2px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;line-height:1.3}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg label{flex:1;min-width:calc(50% - 8px);border:2px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;line-height:1.3}
+.seg.seg-2 label{min-width:90px}
 .seg label small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
 .seg input{display:none}
 .seg label:has(input:checked){border-color:var(--blue);background:#eff4ff;font-weight:700}

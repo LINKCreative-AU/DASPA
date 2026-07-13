@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DASP Calculator — How Much Super Will I Get Back From Australia? | DASPA</title>
+<meta name="description" content="Free DASP tax calculator for every visa: 417, 462, 482 and student 500. See exactly what lands in your bank after DASP tax — plus estimate your super balance from your wages and check your 6-month ATO deadline.">
+<link rel="canonical" href="https://daspa.com.au/dasp-calculator">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2250'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' fill='%23fae541' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "DASP Calculator",
+      "url": "https://daspa.com.au/dasp-calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "AUD" },
+      "description": "Calculates the Departing Australia Superannuation Payment (DASP) tax and net payout for every temporary visa type, estimates super balances from wages, and checks the six-month unclaimed-super deadline."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "DASPA", "item": "https://daspa.com.au/" },
+        { "@type": "ListItem", "position": 2, "name": "DASP Calculator", "item": "https://daspa.com.au/dasp-calculator" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much tax is taken out of a DASP?",
+          "acceptedAnswer": { "@type": "Answer", "text": "DASP tax is set by legislation: 65% for working holiday makers (subclass 417 and 462), 35% on the taxed element for other temporary visas (such as 482 and student 500), 45% on any untaxed element, and 65% on super already transferred to the ATO as unclaimed money — regardless of visa. The calculator applies these rates automatically." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is the working holiday DASP tax 65%?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Parliament set a special 65% DASP rate for working holiday makers from 1 July 2017, alongside the working holiday income tax rules. No agent can reduce it — anyone suggesting otherwise should be avoided. What you control is timing and making sure every account is found." }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate is this DASP calculator?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It applies the current legislated withholding rates to the balance you enter, treating it as a taxed element — which is what almost all employer-paid super is. Your fund calculates the exact components when it pays, so treat the result as a close estimate, not a quote." }
+        },
+        {
+          "@type": "Question",
+          "name": "I don't know my super balance. How do I find it?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Use the balance estimator on this page — enter roughly what you earned and when, and it applies the super guarantee rate your employers had to pay. For the real figure, check your fund's app or statement, or let us find every account in your name (including ATO-held money) as part of a claim." }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to my super 6 months after I leave Australia?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Once you've departed and your visa has ended, your fund must transfer your balance to the ATO as unclaimed super money — usually within about six months. ATO-held super is taxed at 65% when paid as a DASP regardless of visa, so non-working-holiday visa holders nearly double their tax by waiting." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the calculator include the DASPA fee?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — you can toggle it. The flat fee is $149 + GST ($163.90), refunded in full if no super is recovered. You can also use the ATO's free DASP system yourself; the tax outcome is identical either way." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+.calc-card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 40px rgba(15,20,55,.10);padding:22px;margin-bottom:26px}
+.calc-card h2{font-size:20px;font-weight:700;margin-bottom:4px}
+.calc-card .sub{font-size:13.5px;color:var(--muted);margin-bottom:16px}
+.calc-grid{display:grid;grid-template-columns:1fr;gap:0 26px}
+@media(min-width:820px){.calc-grid{grid-template-columns:1.1fr .9fr}}
+.res-box{background:#f8faff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:8px}
+.res-line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:14.5px;border-bottom:1px dashed var(--line)}
+.res-line .k{color:var(--muted)}
+.res-line .v{font-weight:600;white-space:nowrap}
+.res-line.neg .v{color:var(--red)}
+.res-net{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0 2px}
+.res-net .k{font-size:14px;font-weight:700}
+.res-net .v{font-size:30px;font-weight:800;color:var(--green);white-space:nowrap}
+.warn{background:#fbf1dd;border-left:4px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:13px;color:#7a5510;margin-top:10px}
+.kept-bar{height:12px;border-radius:99px;background:#f0d3d9;overflow:hidden;margin:12px 0 4px}
+.kept-bar i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .3s}
+.kept-lab{font-size:12px;color:var(--muted);font-weight:600}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="/">DASP<span class="a">A</span><span>.</span><small>Get your super back</small></a>
+    <a class="rta-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><b>Registered Tax Agent</b>26076969</a>
+    <span class="head-spacer"></span>
+    <a class="wa-btn" href="#" data-wa aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg><span class="wa-label">WhatsApp</span></a>
+    <a class="btn start" href="/claim">Start my claim</a>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="crumbs"><a href="/">DASPA</a> › DASP Calculator</div>
+    <h1>DASP calculator: <em>what actually lands in your bank</em></h1>
+    <p class="sub">Every visa type, fund-held or ATO-held, with the legislated tax rates applied properly — plus a balance estimator if you have no idea what your super is worth.</p>
+  </div>
+</section>
+
+<main class="page">
+  <div class="wrap-narrow">
+
+    <div class="answer-first">
+      <p><b>How much of my Australian super will I get back? After DASP tax, working holiday makers (417/462) keep 35% of their balance, and most other temporary visa holders (482, student 500) keep 65% of the taxed element</b> — but only while the super is still with the fund. Once it transfers to the ATO as unclaimed money (about six months after you leave), the tax is 65% for everyone. The calculators below apply the current rates for you.</p>
+      <div class="src"><span>Source: <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/withdrawing-and-using-your-super/early-access-to-super/access-on-compassionate-grounds/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">Australian Taxation Office — DASP</a></span><span>Last updated: 8 July 2026</span></div>
+    </div>
+
+    <!-- ============ 1. main DASP calculator ============ -->
+    <div class="calc-card" id="calc">
+      <h2>1 · DASP payout calculator</h2>
+      <p class="sub">The full picture: visa type, where your super is sitting, and the fee — nothing hidden.</p>
+
+      <div class="field"><label class="lab">Which visa did you hold?</label>
+        <div class="seg" role="radiogroup" aria-label="Visa type">
+          <label><input type="radio" name="c-visa" value="417" checked>Working Holiday<small>417 — 65%</small></label>
+          <label><input type="radio" name="c-visa" value="462">Work &amp; Holiday<small>462 — 65%</small></label>
+          <label><input type="radio" name="c-visa" value="482">Skilled<small>482 — 35%</small></label>
+          <label><input type="radio" name="c-visa" value="500">Student<small>500 — 35%</small></label>
+        </div>
+      </div>
+
+      <div class="field"><label class="lab">Where is your super right now?</label>
+        <div class="seg" role="radiogroup" aria-label="Super location">
+          <label><input type="radio" name="c-where" value="fund" checked>Still with my fund<small>left less than ~6 months ago</small></label>
+          <label><input type="radio" name="c-where" value="ato">Transferred to the ATO<small>or left 6+ months ago — 65%</small></label>
+        </div>
+      </div>
+
+      <div class="field"><label class="lab" for="c-balance">Your super balance <span class="why">— rough is fine, or <a href="#estimate" style="color:var(--blue)">estimate it below</a></span></label>
+        <div class="est-amt"><span>$</span><input id="c-balance" type="text" inputmode="numeric" autocomplete="off" value="5,600" aria-label="Super balance in dollars"></div>
+      </div>
+
+      <label class="check" style="margin-top:2px"><input type="checkbox" id="c-fee" checked><span>Include the DASPA flat fee ($163.90 inc GST — refunded if no super is recovered). Untick to see the DIY-at-the-ATO numbers; the tax is identical either way.</span></label>
+
+      <div class="res-box">
+        <div class="res-line"><span class="k">Super balance</span><span class="v" id="r-bal">$5,600</span></div>
+        <div class="res-line neg"><span class="k" id="r-tax-label">DASP tax withheld (65%)</span><span class="v" id="r-tax">−$3,640</span></div>
+        <div class="res-line neg" id="r-fee-row"><span class="k">DASPA flat fee (tax deductible)</span><span class="v">−$163.90</span></div>
+        <div class="res-net"><span class="k">Paid to your bank</span><span class="v" id="r-net">$1,796</span></div>
+        <div class="kept-bar"><i id="r-bar" style="width:32%"></i></div>
+        <div class="kept-lab" id="r-kept">You keep about 32% of your balance</div>
+        <div class="warn hidden" id="r-warn-ato">Your super is (or soon will be) ATO-held, so the 65% rate applies regardless of visa. <span id="r-warn-detail"></span></div>
+      </div>
+      <div style="margin-top:14px"><a class="btn" href="/claim">Claim this super — 5-minute form</a></div>
+    </div>
+
+    <!-- ============ 2. balance estimator ============ -->
+    <div class="calc-card" id="estimate">
+      <h2>2 · No idea what your balance is? Estimate it</h2>
+      <p class="sub">Employers had to pay super on top of your wage — this works out roughly how much, from what you earned.</p>
+
+      <div class="row2">
+        <div class="field"><label class="lab" for="e-earn">Total gross pay while in Australia <span class="why">before tax, best guess</span></label>
+          <div class="est-amt"><span>$</span><input id="e-earn" type="text" inputmode="numeric" autocomplete="off" value="45,000"></div>
+        </div>
+        <div class="field"><label class="lab" for="e-when">When did you mostly work here?</label>
+          <select id="e-when">
+            <option value="0.095">Before July 2021 (9.5% super)</option>
+            <option value="0.1025">2021 – 2023 (10–10.5%)</option>
+            <option value="0.1125" selected>2023 – 2025 (11–11.5%)</option>
+            <option value="0.12">July 2025 onwards (12%)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="res-box">
+        <div class="res-net" style="padding-top:4px"><span class="k">Estimated super earned</span><span class="v" id="e-out" style="color:var(--navy)">$5,063</span></div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:6px">Assumes your employers paid correctly (most do; some don't — we check what's actually in your name on every claim). Fund fees and investment returns will move the real figure a little either way.</p>
+      </div>
+      <div style="margin-top:12px"><button class="btn ghost" id="e-use" type="button">Use this balance in the calculator ↑</button></div>
+    </div>
+
+    <!-- ============ 3. deadline checker ============ -->
+    <div class="calc-card" id="deadline">
+      <h2>3 · The 6-month deadline checker</h2>
+      <p class="sub">Funds must hand unclaimed balances to the ATO roughly six months after you leave and your visa ends — and ATO-held super is taxed at 65% for everyone.</p>
+
+      <div class="field" style="max-width:320px"><label class="lab" for="d-left">When did you leave Australia (or when will you)?</label>
+        <input type="month" id="d-left">
+      </div>
+
+      <div class="res-box hidden" id="d-out">
+        <p style="font-size:15px" id="d-msg"></p>
+        <div class="warn hidden" id="d-warn"></div>
+      </div>
+    </div>
+
+    <!-- ============ SEO prose ============ -->
+    <div class="prose">
+      <h2>The DASP tax rates, in one table</h2>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Your situation</th><th>DASP tax rate</th><th>You keep</th></tr></thead>
+        <tbody>
+          <tr><td>Working Holiday / Work &amp; Holiday (417, 462) — super still with fund</td><td>65%</td><td>35%</td></tr>
+          <tr><td>Other temporary visas (482, 500, 485…) — taxed element, super with fund</td><td>35%</td><td>65%</td></tr>
+          <tr><td>Untaxed element (rare — mainly some public-sector schemes)</td><td>45%</td><td>55%</td></tr>
+          <tr><td>Super already transferred to the ATO as unclaimed money — <b>any visa</b></td><td>65%</td><td>35%</td></tr>
+        </tbody>
+      </table></div>
+      <p>The rates are set by legislation and withheld automatically by your fund or the ATO when the DASP is paid — no agent, including us, can change them. What you <em>can</em> control: claiming before the ATO transfer (the single biggest lever if you were on a 482 or student visa — see the deadline checker above), and making sure every account is found so nothing is left behind.</p>
+
+      <h2>Worked examples</h2>
+      <ul>
+        <li><b>Backpacker, 417, $5,600 with one fund:</b> 65% tax = $3,640 withheld → $1,960 paid, about $1,796 after our fee.</li>
+        <li><b>Nurse, 482, $20,000 with her fund:</b> 35% tax = $7,000 withheld → $13,000 paid, about $12,836 after the fee. The same balance claimed <em>after</em> the ATO transfer: $7,000 paid — waiting costs her $6,000.</li>
+        <li><b>Student, 500, $2,400 across three part-time-job funds:</b> 35% tax = $840 → $1,560 paid, about $1,396 after the one flat fee (it covers all three funds).</li>
+      </ul>
+
+      <h2>More detail for your visa</h2>
+      <p>Each visa has its own quirks — second-year 417 fund sprawl, the 482 timing trap, student small-balance maths: <a href="/visa-417">Working Holiday 417</a> · <a href="/visa-462">Work &amp; Holiday 462</a> · <a href="/visa-482">Skilled 482</a> · <a href="/visa-500">Student 500</a>. Or check whether you can claim at all with the <a href="/#eligibility">60-second eligibility check</a>.</p>
+
+      <h2>Calculator questions</h2>
+      <div class="faq" style="margin-top:14px">
+        <details><summary>How much tax is taken out of a DASP?</summary><div class="a"><p>65% for working holiday makers (417/462), 35% on the taxed element for other temporary visas, 45% on any untaxed element, and 65% on ATO-held unclaimed super regardless of visa. The calculator applies these automatically.</p></div></details>
+        <details><summary>Why is the working holiday rate 65%?</summary><div class="a"><p>Parliament set a special 65% DASP rate for working holiday makers from 1 July 2017. No agent can reduce it — anyone implying otherwise should be avoided. What you control is timing, and making sure every account is found.</p></div></details>
+        <details><summary>How accurate is this?</summary><div class="a"><p>It applies the current legislated rates to the balance you enter, treated as a taxed element — which is what nearly all employer-paid super is. Your fund calculates the exact components at payment time, so treat results as a close estimate, not a quote.</p></div></details>
+        <details><summary>How do I find my real balance?</summary><div class="a"><p>Your fund's app or last statement is the quickest way. Multiple jobs usually mean multiple funds, and money may already be at the ATO — finding every account in your name is part of every DASPA claim, included in the flat fee.</p></div></details>
+        <details><summary>Does the calculator include your fee?</summary><div class="a"><p>Yes, as a toggle — $149 + GST ($163.90), flat, refunded in full if we can't recover any super. Untick it to see the DIY numbers; the ATO's free system produces the same tax outcome.</p></div></details>
+      </div>
+
+      <div class="cta-band">
+        <div>
+          <h2>Like what the calculator says? <em>Make it real.</em></h2>
+          <p>5-minute form · every fund plus ATO-held super · no super, no fee.</p>
+        </div>
+        <a class="btn" href="/claim">Start my claim</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="/">DASP<span class="a">A</span><span>.</span></a>
+        <div class="entity">
+          Operated by Australian Registration Office Pty Ltd<br>
+          ABN <a href="https://abr.business.gov.au/ABN/View?abn=58645964156" target="_blank" rel="noopener">58 645 964 156</a><br>
+          Tax Agent Number <a href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener">26076969</a><br>
+          <a href="/tpb">Important Information for Clients</a>
+        </div>
+      </div>
+      <div class="foot-links">
+        <a href="/dasp-calculator">DASP calculator</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/faq">FAQ</a>
+        <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="#" data-wa>WhatsApp us</a>
+      </div>
+      <div>
+        <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-badge-white-26076969.png" alt="Tax Practitioners Board — Registered Tax Practitioner 26076969" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="disclaimer">
+      DASPA is a lodgement service operated by a registered tax agent; we are not a financial adviser and nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO — no agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account — we never hold client money. Identity verification is powered by <a href="https://didit.me" target="_blank" rel="noopener">Didit</a>. © Australian Registration Office Pty Ltd.
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script>
+(function () {
+  var aud = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
+  var RATES = { '417': 0.65, '462': 0.65, '482': 0.35, '500': 0.35 };
+  var FEE = 163.90;
+  var num = function (el) { return Number(el.value.replace(/[^0-9]/g, '')) || 0; };
+  var fmtIn = function (el) { var n = num(el); el.value = n ? n.toLocaleString('en-AU') : ''; };
+
+  // ---- 1. main calculator
+  var cBal = document.getElementById('c-balance');
+  function calc() {
+    var visa = document.querySelector('input[name=c-visa]:checked').value;
+    var atoHeld = document.querySelector('input[name=c-where]:checked').value === 'ato';
+    var withFee = document.getElementById('c-fee').checked;
+    var bal = num(cBal);
+    var rate = atoHeld ? 0.65 : RATES[visa];
+    var tax = bal * rate;
+    var net = Math.max(0, bal - tax - (withFee ? FEE : 0));
+
+    document.getElementById('r-bal').textContent = aud.format(bal);
+    document.getElementById('r-tax-label').textContent = 'DASP tax withheld (' + Math.round(rate * 100) + '%' + (atoHeld ? ' — ATO-held' : '') + ')';
+    document.getElementById('r-tax').textContent = '−' + aud.format(tax);
+    document.getElementById('r-fee-row').style.display = withFee ? '' : 'none';
+    document.getElementById('r-net').textContent = aud.format(net);
+    var kept = bal ? Math.round((net / bal) * 100) : 0;
+    document.getElementById('r-bar').style.width = Math.max(kept, 2) + '%';
+    document.getElementById('r-kept').textContent = 'You keep about ' + kept + '% of your balance';
+
+    var warn = document.getElementById('r-warn-ato');
+    if (atoHeld && RATES[visa] === 0.35) {
+      warn.classList.remove('hidden');
+      document.getElementById('r-warn-detail').textContent =
+        'If it were still with your fund you would keep ' + aud.format(bal * 0.65 - (withFee ? FEE : 0)) + ' — this is why claiming before the transfer matters on a ' + visa + '.';
+    } else if (atoHeld) {
+      warn.classList.remove('hidden');
+      document.getElementById('r-warn-detail').textContent = 'For working holiday visas the rate is 65% either way — but ATO-held money earns only CPI interest, so there is still no upside in waiting.';
+    } else {
+      warn.classList.add('hidden');
+    }
+  }
+  cBal.addEventListener('input', calc);
+  cBal.addEventListener('blur', function () { fmtIn(cBal); calc(); });
+  document.querySelectorAll('input[name=c-visa],input[name=c-where],#c-fee').forEach(function (i) { i.addEventListener('change', calc); });
+
+  // ---- 2. balance estimator
+  var eEarn = document.getElementById('e-earn');
+  function est() {
+    var out = num(eEarn) * Number(document.getElementById('e-when').value);
+    document.getElementById('e-out').textContent = aud.format(out);
+    return out;
+  }
+  eEarn.addEventListener('input', est);
+  eEarn.addEventListener('blur', function () { fmtIn(eEarn); est(); });
+  document.getElementById('e-when').addEventListener('change', est);
+  document.getElementById('e-use').addEventListener('click', function () {
+    cBal.value = Math.round(est()).toLocaleString('en-AU');
+    calc();
+    document.getElementById('calc').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // ---- 3. deadline checker
+  document.getElementById('d-left').addEventListener('change', function () {
+    var v = this.value; // yyyy-mm
+    if (!v) return;
+    var left = new Date(v + '-01T00:00:00');
+    var transfer = new Date(left); transfer.setMonth(transfer.getMonth() + 6);
+    var now = new Date();
+    var months = { year: 'numeric', month: 'long' };
+    var out = document.getElementById('d-out');
+    var msg = document.getElementById('d-msg');
+    var warn = document.getElementById('d-warn');
+    out.classList.remove('hidden');
+    if (left > now) {
+      msg.innerHTML = 'Leaving in <b>' + left.toLocaleDateString('en-AU', months) + '</b>? Your fund would be required to transfer unclaimed super to the ATO from around <b>' + transfer.toLocaleDateString('en-AU', months) + '</b>. Get your claim ready before you fly and nothing gets stranded.';
+      warn.classList.add('hidden');
+    } else if (transfer > now) {
+      var daysLeft = Math.round((transfer - now) / 86400000);
+      msg.innerHTML = 'You left around <b>' + left.toLocaleDateString('en-AU', months) + '</b>, so your fund is due to transfer your super to the ATO from about <b>' + transfer.toLocaleDateString('en-AU', months) + '</b> — roughly <b>' + daysLeft + ' days from now</b>.';
+      warn.classList.remove('hidden');
+      warn.textContent = 'If you were on a 482, 500 or another non-working-holiday visa, claiming before the transfer keeps the tax at 35% instead of 65%. That is the whole ballgame — start now.';
+    } else {
+      msg.innerHTML = 'You left around <b>' + left.toLocaleDateString('en-AU', months) + '</b> — your super has most likely already been transferred to the ATO as unclaimed money. It is still 100% claimable (we search ATO-held money on every claim), taxed at 65% when paid.';
+      warn.classList.add('hidden');
+    }
+  });
+
+  fmtIn(cBal); calc(); est();
+})();
+</script>
+</body>
+</html>

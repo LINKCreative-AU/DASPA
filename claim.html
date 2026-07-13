@@ -10,7 +10,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2250'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' fill='%23fae541' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
@@ -98,10 +98,13 @@
 
         <fieldset>
           <div class="fs-title">Tax file number <span style="text-transform:none;color:var(--muted)">(optional)</span></div>
-          <div class="field"><label for="tfn">TFN — leave blank if you don't have it</label>
-            <input type="text" id="tfn" name="tfn" inputmode="numeric" placeholder="9 digits">
+          <div class="field"><label for="tfn">TFN — leave blank if you don't have it <span class="why" id="tfn-status" style="float:right;color:var(--green);font-weight:700;transition:opacity .3s;opacity:0">🔒 encrypted</span></label>
+            <div style="position:relative">
+              <input type="password" id="tfn" name="tfn" inputmode="numeric" placeholder="9 digits" autocomplete="off" style="padding-right:52px">
+              <button type="button" id="tfn-eye" aria-label="Show or hide TFN" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;padding:8px;color:var(--muted)">👁</button>
+            </div>
             <div class="err">A TFN is 8–9 digits — or leave it blank.</div></div>
-          <div class="note">Your TFN is optional, but it's the most reliable way to find <b>every</b> account in your name — including super already moved to the ATO. It's collected under taxation law solely for your claim (see our <a href="/privacy" target="_blank">privacy policy</a>).</div>
+          <div class="note">🔒 <b>Your TFN is protected:</b> masked on screen as you type, encrypted in transit (TLS) and encrypted at rest in our secure database. It's optional, but it's the most reliable way to find <b>every</b> account in your name — including super already moved to the ATO — and it's collected under taxation law solely for your claim (see our <a href="/privacy" target="_blank">privacy policy</a>).</div>
         </fieldset>
 
         <fieldset>
@@ -155,7 +158,7 @@
 
         <fieldset>
           <div class="fs-title">Your current address (outside Australia)</div>
-          <div class="field"><label for="address_line">Street address</label>
+          <div class="field"><label for="address_line">Street address <span class="why" id="addr-hint">start typing — we'll find it</span></label>
             <input type="text" id="address_line" name="address_line" autocomplete="street-address" required>
             <div class="err">Please enter your street address.</div></div>
           <div class="row2">
@@ -210,6 +213,7 @@
         </div>
       </div>
       <div class="foot-links">
+        <a href="/dasp-calculator">DASP calculator</a>
         <a href="/pricing">Pricing</a>
         <a href="/faq">FAQ</a>
         <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
@@ -238,6 +242,11 @@
 var SUPABASE_URL = 'https://ufsnmrqenedpyqyviwne.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmc25tcnFlbmVkcHlxeXZpd25lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0ODA2MjksImV4cCI6MjA5OTA1NjYyOX0.7VqT-A4w9Y8MSTVsJArttgxZSLd0D8n-7DQZJZIOSfI';
 
+/* PLACEHOLDER — Google Maps JS API key with Places enabled (restrict it to
+   daspa.com.au in the Google Cloud console; browser keys are public by design).
+   Until it's set, the address fields simply work as manual entry. */
+var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
+
 (function () {
   var form = document.getElementById('claim-form');
 
@@ -262,6 +271,52 @@ var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
       document.getElementById('visa-active-note').classList.toggle('hidden', r.value !== 'active' || !r.checked);
     });
   });
+
+  // TFN: masked input with show/hide, plus a live "encrypted" indicator
+  var tfnInput = document.getElementById('tfn');
+  var tfnEye = document.getElementById('tfn-eye');
+  var tfnStatus = document.getElementById('tfn-status');
+  tfnEye.addEventListener('click', function () {
+    var showing = tfnInput.type === 'text';
+    tfnInput.type = showing ? 'password' : 'text';
+    tfnEye.textContent = showing ? '👁' : '🙈';
+  });
+  tfnInput.addEventListener('input', function () {
+    tfnStatus.style.opacity = tfnInput.value.trim() ? '1' : '0';
+  });
+
+  // Google Places international address autocomplete — fills the whole
+  // address block from one field. Degrades silently to manual entry when
+  // the key isn't configured or the script fails to load.
+  if (GOOGLE_MAPS_API_KEY.indexOf('PLACEHOLDER') === -1) {
+    window.initAddressAutocomplete = function () {
+      var ac = new google.maps.places.Autocomplete(document.getElementById('address_line'), {
+        types: ['address'],
+        fields: ['address_components'],
+      });
+      ac.addListener('place_changed', function () {
+        var place = ac.getPlace();
+        if (!place.address_components) return;
+        var get = function (type, short) {
+          var c = place.address_components.find(function (x) { return x.types.indexOf(type) !== -1; });
+          return c ? (short ? c.short_name : c.long_name) : '';
+        };
+        var street = [get('street_number'), get('route')].filter(Boolean).join(' ');
+        if (street) document.getElementById('address_line').value = street;
+        document.getElementById('address_city').value = get('locality') || get('postal_town') || get('sublocality') || '';
+        document.getElementById('address_region').value = get('administrative_area_level_1') || '';
+        document.getElementById('address_postcode').value = get('postal_code') || '';
+        document.getElementById('address_country').value = get('country') || '';
+      });
+    };
+    var gs = document.createElement('script');
+    gs.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_API_KEY + '&libraries=places&callback=initAddressAutocomplete';
+    gs.async = true;
+    gs.onerror = function () { document.getElementById('addr-hint').textContent = ''; };
+    document.head.appendChild(gs);
+  } else {
+    document.getElementById('addr-hint').textContent = '';
+  }
 
   function setInvalid(el, bad) {
     var f = el.closest('.field');
