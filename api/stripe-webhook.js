@@ -66,6 +66,18 @@ module.exports = async (req, res) => {
           await db.insertAudit(claimId, 'stripe_payment_completed', session.id);
           await email.paymentConfirmed(claim);
           await db.insertAudit(claimId, 'email_payment_confirmed', claim.email);
+          // tax invoice via the portal (idempotent there; never fails the webhook)
+          if (process.env.INVOICE_SECRET) {
+            await fetch('https://registrationoffice.com.au/api/invoice', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                secret: process.env.INVOICE_SECRET, site: 'daspa', orderId: claimId,
+                email: claim.email, name: claim.full_name,
+                amountCents: session.amount_total, description: 'DASP claim lodgement service',
+              }),
+            }).catch((e) => console.error('invoice call failed', e.message));
+            await db.insertAudit(claimId, 'tax_invoice_requested', claim.email).catch(() => {});
+          }
         }
       }
     }
