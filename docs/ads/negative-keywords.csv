@@ -1,0 +1,30 @@
+Campaign,Keyword,Match Type
+Shared - both campaigns,ato login,Phrase
+Shared - both campaigns,mygov,Phrase
+Shared - both campaigns,my gov,Phrase
+Shared - both campaigns,login,Phrase
+Shared - both campaigns,job,Phrase
+Shared - both campaigns,jobs,Phrase
+Shared - both campaigns,salary,Phrase
+Shared - both campaigns,employer,Phrase
+Shared - both campaigns,smsf,Phrase
+Shared - both campaigns,self managed,Phrase
+Shared - both campaigns,australian super,Exact
+Shared - both campaigns,australiansuper,Phrase
+Shared - both campaigns,aware super,Phrase
+Shared - both campaigns,hostplus,Phrase
+Shared - both campaigns,hesta,Phrase
+Shared - both campaigns,cbus,Phrase
+Shared - both campaigns,rest super,Phrase
+Shared - both campaigns,unisuper,Phrase
+Shared - both campaigns,qsuper,Phrase
+Shared - both campaigns,age pension,Phrase
+Shared - both campaigns,retirement age,Phrase
+Shared - both campaigns,preservation age,Phrase
+Shared - both campaigns,kiwisaver,Phrase
+Shared - both campaigns,hardship,Phrase
+Shared - both campaigns,compassionate grounds,Phrase
+Shared - both campaigns,first home,Phrase
+Shared - both campaigns,divorce,Phrase
+Shared - both campaigns,deceased,Phrase
+Shared - both campaigns,death benefit,Phrase

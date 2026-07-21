@@ -1,0 +1,43 @@
+Campaign,Ad Group,Keyword,Match Type,Max CPC
+DASPA Search AU,DASP Core,dasp,Exact,3.50
+DASPA Search AU,DASP Core,dasp claim,Exact,3.50
+DASPA Search AU,DASP Core,dasp payment,Exact,3.00
+DASPA Search AU,DASP Core,departing australia superannuation payment,Exact,3.00
+DASPA Search AU,DASP Core,dasp superannuation,Phrase,2.50
+DASPA Search AU,DASP Application,dasp online application,Exact,4.00
+DASPA Search AU,DASP Application,dasp application,Exact,3.50
+DASPA Search AU,DASP Application,dasp application form,Phrase,3.00
+DASPA Search AU,DASP Application,nat 7204,Exact,2.00
+DASPA Search AU,DASP Application,apply for dasp,Phrase,3.00
+DASPA Search AU,Claim Super Leaving,withdraw super leaving australia,Exact,2.50
+DASPA Search AU,Claim Super Leaving,claim superannuation leaving australia,Exact,2.50
+DASPA Search AU,Claim Super Leaving,claim super when leaving australia,Phrase,2.50
+DASPA Search AU,Claim Super Leaving,get super back leaving australia,Phrase,2.50
+DASPA Search AU,Claim Super Leaving,superannuation when leaving australia,Phrase,2.00
+DASPA Search AU,Claim Super Leaving,cash out super leaving australia,Phrase,2.00
+DASPA Search AU,Super Refund & Tax,dasp tax,Exact,5.00
+DASPA Search AU,Super Refund & Tax,dasp tax rate,Exact,4.00
+DASPA Search AU,Super Refund & Tax,dasp tax calculator,Exact,4.00
+DASPA Search AU,Super Refund & Tax,superannuation refund calculator,Exact,2.50
+DASPA Search AU,Super Refund & Tax,australian super refund,Phrase,2.50
+DASPA Search AU,Super Refund & Tax,backpacker super refund,Phrase,2.50
+DASPA Search AU,Super Refund & Tax,working holiday super refund,Phrase,2.50
+DASPA Search AU,Visa Specific,417 visa super refund,Phrase,2.50
+DASPA Search AU,Visa Specific,working holiday visa superannuation,Phrase,2.00
+DASPA Search AU,Visa Specific,482 visa superannuation leaving,Phrase,2.00
+DASPA Search AU,Visa Specific,student visa super refund,Phrase,2.00
+DASPA Search Offshore EN,DASP Core,dasp,Exact,3.00
+DASPA Search Offshore EN,DASP Core,dasp claim,Exact,3.00
+DASPA Search Offshore EN,DASP Core,dasp payment,Exact,2.50
+DASPA Search Offshore EN,DASP Core,departing australia superannuation payment,Exact,2.50
+DASPA Search Offshore EN,DASP Application,dasp online application,Exact,3.50
+DASPA Search Offshore EN,DASP Application,dasp application,Exact,3.00
+DASPA Search Offshore EN,DASP Application,dasp application form,Phrase,2.50
+DASPA Search Offshore EN,Claim Super Leaving,claim australian superannuation,Phrase,2.00
+DASPA Search Offshore EN,Claim Super Leaving,get my australian super back,Phrase,2.00
+DASPA Search Offshore EN,Claim Super Leaving,australian superannuation refund,Phrase,2.50
+DASPA Search Offshore EN,Claim Super Leaving,claim super from overseas,Phrase,2.00
+DASPA Search Offshore EN,Claim Super Leaving,worked in australia superannuation,Phrase,1.75
+DASPA Search Offshore EN,Super Refund & Tax,australian super refund,Phrase,2.50
+DASPA Search Offshore EN,Super Refund & Tax,backpacker super refund australia,Phrase,2.50
+DASPA Search Offshore EN,Super Refund & Tax,dasp tax calculator,Exact,3.00
