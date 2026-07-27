@@ -9,6 +9,15 @@ Stripe Checkout for payment, Didit for identity verification. Brand tokens were 
 from the live abnassist.com.au stylesheet (navy `#1e2250`, blue `#2a53a2`, yellow CTA
 gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
 
+## Living dev site
+
+A standing preview deployment for reviewing work in progress, separate from production:
+
+**https://daspa-git-claude-living-dev-site-link-6jak7p-link-hq.vercel.app**
+
+Vercel rebuilds it on every push to the `claude/living-dev-site-link-6jak7p` branch — the
+URL stays the same across pushes. Production (`daspa.com.au`) only changes when `main` changes.
+
 ## Deploy
 
 1. **Supabase** — run `supabase/schema.sql` in the SQL editor. RLS: the anon key can
