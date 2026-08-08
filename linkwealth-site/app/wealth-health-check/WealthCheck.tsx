@@ -36,6 +36,23 @@ type Question = {
 
 const QUESTIONS: Question[] = [
   {
+    key: "goals",
+    stage: "About you",
+    area: "Goals",
+    type: "multi",
+    scored: false,
+    label: "What do you want your money to do next?",
+    hint: "Tick everything that's on the list. Goals don't move the score - they decide which pathways show with your result.",
+    options: [
+      { label: "Buy (or upgrade) a home", points: 0 },
+      { label: "Get the kids set up - education, first homes", points: 0 },
+      { label: "Grow investments and income", points: 0 },
+      { label: "Retire well - maybe early", points: 0 },
+      { label: "Grow the business, or get its value out", points: 0 },
+      { label: "Protect what we've already built", points: 0 },
+    ],
+  },
+  {
     key: "context",
     stage: "About you",
     area: "Context",
@@ -197,6 +214,20 @@ const QUESTIONS: Question[] = [
       { label: "A written plan I review at least yearly", points: 1 },
     ],
   },
+  {
+    key: "control",
+    stage: "Pulling it together",
+    area: "Control",
+    type: "single",
+    label: "Last one. Day to day, how does money actually feel?",
+    hint: "The validated wellbeing scales all end up here: not what you have, but whether it runs you or you run it.",
+    options: [
+      { label: "It controls my life - constant stress", points: 0, tip: "Money stress is a signal, not a character flaw - and it usually traces to one or two of the flags above. Fixing the buffer and the highest-interest debt is where the feeling starts to shift." },
+      { label: "I worry more than I'd like", points: 0.35, tip: "Worry usually lives in the unknowns - an unanswered 'are we okay?'. A plan with real numbers is the most reliable cure the research finds." },
+      { label: "Mostly on top of it", points: 0.7, tip: "Solid - the step from 'on top of it' to genuinely calm is usually a written plan that's already decided what happens in a bad year." },
+      { label: "Calm - money's a tool, not a worry", points: 1 },
+    ],
+  },
 ];
 
 const SCORED = QUESTIONS.filter((q) => q.scored !== false);
@@ -225,10 +256,14 @@ function qScore(q: Question, sel: number[] | undefined): number | null {
 type Pathway = { title: string; body: string; href: string; linkLabel: string };
 
 function buildPathways(sel: Selections): Pathway[] {
+  const goals = new Set(sel["goals"] ?? []);
+  const goalKids = goals.has(1);
+  const goalRetire = goals.has(3);
+  const goalBiz = goals.has(4);
   const ctx = new Set(sel["context"] ?? []);
-  const biz = ctx.has(0);
+  const biz = ctx.has(0) || goalBiz;
   const home = ctx.has(1);
-  const retire10 = ctx.has(2);
+  const retire10 = ctx.has(2) || goalRetire;
   const deps = ctx.has(3);
   const bandIdx = (sel["superband"] ?? [])[0];
   const superOver200k = bandIdx === 2 || bandIdx === 3;
@@ -269,6 +304,14 @@ function buildPathways(sel: Selections): Pathway[] {
       linkLabel: "The Retirement Funding Workshop",
     });
   }
+  if (goalKids) {
+    out.push({
+      title: "Wealth that includes the kids.",
+      body: "Education and investment bonds are a tax-effective way to build school fees and first-home head starts - one of the most-used tools in family wealth plans.",
+      href: "/family-wealth-management",
+      linkLabel: "How family wealth management works",
+    });
+  }
   if (home && !biz) {
     out.push({
       title: "The equity in your home can work harder.",
@@ -305,12 +348,12 @@ function Intro({ onStart }: { onStart: () => void }) {
       <h2 className="mx-auto max-w-3xl font-display text-4xl font-normal leading-[1.05] tracking-tight sm:text-5xl">
         The LINK <strong className="font-bold">Wealth Check.</strong>
       </h2>
-      <p className="mt-5 text-xl font-semibold">2 minutes. 8 areas. One real score.</p>
+      <p className="mt-5 text-xl font-semibold">2 minutes. 9 areas. One real score.</p>
       <p className="mx-auto mt-3 max-w-2xl text-lg text-white/80">
-        One screen at a time: where you stand, how your money is working, what&apos;s protecting
-        it, and the plan holding it together - plus two quick context questions, so what comes
-        back fits your situation, not the average one. Your score, the flags and the likely
-        next steps show up straight away.
+        One screen at a time, starting where an adviser would: what you want money to do.
+        Then where you stand, how it&apos;s working, what&apos;s protecting it, the plan - and
+        how it all feels. Your score, the flags and the likely next steps show up straight
+        away.
       </p>
       <div className="mt-8 flex justify-center">
         <button
@@ -572,11 +615,13 @@ function buildFlags(sel: Selections): Flag[] {
 }
 
 function profileSummary(sel: Selections): string {
+  const goalsQ = QUESTIONS.find((q) => q.key === "goals")!;
   const ctxQ = QUESTIONS.find((q) => q.key === "context")!;
   const bandQ = QUESTIONS.find((q) => q.key === "superband")!;
+  const goals = (sel["goals"] ?? []).map((i) => goalsQ.options[i].label).join(", ") || "-";
   const ctx = (sel["context"] ?? []).map((i) => ctxQ.options[i].label).join(", ") || "-";
   const band = bandQ.options[(sel["superband"] ?? [])[0]]?.label ?? "-";
-  return `Profile: ${ctx}. Super band: ${band}`;
+  return `Goals: ${goals}. Profile: ${ctx}. Super band: ${band}`;
 }
 
 function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void }) {
@@ -684,7 +729,7 @@ function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void })
       <SnapshotForm score={score} band={band.name} flags={flags} profile={profileSummary(sel)} />
 
       <p className="mt-6 text-xs leading-relaxed text-ink/45">
-        The score weighs eight general markers of financial health equally - it doesn&apos;t know
+        The score weighs nine general markers of financial health equally - it doesn&apos;t know
         your income, age or goals, so treat it as a conversation starter, not a verdict. General
         information only, not personal advice.
       </p>

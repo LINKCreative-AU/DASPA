@@ -17,12 +17,12 @@ const PATH = "/wealth-health-check";
 export const metadata: Metadata = {
   title: { absolute: "Free Wealth Health Check | Score Your Finances Out of 10" },
   description:
-    "Eight questions, two minutes, a score out of 10 - buffer, debt, super, investments, protection, estate and plan. See what's holding your wealth back, no email required. Plus: how Australian net worth stacks up by age.",
+    "Two minutes, a score out of 10 - buffer, debt, super, investments, protection, estate, the plan and how money feels day to day. See what's holding your wealth back, no email required. Plus: how Australian net worth stacks up by age.",
   alternates: { canonical: PATH },
   openGraph: {
     title: "The LINK Wealth Check - score your finances out of 10",
     description:
-      "Eight quick questions, a score out of 10, and the flags holding it back. No email wall.",
+      "Two minutes, a score out of 10, and the flags holding it back. No email wall.",
     url: PATH,
   },
 };
@@ -46,11 +46,11 @@ const FAQS = [
   },
   {
     q: "Why does it ask about my situation and super balance?",
-    a: "Two context questions - whether you run a business, own a home, are within about ten years of retirement or have people depending on your income, and roughly where your super sits - don't move the score at all. They decide which general pathways show with your result, because the strategies worth exploring at $80k of super are different from the ones on the table at $300k. If you'd rather not say, the check still works.",
+    a: "Three context questions - what you want money to do next, whether you run a business, own a home, are within about ten years of retirement or have people depending on your income, and roughly where your super sits - don't move the score at all. They decide which general pathways show with your result, because the strategies worth exploring at $80k of super are different from the ones on the table at $300k, and a plan that starts from your goals beats one that starts from averages. If you'd rather not say, the check still works.",
   },
   {
     q: "Is the wealth check personal advice?",
-    a: "No. It weighs eight general markers of financial health and returns a score with general observations - it doesn't know your income, age or circumstances. It's built to start the right conversation; the free discovery meeting is where your actual situation gets assessed by a licensed adviser.",
+    a: "No. It weighs nine general markers of financial health and returns a score with general observations - it doesn't know your income, age or circumstances. It's built to start the right conversation; the free discovery meeting is where your actual situation gets assessed by a licensed adviser.",
   },
 ];
 
@@ -89,7 +89,7 @@ export default function Page() {
             eyebrow="Free tool · 2 minutes · no email needed"
             title="The Wealth Check: score your finances out of 10."
             mark="out of 10."
-            intro="Eight scored areas across the things that actually decide financial health - buffer, debt, super, investments, protection, estate and the plan itself - plus two quick context questions so the next steps fit your situation. Your score, the flags holding it back and the pathways people in your position usually explore show up immediately, on screen, no email wall."
+            intro="Nine scored areas across the things that actually decide financial health - buffer, debt, super, investments, protection, estate, the plan and how money feels day to day - plus three quick context questions so the next steps fit your goals and situation. Your score, the flags holding it back and the pathways people in your position usually explore show up immediately, on screen, no email wall."
             accent
           />
         </div>
