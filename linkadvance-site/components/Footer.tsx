@@ -12,12 +12,14 @@ const SERVICES = [
   { label: "SMSF loans", href: "/smsf-mortgage-broker" },
   { label: "Business loans", href: "/business-loans" },
   { label: "Car & equipment finance", href: "/business-car-and-equipment-loans" },
+  { label: "Home loans for doctors", href: "/home-loans-for-doctors" },
 ];
 
 const FIRSTHOME = [
   { label: "First Home Buyers Grant QLD", href: "/first-home-buyers-grant" },
   { label: "First Home Guarantee", href: "/first-home-guarantee" },
   { label: "First home buyer loans", href: "/first-home-buyers-loan" },
+  { label: "First Home Super Saver", href: "/first-home-super-saver" },
 ];
 
 const RESOURCES = [

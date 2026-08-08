@@ -66,7 +66,7 @@ export function LoanPage({ data }: { data: LoanPageData }) {
             src={data.heroImage}
             alt={data.heroImageAlt ?? ""}
             loading="lazy"
-            className="aspect-[21/8] w-full rounded-3xl object-cover"
+            className="aspect-[21/8] w-full rounded-3xl object-cover object-bottom"
           />
         </div>
       )}

@@ -84,7 +84,7 @@ export function PageHero({
                 ★★★★★
               </span>{" "}
               Rated {SITE.reviews.rating.toFixed(1)} from {SITE.reviews.count} Google reviews ·
-              Licensed financial advisers
+              Brisbane finance brokers
             </p>
           )}
           {children}

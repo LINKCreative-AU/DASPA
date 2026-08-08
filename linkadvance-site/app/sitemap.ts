@@ -10,6 +10,8 @@ const CORE: { path: string; priority: number }[] = [
   { path: "/first-home-buyers-loan", priority: 0.9 },
   { path: "/first-home-buyers-grant", priority: 0.9 },
   { path: "/first-home-guarantee", priority: 0.9 },
+  { path: "/first-home-super-saver", priority: 0.9 },
+  { path: "/home-loans-for-doctors", priority: 0.9 },
   { path: "/investment-home-loans", priority: 0.9 },
   { path: "/construction-loans-brisbane", priority: 0.8 },
   { path: "/smsf-mortgage-broker", priority: 0.8 },
