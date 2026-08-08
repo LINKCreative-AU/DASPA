@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     q: "What net worth should I have at my age?",
-    a: "There is no official target - it depends on income, city and goals. A useful pattern from the ABS data: households typically cross the median in their 40s as home equity and super compound, and the strongest predictor of an above-average curve is starting the boring things (buffer, contributions, regular investing) a decade earlier than feels necessary.",
+    a: "There is no official target - it depends on income, city and goals. A useful pattern from the ABS data: households typically cross the median in their 40s as home equity and super compound, and the strongest predictor of an above-average curve is starting the boring things (buffer, contributions, regular investing) a decade earlier than feels necessary. The full ABS age-by-age table lives on our net worth calculator page.",
   },
   {
     q: "Why does the check ask about insurance?",

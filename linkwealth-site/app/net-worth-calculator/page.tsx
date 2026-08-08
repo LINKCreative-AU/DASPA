@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { NetWorthCalculator } from "./NetWorthCalculator";
+import { ABS_BANDS } from "./abs";
 import { JsonLd, breadcrumbSchema, faqSchema } from "@/components/Schema";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
@@ -15,9 +16,9 @@ import { CtaBand } from "@/components/CtaBand";
 const PATH = "/net-worth-calculator";
 
 export const metadata: Metadata = {
-  title: { absolute: "Net Worth Calculator Australia | Free, No Sign-Up" },
+  title: { absolute: "Net Worth Calculator Australia + Net Worth by Age (ABS Data)" },
   description:
-    "Calculate your net worth in two minutes: everything you own (home, super, shares, cash, business) minus everything you owe. See where your wealth actually sits - on screen, nothing stored, no email required.",
+    "Calculate your net worth in two minutes - what you own minus what you owe - then compare it to the ABS average for your age group. Liquid net worth, debt ratio and where your wealth sits, on screen, nothing stored, no email required.",
   alternates: { canonical: PATH },
   openGraph: {
     title: "Net worth calculator - what you own minus what you owe",
@@ -42,7 +43,15 @@ const FAQS = [
   },
   {
     q: "What's a good net worth for my age?",
-    a: "There's no official target - it depends on income, city and goals. ABS household wealth data puts the average Australian household around $1.5-1.6 million, but that average is dragged up by the wealthiest households and the median sits far lower. The more useful habit is tracking your own number yearly: the trend tells you whether your strategy is working, which no comparison table can.",
+    a: "There's no official target - it depends on income, city and goals. The ABS age-band averages (full table on this page) show the shape: household net worth typically compounds hardest through the 40s and 50s as home equity and super stack, peaking around 65-69 before retirement drawdown. Averages are dragged up by the wealthiest households and medians sit far lower, so the more useful habit is tracking your own number yearly: the trend tells you whether your strategy is working, which no comparison table can.",
+  },
+  {
+    q: "What should my net worth be at 40 in Australia?",
+    a: "ABS survey data puts the average household net worth in the 40-44 age band around $841,000 (2019-20, the latest detailed age breakdown) - but that average is pulled up hard by the wealthiest households, and the typical (median) household sits well below it. At 40 the more useful questions are directional: is the number growing year on year, is high-interest debt gone, and are home equity and super compounding? Those three decide where the curve goes from here.",
+  },
+  {
+    q: "What is liquid net worth?",
+    a: "Liquid net worth counts only the wealth you could actually reach within days - cash, savings, shares and other investments you can sell quickly - minus short-term debts like credit cards. It excludes the family home and super, which are real wealth but locked. Advisers watch it because it's your realistic buffer and opportunity fund: a $2 million net worth with $5,000 liquid is asset-rich and option-poor. The calculator shows yours automatically.",
   },
   {
     q: "Is anything I enter stored or sent anywhere?",
@@ -133,6 +142,59 @@ export default function Page() {
               Wealth Check
             </a>{" "}
             scores those in two minutes.
+          </p>
+        </div>
+      </section>
+
+      {/* Net worth by age - the ABS table (the KD-0 cluster: average/median/
+          by-age queries, ~1,000/mo combined). Hedged, household figures. */}
+      <section id="by-age" className="py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            Net worth by age in Australia.
+          </h2>
+          <p className="mt-5 text-lg text-ink/65">
+            The most recent detailed age breakdown from the ABS (Survey of Income and Housing,
+            2019-20) shows <strong className="text-ink">average household net worth by age of
+            the main income earner</strong>. Two caveats before the table: these are{" "}
+            <em>household</em> figures, not per person, and averages are dragged up hard by the
+            wealthiest households - that survey's national average was $1.04 million while the
+            median (typical) household sat at $579,200. Later ABS releases put the national
+            average around $1.5 million, so read the table for the shape of the curve rather
+            than the exact dollars.
+          </p>
+          <div className="mt-8 overflow-x-auto">
+            <table className="w-full border-collapse text-left">
+              <thead>
+                <tr className="border-b-2 border-ink text-sm font-semibold uppercase tracking-wider text-ink/60">
+                  <th className="py-3 pr-4">Age group</th>
+                  <th className="py-3 text-right">Average household net worth</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ABS_BANDS.map((b) => (
+                  <tr key={b.band} className="border-b border-ink/10">
+                    <td className="py-3 pr-4 font-semibold text-ink">{b.band}</td>
+                    <td className="py-3 text-right tabular-nums text-ink/75">
+                      {b.mean.toLocaleString("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-4 text-xs text-ink/45">
+            Source: ABS Survey of Income and Housing 2019-20, mean household net worth by age
+            of household reference person. General information only.
+          </p>
+          <p className="mt-6 text-lg text-ink/65">
+            The pattern to take from it: net worth roughly doubles across the 40s, peaks around
+            65-69 at about $1.8 million on average, then declines through retirement drawdown.
+            The wealthiest 20% of households hold the majority of it - their average sits
+            around the $3.2 million mark - which is why the medians run at roughly half these
+            figures at most ages. Wherever you are on the curve, the levers are the same:
+            high-interest debt gone first, home equity and super compounding, and wealth
+            building <em>outside</em> super for the years before preservation age.
           </p>
         </div>
       </section>
