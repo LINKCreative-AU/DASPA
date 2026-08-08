@@ -37,14 +37,14 @@ function Chips({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="mt-2.5 flex flex-wrap gap-2">
+    <div className="mt-2 flex flex-wrap gap-1.5">
       {options.map((o) => (
         <button
           key={o}
           type="button"
           aria-pressed={value === o}
           onClick={() => onChange(value === o ? "" : o)}
-          className={`rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition ${
+          className={`rounded-full border px-3 py-1.5 text-[13px] font-semibold transition ${
             value === o
               ? "border-wealth bg-wealth text-white"
               : "border-ink/15 text-ink/65 hover:border-ink"
@@ -80,6 +80,7 @@ export function ContactForm({
   const [sent, setSent] = useState(false);
   const [failed, setFailed] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [showMsg, setShowMsg] = useState(false);
   const [form, setForm] = useState(initial);
   const set = (k: keyof typeof initial) => (v: string | boolean) =>
     setForm((f) => ({ ...f, [k]: v }));
@@ -142,8 +143,8 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={submit} className="rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
-      <div className="space-y-6">
+    <form onSubmit={submit} className="rounded-3xl border border-ink/10 bg-white p-6 sm:p-7">
+      <div className="space-y-4">
         <div>
           <p className="text-sm font-bold text-ink">
             {guide ? "What's driving the interest?" : "What brings you to LINK Wealth?"}
@@ -156,12 +157,12 @@ export function ContactForm({
         </div>
         {!guide && (
           <div>
-            <p className="text-sm font-bold text-ink">When do you want to get moving?</p>
+            <p className="text-xs font-semibold text-ink/60">When do you want to get moving?</p>
             <Chips options={TIMING} value={form.timing} onChange={set("timing")} />
           </div>
         )}
 
-        <div className="border-t border-ink/10 pt-6">
+        <div className="border-t border-ink/10 pt-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="First name" value={form.firstName} onChange={set("firstName")} required autoComplete="given-name" />
             <Field label="Last name" value={form.lastName} onChange={set("lastName")} required autoComplete="family-name" />
@@ -187,20 +188,29 @@ export function ContactForm({
               </>
             )}
           </div>
-          <label className="mt-4 block">
-            <span className="mb-1 block text-xs font-semibold text-ink/60">
-              How can we help?{" "}
-              {!discovery && <span className="font-normal text-ink/40">optional</span>}
-            </span>
-            <textarea
-              value={form.message}
-              rows={3}
-              required={discovery}
-              onChange={(e) => set("message")(e.target.value)}
-              className="w-full rounded-lg border border-line px-4 py-2.5 text-sm focus:border-wealth focus:outline-none"
-            />
-          </label>
-          <label className="mt-4 flex items-start gap-2.5 text-sm text-ink/65">
+          {showMsg || form.message ? (
+            <label className="mt-4 block">
+              <span className="mb-1 block text-xs font-semibold text-ink/60">
+                How can we help? <span className="font-normal text-ink/40">optional</span>
+              </span>
+              <textarea
+                value={form.message}
+                rows={2}
+                autoFocus={showMsg && !form.message}
+                onChange={(e) => set("message")(e.target.value)}
+                className="w-full rounded-lg border border-line px-4 py-2.5 text-sm focus:border-wealth focus:outline-none"
+              />
+            </label>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setShowMsg(true)}
+              className="mt-4 text-sm font-semibold text-ink/50 hover:text-ink"
+            >
+              + Add a message <span className="font-normal text-ink/40">(optional)</span>
+            </button>
+          )}
+          <label className="mt-3 flex items-start gap-2.5 text-xs text-ink/60">
             <input
               type="checkbox"
               checked={form.newsletter}
@@ -212,7 +222,7 @@ export function ContactForm({
         </div>
       </div>
 
-      <button type="submit" disabled={busy} className="btn btn-wealth mt-6 w-full sm:w-auto">
+      <button type="submit" disabled={busy} className="btn btn-wealth mt-5 w-full sm:w-auto">
         {busy
           ? "Sending…"
           : guide
