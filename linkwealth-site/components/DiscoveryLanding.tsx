@@ -70,7 +70,7 @@ export function DiscoveryLanding({
       {/* Hero + discovery form, copy verbatim from the live page */}
       <section className="container-x grid items-start gap-12 py-14 sm:py-20 lg:grid-cols-2">
         <div>
-          <span className="eyebrow text-wealth-dark">{eyebrow}</span>
+          <span className="eyebrow text-wealth">{eyebrow}</span>
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl">
             {title}
           </h1>
@@ -84,7 +84,7 @@ export function DiscoveryLanding({
                   viewBox="0 0 20 20"
                   fill="none"
                   aria-hidden
-                  className="mt-1 shrink-0 text-wealth-dark"
+                  className="mt-1 shrink-0 text-wealth"
                 >
                   <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
                   <path d="m6 10 2.6 2.6L14 7.4" stroke="currentColor" strokeWidth="1.8" />

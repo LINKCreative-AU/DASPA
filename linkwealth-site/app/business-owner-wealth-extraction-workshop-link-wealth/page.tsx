@@ -114,7 +114,7 @@ export default function Page() {
       {/* Hero - verbatim */}
       <section className="container-x grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.2fr_1fr]">
         <div>
-          <span className="eyebrow text-wealth-dark">Make Your Business Work for You</span>
+          <span className="eyebrow text-wealth">Make Your Business Work for You</span>
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
             Business Owner Wealth <span className="marker">Extraction Workshop</span>
           </h1>
@@ -143,7 +143,7 @@ export default function Page() {
       <section className="bg-cloud py-16 sm:py-24">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
-            <span className="eyebrow text-wealth-dark">
+            <span className="eyebrow text-wealth">
               Business Owner Wealth Extraction Workshop
             </span>
             <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink">
@@ -288,7 +288,7 @@ function Check() {
       viewBox="0 0 20 20"
       fill="none"
       aria-hidden
-      className="mt-1 shrink-0 text-wealth-dark"
+      className="mt-1 shrink-0 text-wealth"
     >
       <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
       <path d="m6 10 2.6 2.6L14 7.4" stroke="currentColor" strokeWidth="1.8" />

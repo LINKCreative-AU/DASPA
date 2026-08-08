@@ -40,7 +40,7 @@ function NumField({
             inputMode="decimal"
             value={value}
             onChange={(e) => onChange(e.target.value.replace(/[^\d.]/g, ""))}
-            className={`w-full rounded-lg border border-line py-3 text-base focus:border-wealth-dark focus:outline-none ${
+            className={`w-full rounded-lg border border-line py-3 text-base focus:border-wealth focus:outline-none ${
               suffix ? "px-4" : "pl-8 pr-4"
             }`}
           />

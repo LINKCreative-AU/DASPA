@@ -99,7 +99,7 @@ export default function Page() {
 
       {/* Hero - verbatim */}
       <section className="container-x max-w-4xl py-14 sm:py-20">
-        <span className="eyebrow text-wealth-dark">Retirement Funding Workshop</span>
+        <span className="eyebrow text-wealth">Retirement Funding Workshop</span>
         <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
           Design the Retirement <span className="marker">You’ve Worked For</span>
         </h1>
@@ -178,7 +178,7 @@ export default function Page() {
           <ol className="mt-8 space-y-6">
             {HOW.map((s, i) => (
               <li key={s} className="flex gap-5">
-                <span className="font-display text-3xl font-extrabold text-wealth-mid">
+                <span className="font-display text-3xl font-extrabold text-wealth/60">
                   0{i + 1}
                 </span>
                 <p className="pt-1.5 text-lg text-ink/80">{s}</p>
@@ -264,7 +264,7 @@ function Check() {
       viewBox="0 0 20 20"
       fill="none"
       aria-hidden
-      className="mt-1 shrink-0 text-wealth-dark"
+      className="mt-1 shrink-0 text-wealth"
     >
       <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
       <path d="m6 10 2.6 2.6L14 7.4" stroke="currentColor" strokeWidth="1.8" />

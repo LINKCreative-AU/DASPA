@@ -67,7 +67,7 @@ export default async function CaseStudyPage({
       />
 
       <article className="container-x max-w-3xl py-12 sm:py-16">
-        <p className="text-xs font-semibold uppercase tracking-wider text-wealth-dark">
+        <p className="text-xs font-semibold uppercase tracking-wider text-wealth">
           Case study · LINK Wealth
         </p>
         <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">

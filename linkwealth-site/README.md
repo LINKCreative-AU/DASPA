@@ -3,8 +3,8 @@
 LINK Wealth - the LINK group's financial advisory division. Full rebuild of the
 old WordPress/Elementor site (WPStaq), following the linkadvisors/linkliving
 build pattern: Next.js 15 + Tailwind, static pages, LINK V1.5 brand system
-with the Wealth mint (`#95e5cb`) accent and the live site's deep teal
-(`#204347`) for text-weight moments.
+with the Wealth accent `#1f9e84` from the linkhq kit brand register (mint
+`#95e5cb` carries accents on dark backgrounds).
 
 **Compliance:** every page must show the AFSL footer (see `SITE.legal` in
 `lib/site.ts`, rendered by `components/Footer.tsx`). Richard Leal (AR 327265)
@@ -50,13 +50,15 @@ reword them.
 | `/home-equity-long-term-wealth-strategy` | Equity strategy workshop |
 | `/case-studies` + `/case-studies/{slug}` | 2 case studies |
 | `/insights` + `/insights/{slug}` | 9 posts, exact old title tags |
+| `/insights/wealth-creation-using-debt-recycling` | Pillar + debt recycling calculator (dedicated route) |
+| `/how-much-does-a-financial-advisor-cost` | NEW - fee transparency page (PAA cluster) |
 | `/contact` | NEW - stable destination for every CTA |
 | `/thank-you` | Form destination, noindex |
 
 ## Before launch (humans)
 
-- [ ] Set `RESEND_API_KEY` + `LEADS_TO` in Vercel and send a test lead.
-- [ ] Confirm live Google review count (hardcoded 5.0/35 from the old footer,
+- [ ] Set `RESEND_API_KEY` in Vercel and send a test lead (LEADS_TO defaults to the Wealth #leads channel address from the HQ register).
+- [ ] Confirm live Google review count (5.0/36 from the kit brand register,
       2026-08-08) - `SITE.reviews` in `lib/site.ts`.
 - [ ] Compliance sign-off on the rebuilt pages (copy is carried from the old
       site, but the licensee should see the new FAQ answers).

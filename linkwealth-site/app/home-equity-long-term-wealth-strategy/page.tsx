@@ -106,7 +106,7 @@ export default function Page() {
 
       {/* Hero - verbatim */}
       <section className="container-x max-w-4xl py-14 sm:py-20">
-        <span className="eyebrow text-wealth-dark">Long term wealth strategy</span>
+        <span className="eyebrow text-wealth">Long term wealth strategy</span>
         <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
           Turn Your Home Equity into a <span className="marker">Long-Term Wealth Strategy</span>
         </h1>
@@ -137,7 +137,7 @@ export default function Page() {
         </p>
         <p className="mt-4 text-sm text-ink/60">
           Not sure of your equity position? Start with our free{" "}
-          <a href="/home-equity-estimator-calculator" className="font-semibold text-wealth-dark underline decoration-wealth underline-offset-2">
+          <a href="/home-equity-estimator-calculator" className="font-semibold text-wealth underline decoration-wealth underline-offset-2">
             home equity calculator
           </a>
           .
@@ -247,7 +247,7 @@ export default function Page() {
             Your workshop is backed by LINK’s 100% Value Guarantee. If you don’t walk away
             satisfied, with insights and direction we’ll refund it — no questions asked.
           </p>
-          <p className="mt-6 font-display text-xl font-bold text-wealth">
+          <p className="mt-6 font-display text-xl font-bold text-wealth-bright">
             Ready to Explore What’s Possible?
           </p>
           <p className="mt-2 text-white/70">
@@ -264,7 +264,7 @@ export default function Page() {
       {/* Common questions - verbatim */}
       <section className="bg-cloud py-16 sm:py-24">
         <div className="container-x max-w-4xl">
-          <span className="eyebrow text-wealth-dark">Common questions</span>
+          <span className="eyebrow text-wealth">Common questions</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink">
             Wondering How It Works?
           </h2>
@@ -322,7 +322,7 @@ function Check() {
       viewBox="0 0 20 20"
       fill="none"
       aria-hidden
-      className="mt-1 shrink-0 text-wealth-dark"
+      className="mt-1 shrink-0 text-wealth"
     >
       <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
       <path d="m6 10 2.6 2.6L14 7.4" stroke="currentColor" strokeWidth="1.8" />

@@ -24,7 +24,7 @@ export function Logo({
         className={onDark ? "brightness-0 invert" : ""}
       />
       <span
-        className={onDark ? "font-display font-bold tracking-tight text-wealth" : "font-display font-bold tracking-tight text-wealth-dark"}
+        className={onDark ? "font-display font-bold tracking-tight text-wealth-bright" : "font-display font-bold tracking-tight text-wealth"}
         style={{ fontSize: height * 0.92, lineHeight: 1 }}
       >
         Wealth

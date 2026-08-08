@@ -73,7 +73,7 @@ export default function Page() {
       {/* Hero - verbatim intro */}
       <section className="container-x grid items-start gap-12 py-14 sm:py-20 lg:grid-cols-2">
         <div>
-          <span className="eyebrow text-wealth-dark">Property investment</span>
+          <span className="eyebrow text-wealth">Property investment</span>
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl">
             Property Investment Advice to <span className="marker">grow and protect your wealth.</span>
           </h1>
@@ -166,7 +166,7 @@ export default function Page() {
               The rules are strict (arm's length leases, limited recourse borrowing, liquidity
               requirements), which is why the strategy needs an adviser, an SMSF accountant
               and a specialist lender working together.{" "}
-              <a href="/smsf" className="font-semibold text-wealth-dark underline decoration-wealth underline-offset-2">
+              <a href="/smsf" className="font-semibold text-wealth underline decoration-wealth underline-offset-2">
                 See how the SMSF commercial property strategy works
               </a>
               .
@@ -181,14 +181,14 @@ export default function Page() {
               Most investors fund their first property with home equity rather than cash.
               Knowing your usable equity - typically up to 80% of your home's value minus your
               loan - tells you what is realistic before you fall in love with a listing. Our{" "}
-              <a href="/home-equity-estimator-calculator" className="font-semibold text-wealth-dark underline decoration-wealth underline-offset-2">
+              <a href="/home-equity-estimator-calculator" className="font-semibold text-wealth underline decoration-wealth underline-offset-2">
                 free home equity calculator
               </a>{" "}
               gives you that number in under a minute.
             </p>
             <p>
               From there, strategies like{" "}
-              <a href="/insights/wealth-creation-using-debt-recycling" className="font-semibold text-wealth-dark underline decoration-wealth underline-offset-2">
+              <a href="/insights/wealth-creation-using-debt-recycling" className="font-semibold text-wealth underline decoration-wealth underline-offset-2">
                 debt recycling
               </a>{" "}
               can make the same dollars work twice: converting non-deductible home loan debt

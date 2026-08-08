@@ -24,7 +24,7 @@ export function ogImage(title: string, eyebrow = "Financial advisors Brisbane") 
           <span style={{ fontSize: 44, fontWeight: 800, color: "#000000", letterSpacing: -1 }}>
             LINK
           </span>
-          <span style={{ fontSize: 40, fontWeight: 800, color: "#204347", letterSpacing: -1 }}>
+          <span style={{ fontSize: 40, fontWeight: 800, color: "#1f9e84", letterSpacing: -1 }}>
             Advisors
           </span>
         </div>
@@ -34,7 +34,7 @@ export function ogImage(title: string, eyebrow = "Financial advisors Brisbane") 
             style={{
               width: 64,
               height: 5,
-              background: "#204347",
+              background: "#1f9e84",
               marginBottom: 22,
               display: "flex",
             }}
@@ -70,7 +70,7 @@ export function ogImage(title: string, eyebrow = "Financial advisors Brisbane") 
             <span
               style={{
                 display: "flex",
-                background: "#204347",
+                background: "#1f9e84",
                 color: "#ffffff",
                 borderRadius: 999,
                 padding: "6px 18px",

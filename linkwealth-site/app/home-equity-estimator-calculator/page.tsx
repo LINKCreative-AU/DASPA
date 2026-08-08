@@ -67,7 +67,7 @@ export default function Page() {
 
       <section className="container-x py-14 sm:py-20">
         <div className="max-w-3xl">
-          <span className="eyebrow text-wealth-dark">Free tool</span>
+          <span className="eyebrow text-wealth">Free tool</span>
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
             Home Equity <span className="marker">Estimator</span>
           </h1>
@@ -120,13 +120,13 @@ export default function Page() {
             <li>See if you’re on track and explore the steps to unlock your property wealth.</li>
           </ul>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            <a href="/home-equity-long-term-wealth-strategy" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth-mid">
+            <a href="/home-equity-long-term-wealth-strategy" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth">
               Equity Strategy Workshop →
             </a>
-            <a href="/insights/wealth-creation-using-debt-recycling" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth-mid">
+            <a href="/insights/wealth-creation-using-debt-recycling" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth">
               Debt recycling explained →
             </a>
-            <a href="/property-investment-advice" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth-mid">
+            <a href="/property-investment-advice" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth">
               Property investment advice →
             </a>
           </div>

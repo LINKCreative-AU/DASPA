@@ -13,14 +13,14 @@ export const metadata: Metadata = {
 export default function ThankYou() {
   return (
     <main className="container-x flex min-h-[50vh] max-w-2xl flex-col justify-center py-24">
-      <span className="eyebrow mb-5 text-wealth-dark">Message received</span>
+      <span className="eyebrow mb-5 text-wealth">Message received</span>
       <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink">
         Thank you for getting in touch.
       </h1>
       <p className="mt-5 text-lg text-ink/65">
         A LINK Wealth team member will reach out to you shortly. Need an answer sooner? Call
         us on{" "}
-        <a href={SITE.phoneHref} className="font-semibold text-wealth-dark">
+        <a href={SITE.phoneHref} className="font-semibold text-wealth">
           {SITE.phone}
         </a>
         .

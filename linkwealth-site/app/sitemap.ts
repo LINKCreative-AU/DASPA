@@ -18,6 +18,7 @@ const CORE: { path: string; priority: number }[] = [
   { path: "/home-equity-long-term-wealth-strategy", priority: 0.8 },
   { path: "/case-studies", priority: 0.7 },
   { path: "/insights", priority: 0.7 },
+  { path: "/how-much-does-a-financial-advisor-cost", priority: 0.8 },
   { path: "/contact", priority: 0.8 },
 ];
 

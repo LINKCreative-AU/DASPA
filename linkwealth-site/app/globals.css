@@ -36,24 +36,24 @@ body {
   @apply border border-ink/15 bg-white text-ink hover:border-ink;
 }
 .btn-wealth {
-  @apply bg-wealth-dark text-white hover:bg-wealth-deep active:opacity-90;
+  @apply bg-wealth text-white hover:bg-wealth-dark active:opacity-90;
 }
 /* Mint CTA for dark sections - the live site's high-contrast pairing */
 .btn-mint {
-  @apply bg-wealth text-wealth-dark hover:bg-wealth-mid active:opacity-90;
+  @apply bg-wealth text-wealth hover:bg-wealth-mid active:opacity-90;
 }
 
 /* Marker highlight on money phrases - mint underline, V1.5 signature */
 .marker {
   @apply font-bold;
-  background: linear-gradient(#95e5cb, #95e5cb) left bottom / 100% 6px no-repeat;
+  background: linear-gradient(#1f9e84, #1f9e84) left bottom / 100% 5px no-repeat;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
 
 /* V1.5 signature gradient - Wealth mint into its light tone */
 .wealth-gradient {
-  background: linear-gradient(135deg, #204347 0%, #2e6259 55%, #95e5cb 100%);
+  background: linear-gradient(135deg, #26494d 0%, #1f9e84 55%, #95e5cb 100%);
 }
 
 /* Migrated post body - the WP class soup is stripped in the pipeline,
@@ -74,7 +74,7 @@ body {
   @apply mt-8 text-lg font-bold text-ink;
 }
 .prose-post a {
-  @apply font-medium text-wealth-dark underline decoration-wealth underline-offset-2 transition hover:decoration-wealth-dark;
+  @apply font-medium text-wealth underline decoration-wealth underline-offset-2 transition hover:decoration-wealth-dark;
 }
 .prose-post ul {
   @apply list-disc space-y-2 pl-6;

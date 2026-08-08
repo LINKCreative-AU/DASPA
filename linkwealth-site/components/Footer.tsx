@@ -22,6 +22,7 @@ const WORKSHOPS = [
 
 const RESOURCES = [
   { label: "Home equity calculator", href: "/home-equity-estimator-calculator" },
+  { label: "What financial advice costs", href: "/how-much-does-a-financial-advisor-cost" },
   { label: "Case studies", href: "/case-studies" },
   { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
@@ -106,7 +107,7 @@ function FooterCol({
     <div>
       <p className="font-semibold text-white">
         {title}
-        <span className="text-wealth">.</span>
+        <span className="text-wealth-bright">.</span>
       </p>
       <ul className="mt-4 space-y-2.5">
         {links.map((l) => (

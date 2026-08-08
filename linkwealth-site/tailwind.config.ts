@@ -17,11 +17,11 @@ const config: Config = {
         cloud: "#f4f5f6",
         line: "#e7e9ec",
         wealth: {
-          DEFAULT: "#95e5cb", // the V1.5 Wealth mint - backgrounds, highlights, accents on dark
+          DEFAULT: "#1f9e84", // kit brand register: deepened from palette mint #95e5cb for legibility on white
+          bright: "#95e5cb", // the V1.5 palette mint - accents on dark backgrounds, highlights
           mid: "#84d1b8", // hover tint from the live palette
           light: "#daf2eb",
-          dark: "#204347", // live-site deep teal - text, buttons, links
-          deep: "#26494d",
+          dark: "#26494d", // kit brand register dark tone
         },
       },
       fontFamily: {

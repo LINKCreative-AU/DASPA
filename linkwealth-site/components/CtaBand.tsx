@@ -28,7 +28,7 @@ export function CtaBand({
           <div className="mt-10 space-y-6 text-sm">
             <div>
               <p className="font-bold uppercase tracking-wider text-white/60">Call us</p>
-              <a href={SITE.phoneHref} className="mt-1 block font-display text-2xl font-bold hover:text-wealth">
+              <a href={SITE.phoneHref} className="mt-1 block font-display text-2xl font-bold hover:text-wealth-bright">
                 {SITE.phone}
               </a>
             </div>

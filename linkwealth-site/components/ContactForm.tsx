@@ -60,7 +60,7 @@ export function ContactForm({
   if (sent) {
     return (
       <div className="rounded-xl2 border border-line bg-white p-8">
-        <p className="text-sm font-semibold uppercase tracking-wider text-wealth-dark">
+        <p className="text-sm font-semibold uppercase tracking-wider text-wealth">
           Message sent
         </p>
         <h3 className="mt-2 font-display text-2xl font-semibold text-ink">Speak soon.</h3>
@@ -88,7 +88,7 @@ export function ContactForm({
                 value={form.age}
                 required
                 onChange={(e) => set("age")(e.target.value)}
-                className="w-full rounded-lg border border-line bg-white px-4 py-2.5 text-sm focus:border-wealth-dark focus:outline-none"
+                className="w-full rounded-lg border border-line bg-white px-4 py-2.5 text-sm focus:border-wealth focus:outline-none"
               >
                 <option value="">Please select</option>
                 {AGES.map((a) => (
@@ -108,7 +108,7 @@ export function ContactForm({
           rows={4}
           required={discovery}
           onChange={(e) => set("message")(e.target.value)}
-          className="w-full rounded-lg border border-line px-4 py-2.5 text-sm focus:border-wealth-dark focus:outline-none"
+          className="w-full rounded-lg border border-line px-4 py-2.5 text-sm focus:border-wealth focus:outline-none"
         />
       </label>
       <label className="mt-4 flex items-start gap-2.5 text-sm text-ink/65">
@@ -116,7 +116,7 @@ export function ContactForm({
           type="checkbox"
           checked={form.newsletter}
           onChange={(e) => set("newsletter")(e.target.checked)}
-          className="mt-0.5 h-4 w-4 accent-wealth-dark"
+          className="mt-0.5 h-4 w-4 accent-wealth"
         />
         Sign up to our mailing list to receive insights from LINK
       </label>
@@ -153,7 +153,7 @@ function Field({
         required={required}
         autoComplete={autoComplete}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-lg border border-line px-4 py-2.5 text-sm focus:border-wealth-dark focus:outline-none"
+        className="w-full rounded-lg border border-line px-4 py-2.5 text-sm focus:border-wealth focus:outline-none"
       />
     </label>
   );

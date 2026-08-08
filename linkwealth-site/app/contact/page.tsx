@@ -24,7 +24,7 @@ export default function Contact() {
       />
       <section className="container-x grid items-start gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1.2fr]">
         <div>
-          <span className="eyebrow text-wealth-dark">Contact</span>
+          <span className="eyebrow text-wealth">Contact</span>
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl">
             Your path to financial freedom <span className="marker">is waiting.</span>
           </h1>
@@ -37,7 +37,7 @@ export default function Contact() {
               <p className="font-bold uppercase tracking-wider text-ink/50">Call us</p>
               <a
                 href={SITE.phoneHref}
-                className="mt-1 block font-display text-2xl font-bold text-ink hover:text-wealth-dark"
+                className="mt-1 block font-display text-2xl font-bold text-ink hover:text-wealth"
               >
                 {SITE.phone}
               </a>

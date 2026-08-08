@@ -10,8 +10,13 @@ import { CtaBand } from "@/components/CtaBand";
 // and meta description (they carry the rankings - the children's bonds post
 // is the site's best organic performer).
 
+// The debt recycling post has its own static route (pillar + calculator).
+const STATIC_ROUTES = ["wealth-creation-using-debt-recycling"];
+
 export function generateStaticParams() {
-  return getPosts("insights").map((p) => ({ slug: p.slug }));
+  return getPosts("insights")
+    .filter((p) => !STATIC_ROUTES.includes(p.slug))
+    .map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -75,7 +80,7 @@ export default async function PostPage({
       />
 
       <article className="container-x max-w-3xl py-12 sm:py-16">
-        <p className="text-xs font-semibold uppercase tracking-wider text-wealth-dark">
+        <p className="text-xs font-semibold uppercase tracking-wider text-wealth">
           {new Date(post.date).toLocaleDateString("en-AU", {
             day: "numeric",
             month: "long",
@@ -110,7 +115,7 @@ export default async function PostPage({
                       className="mb-3 aspect-[3/2] w-full rounded-2xl object-cover"
                     />
                   )}
-                  <h3 className="font-display text-base font-bold leading-snug text-ink transition group-hover:text-wealth-dark">
+                  <h3 className="font-display text-base font-bold leading-snug text-ink transition group-hover:text-wealth">
                     {p.title}
                   </h3>
                 </a>

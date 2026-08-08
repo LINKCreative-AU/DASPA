@@ -37,7 +37,7 @@ export function SectionHead({
       {eyebrow && (
         <div className="mb-6">
           <span
-            className={`eyebrow ${accent ? "text-wealth-dark" : ""} ${
+            className={`eyebrow ${accent ? "text-wealth" : ""} ${
               dark ? "!border-white/60 !text-white/60" : ""
             }`}
           >

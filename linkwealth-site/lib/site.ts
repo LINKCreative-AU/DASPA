@@ -1,7 +1,8 @@
 // LINK Wealth - single source of truth for brand, contact, proof and legal
 // data. Built on LINK Brand Strategy & Style Guide V1.5: monochrome master
-// brand, Wealth mint (#95e5cb, "The long game") as the division accent, with
-// the live site's deep teal (#204347) carrying text-weight accent moments.
+// brand with one accent per division. Wealth's accent is #1f9e84 per the
+// linkhq kit brand register (deepened from the palette mint #95e5cb for
+// legibility on white); the mint carries accents on dark backgrounds.
 
 export const SITE = {
   name: "LINK Wealth",
@@ -19,14 +20,18 @@ export const SITE = {
     state: "QLD",
     postcode: "4006",
   },
-  color: "#95e5cb",
-  colorDark: "#204347",
+  color: "#1f9e84", // kit brand register (lib/brand.ts in linkhq)
+  colorBright: "#95e5cb",
+  colorDark: "#26494d",
   colorLight: "#daf2eb",
-  // Live footer widget values (verified 2026-08-08). Swap to the Places
-  // engine when the API key lands.
+  // From the linkhq kit brand register (reviewFallback, 2026-08-08; the old
+  // site footer said 35). Swap to the Places engine when the API key lands.
   reviews: {
     rating: 5.0,
-    count: 35,
+    count: 36,
+    placeId: "ChIJNQYvAVudk2sRwFeU_s7KnRY",
+    googleUrl:
+      "https://search.google.com/local/reviews?placeid=ChIJNQYvAVudk2sRwFeU_s7KnRY",
   },
   // Compliance identity, carried verbatim from the old site footer - every
   // page must show LEGAL.publisher + LEGAL.disclaimer (AFSL requirement).

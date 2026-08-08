@@ -28,6 +28,8 @@ Key facts:
 
 ## Tools
 - [Home Equity Calculator](https://wealth.link.com.au/home-equity-estimator-calculator): free Australian home equity estimator (value minus loans, usable equity at 80% LVR)
+- [Debt Recycling Calculator](https://wealth.link.com.au/insights/wealth-creation-using-debt-recycling): compare paying down the mortgage vs debt recycling with your numbers
+- [What financial advice costs](https://wealth.link.com.au/how-much-does-a-financial-advisor-cost): published fee ranges for Australian financial advice, including LINK Wealth's own pricing
 
 ## Insights
 - [Debt recycling explained](https://wealth.link.com.au/insights/wealth-creation-using-debt-recycling)

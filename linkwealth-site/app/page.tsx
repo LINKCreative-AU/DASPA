@@ -19,7 +19,7 @@ import { getPosts, postImage } from "@/lib/posts";
 export const metadata: Metadata = {
   title: "Financial Advisor Brisbane | LINK Wealth Advisors",
   description:
-    "LINK Wealth's Brisbane financial advisors help business owners and professionals turn hard work into lasting financial freedom. Tailored planning, investments, super and tax strategies. 5.0 Google rating from 35 reviews.",
+    "LINK Wealth's Brisbane financial advisors help business owners and professionals turn hard work into lasting financial freedom. Tailored planning, investments, super and tax strategies. 5.0 Google rating from 36 reviews.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Financial Advisor Brisbane | LINK Wealth Advisors",
@@ -105,7 +105,7 @@ const FAQS = [
   },
   {
     q: "How much does financial advice cost?",
-    a: "Your first consultation is free and no-obligation. Our strategy workshops are $660 including GST, backed by LINK's Value Guarantee: if you don't walk away with clear, actionable insights, we refund you in full. Ongoing advice is quoted up front once we understand your situation.",
+    a: "Your first consultation is free and no-obligation. Our strategy workshops are $660 including GST, backed by LINK's Value Guarantee: if you don't walk away with clear, actionable insights, we refund you in full. Ongoing advice is quoted up front once we understand your situation. If you just want free general guidance first, the government's Moneysmart.gov.au is a good place to start - and our advice cost guide publishes the industry-wide fee ranges.",
   },
   {
     q: "Are you licensed?",
@@ -125,7 +125,7 @@ export default function Home() {
           <div className="text-white">
             <h1 className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl xl:text-6xl">
               Helping business owners and professionals grow their{" "}
-              <span className="text-wealth">personal wealth.</span>
+              <span className="text-wealth-bright">personal wealth.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-white/80">
               Grinding away on your business but feeling like you’ve got nothing to show for
@@ -157,7 +157,7 @@ export default function Home() {
       {/* Intro - verbatim copy */}
       <section className="py-16 sm:py-24">
         <div className="container-x max-w-4xl">
-          <span className="eyebrow text-wealth-dark">Financial planning, Brisbane</span>
+          <span className="eyebrow text-wealth">Financial planning, Brisbane</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
             Turn your hard work into <span className="marker">lasting financial freedom.</span>
           </h2>
@@ -192,7 +192,7 @@ export default function Home() {
       {/* Our services - verbatim copy, now routing to the dedicated pages */}
       <section className="bg-cloud py-16 sm:py-24">
         <div className="container-x">
-          <span className="eyebrow text-wealth-dark">Our services</span>
+          <span className="eyebrow text-wealth">Our services</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
             How we grow and protect your wealth.
           </h2>
@@ -201,13 +201,13 @@ export default function Home() {
               <a
                 key={s.href}
                 href={s.href}
-                className="group rounded-xl2 border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:border-wealth-mid hover:shadow-[0_12px_32px_-16px_rgba(32,67,71,0.35)]"
+                className="group rounded-xl2 border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:border-wealth hover:shadow-[0_12px_32px_-16px_rgba(32,67,71,0.35)]"
               >
-                <h3 className="font-display text-xl font-bold tracking-tight text-ink transition group-hover:text-wealth-dark">
+                <h3 className="font-display text-xl font-bold tracking-tight text-ink transition group-hover:text-wealth">
                   {s.title}
                 </h3>
                 <p className="mt-3 text-[0.95rem] leading-relaxed text-ink/70">{s.body}</p>
-                <p className="mt-4 text-sm font-semibold text-wealth-dark opacity-0 transition group-hover:opacity-100">
+                <p className="mt-4 text-sm font-semibold text-wealth opacity-0 transition group-hover:opacity-100">
                   {s.linkLabel} →
                 </p>
               </a>
@@ -238,12 +238,12 @@ export default function Home() {
         <div className="container-x">
           <span className="eyebrow !border-white/50 !text-white/70">What’s included?</span>
           <h2 className="mt-6 max-w-3xl font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
-            A clear master plan to get you <span className="text-wealth">where you want to be.</span>
+            A clear master plan to get you <span className="text-wealth-bright">where you want to be.</span>
           </h2>
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {INCLUDED.map((s) => (
               <div key={s.title} className="rounded-xl2 border border-white/10 bg-white/5 p-7">
-                <h3 className="font-display text-xl font-bold tracking-tight text-wealth">
+                <h3 className="font-display text-xl font-bold tracking-tight text-wealth-bright">
                   {s.title}
                 </h3>
                 <p className="mt-3 text-[0.95rem] leading-relaxed text-white/75">{s.body}</p>
@@ -266,7 +266,7 @@ export default function Home() {
             </h2>
             <a
               href="/insights"
-              className="text-sm font-semibold text-wealth-dark underline decoration-wealth underline-offset-4 hover:decoration-wealth-dark"
+              className="text-sm font-semibold text-wealth underline decoration-wealth underline-offset-4 hover:decoration-wealth-dark"
             >
               All insights →
             </a>
@@ -286,10 +286,10 @@ export default function Home() {
                   ) : (
                     <div className="wealth-gradient mb-4 aspect-[3/2] w-full rounded-2xl" />
                   )}
-                  <p className="text-xs font-semibold uppercase tracking-wider text-wealth-dark">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-wealth">
                     {p.category === "case-studies" ? "Case study" : "Insights"}
                   </p>
-                  <h3 className="mt-2 font-display text-lg font-bold leading-snug tracking-tight text-ink transition group-hover:text-wealth-dark">
+                  <h3 className="mt-2 font-display text-lg font-bold leading-snug tracking-tight text-ink transition group-hover:text-wealth">
                     {p.title}
                   </h3>
                 </a>
@@ -315,6 +315,13 @@ export default function Home() {
               </details>
             ))}
           </div>
+          <p className="mt-6 text-sm text-ink/60">
+            Want the full numbers?{" "}
+            <a href="/how-much-does-a-financial-advisor-cost" className="font-semibold text-wealth underline decoration-wealth/40 underline-offset-2">
+              What financial advice costs in Australia
+            </a>
+            .
+          </p>
         </div>
       </section>
 

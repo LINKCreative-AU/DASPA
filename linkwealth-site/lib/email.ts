@@ -6,7 +6,7 @@
 // channel address (see SLACK-EMAIL-INTEGRATIONS.md in the linkhq repo, James
 // 2026-07-28) so sources stay distinguishable in the channel. To add a direct
 // recipient (e.g. dewan@link.com.au) set LEADS_TO as a comma-separated list.
-const TO = (process.env.LEADS_TO ?? "k1q9k5c8u4v2o2l6@linkcohq.slack.com")
+const TO = (process.env.LEADS_TO ?? "q8u7a0q9n1o8t9e6@linkcohq.slack.com")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);

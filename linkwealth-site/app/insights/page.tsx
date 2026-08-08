@@ -15,9 +15,9 @@ export default function Insights() {
   return (
     <main>
       <section className="container-x py-14 sm:py-20">
-        <span className="eyebrow text-wealth-dark">Insights</span>
+        <span className="eyebrow text-wealth">Insights</span>
         <h1 className="mt-6 font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
-          The best from our blog<span className="text-wealth-dark">.</span>
+          The best from our blog<span className="text-wealth">.</span>
         </h1>
         <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((p) => {
@@ -34,14 +34,14 @@ export default function Insights() {
                 ) : (
                   <div className="wealth-gradient mb-4 aspect-[3/2] w-full rounded-2xl" />
                 )}
-                <p className="text-xs font-semibold uppercase tracking-wider text-wealth-dark">
+                <p className="text-xs font-semibold uppercase tracking-wider text-wealth">
                   {new Date(p.date).toLocaleDateString("en-AU", {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
                   })}
                 </p>
-                <h2 className="mt-2 font-display text-xl font-bold leading-snug tracking-tight text-ink transition group-hover:text-wealth-dark">
+                <h2 className="mt-2 font-display text-xl font-bold leading-snug tracking-tight text-ink transition group-hover:text-wealth">
                   {p.title}
                 </h2>
                 {p.excerpt && (

@@ -82,18 +82,21 @@ const SPECIALISTS = [
     title: "Wealth advisors.",
     body: "Your SMSF strategy isn’t one-size-fits-all. Our licensed financial advisors assess your situation, model the numbers and map out exactly what a commercial property purchase could look like for you.",
     points: ["Suitability assessment.", "SMSF strategy.", "Cashflow modelling.", "Compliance planning."],
+    img: "/wp-content/uploads/2026/03/99109d48c9e8ab6e6ffd7c6f16c0112a3894821c-1024x707.jpg",
   },
   {
     team: "LINK ADVISORS",
     title: "Chartered Accountants.",
     body: "Administering an SMSF is complex. Our expert SMSF accountants give you the clarity to stay compliant, minimise your tax and get the most from your fund.",
     points: ["SMSF setup.", "Ongoing tax support.", "Reporting and advice.", "Administration and BAS lodgement."],
+    img: "/wp-content/uploads/2026/03/e953c0024cfd5eaad86b140858c1279cdcdacfd6-1024x719.jpg",
   },
   {
     team: "LINK ADVANCE",
     title: "Lending specialists.",
     body: "SMSF commercial property loans are a specialist game. Our licensed mortgage brokers know the lenders, their credit policies and exactly what it takes to get a deal across the line. Fast.",
     points: ["Personalised lending options.", "Direct access to lenders.", "Loan application support.", "Ongoing rate negotiations."],
+    img: "/wp-content/uploads/2026/03/7fc0621d17b2e02bf1cc7bd17b4876ecb41abbb61-1024x683.jpg",
   },
 ];
 
@@ -184,7 +187,7 @@ export default function Page() {
       {/* Hero - verbatim */}
       <section className="container-x grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.2fr_1fr]">
         <div>
-          <span className="eyebrow text-wealth-dark">
+          <span className="eyebrow text-wealth">
             Australian SMSF commercial property specialists
           </span>
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
@@ -201,18 +204,18 @@ export default function Page() {
         </div>
         <a
           href="/case-studies/scott-bought-his-business-premises-with-his-super"
-          className="group rounded-xl2 border border-line bg-cloud p-7 transition hover:border-wealth-mid"
+          className="group rounded-xl2 border border-line bg-cloud p-7 transition hover:border-wealth"
         >
-          <p className="text-xs font-semibold uppercase tracking-wider text-wealth-dark">
+          <p className="text-xs font-semibold uppercase tracking-wider text-wealth">
             Success story
           </p>
-          <p className="mt-3 font-display text-2xl font-bold text-ink group-hover:text-wealth-dark">
+          <p className="mt-3 font-display text-2xl font-bold text-ink group-hover:text-wealth">
             Scott bought his business premises with his super.
           </p>
           <p className="mt-3 text-ink/70">
             Find out how Scott used his SMSF to buy the warehouse his business operates from.
           </p>
-          <p className="mt-4 text-sm font-semibold text-wealth-dark">Read success story →</p>
+          <p className="mt-4 text-sm font-semibold text-wealth">Read success story →</p>
         </a>
       </section>
 
@@ -221,7 +224,7 @@ export default function Page() {
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
             <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
-              Your rent is making <span className="text-wealth">someone else wealthy.</span>
+              Your rent is making <span className="text-wealth-bright">someone else wealthy.</span>
             </h2>
             <p className="mt-5 text-white/75">
               Think about how much rent your business has paid. Now think about what you have
@@ -244,14 +247,14 @@ export default function Page() {
             </p>
             <div className="mt-6 space-y-4">
               <div className="rounded-xl2 border border-white/10 bg-white/5 p-5">
-                <h3 className="font-bold text-wealth">Your business operates exactly as it does today.</h3>
+                <h3 className="font-bold text-wealth-bright">Your business operates exactly as it does today.</h3>
                 <p className="mt-2 text-sm text-white/70">
                   The only thing that changes is where the money goes (and what it does for you
                   over time).
                 </p>
               </div>
               <div className="rounded-xl2 border border-white/10 bg-white/5 p-5">
-                <h3 className="font-bold text-wealth">Your money works harder for you.</h3>
+                <h3 className="font-bold text-wealth-bright">Your money works harder for you.</h3>
                 <p className="mt-2 text-sm text-white/70">
                   Instead of funding someone else’s retirement, you’ll fund your own. Same
                   premises. Same rent. Better outcome.
@@ -265,7 +268,7 @@ export default function Page() {
       {/* Who it's for - verbatim */}
       <section className="py-16 sm:py-24">
         <div className="container-x max-w-4xl">
-          <span className="eyebrow text-wealth-dark">Who it’s for</span>
+          <span className="eyebrow text-wealth">Who it’s for</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink">
             This strategy suits a specific type of business owner.
           </h2>
@@ -283,7 +286,7 @@ export default function Page() {
       {/* Why it works - verbatim */}
       <section className="bg-cloud py-16 sm:py-24">
         <div className="container-x">
-          <span className="eyebrow text-wealth-dark">Why it works</span>
+          <span className="eyebrow text-wealth">Why it works</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
             Why do business owners use their super to buy their premises?
           </h2>
@@ -301,14 +304,14 @@ export default function Page() {
       {/* How it works - verbatim */}
       <section className="py-16 sm:py-24">
         <div className="container-x max-w-4xl">
-          <span className="eyebrow text-wealth-dark">How it works</span>
+          <span className="eyebrow text-wealth">How it works</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink">
             How it works.
           </h2>
           <ol className="mt-8 space-y-8">
             {HOW.map((s, i) => (
               <li key={s.title} className="flex gap-5">
-                <span className="font-display text-3xl font-extrabold text-wealth-mid">
+                <span className="font-display text-3xl font-extrabold text-wealth/60">
                   0{i + 1}
                 </span>
                 <div className="pt-1">
@@ -318,6 +321,33 @@ export default function Page() {
               </li>
             ))}
           </ol>
+
+          {/* The live page's before/after infographics, same images */}
+          <div className="mt-12 grid gap-6 sm:grid-cols-2">
+            <figure>
+              <figcaption className="mb-3 font-display text-xl font-bold text-ink">
+                Your Current Situation
+              </figcaption>
+              <img
+                src="/wp-content/uploads/2026/03/smsf-business-loss-839x1024.png"
+                alt="Diagram of the current situation: your business pays rent to a landlord and builds no asset"
+                loading="lazy"
+                className="w-full rounded-2xl border border-line"
+              />
+            </figure>
+            <figure>
+              <figcaption className="mb-3 font-display text-xl font-bold text-ink">
+                Our SMSF Strategy
+              </figcaption>
+              <img
+                src="/wp-content/uploads/2026/03/smsf-business-win-838x1024.png"
+                alt="Diagram of the SMSF strategy: your business pays market rent to your own super fund, which builds equity in the premises"
+                loading="lazy"
+                className="w-full rounded-2xl border border-line"
+              />
+            </figure>
+          </div>
+
           <div className="mt-10 rounded-xl2 bg-wealth-dark p-7 text-white">
             <h3 className="font-display text-xl font-bold">Is this strategy right for you?</h3>
             <p className="mt-3 text-white/75">
@@ -335,7 +365,7 @@ export default function Page() {
       {/* How we help - verbatim */}
       <section className="bg-cloud py-16 sm:py-24">
         <div className="container-x">
-          <span className="eyebrow text-wealth-dark">How we help</span>
+          <span className="eyebrow text-wealth">How we help</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
             All the specialists you need. Working together.
           </h2>
@@ -346,8 +376,14 @@ export default function Page() {
           </p>
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {SPECIALISTS.map((s) => (
-              <div key={s.team} className="rounded-xl2 border border-line bg-white p-7">
-                <p className="text-xs font-bold uppercase tracking-wider text-wealth-dark">
+              <div key={s.team} className="overflow-hidden rounded-xl2 border border-line bg-white p-7">
+                <img
+                  src={s.img}
+                  alt={`${s.title.replace(/\.$/, "")} at LINK`}
+                  loading="lazy"
+                  className="-mx-7 -mt-7 mb-6 aspect-[3/2] w-[calc(100%+3.5rem)] max-w-none object-cover"
+                />
+                <p className="text-xs font-bold uppercase tracking-wider text-wealth">
                   {s.team}
                 </p>
                 <h3 className="mt-2 font-display text-xl font-bold text-ink">{s.title}</h3>
@@ -355,7 +391,7 @@ export default function Page() {
                 <ul className="mt-4 space-y-1.5 text-sm text-ink/70">
                   {s.points.map((p) => (
                     <li key={p} className="flex gap-2">
-                      <span className="text-wealth-dark">·</span>
+                      <span className="text-wealth">·</span>
                       {p}
                     </li>
                   ))}
@@ -370,17 +406,27 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Why us - verbatim */}
+      {/* Why us - verbatim, with the live page's stat counters as static values */}
       <section className="py-16 sm:py-24">
         <div className="container-x max-w-4xl text-center">
-          <span className="eyebrow text-wealth-dark">Why us?</span>
+          <span className="eyebrow text-wealth">Why us?</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
             SMSF commercial property specialists.
           </h2>
           <p className="mt-5 text-lg text-ink/70">
             Licensed tax agents, financial advisors &amp; mortgage brokers. Helping business
-            owners grow wealth. ASIC &amp; ATO compliant. 30+ years experience.
+            owners grow wealth.
           </p>
+          <dl className="mx-auto mt-10 grid max-w-xl grid-cols-2 gap-6">
+            <div className="rounded-xl2 border border-line p-6">
+              <dd className="font-display text-4xl font-extrabold text-wealth">100%</dd>
+              <dt className="mt-1 text-sm font-semibold text-ink/60">ASIC &amp; ATO compliant</dt>
+            </div>
+            <div className="rounded-xl2 border border-line p-6">
+              <dd className="font-display text-4xl font-extrabold text-wealth">30+</dd>
+              <dt className="mt-1 text-sm font-semibold text-ink/60">years experience</dt>
+            </div>
+          </dl>
           <a href="#contact" className="btn btn-wealth mt-8">
             Show me how
           </a>
@@ -390,7 +436,7 @@ export default function Page() {
       {/* FAQs - all 14, verbatim, now in FAQPage schema */}
       <section className="bg-cloud py-16 sm:py-24">
         <div className="container-x max-w-4xl">
-          <span className="eyebrow text-wealth-dark">FAQs</span>
+          <span className="eyebrow text-wealth">FAQs</span>
           <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink">
             Your questions, answered.
           </h2>
@@ -407,9 +453,40 @@ export default function Page() {
         </div>
       </section>
 
+      {/* Make it count - verbatim, with the live page's image */}
+      <section className="bg-cloud py-16 sm:py-24">
+        <div className="container-x grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+              Your rent is due either way. <span className="marker">Make it count.</span>
+            </h2>
+            <h3 className="mt-5 font-semibold text-ink">
+              Get in touch for a free strategy call with our financial advisors and find out:
+            </h3>
+            <ul className="mt-4 space-y-2 text-ink/75">
+              <li className="flex gap-3"><span className="text-wealth">·</span>If this is the right strategy for you</li>
+              <li className="flex gap-3"><span className="text-wealth">·</span>How much your SMSF could borrow</li>
+              <li className="flex gap-3"><span className="text-wealth">·</span>If this aligns with your business goals</li>
+            </ul>
+            <p className="mt-5 text-ink/70">
+              Plus, a free copy of our SMSF Property Purchase Guide. Straight to your inbox.
+            </p>
+            <p className="mt-4 text-sm font-semibold text-ink/55">
+              No obligation • No pressure • Expert advice
+            </p>
+          </div>
+          <img
+            src="/wp-content/uploads/2026/03/1a1643209924763ed399c5cae74b5c452611156b-1024x483.jpg"
+            alt="Commercial business premises owned through an SMSF"
+            loading="lazy"
+            className="w-full rounded-2xl object-cover"
+          />
+        </div>
+      </section>
+
       <CtaBand
-        heading="Your rent is due either way. Make it count."
-        intro="Get in touch for a free strategy call with our financial advisors and find out: if this is the right strategy for you, how much your SMSF could borrow, and if this aligns with your business goals. Plus, a free copy of our SMSF Property Purchase Guide. Straight to your inbox. No obligation. No pressure. Expert advice."
+        heading="Let’s make your money work harder for you."
+        intro="Stop renting. Start owning. Get the free SMSF guide - reach out and we’ll schedule a free, no-obligation strategy call to determine if this is right for you."
         variant="discovery"
         subject="SMSF Commercial Property"
         formTitle="Get the free SMSF guide"
@@ -426,7 +503,7 @@ function Check() {
       viewBox="0 0 20 20"
       fill="none"
       aria-hidden
-      className="mt-1 shrink-0 text-wealth-dark"
+      className="mt-1 shrink-0 text-wealth"
     >
       <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
       <path d="m6 10 2.6 2.6L14 7.4" stroke="currentColor" strokeWidth="1.8" />
