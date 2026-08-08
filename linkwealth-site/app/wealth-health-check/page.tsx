@@ -41,6 +41,14 @@ const FAQS = [
     a: "There is no official target - it depends on income, city and goals. A useful pattern from the ABS data: households typically cross the median in their 40s as home equity and super compound, and the strongest predictor of an above-average curve is starting the boring things (buffer, contributions, regular investing) a decade earlier than feels necessary.",
   },
   {
+    q: "Why does the check ask about insurance?",
+    a: "Because protection is the part of wealth most people under-do. The Financial Services Council estimates around 1 million Australians are underinsured for death and TPD cover and 3.4 million for income protection - and the default cover inside super is rarely sized to your actual debts and dependants. A plan that builds assets but leaves the income funding them unprotected is one accident away from unwinding, which is why the check weighs life, TPD, income protection and trauma cover alongside super and investments.",
+  },
+  {
+    q: "Why does it ask about my situation and super balance?",
+    a: "Two context questions - whether you run a business, own a home, are within about ten years of retirement or have people depending on your income, and roughly where your super sits - don't move the score at all. They decide which general pathways show with your result, because the strategies worth exploring at $80k of super are different from the ones on the table at $300k. If you'd rather not say, the check still works.",
+  },
+  {
     q: "Is the wealth check personal advice?",
     a: "No. It weighs eight general markers of financial health and returns a score with general observations - it doesn't know your income, age or circumstances. It's built to start the right conversation; the free discovery meeting is where your actual situation gets assessed by a licensed adviser.",
   },
@@ -81,7 +89,7 @@ export default function Page() {
             eyebrow="Free tool · 2 minutes · no email needed"
             title="The Wealth Check: score your finances out of 10."
             mark="out of 10."
-            intro="Eight quick questions across the things that actually decide financial health - buffer, debt, super, investments, protection, estate and the plan itself. Some are one tap, some are tick-everything-that's-true. Your score and the flags holding it back show up immediately, on screen, no email wall."
+            intro="Eight scored areas across the things that actually decide financial health - buffer, debt, super, investments, protection, estate and the plan itself - plus two quick context questions so the next steps fit your situation. Your score, the flags holding it back and the pathways people in your position usually explore show up immediately, on screen, no email wall."
             accent
           />
         </div>
