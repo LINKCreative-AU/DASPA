@@ -1,0 +1,140 @@
+"use client";
+
+import { useState } from "react";
+import { Logo } from "./Logo";
+import { NAV, SITE, type NavItem } from "@/lib/site";
+
+// Services/Workshops open dropdowns, the rest are plain links. Dropdowns open
+// on hover and on keyboard focus (focus-within), so the menu works without a
+// mouse. The old Elementor site's mobile menu was two duplicated nav blocks;
+// this is one accessible one.
+
+function Chevron() {
+  return (
+    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden>
+      <path d="m1 1 4 4 4-4" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function DesktopItem({ item }: { item: NavItem }) {
+  const trigger = (
+    <a
+      href={item.href ?? item.children?.[0]?.href}
+      className="flex items-center gap-1 whitespace-nowrap text-sm font-semibold text-ink underline-offset-4 transition hover:underline"
+    >
+      {item.label}
+      {item.children && <Chevron />}
+    </a>
+  );
+
+  if (item.children) {
+    return (
+      <div className="group relative">
+        {trigger}
+        <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+          <div className="min-w-64 rounded-2xl border border-line bg-white p-2 shadow-lg">
+            {item.children.map((c) => (
+              <a
+                key={c.href}
+                href={c.href}
+                className="block whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-medium text-ink/75 transition hover:bg-neutral-50 hover:text-ink"
+              >
+                {c.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return trigger;
+}
+
+export function Header() {
+  const [open, setOpen] = useState(false);
+  return (
+    <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur">
+      <div className="container-x flex h-16 items-center justify-between gap-6">
+        <a href="/" aria-label="LINK Advance home" className="shrink-0">
+          <Logo />
+        </a>
+
+        <div className="hidden items-center gap-7 lg:flex">
+          <nav className="flex items-center gap-7" aria-label="Main">
+            {NAV.map((n) => (
+              <DesktopItem key={n.label} item={n} />
+            ))}
+          </nav>
+          <a
+            href={SITE.phoneHref}
+            className="hidden whitespace-nowrap text-sm font-semibold text-ink/75 hover:text-ink xl:block"
+          >
+            {SITE.phone}
+          </a>
+          <a href="/contact-us" className="btn btn-advance whitespace-nowrap">
+            Book a call
+          </a>
+        </div>
+
+        <button
+          className="lg:hidden"
+          aria-label="Menu"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <div className="space-y-1.5">
+            <span className="block h-0.5 w-6 bg-ink" />
+            <span className="block h-0.5 w-6 bg-ink" />
+            <span className="block h-0.5 w-6 bg-ink" />
+          </div>
+        </button>
+      </div>
+
+      {open && (
+        <nav
+          className="max-h-[80vh] overflow-y-auto border-t border-line bg-white px-6 pb-6 pt-2 lg:hidden"
+          aria-label="Main"
+        >
+          {NAV.map((n) =>
+            n.children ? (
+              <div key={n.label} className="border-b border-ink/5 py-3">
+                <p className="eyebrow !text-[10px]">{n.label}</p>
+                <div className="mt-6">
+                  {n.children.map((c) => (
+                    <a
+                      key={c.href}
+                      href={c.href}
+                      onClick={() => setOpen(false)}
+                      className="block py-1.5 text-sm font-medium text-ink/80"
+                    >
+                      {c.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <a
+                key={n.label}
+                href={n.href}
+                onClick={() => setOpen(false)}
+                className="block border-b border-ink/5 py-3.5 text-sm font-semibold text-ink"
+              >
+                {n.label}
+              </a>
+            )
+          )}
+          <div className="mt-4 flex items-center gap-3">
+            <a href="/contact-us" onClick={() => setOpen(false)} className="btn btn-primary flex-1">
+              Book a call
+            </a>
+            <a href={SITE.phoneHref} className="btn btn-ghost whitespace-nowrap">
+              {SITE.phone}
+            </a>
+          </div>
+        </nav>
+      )}
+    </header>
+  );
+}

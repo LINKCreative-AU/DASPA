@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Elza drops in here once the web licence lands; falls back to Work Sans */
+  --font-display: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-ink antialiased;
+}
+
+/* Editorial layout bits, per the V1.5 look - identical bones to the
+   Advisors/Books/Marketing builds; only the accent colour differs. */
+.container-x {
+  @apply mx-auto w-full max-w-content px-6 sm:px-10 xl:px-[87px];
+}
+
+/* Section eyebrow - small, grey, uppercase (guide uses grey labels, not
+   colour). Deliberately NOT a capsule: per James (8 Aug), pills are reserved
+   for interactive elements; labels are just type with the guide-line dash. */
+.eyebrow {
+  @apply inline-flex items-center gap-2.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink/50;
+}
+.eyebrow::before {
+  content: "";
+  width: 1.4rem;
+  height: 2px;
+  background: currentColor;
+  flex: none;
+}
+
+/* The "Guide Line" - kept as no-ops for markup parity with the sibling sites */
+.guide-line {
+  @apply relative;
+}
+.guide-line::before {
+  content: none;
+}
+.guide-line-inline::before {
+  content: none;
+}
+
+.btn {
+  @apply inline-flex h-11 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold transition;
+}
+/* Master brand = black actions; the Wealth green reserved for accent moments */
+.btn-primary {
+  @apply bg-ink text-white hover:bg-black active:opacity-90;
+}
+.btn-ghost {
+  @apply border border-ink/15 bg-white text-ink hover:border-ink;
+}
+.btn-advance {
+  @apply bg-advance text-white hover:bg-advance-dark active:opacity-90;
+}
+
+/* Marker highlight on money phrases - division-colour underline, V1.5 signature */
+.marker {
+  @apply font-bold;
+  background: linear-gradient(#997000, #997000) left bottom / 100% 4px no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.section-no {
+  display: none;
+}
+
+/* V1.5 signature gradient - Wealth green + its light tone (post placeholders) */
+.advance-gradient {
+  background: linear-gradient(135deg, #997000 0%, #c49b1f 55%, #f8efd2 100%);
+}
+
+/* Migrated post body - the WP class soup is stripped in the pipeline,
+   so plain elements carry all the styling. */
+.prose-post {
+  @apply text-[1.0625rem] leading-relaxed text-ink/80;
+}
+.prose-post > * + * {
+  @apply mt-5;
+}
+.prose-post h2 {
+  @apply mt-12 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl;
+}
+.prose-post h3 {
+  @apply mt-10 font-display text-xl font-bold tracking-tight text-ink sm:text-2xl;
+}
+.prose-post h4 {
+  @apply mt-8 text-lg font-bold text-ink;
+}
+.prose-post a {
+  @apply font-medium text-advance underline decoration-advance/30 underline-offset-2 transition hover:decoration-advance;
+}
+.prose-post ul {
+  @apply list-disc space-y-2 pl-6;
+}
+.prose-post ol {
+  @apply list-decimal space-y-2 pl-6;
+}
+.prose-post blockquote {
+  @apply border-l-2 border-advance pl-5 text-ink/75;
+}
+.prose-post img {
+  @apply h-auto max-w-full rounded-2xl;
+}
+.prose-post figure {
+  @apply my-8;
+}
+.prose-post figcaption {
+  @apply mt-2 text-sm text-ink/50;
+}
+.prose-post hr {
+  @apply my-10 border-ink/10;
+}
+.prose-post table {
+  @apply w-full border-collapse text-sm;
+}
+.prose-post th {
+  @apply border-b-2 border-ink/15 py-2 pr-4 text-left font-semibold text-ink;
+}
+.prose-post td {
+  @apply border-b border-ink/10 py-2 pr-4 align-top;
+}
+.prose-post iframe {
+  @apply aspect-video w-full rounded-2xl;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
