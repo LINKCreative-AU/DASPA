@@ -66,6 +66,20 @@ export function DiscoveryLanding({
           <SectionHead as="h1" eyebrow={eyebrow} title={h1} mark={h1Mark} accent />
           <p className="mt-6 font-semibold text-ink">It starts with a simple conversation</p>
           <CheckList items={bullets} />
+          <div className="mt-8 flex items-center gap-4 rounded-2xl border border-ink/10 bg-neutral-50 p-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/wp-content/uploads/2026/06/Richard-Wealth-1024-x-1024-Grey-Square-768x768.jpg"
+              alt="Richard Leal, Managing Director at LINK Wealth"
+              className="h-16 w-16 rounded-xl object-cover"
+            />
+            <div>
+              <p className="font-display text-sm font-bold text-ink">Richard Leal</p>
+              <p className="text-xs text-ink/55">
+                Managing Director · AR 327265 · your adviser for this conversation
+              </p>
+            </div>
+          </div>
         </div>
         <div>
           <h2 className="font-display text-xl font-bold tracking-tight text-ink">

@@ -14,7 +14,7 @@ export function CtaBand({
 }: {
   heading?: string;
   intro?: string;
-  variant?: "contact" | "discovery";
+  variant?: "contact" | "discovery" | "guide";
   subject?: string;
   formTitle?: string;
 }) {
@@ -23,7 +23,7 @@ export function CtaBand({
       <div className="grid gap-10 rounded-3xl bg-ink p-8 text-white sm:p-12 lg:grid-cols-[1fr_1.1fr]">
         <div>
           <p className="eyebrow guide-line-inline mb-4">
-            <span className="text-white/60">No cost, no obligation</span>
+            <span className="text-white/60">Innovative solutions. Unmatched service. Delivered as promised.</span>
           </p>
           <h2 className="max-w-2xl font-display text-3xl font-normal tracking-tight sm:text-4xl">
             {heading}

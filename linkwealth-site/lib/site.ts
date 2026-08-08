@@ -87,9 +87,26 @@ export const NAV: NavItem[] = [
     ],
   },
   { label: "SMSF", href: "/smsf" },
-  { label: "Equity calculator", href: "/home-equity-estimator-calculator" },
+  {
+    label: "Tools",
+    children: [
+      { label: "Home equity calculator", href: "/home-equity-estimator-calculator" },
+      { label: "Retirement readiness check", href: "/how-much-do-i-need-to-retire" },
+      { label: "Debt recycling calculator", href: "/insights/wealth-creation-using-debt-recycling" },
+      { label: "What financial advice costs", href: "/how-much-does-a-financial-advisor-cost" },
+    ],
+  },
   { label: "Case studies", href: "/case-studies" },
   { label: "Insights", href: "/insights" },
+  {
+    label: "About",
+    href: "/team",
+    children: [
+      { label: "The team", href: "/team" },
+      { label: "Reviews", href: "/reviews" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
 ];
 
 // The live team roster (home + workshop pages, 2026-08-08). JC and Nathan

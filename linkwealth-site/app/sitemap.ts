@@ -19,6 +19,9 @@ const CORE: { path: string; priority: number }[] = [
   { path: "/case-studies", priority: 0.7 },
   { path: "/insights", priority: 0.7 },
   { path: "/how-much-does-a-financial-advisor-cost", priority: 0.8 },
+  { path: "/how-much-do-i-need-to-retire", priority: 0.9 },
+  { path: "/team", priority: 0.7 },
+  { path: "/reviews", priority: 0.7 },
   { path: "/contact", priority: 0.8 },
 ];
 

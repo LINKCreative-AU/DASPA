@@ -22,9 +22,15 @@ const WORKSHOPS = [
 
 const RESOURCES = [
   { label: "Home equity calculator", href: "/home-equity-estimator-calculator" },
+  { label: "Retirement readiness check", href: "/how-much-do-i-need-to-retire" },
   { label: "What financial advice costs", href: "/how-much-does-a-financial-advisor-cost" },
   { label: "Case studies", href: "/case-studies" },
   { label: "Insights", href: "/insights" },
+];
+
+const COMPANY = [
+  { label: "The team", href: "/team" },
+  { label: "Reviews", href: "/reviews" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -38,7 +44,7 @@ export function Footer() {
   return (
     <footer className="bg-ink py-16 text-white">
       <div className="container-x">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr]">
           <div>
             <Logo onDark height={22} />
             <p className="mt-5 max-w-xs text-sm text-white/70">
@@ -62,8 +68,9 @@ export function Footer() {
 
           <FooterCol title="How we help" links={SERVICES} />
           <FooterCol title="Workshops" links={WORKSHOPS} />
+          <FooterCol title="Resources" links={RESOURCES} />
           <div className="space-y-10">
-            <FooterCol title="Resources" links={RESOURCES} />
+            <FooterCol title="Company" links={COMPANY} />
             <FooterCol title="Legal" links={LEGAL} />
           </div>
         </div>

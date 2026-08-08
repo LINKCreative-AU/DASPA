@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPost, getPosts } from "@/lib/posts";
+import { getPost, getPosts, postImage } from "@/lib/posts";
 import { JsonLd, articleSchema, breadcrumbSchema } from "@/components/Schema";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CtaBand } from "@/components/CtaBand";
@@ -27,6 +27,7 @@ export async function generateMetadata({
       description: post.metaDescription ?? post.excerpt.slice(0, 155),
       url: post.urlPath,
       type: "article",
+      ...(postImage(post) ? { images: [{ url: postImage(post)! }] } : {}),
     },
   };
 }
@@ -68,7 +69,7 @@ export default async function CaseStudyPage({
 
       <article className="container-x max-w-3xl py-12 sm:py-16">
         <p className="text-xs font-semibold uppercase tracking-wider text-wealth">
-          Case study · LINK Wealth
+          Case study · LINK Wealth · Reviewed by Richard Leal (AR 327265)
         </p>
         <h1 className="mt-3 font-display text-3xl font-normal leading-[1.1] tracking-tight text-ink sm:text-4xl">
           {post.title}

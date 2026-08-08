@@ -447,7 +447,7 @@ export default function Page() {
       <CtaBand
         heading="Let’s make your money work harder for you."
         intro="Stop renting. Start owning. Get the free SMSF guide - reach out and we’ll schedule a free, no-obligation strategy call to determine if this is right for you."
-        variant="discovery"
+        variant="guide"
         subject="SMSF Commercial Property"
         formTitle="Get the free SMSF guide"
       />

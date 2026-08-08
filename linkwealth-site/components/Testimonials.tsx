@@ -56,6 +56,38 @@ const REVIEWS: { name: string; text: string }[] = [
     name: "anuschka erasmus",
     text: "Richard and the LINK Wealth team have gone above and beyond helping my family get set up here, in Australia, after moving from South Africa. I would recommend to anyone looking for sound financial advice.",
   },
+  {
+    name: "Travis Spiteri",
+    text: "Richard was great to talk too, he is extremely professional, friendly and provided me with great options.",
+  },
+  {
+    name: "hadi irwan",
+    text: "Thank you Richard for an amazing discussion and pointers towards estate planning, super management and financial strategy. It has given us a lot to think about and we'll certainly be recommending LINK Wealth to our friends and family.",
+  },
+  {
+    name: "mjd 21",
+    text: "Richard has been an absolute game changer for us. He's not only brilliant at what he does, but he genuinely cares about our family's goals and future. Every meeting leaves us feeling clearer, more empowered, and excited about the path ahead. And Britt deserves her own shout-out! She is always so welcoming, patient, and on top of everything - and her coffees are second to none. Couldn't recommend the LINK Wealth Advisors team more highly, they've been exceptional!!",
+  },
+  {
+    name: "Rachel McMillan",
+    text: "We've had another great experience with the team at LINK. My husband and I are looking at doing some strategic financial planning regarding super, insurance and investments. I contacted our accountant Chris to discuss and he put us in touch with Richard to get a second opinion. We were really happy with how efficient Richard was in responding to our queries and all the advice on our future plans.",
+  },
+  {
+    name: "Emma Warren",
+    text: "I recently had the pleasure of using Link Wealth's services for a full insurance review, and I couldn't be more impressed. Richard took the time to go through everything in detail - life insurance, income protection, and all the fine print - making sure everything was up to date and aligned with my current needs. I now feel incredibly secure and confident in my financial protection. That kind of peace of mind is priceless.",
+  },
+  {
+    name: "Nathan P",
+    text: "We recently sat down with Richard to review our personal insurance and couldn't be happier with the experience. He was professional, approachable, and explained everything in a way that made sense - even the more complex parts of our cover. We left feeling confident, informed, and very well looked after.",
+  },
+  {
+    name: "Su Yee Nandar",
+    text: "We recently had Richard and PJ review our existing insurance policies, and the experience was nothing short of excellent. Richard's depth of knowledge in risk and wealth planning, PJ's experience and sense of humour, and Joy's attention to detail and warm approach made for a truly well-rounded team.",
+  },
+  {
+    name: "Jacob Keenan",
+    text: "Decided it was time to review my insurances to make sure I was protected. Richard was professional and knowledgeable and would highly recommend you give him a call!",
+  },
 ];
 
 export function Testimonials({ heading = "Hear from our happy clients." }: { heading?: string }) {

@@ -81,6 +81,7 @@ export default function Page() {
         },
       ]}
       relatedLinks={[
+        { label: "Selling your business (LINK exits practice)", href: "https://link.com.au/selling-your-business" },
         { label: "SMSF commercial property", href: "/smsf" },
         { label: "Business owner wealth extraction", href: "/business-owner-wealth-extraction-workshop-link-wealth" },
         { label: "Tailored wealth strategies case study", href: "/case-studies/tailored-wealth-strategies-why-personalised-advice-matters-more-than-ever" },

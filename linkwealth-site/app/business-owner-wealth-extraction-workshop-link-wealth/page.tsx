@@ -205,6 +205,31 @@ export default function Page() {
 
       <TeamGrid heading="Your trusted team" members={TEAM.filter((t) => t.name !== "JC Crusit")} />
 
+      {/* Cross-division handoff: LINK's exits practice routes sale proceeds here */}
+      <section className="container-x pb-4">
+        <div className="rounded-3xl border border-ink/10 bg-neutral-50 p-8 sm:p-10">
+          <p className="eyebrow mb-4">
+            <span className="text-wealth">Selling, not just extracting?</span>
+          </p>
+          <h2 className="max-w-2xl font-display text-2xl font-normal tracking-tight text-ink sm:text-3xl">
+            If an exit is on the cards, start with the group&apos;s exits practice.
+          </h2>
+          <p className="mt-3 max-w-2xl text-ink/65">
+            LINK&apos;s selling-your-business team handles the sale side - valuation thinking,
+            CGT concessions, deal structure - and hands the proceeds strategy to us. Same
+            group, one picture of your finances.
+          </p>
+          <a
+            href="https://link.com.au/selling-your-business"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-ghost mt-6"
+          >
+            Selling your business, at LINK
+          </a>
+        </div>
+      </section>
+
       {/* FAQs (visible text and schema kept in sync) */}
       <FAQ faqs={FAQS} />
 

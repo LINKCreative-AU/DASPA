@@ -11,7 +11,7 @@ import { CtaBand } from "@/components/CtaBand";
 // is the site's best organic performer).
 
 // The debt recycling post has its own static route (pillar + calculator).
-const STATIC_ROUTES = ["wealth-creation-using-debt-recycling"];
+const STATIC_ROUTES = ["wealth-creation-using-debt-recycling", "buying-commercial-property"];
 
 export function generateStaticParams() {
   return getPosts("insights")
@@ -36,6 +36,7 @@ export async function generateMetadata({
       description: post.metaDescription ?? post.excerpt.slice(0, 155),
       url: post.urlPath,
       type: "article",
+      ...(postImage(post) ? { images: [{ url: postImage(post)! }] } : {}),
     },
   };
 }
@@ -86,7 +87,7 @@ export default async function PostPage({
             month: "long",
             year: "numeric",
           })}{" "}
-          · LINK Wealth
+          · LINK Wealth · Reviewed by Richard Leal (AR 327265)
         </p>
         <h1 className="mt-3 font-display text-3xl font-normal leading-[1.1] tracking-tight text-ink sm:text-4xl">
           {post.title}

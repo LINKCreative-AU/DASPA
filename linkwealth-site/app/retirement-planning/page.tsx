@@ -64,7 +64,8 @@ export default function Page() {
         {
           heading: "Prefer to test the waters first?",
           paragraphs: [
-            "Our 90-minute Retirement Funding Workshop ($660, Value Guarantee included) models your current and projected position one-on-one with a licensed adviser, so you can see exactly how you are tracking before committing to full advice.",
+            "Start with the free retirement readiness check: your age, balance and lifestyle target against the ASFA benchmarks, with the gap (and what closing it takes) in today's dollars.",
+            "Then our 90-minute Retirement Funding Workshop ($660, Value Guarantee included) models your current and projected position one-on-one with a licensed adviser, so you can see exactly how you are tracking before committing to full advice.",
           ],
         },
       ]}
@@ -87,6 +88,7 @@ export default function Page() {
         },
       ]}
       relatedLinks={[
+        { label: "Free retirement readiness check", href: "/how-much-do-i-need-to-retire" },
         { label: "Retirement Funding Workshop", href: "/retirement-funding-workshop-link-wealth" },
         { label: "SMSF commercial property", href: "/smsf" },
         { label: "Family wealth management", href: "/family-wealth-management" },

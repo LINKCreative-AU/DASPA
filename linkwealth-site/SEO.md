@@ -137,6 +137,41 @@ Neither site builds pages on the other's side of that line.
 - Brand per the kit register: accent #1f9e84, mint #95e5cb on dark, dark
   #26494d. Leads default to the Wealth #leads channel address.
 
+## Part 3.5 - Second competitor pass (8 Aug, PM) and what it built
+
+The retirement field is the biggest soft territory on the map, far larger
+than the first pass sized it: "retirement calculator (australia)" 6,400/mo
+combined at KD 7-11 (18k TP), "how much super should i have (+at 40)"
+11,400/mo combined at KD 3-12, "how much (super) do i need to retire"
+2,280/mo at KD 7-9, "preservation age" 3,179/mo at KD 0, "asfa retirement
+standard" 2,386 at KD 22, "transition to retirement" 2,264 at KD 6. And the
+map-pack leader (mywealthsolutions.com.au) earns its whole ~800-visit organic
+footprint from its brand name, one financial-plan guide, a fees page and
+adviser profile pages - validating the cost page and the team page.
+
+Built from the pass (all live in this repo):
+- **/how-much-do-i-need-to-retire** - answer-first guide (ASFA budgets +
+  rule of 25, hedged and sourced), super-balance-by-age table, preservation
+  age, and the **retirement readiness check** (projected balance vs target,
+  gap, and the extra-per-year to close it). Article + WebApplication +
+  FAQPage schema. Feeds /retirement-planning and the workshop.
+- **SMSF guide delivery wired**: the /smsf form now emails the SMSF Property
+  Purchase Guide (self-hosted at /downloads/) and shows a direct download -
+  the page's promise finally has a pipe. Guide-variant form also closes the
+  buying-commercial-property post.
+- **/insights/buying-commercial-property** upgraded in place: original post
+  verbatim + the rules section (business real property, 5% in-house asset
+  rule, NALI/NALE, LRBA limits) answering the SMSF SERP's PAA gaps.
+- **/team** (Richard Leal Person schema, AR 327265, FSG link) and
+  **/reviews** (all 20 verbatim Google reviews + the review-ask CTA).
+- **Chip qualifying form** (reason + timeframe) across all variants.
+- **Cross-division handoffs**: business-owner workshop and HNW page link the
+  group's /selling-your-business exits practice; the equity calculator hands
+  lending to LINK Advance.
+- Fidelity fixes: the "Innovative solutions. Unmatched service. Delivered as
+  promised." tagline restored, all 20 reviews carried, adviser card on the
+  discovery landers, per-post OG images, "Reviewed by Richard Leal" bylines.
+
 ## Part 4 - What to do next (team actions)
 
 **Launch week**
