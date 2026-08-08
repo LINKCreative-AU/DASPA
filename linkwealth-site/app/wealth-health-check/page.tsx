@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "The LINK Wealth Check - score your finances out of 10",
     description:
-      "Eight taps, a score out of 10, and the flags holding it back. No email wall.",
+      "Eight quick questions, a score out of 10, and the flags holding it back. No email wall.",
     url: PATH,
   },
 };
@@ -81,7 +81,7 @@ export default function Page() {
             eyebrow="Free tool · 2 minutes · no email needed"
             title="The Wealth Check: score your finances out of 10."
             mark="out of 10."
-            intro="Eight taps across the things that actually decide financial health - buffer, debt, super, investments, protection, estate and the plan itself. Your score and the flags holding it back show up immediately, on screen, no email wall."
+            intro="Eight quick questions across the things that actually decide financial health - buffer, debt, super, investments, protection, estate and the plan itself. Some are one tap, some are tick-everything-that's-true. Your score and the flags holding it back show up immediately, on screen, no email wall."
             accent
           />
         </div>

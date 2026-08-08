@@ -2,20 +2,27 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-// The LINK Wealth Check - rebuilt on the HQ Performance Check's interaction
-// pattern (James, 8 Aug: "concept's good, improve the layout"): an intro
-// band, ONE question per screen with auto-advance and keyboard input, the
-// shape drawing itself live alongside, then a results screen with the score
-// ring, the flags as first-moves cards, the breakdown bars and a snapshot
-// lead form. General-advice safe throughout: observations, never personal
-// recommendations. No email wall - the score shows before any form.
+// The LINK Wealth Check - the HQ Performance Check's interaction pattern
+// (intro band, one question per screen, live radar, score-ring results).
+// Question set reworked 8 Aug per James: the old single-pick options forced
+// one answer where several were true at once ("home loan with offset" AND
+// "credit cards"). Now the areas that are really a set of pieces are
+// tick-all-that-apply and scored from the combination (with penalties);
+// single-pick survives only where the scale is naturally exclusive (months
+// of buffer, how well you know a number). Each question carries its stage
+// so the eight screens read as one conversation. General-advice safe:
+// observations, never personal recommendations. No email wall.
 
-type Option = { label: string; score: number; tip?: string };
+type Option = { label: string; points: number; none?: boolean; tip?: string };
 type Question = {
   key: string;
+  stage: string; // the narrative spine shown in the eyebrow
   area: string; // short axis label
+  type: "single" | "multi";
   label: string;
   hint?: string;
+  base?: number; // multi: starting score before ticked points
+  lowTip?: string; // multi: the flag-card tip when the area scores low
   options: Option[];
   tool?: { label: string; href: string };
 };
@@ -23,93 +30,129 @@ type Question = {
 const QUESTIONS: Question[] = [
   {
     key: "networth",
+    stage: "Where you stand",
     area: "Net worth",
-    label: "Do you know your household net worth?",
-    hint: "Everything you own minus everything you owe.",
+    type: "single",
+    label: "How well do you know your household net worth?",
+    hint: "Everything you own minus everything you owe - the scoreboard behind every other answer here.",
     options: [
-      { label: "No idea", score: 0, tip: "Start with the number: net worth = assets minus debts. You can't steer what you don't measure." },
-      { label: "Roughly", score: 0.4, tip: "Rough is a start - writing it down once a year turns a guess into a trend." },
-      { label: "Yes, I track it", score: 0.8 },
-      { label: "Track it, and it's growing", score: 1 },
+      { label: "Honestly, no idea", points: 0, tip: "Start with the number: net worth = assets minus debts. You can't steer what you don't measure." },
+      { label: "A rough figure in my head", points: 0.4, tip: "Rough is a start - writing it down once a year turns a guess into a trend." },
+      { label: "I know the number", points: 0.7, tip: "Knowing it is most of the battle - tracking it yearly shows whether the strategy is actually working." },
+      { label: "I track it, and it's trending up", points: 1 },
     ],
   },
   {
     key: "buffer",
+    stage: "Where you stand",
     area: "Buffer",
-    label: "If your income stopped, how long could you cover the essentials?",
+    type: "single",
+    label: "If your income stopped tomorrow, how long could you cover the essentials?",
+    hint: "Cash you could reach within days - savings, offset, redraw.",
     options: [
-      { label: "Under a month", score: 0, tip: "A cash buffer is the foundation everything else stands on - most plans start by building 3 months of essentials." },
-      { label: "1-3 months", score: 0.4, tip: "A solid start - the common target is 3-6 months of essential spending." },
-      { label: "3-6 months", score: 0.8 },
-      { label: "6+ months", score: 1 },
+      { label: "Less than a month", points: 0, tip: "A cash buffer is the foundation everything else stands on - most plans start by building 3 months of essentials." },
+      { label: "One to three months", points: 0.4, tip: "A solid start - the common target is 3-6 months of essential spending." },
+      { label: "Three to six months", points: 0.8 },
+      { label: "Six months or more", points: 1 },
     ],
   },
   {
     key: "debt",
+    stage: "Making money work",
     area: "Debt",
-    label: "What does your debt look like?",
+    type: "multi",
+    label: "Which of these describe your debts right now?",
+    hint: "Tick everything that applies.",
+    base: 0.5,
+    lowTip:
+      "High-interest debt goes first - it usually beats any investment return. Then make the home loan work harder: offsets, splits and debt recycling turn the same repayments into progress.",
     options: [
-      { label: "Mostly credit cards / personal loans", score: 0, tip: "High-interest personal debt usually beats every investment return - clearing it is the highest-yield move available." },
-      { label: "Home loan, standard setup", score: 0.5, tip: "A standard loan does the job; offset accounts, splits and debt recycling can make the same repayments work harder." },
-      { label: "Home loan with offset / splits working for me", score: 0.9 },
-      { label: "No debt (or fully deductible investment debt)", score: 1 },
+      { label: "Credit cards or personal loans carrying a balance", points: -0.5 },
+      { label: "A home loan", points: 0 },
+      { label: "An offset or split structure I actively use", points: 0.3 },
+      { label: "Deductible investment debt (property, shares)", points: 0.2 },
+      { label: "No debts at all", points: 1, none: true },
     ],
     tool: { label: "Debt recycling calculator", href: "/insights/wealth-creation-using-debt-recycling#calculator" },
   },
   {
     key: "super",
+    stage: "Making money work",
     area: "Super",
-    label: "How engaged are you with your super?",
+    type: "multi",
+    label: "Super - which of these are true for you?",
+    hint: "Tick everything that applies. For most people it's the second-biggest asset they own.",
+    lowTip:
+      "Super is most people's second-biggest asset, run on default settings. Knowing the balance, choosing the investment option deliberately and adding even a little extra are the three highest-leverage moves.",
     options: [
-      { label: "Couldn't tell you the balance", score: 0, tip: "Super is most people's second-biggest asset - knowing the balance and investment option is step one." },
-      { label: "Know the balance, default settings", score: 0.4, tip: "Default settings suit the average member; your age and goals may point somewhere different." },
-      { label: "Chosen my investment options deliberately", score: 0.8 },
-      { label: "Active strategy (extra contributions / SMSF)", score: 1 },
+      { label: "I know my current balance", points: 0.25 },
+      { label: "I've deliberately chosen my investment option", points: 0.3 },
+      { label: "I contribute more than the employer minimum", points: 0.25 },
+      { label: "I run (or am working toward) an SMSF strategy", points: 0.2 },
+      { label: "None of these - super runs itself", points: 0, none: true },
     ],
     tool: { label: "Retirement readiness check", href: "/how-much-do-i-need-to-retire#check" },
   },
   {
     key: "invest",
+    stage: "Making money work",
     area: "Investing",
-    label: "Are you investing outside super?",
+    type: "multi",
+    label: "Outside super, where does investing sit?",
+    hint: "Tick everything that applies. This is the wealth that funds life before preservation age.",
+    lowTip:
+      "Wealth outside super is what funds life before preservation age - and a regular, automated plan usually beats ad-hoc buying. Even a small monthly amount compounds.",
     options: [
-      { label: "Not yet", score: 0, tip: "Wealth outside super is what funds life before preservation age - even a small regular plan compounds." },
-      { label: "Some savings / a few shares", score: 0.4, tip: "A regular, automated plan usually beats ad-hoc buying." },
-      { label: "Regular investing plan", score: 0.8 },
-      { label: "Diversified portfolio with a strategy", score: 1 },
+      { label: "I hold investments - shares, ETFs or property", points: 0.4 },
+      { label: "I add to them regularly (automated or scheduled)", points: 0.3 },
+      { label: "There's a written strategy behind what I buy", points: 0.3 },
+      { label: "Not investing outside super yet", points: 0, none: true },
     ],
   },
   {
     key: "protect",
+    stage: "Protecting it",
     area: "Protection",
-    label: "If illness stopped you working, is your income protected?",
+    type: "multi",
+    label: "If illness or injury stopped you working, what's in place?",
+    hint: "Tick everything that applies.",
+    lowTip:
+      "Your income is the engine of every other answer here. Income protection and life cover sized to your actual debts and dependants - not the default in super - are usually the first advice conversation.",
     options: [
-      { label: "No cover", score: 0, tip: "Your income is the engine of every other answer here - income protection and life cover are usually the first advice conversation." },
-      { label: "Default cover in super, never reviewed", score: 0.3, tip: "Default cover is rarely sized to your actual debts and dependants - a review is quick and often free." },
-      { label: "Cover reviewed in the last 3 years", score: 0.8 },
-      { label: "Reviewed cover incl. income protection", score: 1 },
+      { label: "Life cover (inside super or outside it)", points: 0.3 },
+      { label: "Income protection", points: 0.4 },
+      { label: "Cover reviewed against my debts and dependants in the last 3 years", points: 0.3 },
+      { label: "No cover - or honestly not sure", points: 0, none: true },
     ],
   },
   {
     key: "estate",
+    stage: "Protecting it",
     area: "Estate",
-    label: "If something happened to you tomorrow, is the paperwork ready?",
+    type: "multi",
+    label: "If something happened to you tomorrow, what paperwork is ready?",
+    hint: "Tick everything that's current.",
+    lowTip:
+      "Without a will, state formulas decide - and super sits outside your will entirely. A will, enduring powers of attorney and up-to-date super death-benefit nominations are the minimum kit.",
     options: [
-      { label: "No will", score: 0, tip: "Without a will, state formulas decide - a will, powers of attorney and super death-benefit nominations are the minimum kit." },
-      { label: "Will only", score: 0.5, tip: "Add enduring powers of attorney and check your super's death-benefit nomination - super sits outside your will." },
-      { label: "Will + powers of attorney", score: 0.8 },
-      { label: "Will, POAs and super nominations current", score: 1 },
+      { label: "A current will", points: 0.4 },
+      { label: "Enduring powers of attorney", points: 0.3 },
+      { label: "Super death-benefit nominations, up to date", points: 0.3 },
+      { label: "None of these yet", points: 0, none: true },
     ],
   },
   {
     key: "plan",
+    stage: "Pulling it together",
     area: "Plan",
-    label: "Do you have a written plan with actual numbers?",
+    type: "single",
+    label: "And the plan holding it all together - what does it look like?",
+    hint: "The thing that decides whether the other seven answers point in the same direction.",
     options: [
-      { label: "No plan", score: 0, tip: "A goal without a number is a wish - even one page with targets changes behaviour." },
-      { label: "Goals in my head", score: 0.4, tip: "Write them down with dollar figures and dates - that's when trade-offs get visible." },
-      { label: "Clear goals, loosely tracked", score: 0.7 },
-      { label: "Written plan, reviewed yearly", score: 1 },
+      { label: "There isn't one", points: 0, tip: "A goal without a number is a wish - even one page with targets changes behaviour." },
+      { label: "Goals, but they live in my head", points: 0.4, tip: "Write them down with dollar figures and dates - that's when trade-offs get visible." },
+      { label: "Written goals with real numbers", points: 0.7, tip: "The last step is a review rhythm - a plan looked at yearly survives contact with real life." },
+      { label: "A written plan I review at least yearly", points: 1 },
     ],
   },
 ];
@@ -121,22 +164,33 @@ const BANDS = [
   { min: 0, name: "Foundations first", blurb: "No judgement - almost everyone starts here. The flags below are in rough priority order, and the first two or three are usually fixable within a month." },
 ];
 
-type Answers = Record<string, number>;
+// selections per question key (option indices) - kept raw so Back restores
+// exactly what was ticked, and multi scores stay recomputable
+type Selections = Record<string, number[]>;
+
+function qScore(q: Question, sel: number[] | undefined): number | null {
+  if (!sel || sel.length === 0) return null;
+  if (q.type === "single") return q.options[sel[0]].points;
+  const noneIdx = sel.find((i) => q.options[i].none);
+  if (noneIdx != null) return q.options[noneIdx].points;
+  const sum = (q.base ?? 0) + sel.reduce((a, i) => a + q.options[i].points, 0);
+  return Math.max(0, Math.min(1, sum));
+}
 
 export function WealthCheck() {
   const [stage, setStage] = useState<"intro" | "q" | "results">("intro");
-  const [answers, setAnswers] = useState<Answers>({});
+  const [sel, setSel] = useState<Selections>({});
   const restart = () => {
-    setAnswers({});
+    setSel({});
     setStage("intro");
   };
   return (
     <div>
       {stage === "intro" && <Intro onStart={() => setStage("q")} />}
       {stage === "q" && (
-        <Flow answers={answers} setAnswers={setAnswers} onDone={() => setStage("results")} onExit={restart} />
+        <Flow sel={sel} setSel={setSel} onDone={() => setStage("results")} onExit={restart} />
       )}
-      {stage === "results" && <Results answers={answers} onRestart={restart} />}
+      {stage === "results" && <Results sel={sel} onRestart={restart} />}
     </div>
   );
 }
@@ -150,9 +204,10 @@ function Intro({ onStart }: { onStart: () => void }) {
       </h2>
       <p className="mt-5 text-xl font-semibold">2 minutes. 8 areas. One real score.</p>
       <p className="mx-auto mt-3 max-w-2xl text-lg text-white/80">
-        Answer one quick question for each of the eight things that actually decide financial
-        health - buffer, debt, super, investing, protection, estate, the plan and the number
-        behind them all. Your score and what&apos;s holding it back show up straight away.
+        One screen at a time: where you stand, how your money is working, what&apos;s protecting
+        it, and the plan holding it together. Some questions are a single tap, some are
+        tick-everything-that&apos;s-true. Your score and what&apos;s holding it back show up
+        straight away.
       </p>
       <div className="mt-8 flex justify-center">
         <button
@@ -172,45 +227,69 @@ function Intro({ onStart }: { onStart: () => void }) {
   );
 }
 
-// ---- the flow: one question per screen, auto-advance, live shape ----
+// ---- the flow: one question per screen, live shape alongside ----
 function Flow({
-  answers,
-  setAnswers,
+  sel,
+  setSel,
   onDone,
   onExit,
 }: {
-  answers: Answers;
-  setAnswers: (f: (a: Answers) => Answers) => void;
+  sel: Selections;
+  setSel: (f: (s: Selections) => Selections) => void;
   onDone: () => void;
   onExit: () => void;
 }) {
   const [qi, setQi] = useState(0);
   const [locked, setLocked] = useState(false);
   const q = QUESTIONS[qi];
-  const done = Object.keys(answers).length;
+  const done = QUESTIONS.filter((x) => (sel[x.key] ?? []).length > 0).length;
+  const picked = sel[q.key] ?? [];
 
-  const answer = useCallback(
-    (score: number) => {
+  const advance = useCallback(() => {
+    if (qi + 1 < QUESTIONS.length) setQi(qi + 1);
+    else onDone();
+  }, [qi, onDone]);
+
+  // single: pick and auto-advance after a beat
+  const pickSingle = useCallback(
+    (i: number) => {
       if (locked) return;
-      setAnswers((a) => ({ ...a, [q.key]: score }));
+      setSel((s) => ({ ...s, [q.key]: [i] }));
       setLocked(true);
       setTimeout(() => {
         setLocked(false);
-        if (qi + 1 < QUESTIONS.length) setQi(qi + 1);
-        else onDone();
+        advance();
       }, 320);
     },
-    [locked, q, qi, setAnswers, onDone]
+    [locked, q, setSel, advance]
+  );
+
+  // multi: toggle; the exclusive "none" option clears the rest (and vice versa)
+  const toggle = useCallback(
+    (i: number) => {
+      setSel((s) => {
+        const cur = s[q.key] ?? [];
+        if (cur.includes(i)) return { ...s, [q.key]: cur.filter((x) => x !== i) };
+        if (q.options[i].none) return { ...s, [q.key]: [i] };
+        return { ...s, [q.key]: [...cur.filter((x) => !q.options[x].none), i] };
+      });
+    },
+    [q, setSel]
   );
 
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
       const n = Number(e.key);
-      if (n >= 1 && n <= q.options.length) answer(q.options[n - 1].score);
+      if (n >= 1 && n <= q.options.length) {
+        if (q.type === "single") pickSingle(n - 1);
+        else toggle(n - 1);
+      } else if (e.key === "Enter" && q.type === "multi" && (sel[q.key] ?? []).length > 0) {
+        advance();
+      }
     };
     window.addEventListener("keydown", h);
     return () => window.removeEventListener("keydown", h);
-  }, [q, answer]);
+  }, [q, pickSingle, toggle, advance, sel]);
 
   const back = () => {
     if (qi > 0) setQi(qi - 1);
@@ -234,11 +313,15 @@ function Flow({
         </div>
 
         <div key={q.key} className="wc-rise flex min-h-[380px] flex-col justify-center px-8 py-12 sm:px-14">
-          <div className="flex items-center justify-between">
-            <p className="eyebrow">
-              <span className="text-wealth">{q.area}</span>
+          <div className="flex items-center justify-between gap-4">
+            <p className="eyebrow min-w-0">
+              <span className="truncate">
+                <span className="text-ink/40">{q.stage}</span>
+                <span className="mx-1.5 text-ink/25">·</span>
+                <span className="text-wealth">{q.area}</span>
+              </span>
             </p>
-            <span className="text-xs font-semibold text-ink/40">
+            <span className="shrink-0 text-xs font-semibold text-ink/40">
               {qi + 1} of {QUESTIONS.length}
             </span>
           </div>
@@ -248,23 +331,35 @@ function Flow({
           {q.hint && <p className="mt-3 max-w-xl text-base text-ink/55">{q.hint}</p>}
           <div className="mt-8 flex flex-col items-start gap-2.5">
             {q.options.map((o, oi) => {
-              const active = answers[q.key] === o.score;
+              const active = picked.includes(oi);
               return (
                 <button
                   key={o.label}
-                  onClick={() => answer(o.score)}
+                  onClick={() => (q.type === "single" ? pickSingle(oi) : toggle(oi))}
+                  aria-pressed={active}
                   className={`rounded-full border-2 px-5 py-2.5 text-left text-base font-semibold transition ${
                     active
                       ? "border-transparent bg-wealth text-white"
                       : "border-ink/15 bg-white text-ink/70 hover:border-ink"
                   }`}
                 >
-                  <span className="mr-2 text-xs opacity-50">{oi + 1}</span>
+                  <span className="mr-2 text-xs opacity-50">{q.type === "multi" ? (active ? "✓" : oi + 1) : oi + 1}</span>
                   {o.label}
                 </button>
               );
             })}
           </div>
+          {q.type === "multi" && (
+            <div className="mt-7">
+              <button
+                onClick={advance}
+                disabled={picked.length === 0}
+                className="btn btn-primary disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                {picked.length === 0 ? "Tick what applies" : qi + 1 === QUESTIONS.length ? "See my score" : "Next"}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between border-t border-ink/10 px-8 py-4">
@@ -272,7 +367,8 @@ function Flow({
             ← Back
           </button>
           <span className="text-xs font-semibold text-ink/35">
-            {done}/{QUESTIONS.length} answered · keys 1-{q.options.length} work
+            {done}/{QUESTIONS.length} answered ·{" "}
+            {q.type === "multi" ? `keys 1-${q.options.length} tick, Enter next` : `keys 1-${q.options.length} work`}
           </span>
         </div>
       </div>
@@ -282,7 +378,7 @@ function Flow({
         <p className="eyebrow">
           <span>Your shape, live</span>
         </p>
-        <Radar answers={answers} size={250} />
+        <Radar sel={sel} size={250} />
         <p className="mt-2 text-center text-xs text-ink/45">
           Each answer pulls the shape outward. The dashed ring is the strong mark.
         </p>
@@ -292,14 +388,14 @@ function Flow({
 }
 
 // ---- the radar, 8 axes ----
-function Radar({ answers, size = 280 }: { answers: Answers; size?: number }) {
+function Radar({ sel, size = 280 }: { sel: Selections; size?: number }) {
   const c = size / 2;
   const R = c - 34;
   const pt = (i: number, r: number) => {
     const a = (Math.PI * 2 * i) / QUESTIONS.length - Math.PI / 2;
     return [c + r * Math.cos(a), c + r * Math.sin(a)] as const;
   };
-  const val = (q: Question) => (answers[q.key] != null ? answers[q.key] * 10 : 0);
+  const val = (q: Question) => (qScore(q, sel[q.key]) ?? 0) * 10;
   const poly = (f: (q: Question) => number) =>
     QUESTIONS.map((q, i) => pt(i, (Math.max(0.4, f(q)) / 10) * R).join(",")).join(" ");
 
@@ -329,7 +425,7 @@ function Radar({ answers, size = 280 }: { answers: Answers; size?: number }) {
         style={{ transition: "all .4s" }}
       />
       {QUESTIONS.map((q, i) => {
-        if (answers[q.key] == null) return null;
+        if (qScore(q, sel[q.key]) == null) return null;
         const [x, y] = pt(i, (Math.max(0.4, val(q)) / 10) * R);
         return <circle key={q.key} cx={x} cy={y} r="4.5" fill="#1f9e84" style={{ transition: "all .4s" }} />;
       })}
@@ -346,12 +442,37 @@ function Radar({ answers, size = 280 }: { answers: Answers; size?: number }) {
 }
 
 // ---- results ----
-function Results({ answers, onRestart }: { answers: Answers; onRestart: () => void }) {
-  const score = (Object.values(answers).reduce((a, b) => a + b, 0) / QUESTIONS.length) * 10;
+type Flag = { q: Question; score: number; sub: string; tip: string };
+
+function buildFlags(sel: Selections): Flag[] {
+  const flags: Flag[] = [];
+  for (const q of QUESTIONS) {
+    const s = qScore(q, sel[q.key]);
+    if (s == null || s >= 0.8) continue;
+    if (q.type === "single") {
+      const opt = q.options[(sel[q.key] ?? [])[0]];
+      flags.push({ q, score: s, sub: opt.label, tip: opt.tip ?? "" });
+    } else {
+      const picked = sel[q.key] ?? [];
+      const noneOpt = picked.map((i) => q.options[i]).find((o) => o.none);
+      const scorable = q.options.filter((o) => !o.none && o.points > 0).length;
+      const inPlace = picked.filter((i) => !q.options[i].none && q.options[i].points > 0).length;
+      flags.push({
+        q,
+        score: s,
+        sub: noneOpt ? noneOpt.label : `${inPlace} of ${scorable} in place`,
+        tip: q.lowTip ?? "",
+      });
+    }
+  }
+  return flags.sort((a, z) => a.score - z.score);
+}
+
+function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void }) {
+  const score =
+    (QUESTIONS.reduce((a, q) => a + (qScore(q, sel[q.key]) ?? 0), 0) / QUESTIONS.length) * 10;
   const band = BANDS.find((b) => score >= b.min)!;
-  const flags = QUESTIONS.map((q) => ({ q, opt: q.options.find((o) => o.score === answers[q.key]) }))
-    .filter((f): f is { q: Question; opt: Option } => !!f.opt && f.opt.score < 0.8)
-    .sort((a, z) => a.opt.score - z.opt.score);
+  const flags = buildFlags(sel);
 
   return (
     <div>
@@ -370,7 +491,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
           </div>
         </div>
         <div>
-          <Radar answers={answers} size={280} />
+          <Radar sel={sel} size={280} />
           <p className="mt-1 text-center text-xs text-ink/45">
             Your shape - the dashed ring is the strong mark. The goal is to fill it on every axis.
           </p>
@@ -384,12 +505,12 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
             <span className="text-wealth">Your first moves</span>
           </p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {flags.slice(0, 6).map(({ q, opt }, i) => (
+            {flags.slice(0, 6).map(({ q, sub, tip }, i) => (
               <div key={q.key} className="flex flex-col rounded-3xl border border-ink/10 border-t-4 border-t-wealth bg-white p-5">
                 <p className="font-display text-3xl font-semibold text-ink/20">{i + 1}</p>
                 <p className="mt-1 text-lg font-bold text-ink">{q.area}</p>
-                <p className="text-sm font-semibold text-ink/45">{opt.label}</p>
-                <p className="mt-3 text-sm leading-snug text-ink/70">{opt.tip}</p>
+                <p className="text-sm font-semibold text-ink/45">{sub}</p>
+                <p className="mt-3 text-sm leading-snug text-ink/70">{tip}</p>
                 {q.tool && (
                   <a href={q.tool.href} className="mt-auto pt-4 text-sm font-semibold text-wealth underline decoration-wealth/30 underline-offset-2 hover:decoration-wealth">
                     {q.tool.label} →
@@ -408,7 +529,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
         </p>
         <div className="space-y-4">
           {QUESTIONS.map((q) => {
-            const v = (answers[q.key] ?? 0) * 10;
+            const v = (qScore(q, sel[q.key]) ?? 0) * 10;
             return (
               <div key={q.key} className="grid grid-cols-[6rem_1fr_2.5rem] items-center gap-3 sm:grid-cols-[8rem_1fr_3rem]">
                 <span className="truncate text-sm font-semibold text-ink">{q.area}</span>
@@ -466,15 +587,7 @@ function ScoreRing({ value }: { value: number }) {
 const score1 = (v: number) => v.toFixed(1);
 
 // ---- snapshot lead form: the score travels with the enquiry ----
-function SnapshotForm({
-  score,
-  band,
-  flags,
-}: {
-  score: number;
-  band: string;
-  flags: { q: Question; opt: Option }[];
-}) {
+function SnapshotForm({ score, band, flags }: { score: number; band: string; flags: Flag[] }) {
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "" });
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
 
@@ -490,7 +603,7 @@ function SnapshotForm({
           variant: "discovery",
           subject: "Wealth Health Check",
           message: `Wealth Check result: ${score.toFixed(1)}/10 (${band}). Flags: ${
-            flags.map((f) => `${f.q.area} - ${f.opt.label}`).join("; ") || "none"
+            flags.map((f) => `${f.q.area} - ${f.sub}`).join("; ") || "none"
           }`,
           age: "-",
           postcode: "-",
