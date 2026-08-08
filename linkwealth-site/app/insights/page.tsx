@@ -14,9 +14,9 @@ export default function Insights() {
   const posts = getPosts("insights");
   return (
     <main>
-      <section className="container-x py-14 sm:py-20">
+      <section className="container-x pb-16 pt-10 sm:pt-14">
         <span className="eyebrow text-wealth">Insights</span>
-        <h1 className="mt-6 font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+        <h1 className="mt-6 font-display text-4xl font-normal tracking-tight text-ink sm:text-5xl">
           The best from our blog<span className="text-wealth">.</span>
         </h1>
         <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">

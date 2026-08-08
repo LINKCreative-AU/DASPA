@@ -88,7 +88,7 @@ export default async function PostPage({
           })}{" "}
           · LINK Wealth
         </p>
-        <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+        <h1 className="mt-3 font-display text-3xl font-normal leading-[1.1] tracking-tight text-ink sm:text-4xl">
           {post.title}
         </h1>
         <div
@@ -97,9 +97,9 @@ export default async function PostPage({
         />
       </article>
 
-      <section className="bg-cloud py-16">
+      <section className="border-y border-ink/10 bg-neutral-50 py-16">
         <div className="container-x">
-          <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink">
+          <h2 className="font-display text-2xl font-normal tracking-tight text-ink">
             Keep reading.
           </h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">

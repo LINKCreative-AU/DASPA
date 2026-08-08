@@ -6,7 +6,7 @@ import { SITE } from "@/lib/site";
 // Real Google reviews, copied verbatim from the live site's review widget on
 // 2026-08-08 - Wealth clients only. (The old widget mixed in LINK Advisors'
 // accounting reviews, which belong to a different Google listing; those are
-// deliberately not carried over.)
+// deliberately not carried over.) House review-card treatment.
 const REVIEWS: { name: string; text: string }[] = [
   {
     name: "Sarah Wilson",
@@ -58,47 +58,41 @@ const REVIEWS: { name: string; text: string }[] = [
   },
 ];
 
-function Stars() {
-  return (
-    <div className="flex gap-0.5 text-wealth" aria-label="5 out of 5 stars">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
-          <path d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L10 14.9l-5.3 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
-        </svg>
-      ))}
-    </div>
-  );
-}
-
 export function Testimonials({ heading = "Hear from our happy clients." }: { heading?: string }) {
   const [expanded, setExpanded] = useState(false);
   const shown = expanded ? REVIEWS : REVIEWS.slice(0, 6);
   return (
-    <section className="bg-cloud py-16 sm:py-24">
+    <section className="bg-ink py-20 text-white">
       <div className="container-x">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+        <div className="max-w-3xl">
+          <h2 className="font-display text-4xl font-normal leading-[1.02] tracking-tight sm:text-5xl">
             {heading}
           </h2>
-          <p className="text-sm font-semibold text-ink/70">
-            Google rating {SITE.reviews.rating.toFixed(1)} · based on {SITE.reviews.count} reviews
+          <p className="mt-5 text-lg text-white/70">
+            {SITE.reviews.count} Google reviews at {SITE.reviews.rating.toFixed(1)} stars. A few
+            recent ones:
           </p>
         </div>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((r) => (
-            <figure key={r.name} className="flex flex-col gap-3 rounded-xl2 border border-line bg-white p-6">
-              <Stars />
-              <blockquote className="text-[0.95rem] leading-relaxed text-ink/75">
-                {r.text}
+            <figure key={r.name} className="rounded-3xl border border-white/10 bg-white/5 p-7">
+              <p aria-hidden className="text-wealth-bright">
+                ★★★★★
+              </p>
+              <blockquote className="mt-3 text-sm leading-relaxed text-white/75">
+                &ldquo;{r.text}&rdquo;
               </blockquote>
-              <figcaption className="mt-auto pt-2 text-sm font-bold text-ink">{r.name}</figcaption>
+              <figcaption className="mt-4 text-sm font-semibold text-white/90">
+                {r.name}
+                <span className="ml-2 font-normal text-white/40">Google review</span>
+              </figcaption>
             </figure>
           ))}
         </div>
         {!expanded && (
           <button
             onClick={() => setExpanded(true)}
-            className="btn btn-ghost mx-auto mt-8 block"
+            className="btn mt-8 border border-white/25 text-white hover:border-white"
           >
             Show more reviews
           </button>

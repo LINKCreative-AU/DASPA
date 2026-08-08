@@ -71,10 +71,10 @@ export default function Page() {
       />
 
       {/* Hero - verbatim intro */}
-      <section className="container-x grid items-start gap-12 py-14 sm:py-20 lg:grid-cols-2">
+      <section className="container-x grid items-start gap-12 pb-16 pt-10 sm:pt-14 lg:grid-cols-2">
         <div>
           <span className="eyebrow text-wealth">Property investment</span>
-          <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-6 font-display text-4xl font-normal leading-[1.02] tracking-tight text-ink sm:text-5xl">
             Property Investment Advice to <span className="marker">grow and protect your wealth.</span>
           </h1>
           <div className="mt-6 space-y-4 text-lg text-ink/70">
@@ -108,9 +108,9 @@ export default function Page() {
       </section>
 
       {/* The essentials - the four promised topics, now with real content */}
-      <section className="bg-cloud py-16 sm:py-24">
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-4xl">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
             The Essentials of Property Investment
           </h2>
 
@@ -201,18 +201,21 @@ export default function Page() {
       <Testimonials />
 
       {/* FAQs (visible text and schema kept in sync) */}
-      <section className="py-16 sm:py-24">
+      <section className="py-20">
         <div className="container-x max-w-4xl">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
             Property investment advice FAQs
           </h2>
-          <div className="mt-8 space-y-3">
+          <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {FAQS.map((f) => (
-              <details key={f.q} className="group rounded-xl2 border border-line bg-white p-6">
-                <summary className="cursor-pointer list-none font-display text-lg font-bold text-ink marker:content-none">
+              <details key={f.q} className="group py-5">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-display text-base font-bold tracking-tight text-ink [&::-webkit-details-marker]:hidden">
                   {f.q}
+                  <span aria-hidden className="text-wealth transition group-open:rotate-45">
+                    +
+                  </span>
                 </summary>
-                <p className="mt-3 text-ink/70">{f.a}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/75">{f.a}</p>
               </details>
             ))}
           </div>

@@ -87,7 +87,7 @@ export default function Page() {
         <p className="text-xs font-semibold uppercase tracking-wider text-wealth">
           Guide · updated 8 August 2026 · LINK Wealth
         </p>
-        <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+        <h1 className="mt-3 font-display text-3xl font-normal leading-[1.1] tracking-tight text-ink sm:text-4xl">
           Maximise wealth through debt recycling.
         </h1>
 
@@ -106,10 +106,10 @@ export default function Page() {
       </article>
 
       {/* The calculator nobody else in the SERP has */}
-      <section id="calculator" className="bg-cloud py-16 sm:py-20">
+      <section id="calculator" className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x">
           <div className="max-w-3xl">
-            <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+            <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
               Debt recycling calculator.
             </h2>
             <p className="mt-4 text-lg text-ink/70">
@@ -124,18 +124,21 @@ export default function Page() {
       </section>
 
       {/* FAQs = the live PAA questions (visible text and schema kept in sync) */}
-      <section className="py-16 sm:py-20">
+      <section className="py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
             Debt recycling questions, answered.
           </h2>
-          <div className="mt-8 space-y-3">
+          <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {FAQS.map((f) => (
-              <details key={f.q} className="group rounded-xl2 border border-line bg-white p-6">
-                <summary className="cursor-pointer list-none font-display text-lg font-bold text-ink marker:content-none">
+              <details key={f.q} className="group py-5">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-display text-base font-bold tracking-tight text-ink [&::-webkit-details-marker]:hidden">
                   {f.q}
+                  <span aria-hidden className="text-wealth transition group-open:rotate-45">
+                    +
+                  </span>
                 </summary>
-                <p className="mt-3 text-ink/70">{f.a}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/75">{f.a}</p>
               </details>
             ))}
           </div>

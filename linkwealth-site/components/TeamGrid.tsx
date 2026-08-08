@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { SectionHead } from "./SectionHead";
 
 // "Meet your financial force." - the live team roster with the same photos
 // the old site serves (mirrored under /wp-content so URLs survive cutover).
@@ -14,18 +15,18 @@ const PHOTOS: Record<string, string> = {
 
 export function TeamGrid({
   heading = "Meet your financial force.",
+  eyebrow = "The team",
   members,
 }: {
   heading?: string;
+  eyebrow?: string;
   members: readonly { name: string; role: string }[];
 }) {
   return (
-    <section className="py-16 sm:py-24">
+    <section className="py-20">
       <div className="container-x">
-        <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-          {heading}
-        </h2>
-        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+        <SectionHead eyebrow={eyebrow} title={heading} />
+        <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {members.map((m) => (
             <div key={m.name}>
               {PHOTOS[m.name] && (
@@ -36,8 +37,10 @@ export function TeamGrid({
                   className="aspect-square w-full rounded-2xl object-cover"
                 />
               )}
-              <h3 className="mt-3 font-display text-base font-bold text-ink">{m.name}</h3>
-              <p className="text-sm text-ink/60">{m.role}</p>
+              <h3 className="mt-3 font-display text-base font-bold tracking-tight text-ink">
+                {m.name}
+              </h3>
+              <p className="text-sm text-ink/55">{m.role}</p>
             </div>
           ))}
         </div>

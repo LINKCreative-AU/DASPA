@@ -65,10 +65,10 @@ export default function Page() {
         ]}
       />
 
-      <section className="container-x py-14 sm:py-20">
+      <section className="container-x pb-16 pt-10 sm:pt-14">
         <div className="max-w-3xl">
           <span className="eyebrow text-wealth">Free tool</span>
-          <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-6 font-display text-4xl font-normal leading-[1.02] tracking-tight text-ink sm:text-5xl">
             Home Equity <span className="marker">Estimator</span>
           </h1>
           {/* Answer-first: the formula in the first paragraph, for featured
@@ -92,7 +92,7 @@ export default function Page() {
           <Calculator />
         </div>
 
-        <p className="mt-6 max-w-3xl rounded-xl2 border border-line bg-cloud p-5 text-sm text-ink/60">
+        <p className="mt-6 max-w-3xl rounded-3xl border border-ink/10 bg-neutral-50 p-5 text-sm text-ink/60">
           <strong className="text-ink/80">Important:</strong> This calculator provides general
           information only and does not take into account your objectives, financial situation
           or needs. Results are estimates and may differ from actual outcomes. Consider
@@ -102,9 +102,9 @@ export default function Page() {
       </section>
 
       {/* What to do with the number - internal links to the money pages */}
-      <section className="bg-cloud py-16 sm:py-24">
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-4xl">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
             Know your equity? Here’s what it can do.
           </h2>
           <p className="mt-5 text-lg text-ink/70">
@@ -120,13 +120,13 @@ export default function Page() {
             <li>See if you’re on track and explore the steps to unlock your property wealth.</li>
           </ul>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            <a href="/home-equity-long-term-wealth-strategy" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth">
+            <a href="/home-equity-long-term-wealth-strategy" className="rounded-3xl border border-ink/10 bg-white p-5 font-semibold text-ink transition hover:border-wealth">
               Equity Strategy Workshop →
             </a>
-            <a href="/insights/wealth-creation-using-debt-recycling" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth">
+            <a href="/insights/wealth-creation-using-debt-recycling" className="rounded-3xl border border-ink/10 bg-white p-5 font-semibold text-ink transition hover:border-wealth">
               Debt recycling explained →
             </a>
-            <a href="/property-investment-advice" className="rounded-xl2 border border-line bg-white p-5 font-semibold text-ink transition hover:border-wealth">
+            <a href="/property-investment-advice" className="rounded-3xl border border-ink/10 bg-white p-5 font-semibold text-ink transition hover:border-wealth">
               Property investment advice →
             </a>
           </div>
@@ -134,18 +134,21 @@ export default function Page() {
       </section>
 
       {/* FAQs (visible text and schema kept in sync) */}
-      <section className="py-16 sm:py-24">
+      <section className="py-20">
         <div className="container-x max-w-4xl">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
             Home equity questions, answered.
           </h2>
-          <div className="mt-8 space-y-3">
+          <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {FAQS.map((f) => (
-              <details key={f.q} className="group rounded-xl2 border border-line bg-white p-6">
-                <summary className="cursor-pointer list-none font-display text-lg font-bold text-ink marker:content-none">
+              <details key={f.q} className="group py-5">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-display text-base font-bold tracking-tight text-ink [&::-webkit-details-marker]:hidden">
                   {f.q}
+                  <span aria-hidden className="text-wealth transition group-open:rotate-45">
+                    +
+                  </span>
                 </summary>
-                <p className="mt-3 text-ink/70">{f.a}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/75">{f.a}</p>
               </details>
             ))}
           </div>

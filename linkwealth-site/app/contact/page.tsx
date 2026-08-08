@@ -22,10 +22,10 @@ export default function Contact() {
           { name: "Contact", path: "/contact" },
         ])}
       />
-      <section className="container-x grid items-start gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1.2fr]">
+      <section className="container-x grid items-start gap-12 pb-16 pt-10 sm:pt-14 lg:grid-cols-[1fr_1.2fr]">
         <div>
           <span className="eyebrow text-wealth">Contact</span>
-          <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-6 font-display text-4xl font-normal leading-[1.02] tracking-tight text-ink sm:text-5xl">
             Your path to financial freedom <span className="marker">is waiting.</span>
           </h1>
           <p className="mt-6 text-lg text-ink/70">

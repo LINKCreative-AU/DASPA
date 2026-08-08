@@ -1,15 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { JsonLd, breadcrumbSchema, faqSchema, workshopSchema } from "@/components/Schema";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { PageHero, Section, FeatureGrid, CheckList, FAQ } from "@/components/ServicePage";
 import { Testimonials } from "@/components/Testimonials";
 import { CtaBand } from "@/components/CtaBand";
 
 // The LINK Equity Strategy Workshop. Body copy carried verbatim from the
 // live page. SEO targets the "using equity to buy investment property" /
-// "how to use home equity" cluster (~420/mo combined) - the old title
-// ("Use your home's equity to build wealth.") is kept as the on-page H1
-// and the title tag now leads with the searched phrase.
+// "how to use home equity" cluster (~420/mo combined). V1.5 bones.
 
 const PATH = "/home-equity-long-term-wealth-strategy";
 const DESC =
@@ -97,97 +95,76 @@ export default function Page() {
           ]),
         ]}
       />
-      <Breadcrumbs
+
+      {/* Hero - verbatim copy */}
+      <PageHero
         crumbs={[
           { name: "Home", path: "/" },
           { name: "Equity Strategy Workshop", path: PATH },
         ]}
-      />
-
-      {/* Hero - verbatim */}
-      <section className="container-x max-w-4xl py-14 sm:py-20">
-        <span className="eyebrow text-wealth">Long term wealth strategy</span>
-        <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-          Turn Your Home Equity into a <span className="marker">Long-Term Wealth Strategy</span>
-        </h1>
-        <p className="mt-6 text-lg text-ink/70">
-          Discover how to make your property and cash work harder — whether through shares,
-          investment property, or a blended debt-recycling approach.
-        </p>
-        <div className="mt-6 rounded-xl2 border border-line bg-cloud p-6">
+        eyebrow="Long term wealth strategy"
+        title="Turn Your Home Equity into a Long-Term Wealth Strategy."
+        mark="Long-Term Wealth Strategy."
+        intro="Discover how to make your property and cash work harder — whether through shares, investment property, or a blended debt-recycling approach."
+        ctaLabel="Enquire Now to Secure Your $660 Workshop"
+        ctaHref="#contact"
+        showStars={false}
+      >
+        <div className="mt-6 max-w-xl">
           <p className="font-semibold text-ink">It starts with a simple conversation</p>
-          <ul className="mt-3 space-y-2 text-ink/75">
-            <li className="flex gap-3">
-              <Check />
-              Talk with a licensed financial adviser about how to make the most of your home
-              equity
-            </li>
-            <li className="flex gap-3">
-              <Check />
-              See if you’re on track and explore the steps to unlock your property wealth
-            </li>
-          </ul>
+          <CheckList
+            items={[
+              "Talk with a licensed financial adviser about how to make the most of your home equity",
+              "See if you’re on track and explore the steps to unlock your property wealth",
+            ]}
+          />
+          <p className="mt-5 text-sm text-ink/55">
+            Backed by LINK’s Value Guarantee — if you don’t walk away with clear, actionable
+            insights, we’ll refund you in full.
+          </p>
+          <p className="mt-3 text-sm text-ink/55">
+            Not sure of your equity position? Start with our free{" "}
+            <a
+              href="/home-equity-estimator-calculator"
+              className="font-semibold text-wealth underline decoration-wealth/30 underline-offset-2 hover:decoration-wealth"
+            >
+              home equity calculator
+            </a>
+            .
+          </p>
         </div>
-        <a href="#contact" className="btn btn-wealth mt-8">
-          Enquire Now to Secure Your $660 Workshop
-        </a>
-        <p className="mt-5 text-sm text-ink/60">
-          Backed by LINK’s Value Guarantee — if you don’t walk away with clear, actionable
-          insights, we’ll refund you in full.
-        </p>
-        <p className="mt-4 text-sm text-ink/60">
-          Not sure of your equity position? Start with our free{" "}
-          <a href="/home-equity-estimator-calculator" className="font-semibold text-wealth underline decoration-wealth underline-offset-2">
-            home equity calculator
-          </a>
-          .
-        </p>
-      </section>
+      </PageHero>
 
-      {/* What is the workshop - verbatim */}
-      <section className="bg-cloud py-16 sm:py-24">
+      {/* What is the workshop / who - verbatim */}
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
               What is the LINK Equity Strategy Workshop?
             </h2>
-            <p className="mt-4 text-ink/70">
+            <p className="mt-5 text-ink/65">
               Your LINK Equity Strategy Workshop will be a 90-minute, hands-on planning session
               designed to help you understand how to make your existing equity, cash flow and
               investment opportunities work in harmony.
             </p>
-            <p className="mt-4 text-ink/70">During this session, we will:</p>
-            <ul className="mt-5 space-y-3">
-              {SESSION.map((c) => (
-                <li key={c} className="flex gap-3 text-ink/80">
-                  <Check />
-                  {c}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-6 text-ink/70">
+            <p className="mt-4 text-ink/65">During this session, we will:</p>
+            <CheckList items={SESSION} />
+            <p className="mt-6 text-ink/65">
               This is not a sales pitch — it’s a collaborative session built to give you
               clarity, structure, and confidence in your next financial steps.
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
               Who is This Workshop For?
             </h2>
-            <ul className="mt-5 space-y-3">
-              {WHO.map((c) => (
-                <li key={c} className="flex gap-3 text-ink/80">
-                  <Check />
-                  {c}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 rounded-xl2 bg-wealth-dark p-7 text-white">
-              <p className="font-display text-xl font-bold">
+            <CheckList items={WHO} />
+            <div className="mt-8 rounded-3xl bg-ink p-8 text-white">
+              <p className="font-display text-xl font-bold tracking-tight">
                 In 90 minutes, align your equity, cash flow, and investments for growth.
               </p>
-              <p className="mt-3 text-white/75">What’s stopping you from starting today?</p>
-              <a href="#contact" className="btn btn-mint mt-5">
+              <p className="mt-3 text-white/65">What’s stopping you from starting today?</p>
+              <a href="#contact" className="btn mt-6 bg-white text-ink hover:bg-neutral-100">
                 Talk to Richard to see if a workshop is right for you
               </a>
             </div>
@@ -196,109 +173,82 @@ export default function Page() {
       </section>
 
       {/* Why choose LINK - verbatim */}
-      <section className="py-16 sm:py-24">
+      <section className="py-20">
         <div className="container-x">
-          <div className="max-w-4xl">
-            <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+          <div className="max-w-3xl">
+            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
               Why Choose LINK?
             </h2>
-            <p className="mt-5 text-lg text-ink/70">
+            <p className="mt-5 text-lg text-ink/65">
               At LINK, our wealth director Richard specialises in integrated financial
               strategies that connect property, tax, investments and superannuation.
             </p>
-            <p className="mt-4 text-lg text-ink/70">
+            <p className="mt-4 text-lg text-ink/65">
               Our big-picture approach helps clients move beyond one-off transactions — giving
               them the structure and insight to make strategic, long-term decisions with
               confidence.
             </p>
             <p className="mt-6 font-semibold text-ink">You’ll leave your workshop with:</p>
-            <ul className="mt-4 space-y-3">
-              {LEAVE.map((c) => (
-                <li key={c} className="flex gap-3 text-ink/80">
-                  <Check />
-                  {c}
-                </li>
-              ))}
-            </ul>
+            <CheckList items={LEAVE} />
           </div>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {WHY.map((w) => (
-              <div key={w.title} className="border-t-2 border-wealth pt-5">
-                <h3 className="font-display text-xl font-bold text-ink">{w.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-ink/70">{w.body}</p>
-              </div>
-            ))}
-          </div>
+          <FeatureGrid items={WHY} />
         </div>
       </section>
 
       <Testimonials />
 
-      {/* Investment - verbatim */}
-      <section className="py-16 sm:py-24">
-        <div className="container-x max-w-4xl rounded-xl2 bg-ink p-10 text-white">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight">
-            Your Investment:
-          </h2>
-          <p className="mt-4 text-lg text-white/85">
-            Book your LINK Equity Strategy Workshop for <strong>$660 (inc. GST)</strong>
+      {/* Investment - verbatim, house dark panel */}
+      <section className="container-x py-20">
+        <div className="rounded-3xl bg-ink p-10 text-white sm:p-14">
+          <p className="eyebrow guide-line-inline mb-4">
+            <span className="text-white/60">Your Investment</span>
           </p>
-          <p className="mt-3 text-white/70">
+          <h2 className="max-w-2xl font-display text-3xl font-normal tracking-tight sm:text-4xl">
+            Book your LINK Equity Strategy Workshop for $660 (inc. GST).
+          </h2>
+          <p className="mt-4 max-w-xl text-white/70">
             Your workshop is backed by LINK’s 100% Value Guarantee. If you don’t walk away
             satisfied, with insights and direction we’ll refund it — no questions asked.
           </p>
-          <p className="mt-6 font-display text-xl font-bold text-wealth-bright">
+          <p className="mt-6 font-display text-lg font-bold text-white">
             Ready to Explore What’s Possible?
           </p>
-          <p className="mt-2 text-white/70">
+          <p className="mt-2 max-w-xl text-white/70">
             Take the first step toward making your equity work smarter. We’ll reach out to
             arrange your LINK Equity Strategy Workshop.
           </p>
-          <a href="#contact" className="btn btn-mint mt-6">
-            Talk to Richard to see if a workshop is right for you
-          </a>
-          <p className="mt-4 text-sm text-white/60">No obligation. No lock-in. Just clarity.</p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a href="#contact" className="btn bg-white text-ink hover:bg-neutral-100">
+              Talk to Richard to see if a workshop is right for you
+            </a>
+          </div>
+          <p className="mt-4 text-sm text-white/55">No obligation. No lock-in. Just clarity.</p>
         </div>
       </section>
 
       {/* Common questions - verbatim */}
-      <section className="bg-cloud py-16 sm:py-24">
-        <div className="container-x max-w-4xl">
-          <span className="eyebrow text-wealth">Common questions</span>
-          <h2 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-ink">
-            Wondering How It Works?
-          </h2>
-          <div className="mt-8 space-y-3">
-            {FAQS.map((f) => (
-              <details key={f.q} className="group rounded-xl2 border border-line bg-white p-6">
-                <summary className="cursor-pointer list-none font-display text-lg font-bold text-ink marker:content-none">
-                  {f.q}
-                </summary>
-                <p className="mt-3 text-ink/70">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FAQ eyebrow="Common questions" title="Wondering How It Works?" faqs={FAQS} />
 
       {/* Get advice from Richard - verbatim */}
-      <section className="py-16 sm:py-24">
-        <div className="container-x grid max-w-4xl items-center gap-8 sm:grid-cols-[auto_1fr]">
+      <section className="pb-20">
+        <div className="container-x grid max-w-3xl items-center gap-8 sm:grid-cols-[auto_1fr]">
           <img
             src="/wp-content/uploads/2026/06/Richard-Wealth-1024-x-1024-Grey-Square-768x768.jpg"
             alt="Richard Leal, Managing Director at LINK Wealth"
             className="w-40 rounded-2xl object-cover sm:w-48"
           />
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+            <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
               Get advice from Richard.
             </h2>
-            <p className="mt-2 font-semibold text-ink/60">Richard Leal · Managing Director</p>
-            <p className="mt-3 text-ink/70">
+            <p className="mt-2 text-sm font-semibold text-ink/55">
+              Richard Leal · Managing Director
+            </p>
+            <p className="mt-3 text-ink/65">
               Have a quick call with Richard to confirm the LINK Equity Workshop is right for
               you. This call is obligation free.
             </p>
-            <a href="#contact" className="btn btn-wealth mt-5">
+            <a href="#contact" className="btn btn-primary mt-5">
               Book a call
             </a>
           </div>
@@ -311,21 +261,5 @@ export default function Page() {
         formTitle="Enquire now to secure your workshop"
       />
     </main>
-  );
-}
-
-function Check() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden
-      className="mt-1 shrink-0 text-wealth"
-    >
-      <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
-      <path d="m6 10 2.6 2.6L14 7.4" stroke="currentColor" strokeWidth="1.8" />
-    </svg>
   );
 }

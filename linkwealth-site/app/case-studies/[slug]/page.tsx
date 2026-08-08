@@ -70,7 +70,7 @@ export default async function CaseStudyPage({
         <p className="text-xs font-semibold uppercase tracking-wider text-wealth">
           Case study · LINK Wealth
         </p>
-        <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+        <h1 className="mt-3 font-display text-3xl font-normal leading-[1.1] tracking-tight text-ink sm:text-4xl">
           {post.title}
         </h1>
         <div className="prose-post mt-8" dangerouslySetInnerHTML={{ __html: post.html }} />

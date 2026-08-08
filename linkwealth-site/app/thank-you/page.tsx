@@ -14,7 +14,7 @@ export default function ThankYou() {
   return (
     <main className="container-x flex min-h-[50vh] max-w-2xl flex-col justify-center py-24">
       <span className="eyebrow mb-5 text-wealth">Message received</span>
-      <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink">
+      <h1 className="font-display text-4xl font-normal tracking-tight text-ink">
         Thank you for getting in touch.
       </h1>
       <p className="mt-5 text-lg text-ink/65">

@@ -14,9 +14,9 @@ export default function CaseStudies() {
   const posts = getPosts("case-studies");
   return (
     <main>
-      <section className="container-x py-14 sm:py-20">
+      <section className="container-x pb-16 pt-10 sm:pt-14">
         <span className="eyebrow text-wealth">Case studies</span>
-        <h1 className="mt-6 font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+        <h1 className="mt-6 font-display text-4xl font-normal tracking-tight text-ink sm:text-5xl">
           Real clients, real strategies<span className="text-wealth">.</span>
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-ink/65">
@@ -27,7 +27,7 @@ export default function CaseStudies() {
           {posts.map((p) => {
             const img = postImage(p);
             return (
-              <a key={p.urlPath} href={p.urlPath} className="group rounded-xl2 border border-line p-6 transition hover:border-wealth hover:shadow-[0_12px_32px_-16px_rgba(32,67,71,0.35)]">
+              <a key={p.urlPath} href={p.urlPath} className="group rounded-2xl border border-ink/10 p-6 transition hover:border-wealth hover:shadow-[0_12px_32px_-16px_rgba(32,67,71,0.35)]">
                 {img && (
                   <img
                     src={img}

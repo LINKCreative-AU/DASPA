@@ -92,7 +92,7 @@ export function DebtRecyclingCalculator() {
 
   return (
     <div className="not-prose grid gap-8 lg:grid-cols-2">
-      <div className="space-y-5 rounded-xl2 border border-line bg-white p-6 sm:p-8">
+      <div className="space-y-5 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
         <Field
           label="Amount you can direct each year"
           hint="Surplus cash you could put against the mortgage (and redraw to invest)."
@@ -117,7 +117,7 @@ export function DebtRecyclingCalculator() {
         <Field label="Timeframe" value={years} onChange={setYears} suffix="years" />
       </div>
 
-      <div className="rounded-xl2 bg-wealth-dark p-6 text-white sm:p-8">
+      <div className="rounded-3xl bg-ink p-6 text-white sm:p-8">
         {!valid ? (
           <p className="text-white/75">Enter an annual amount to see the comparison.</p>
         ) : (
@@ -126,7 +126,7 @@ export function DebtRecyclingCalculator() {
               <dt className="text-sm font-semibold uppercase tracking-wider text-white/60">
                 Paying down the loan only, after {N} years
               </dt>
-              <dd className="mt-1 font-display text-3xl font-extrabold">{fmt(payDown)}</dd>
+              <dd className="mt-1 font-display text-3xl font-semibold">{fmt(payDown)}</dd>
               <p className="mt-1 text-xs text-white/55">
                 Loan reduction - a guaranteed, tax-free return at your loan rate.
               </p>
@@ -135,7 +135,7 @@ export function DebtRecyclingCalculator() {
               <dt className="text-sm font-semibold uppercase tracking-wider text-white/60">
                 Debt recycling, after {N} years
               </dt>
-              <dd className="mt-1 font-display text-3xl font-extrabold text-wealth-bright">
+              <dd className="mt-1 font-display text-3xl font-semibold text-wealth-bright">
                 {fmt(recycleNet)}
               </dd>
               <p className="mt-1 text-xs text-white/55">
@@ -148,7 +148,7 @@ export function DebtRecyclingCalculator() {
                 Estimated difference
               </dt>
               <dd
-                className={`mt-1 font-display text-4xl font-extrabold ${
+                className={`mt-1 font-display text-4xl font-semibold ${
                   diff >= 0 ? "text-wealth-bright" : "text-red-300"
                 }`}
               >

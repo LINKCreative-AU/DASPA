@@ -73,9 +73,9 @@ export default function Page() {
         ]}
       />
 
-      <article className="container-x max-w-3xl py-14 sm:py-20">
+      <article className="container-x max-w-3xl pb-16 pt-10 sm:pt-14">
         <span className="eyebrow text-wealth">Fees, published</span>
-        <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl">
+        <h1 className="mt-6 font-display text-4xl font-normal leading-[1.02] tracking-tight text-ink sm:text-5xl">
           How much does a financial advisor <span className="marker">actually cost?</span>
         </h1>
         <p className="mt-6 text-lg text-ink/80">
@@ -114,7 +114,7 @@ export default function Page() {
           in a Financial Services Guide before you commit; ours is linked in the footer.
         </p>
 
-        <h2 className="mt-14 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+        <h2 className="mt-14 font-display text-2xl font-normal tracking-tight text-ink sm:text-3xl">
           What moves the fee.
         </h2>
         <ul className="mt-5 list-disc space-y-2 pl-6 text-lg text-ink/75">
@@ -124,7 +124,7 @@ export default function Page() {
           <li>Ongoing vs one-off: a standing relationship costs more per year but catches problems while they are cheap.</li>
         </ul>
 
-        <h2 className="mt-14 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+        <h2 className="mt-14 font-display text-2xl font-normal tracking-tight text-ink sm:text-3xl">
           The honest version of "is it worth it?"
         </h2>
         <p className="mt-5 text-lg text-ink/70">
@@ -146,18 +146,21 @@ export default function Page() {
       </article>
 
       {/* FAQs (visible text and schema kept in sync) */}
-      <section className="bg-cloud py-16 sm:py-20">
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
             Cost questions, answered.
           </h2>
-          <div className="mt-8 space-y-3">
+          <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {FAQS.map((f) => (
-              <details key={f.q} className="group rounded-xl2 border border-line bg-white p-6">
-                <summary className="cursor-pointer list-none font-display text-lg font-bold text-ink marker:content-none">
+              <details key={f.q} className="group py-5">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-display text-base font-bold tracking-tight text-ink [&::-webkit-details-marker]:hidden">
                   {f.q}
+                  <span aria-hidden className="text-wealth transition group-open:rotate-45">
+                    +
+                  </span>
                 </summary>
-                <p className="mt-3 text-ink/70">{f.a}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/75">{f.a}</p>
               </details>
             ))}
           </div>

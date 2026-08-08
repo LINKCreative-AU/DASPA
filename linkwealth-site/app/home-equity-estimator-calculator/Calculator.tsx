@@ -82,7 +82,7 @@ export function Calculator() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
-      <div className="space-y-5 rounded-xl2 border border-line bg-white p-6 sm:p-8">
+      <div className="space-y-5 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
         <NumField
           label="Estimated property value"
           hint="Tip: enter your best estimate (e.g., recent appraisal, comparable sales)."
@@ -108,7 +108,7 @@ export function Calculator() {
         </button>
       </div>
 
-      <div className="rounded-xl2 bg-wealth-dark p-6 text-white sm:p-8">
+      <div className="rounded-3xl bg-ink p-6 text-white sm:p-8">
         {!hasValue ? (
           <p className="text-white/75">Enter an estimated property value to see results.</p>
         ) : (
@@ -117,7 +117,7 @@ export function Calculator() {
               <dt className="text-sm font-semibold uppercase tracking-wider text-white/60">
                 Estimated equity
               </dt>
-              <dd className="mt-1 font-display text-4xl font-extrabold text-wealth">
+              <dd className="mt-1 font-display text-4xl font-semibold text-wealth-bright">
                 {fmt(equity)}
               </dd>
             </div>
@@ -125,7 +125,7 @@ export function Calculator() {
               <dt className="text-sm font-semibold uppercase tracking-wider text-white/60">
                 Equity percentage
               </dt>
-              <dd className="mt-1 font-display text-2xl font-bold">
+              <dd className="mt-1 font-display text-2xl font-semibold">
                 {equityPct.toFixed(1)}%
               </dd>
             </div>
@@ -134,14 +134,14 @@ export function Calculator() {
                 <dt className="text-sm font-semibold uppercase tracking-wider text-white/60">
                   Value after selling costs
                 </dt>
-                <dd className="mt-1 font-display text-2xl font-bold">{fmt(basis)}</dd>
+                <dd className="mt-1 font-display text-2xl font-semibold">{fmt(basis)}</dd>
               </div>
             )}
             <div className="border-t border-white/15 pt-5">
               <dt className="text-sm font-semibold uppercase tracking-wider text-white/60">
                 Usable equity at 80% LVR
               </dt>
-              <dd className="mt-1 font-display text-2xl font-bold">{fmt(Math.max(usable, 0))}</dd>
+              <dd className="mt-1 font-display text-2xl font-semibold">{fmt(Math.max(usable, 0))}</dd>
               <p className="mt-2 text-xs text-white/55">
                 Most lenders let you borrow against up to 80% of your property’s value without
                 lenders mortgage insurance. A rule of thumb only - lender policies differ.
