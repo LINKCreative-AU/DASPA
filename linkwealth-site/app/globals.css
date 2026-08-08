@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Elza drops in here once the web licence lands; falls back to Work Sans */
+  --font-display: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-ink antialiased;
+}
+
+/* Editorial layout bits, per the V1.5 look */
+.container-x {
+  @apply mx-auto w-full max-w-content px-6 sm:px-10 xl:px-[87px];
+}
+
+/* Section eyebrow - small, uppercase pill (the old site's "OUR SERVICES" labels) */
+.eyebrow {
+  @apply inline-flex h-auto min-h-[35px] items-center rounded-full border border-current px-4 py-1 text-[13px] font-normal leading-snug uppercase tracking-[0.12em];
+}
+
+.btn {
+  @apply inline-flex h-11 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold transition;
+}
+/* Master brand = black actions; mint reserved for division accent moments */
+.btn-primary {
+  @apply bg-ink text-white hover:bg-black active:opacity-90;
+}
+.btn-ghost {
+  @apply border border-ink/15 bg-white text-ink hover:border-ink;
+}
+.btn-wealth {
+  @apply bg-wealth-dark text-white hover:bg-wealth-deep active:opacity-90;
+}
+/* Mint CTA for dark sections - the live site's high-contrast pairing */
+.btn-mint {
+  @apply bg-wealth text-wealth-dark hover:bg-wealth-mid active:opacity-90;
+}
+
+/* Marker highlight on money phrases - mint underline, V1.5 signature */
+.marker {
+  @apply font-bold;
+  background: linear-gradient(#95e5cb, #95e5cb) left bottom / 100% 6px no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* V1.5 signature gradient - Wealth mint into its light tone */
+.wealth-gradient {
+  background: linear-gradient(135deg, #204347 0%, #2e6259 55%, #95e5cb 100%);
+}
+
+/* Migrated post body - the WP class soup is stripped in the pipeline,
+   so plain elements carry all the styling. */
+.prose-post {
+  @apply text-[1.0625rem] leading-relaxed text-ink/80;
+}
+.prose-post > * + * {
+  @apply mt-5;
+}
+.prose-post h2 {
+  @apply mt-12 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl;
+}
+.prose-post h3 {
+  @apply mt-10 font-display text-xl font-bold tracking-tight text-ink sm:text-2xl;
+}
+.prose-post h4 {
+  @apply mt-8 text-lg font-bold text-ink;
+}
+.prose-post a {
+  @apply font-medium text-wealth-dark underline decoration-wealth underline-offset-2 transition hover:decoration-wealth-dark;
+}
+.prose-post ul {
+  @apply list-disc space-y-2 pl-6;
+}
+.prose-post ol {
+  @apply list-decimal space-y-2 pl-6;
+}
+.prose-post blockquote {
+  @apply border-l-2 border-wealth pl-5 text-ink/75;
+}
+.prose-post img {
+  @apply h-auto max-w-full rounded-2xl;
+}
+.prose-post figure {
+  @apply my-8;
+}
+.prose-post figcaption {
+  @apply mt-2 text-sm text-ink/50;
+}
+.prose-post hr {
+  @apply my-10 border-ink/10;
+}
+.prose-post table {
+  @apply w-full border-collapse text-sm;
+}
+.prose-post th {
+  @apply border-b-2 border-ink/15 py-2 pr-4 text-left font-semibold text-ink;
+}
+.prose-post td {
+  @apply border-b border-ink/10 py-2 pr-4 align-top;
+}
+.prose-post iframe {
+  @apply aspect-video w-full rounded-2xl;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
