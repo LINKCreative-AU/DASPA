@@ -107,8 +107,13 @@ export default function Page() {
           <p className="mt-5 text-lg text-ink/65">
             <strong className="text-ink">Net worth = everything you own minus everything you
             owe.</strong> Home at market value, super, investments and cash on one side; the
-            mortgage, investment loans and cards on the other. It's the first question in the
-            check because it's the scoreboard for all the others.
+            mortgage, investment loans and cards on the other. It's the first scored question
+            in the check because it's the scoreboard for all the others - and if you don't
+            know yours, the free{" "}
+            <a href="/net-worth-calculator" className="font-medium text-wealth underline decoration-wealth/30 underline-offset-2 hover:decoration-wealth">
+              net worth calculator
+            </a>{" "}
+            works it out on screen in two minutes.
           </p>
           <p className="mt-4 text-lg text-ink/65">
             For context, ABS household wealth data puts the <em>average</em> Australian

@@ -91,6 +91,7 @@ export const NAV: NavItem[] = [
     label: "Tools",
     children: [
       { label: "Wealth health check", href: "/wealth-health-check" },
+      { label: "Net worth calculator", href: "/net-worth-calculator" },
       { label: "Home equity calculator", href: "/home-equity-estimator-calculator" },
       { label: "Retirement readiness check", href: "/how-much-do-i-need-to-retire" },
       { label: "Debt recycling calculator", href: "/insights/wealth-creation-using-debt-recycling" },

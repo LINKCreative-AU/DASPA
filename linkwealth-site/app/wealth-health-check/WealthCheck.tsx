@@ -81,6 +81,7 @@ const QUESTIONS: Question[] = [
       { label: "I know the number", points: 0.7, tip: "Knowing it is most of the battle - tracking it yearly shows whether the strategy is actually working." },
       { label: "I track it, and it's trending up", points: 1 },
     ],
+    tool: { label: "Net worth calculator", href: "/net-worth-calculator" },
   },
   {
     key: "buffer",
