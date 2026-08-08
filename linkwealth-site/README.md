@@ -55,16 +55,25 @@ reword them.
 | `/contact` | NEW - stable destination for every CTA |
 | `/thank-you` | Form destination, noindex |
 
+## Deployment
+
+Live on Vercel: project **link-hq/linkwealth-site** (production, behind SSO
+until the domain is attached - the kit's standard pre-cutover posture).
+Until the LINKCreative-AU/linkwealth-site repo exists, the project deploys via
+a custom installCommand that pulls this folder from the public DASPA branch
+tarball; once the repo is created and connected in Settings > Git, clear that
+installCommand.
+
 ## Before launch (humans)
 
-- [ ] Set `RESEND_API_KEY` in Vercel and send a test lead (LEADS_TO defaults to the Wealth #leads channel address from the HQ register).
+- [ ] Set `RESEND_API_KEY` on the Vercel project and send a test lead (LEADS_TO defaults to the Wealth #leads channel address from the HQ register). Until then forms fail safe: the visitor sees the phone number.
 - [ ] Confirm live Google review count (5.0/36 from the kit brand register,
       2026-08-08) - `SITE.reviews` in `lib/site.ts`.
 - [ ] Compliance sign-off on the rebuilt pages (copy is carried from the old
       site, but the licensee should see the new FAQ answers).
 - [ ] Google Search Console: verify the property (no verification token found
       on the old site), submit `/sitemap.xml`.
-- [ ] Domain cutover from WPStaq WordPress happens LAST.
+- [ ] Domain cutover LAST: attach wealth.link.com.au to the Vercel project (that also takes the site out from behind SSO - custom domains are public).
 
 Two machines push - `git pull --rebase origin main` before committing. Never
 `next build` while the dev server runs.
