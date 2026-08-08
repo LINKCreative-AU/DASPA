@@ -25,6 +25,8 @@ export default function Page() {
       serviceName="Family wealth management"
       serviceDescription="Wealth management for families: investment strategy, insurance, education funding, inheritance and estate planning."
       crumbName="Family Wealth Management"
+      heroImage="/wp-content/uploads/2024/12/AdobeStock_460793440-min-scaled.jpeg"
+      heroImageAlt="A young family at home - planning for their future together"
       eyebrow="Family wealth management"
       h1="Helping you plan, grow, and protect your family’s wealth with confidence."
       h1Mark="family’s wealth"

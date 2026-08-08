@@ -28,6 +28,8 @@ export default function Page() {
       serviceName="Retirement planning"
       serviceDescription="Retirement planning and superannuation advice for professionals, pre-retirees and retirees in Brisbane and across Australia."
       crumbName="Retirement Planning"
+      heroImage="/wp-content/uploads/2024/12/AdobeStock_538828335-1-min-scaled.jpeg"
+      heroImageAlt="A couple reviewing their retirement plan together at a laptop"
       eyebrow="Retirement planning, Brisbane"
       h1="Helping you preserve wealth and plan for retirement with confidence."
       h1Mark="retirement"

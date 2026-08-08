@@ -26,6 +26,8 @@ export default function Page() {
       serviceName="High net worth wealth advisory"
       serviceDescription="Wealth management for high net worth individuals and families: investment strategy, trusts, tax structuring and legacy planning."
       crumbName="High Net Worth Advisory"
+      heroImage="/wp-content/uploads/2026/04/AdobeStock_639705792-scaled.jpeg"
+      heroImageAlt="A wealth adviser welcoming a client to a meeting"
       eyebrow="Wealth management, Brisbane"
       h1="Exclusive Wealth Advisory for High Net Worth Individuals"
       h1Mark="High Net Worth"

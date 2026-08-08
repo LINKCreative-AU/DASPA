@@ -21,6 +21,8 @@ export type LandingSection = {
 
 export function DiscoveryLanding({
   path,
+  heroImage,
+  heroImageAlt,
   serviceName,
   serviceDescription,
   crumbName,
@@ -34,6 +36,8 @@ export function DiscoveryLanding({
   relatedLinks,
 }: {
   path: string;
+  heroImage?: string;
+  heroImageAlt?: string;
   serviceName: string;
   serviceDescription: string;
   crumbName: string;
@@ -92,6 +96,18 @@ export function DiscoveryLanding({
           <ContactForm variant="discovery" subject={crumbName} />
         </div>
       </section>
+
+      {heroImage && (
+        <div className="container-x pb-14">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={heroImage}
+            alt={heroImageAlt ?? ""}
+            loading="lazy"
+            className="aspect-[21/8] w-full rounded-3xl object-cover"
+          />
+        </div>
+      )}
 
       {/* Unique supporting content - one intent per page */}
       {sections.map((s, i) => (

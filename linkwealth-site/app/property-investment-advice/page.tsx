@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/components/Schema";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -106,6 +107,15 @@ export default function Page() {
           <ContactForm variant="discovery" subject="Property Investment Advice" />
         </div>
       </section>
+
+      <div className="container-x pb-14">
+        <img
+          src="/wp-content/uploads/2024/12/AdobeStock_599893056-1-min-scaled.jpeg"
+          alt="A couple comparing property listings while planning an investment purchase"
+          loading="lazy"
+          className="aspect-[21/8] w-full rounded-3xl object-cover"
+        />
+      </div>
 
       {/* The essentials - the four promised topics, now with real content */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">

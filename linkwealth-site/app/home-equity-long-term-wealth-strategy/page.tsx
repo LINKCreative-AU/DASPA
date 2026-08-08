@@ -135,6 +135,15 @@ export default function Page() {
         </div>
       </PageHero>
 
+      <div className="container-x pb-14">
+        <img
+          src="/wp-content/uploads/2024/12/AdobeStock_599893056-1-min-scaled.jpeg"
+          alt="A couple exploring investment property options for their home equity"
+          loading="lazy"
+          className="aspect-[21/8] w-full rounded-3xl object-cover"
+        />
+      </div>
+
       {/* What is the workshop / who - verbatim */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2">

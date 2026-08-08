@@ -161,7 +161,7 @@ export default function Home() {
             ].map(([icon, label]) => (
               <span
                 key={String(label)}
-                className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-neutral-50 px-4 py-2 text-[13px] font-semibold text-ink/75"
+                className="inline-flex items-center gap-2 text-[13px] font-semibold text-ink/70"
               >
                 <span className="text-wealth">{icon}</span>
                 {label}
@@ -319,7 +319,7 @@ export default function Home() {
         faqs={FAQS}
         related={[
           { label: "What financial advice costs", href: "/how-much-does-a-financial-advisor-cost" },
-          { label: "Home equity calculator", href: "/home-equity-estimator-calculator" },
+          { label: "Free wealth health check", href: "/wealth-health-check" },
           { label: "Case studies", href: "/case-studies" },
         ]}
       />

@@ -21,9 +21,18 @@ body {
   @apply mx-auto w-full max-w-content px-6 sm:px-10 xl:px-[87px];
 }
 
-/* Section eyebrow - small, grey, uppercase (guide uses grey labels, not colour) */
+/* Section eyebrow - small, grey, uppercase (guide uses grey labels, not
+   colour). Deliberately NOT a capsule: per James (8 Aug), pills are reserved
+   for interactive elements; labels are just type with the guide-line dash. */
 .eyebrow {
-  @apply inline-flex h-auto min-h-[35px] items-center rounded-full border border-current px-4 py-1 text-[13px] font-normal leading-snug uppercase tracking-[0.12em];
+  @apply inline-flex items-center gap-2.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink/50;
+}
+.eyebrow::before {
+  content: "";
+  width: 1.4rem;
+  height: 2px;
+  background: currentColor;
+  flex: none;
 }
 
 /* The "Guide Line" - kept as no-ops for markup parity with the sibling sites */

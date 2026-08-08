@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { JsonLd, breadcrumbSchema } from "@/components/Schema";
@@ -57,6 +58,12 @@ export default function Contact() {
               </p>
             </div>
           </div>
+          <img
+            src="/wp-content/uploads/2024/12/AdobeStock_345768996-1-min-scaled.jpeg"
+            alt="A business owner on the phone to her adviser"
+            loading="lazy"
+            className="mt-10 aspect-[3/2] w-full rounded-3xl object-cover"
+          />
         </div>
         <div>
           <p className="mb-4 font-display text-lg font-bold text-ink">Send us a message</p>
