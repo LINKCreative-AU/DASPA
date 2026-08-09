@@ -4,7 +4,6 @@ import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/components
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Testimonials } from "@/components/Testimonials";
 import { CtaBand } from "@/components/CtaBand";
-import { ContactForm } from "@/components/ContactForm";
 
 // Head terms: "property investment advice" (336/mo, KD 8) + "property
 // investment advisor australia" (150/mo). Intro copy verbatim. The old
@@ -96,15 +95,16 @@ export default function Page() {
             </p>
           </div>
         </div>
-        <div>
-          <h2 className="font-display text-xl font-bold text-ink">
+        <div className="self-center rounded-3xl bg-ink p-8 text-white">
+          <h2 className="font-display text-xl font-bold">
             Book your free discovery meeting to get started.
           </h2>
-          <p className="mb-4 mt-2 text-sm text-ink/60">
-            Fill out the form below and we’ll be in touch within a few business hours to
-            discuss your needs and set up a time for your discovery meeting.
+          <p className="mt-2 text-sm text-white/65">
+            We’ll be in touch within a few business hours to set up a time.
           </p>
-          <ContactForm variant="discovery" subject="Property Investment Advice" />
+          <a href="#contact" className="btn mt-5 bg-white text-ink hover:bg-neutral-100">
+            Book my free discovery meeting
+          </a>
         </div>
       </section>
 
