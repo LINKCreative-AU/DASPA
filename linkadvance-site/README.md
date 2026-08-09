@@ -21,10 +21,12 @@ Advisors / Books rebuilds applied (kit v3.15 rules).
 ## Dev
 npm install && npm run dev
 
-## Deploy (pending)
-Waiting on the dedicated LINKCreative-AU/linkadvance-site repo (James's
-call: no DASPA subfolder for this one). When it exists: push this repo to
-main, create/connect the Vercel project, then attach the domain last.
+## Deploy
+This repo (LINKCreative-AU/linkadvance-site, main) is the source of truth.
+Vercel project: link-hq/linkadvance-site. Connect the repo in Vercel
+Settings > Git and clear the temporary tarball install command override
+(Settings > Build & Development) - after that every push to main deploys.
+Attach linkadvance.com.au last: the domain is go-live.
 
 ## Human items before go-live
 - Confirm the LEADS_TO env (Advance Slack leads channel address) + RESEND_API_KEY on Vercel; test a lead

@@ -72,11 +72,13 @@ export default function Page() {
       </section>
 
       <div className="container-x pb-14">
-        <img
-          src="/wp-content/uploads/2026/05/ADVANCE-2025-Web-scaled.jpg"
-          alt="The LINK Advance broker team"
-          className="aspect-[21/8] w-full rounded-3xl object-cover object-top"
-        />
+        <div className="rounded-3xl bg-neutral-50 px-6 pt-10">
+          <img
+            src="/wp-content/uploads/2026/05/ADVANCE-2025-Web-scaled.jpg"
+            alt="The LINK Advance broker team"
+            className="mx-auto max-h-[480px] w-auto mix-blend-multiply"
+          />
+        </div>
       </div>
 
       {/* Why - the old site's three proofs, tightened */}
@@ -113,7 +115,6 @@ export default function Page() {
             eyebrow="How we help"
             title="Whatever the loan, one broker owns it."
             mark="one broker owns it."
-            intro="Pick your lane - or just tell us what you're planning and we'll pick it together."
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -176,7 +177,6 @@ export default function Page() {
             eyebrow="Free tools"
             title="Run your own numbers first."
             mark="your own numbers"
-            intro="Every tool works on screen, no email wall - bring the results to the free chat."
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -201,7 +201,7 @@ export default function Page() {
             eyebrow="The LINK group"
             title="The finance team at LINK."
             mark="at LINK."
-            intro="Advance is the lending desk of a group that also does the accounting, the books, the wealth strategy and the property management - one connected team when you want it, just the loan when you don't."
+            intro="One connected team when you want it, just the loan when you don't."
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {GROUP_TEAMS.map((t) => (

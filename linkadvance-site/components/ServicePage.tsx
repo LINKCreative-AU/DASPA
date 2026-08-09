@@ -9,19 +9,22 @@ import { Icon } from "./Icons";
 function autoIcon(title: string): React.ReactNode {
   const t = title.toLowerCase();
   if (/award|winner|rated|star|loved|recommend|review/.test(t)) return <Icon.star />;
-  if (/fee|fixed|price|pricing|cost|surprise|invest(ment)? strateg/.test(t)) return <Icon.tag />;
-  if (/call|phone|access|support|answer|dedicated|advis[eo]r|meet|partner/.test(t)) return <Icon.userPhone />;
-  if (/family|member|team|people|group/.test(t)) return <Icon.users />;
-  if (/smsf|super|retire|pension/.test(t)) return <Icon.shieldCheck />;
-  if (/compli|asic|ato|licen[sc]|protect|insur|risk|control/.test(t)) return <Icon.shieldCheck />;
-  if (/time|hour|experience|year|long/.test(t)) return <Icon.clock />;
+  if (/repric|rate|fee|fixed|price|pricing|cost|free/.test(t)) return <Icon.tag />;
+  if (/broker|one .*(broker|person)|whole way|end to end|call|phone|dedicated|meet|corner/.test(t)) return <Icon.userPhone />;
+  if (/lender|panel|market|family|member|team|people|group|next door/.test(t)) return <Icon.users />;
+  if (/bank|credit|approval|polic|list|checklist|know what|prepared|current/.test(t)) return <Icon.clipboardCheck />;
+  if (/smsf|super|retire|pension|waiver|doctor|profession|protect|insur|guarantee/.test(t)) return <Icon.shieldCheck />;
+  if (/compli|asic|ato|licen[sc]|risk|control/.test(t)) return <Icon.shieldCheck />;
+  if (/time|hour|experience|year|long|fast|speed|days|settle/.test(t)) return <Icon.clock />;
   if (/profit|grow|wealth|equity|portfolio|diverse|invest|asset|gear/.test(t)) return <Icon.trendingUp />;
+  if (/structur|split|offset|tailored|build/.test(t)) return <Icon.wrench />;
   if (/book|record|plan|roadmap|master/.test(t)) return <Icon.book />;
-  if (/brisbane|local|valley|based|premises|property|home/.test(t)) return <Icon.pin />;
-  if (/tailored|structur|trust|advice/.test(t)) return <Icon.clipboardCheck />;
+  if (/brisbane|local|valley|based|premises|property|home|loan|deposit/.test(t)) return <Icon.home />;
+  if (/calc|number|estimat/.test(t)) return <Icon.calculator />;
+  if (/trust|advice/.test(t)) return <Icon.clipboardCheck />;
   if (/start|new|launch|workshop/.test(t)) return <Icon.rocket />;
   if (/tax|cash|money|dollar|rent|income/.test(t)) return <Icon.dollar />;
-  return <Icon.bolt />;
+  return <Icon.key />;
 }
 
 // Shared building blocks for the service and workshop pages - the same V1.5
