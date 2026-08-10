@@ -20,6 +20,7 @@ const CORE: { path: string; priority: number }[] = [
   { path: "/insights", priority: 0.7 },
   { path: "/how-much-does-a-financial-advisor-cost", priority: 0.8 },
   { path: "/how-much-do-i-need-to-retire", priority: 0.9 },
+  { path: "/tools", priority: 0.8 },
   { path: "/wealth-health-check", priority: 0.8 },
   { path: "/net-worth-calculator", priority: 0.9 },
   { path: "/team", priority: 0.7 },

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Pill } from "@/components/v2";
 
 // Retirement readiness check - the Wealth division's engine, in the family
 // tradition (Advisors health check, Books Xero check, HQ performance check).
@@ -102,7 +103,7 @@ export function RetirementCheck() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
-      <div className="space-y-5 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
+      <div className="space-y-5 rounded-[25px] bg-[#f1f1f1] p-6 sm:p-8">
         <div className="grid grid-cols-2 gap-4">
           <Field label="Your age" value={age} onChange={setAge} suffix="years" />
           <Field label="Retire at" value={retireAge} onChange={setRetireAge} suffix="years" />
@@ -161,7 +162,7 @@ export function RetirementCheck() {
         </div>
       </div>
 
-      <div className="rounded-3xl bg-ink p-6 text-white sm:p-8">
+      <div className="rounded-[25px] bg-ink p-6 text-white sm:p-8 lg:sticky lg:top-24 lg:self-start">
         {!valid ? (
           <p className="text-white/75">Fill in your numbers to see where you stand.</p>
         ) : (
@@ -212,9 +213,11 @@ export function RetirementCheck() {
                 )}
               </div>
             </dl>
-            <a href="#contact" className="btn mt-7 bg-white text-ink hover:bg-neutral-100">
-              {onTrack ? "Keep it on track: talk to an adviser" : "Close the gap: book a free call"}
-            </a>
+            <div className="mt-7">
+              <Pill href="#contact" variant="onDark">
+                {onTrack ? "Keep it on track: talk to an adviser" : "Close the gap: book a free call"}
+              </Pill>
+            </div>
           </>
         )}
         <div className="mt-8 border-t border-white/15 pt-5 text-xs leading-relaxed text-white/60">

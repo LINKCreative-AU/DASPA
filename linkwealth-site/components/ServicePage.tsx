@@ -1,7 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import { SITE } from "@/lib/site";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { SectionHead } from "./SectionHead";
 import { Icon } from "./Icons";
+import { Pill } from "./v2";
 
 // Auto-icon: when a FeatureGrid item has no explicit icon, pick a thin-line
 // icon from its title so every card carries one (keyword order matters).
@@ -37,6 +39,7 @@ export function PageHero({
   intro,
   image,
   imageAlt,
+  imageCutout = false,
   ctaLabel = "Book a call",
   ctaHref = "/contact",
   secondaryLabel,
@@ -51,6 +54,8 @@ export function PageHero({
   intro: string;
   image?: string;
   imageAlt?: string;
+  /** White-background cutout: sits on the grey tile under multiply, never cropped. */
+  imageCutout?: boolean;
   ctaLabel?: string;
   ctaHref?: string;
   secondaryLabel?: string;
@@ -65,17 +70,15 @@ export function PageHero({
         <div>
           <SectionHead as="h1" eyebrow={eyebrow} title={title} mark={mark} intro={intro} accent />
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href={ctaHref} className="btn btn-primary">
-              {ctaLabel}
-            </a>
+            <Pill href={ctaHref}>{ctaLabel}</Pill>
             {secondaryLabel && secondaryHref ? (
-              <a href={secondaryHref} className="btn btn-ghost">
+              <Pill href={secondaryHref} variant="ghost">
                 {secondaryLabel}
-              </a>
+              </Pill>
             ) : (
-              <a href={SITE.phoneHref} className="btn btn-ghost">
+              <Pill href={SITE.phoneHref} variant="ghost">
                 Call {SITE.phone}
-              </a>
+              </Pill>
             )}
           </div>
           {showStars && (
@@ -89,13 +92,20 @@ export function PageHero({
           )}
           {children}
         </div>
-        {image && (
-          <img
-            src={image}
-            alt={imageAlt ?? ""}
-            className="hidden aspect-[4/5] w-full rounded-3xl object-cover object-top lg:block"
-          />
-        )}
+        {image &&
+          (imageCutout ? (
+            <div className="hidden items-end justify-center rounded-[25px] bg-[#f1f1f1] px-6 pt-10 lg:flex">
+              <img src={image} alt={imageAlt ?? ""} className="max-h-[440px] w-auto mix-blend-multiply" />
+            </div>
+          ) : (
+            <div className="hidden overflow-hidden rounded-[25px] bg-[#f1f1f1] lg:block">
+              <img
+                src={image}
+                alt={imageAlt ?? ""}
+                className="aspect-[4/5] w-full object-cover object-top"
+              />
+            </div>
+          ))}
       </section>
     </>
   );
@@ -116,14 +126,13 @@ export function Section({
   intro?: string;
   children?: React.ReactNode;
   dark?: boolean;
-  tint?: boolean; // neutral-50 band with hairline borders
+  // V2 rhythm: white sections carry grey tiles, ink bands carry the contrast
+  // moments. The old neutral-50 alternation is gone, so `tint` now only adds a
+  // hairline rule to separate two adjacent light sections.
+  tint?: boolean;
 }) {
   return (
-    <section
-      className={
-        dark ? "bg-ink py-20 text-white" : tint ? "border-y border-ink/10 bg-neutral-50 py-20" : "py-20"
-      }
-    >
+    <section className={dark ? "bg-ink py-20 text-white" : tint ? "border-t border-ink/10 py-20" : "py-20"}>
       <div className="container-x">
         <SectionHead eyebrow={eyebrow} title={title} mark={mark} intro={intro} dark={dark} />
         {children}
@@ -141,7 +150,7 @@ export function FeatureGrid({
   items: { title: string; body: string; icon?: React.ReactNode }[];
   cols?: 2 | 3 | 4;
   dark?: boolean;
-  cards?: boolean; // white bordered cards with icon chips (brighter variant)
+  cards?: boolean; // grey tiles with icon chips (the V2 card variant)
 }) {
   const colClass = { 2: "sm:grid-cols-2", 3: "sm:grid-cols-2 lg:grid-cols-3", 4: "sm:grid-cols-2 lg:grid-cols-4" }[cols];
   return (
@@ -152,14 +161,14 @@ export function FeatureGrid({
           className={
             cards
               ? dark
-                ? "rounded-3xl border border-white/10 bg-white/5 p-7"
-                : "rounded-3xl border border-ink/10 bg-white p-7"
+                ? "rounded-[25px] border border-white/10 bg-white/5 p-7"
+                : "rounded-[25px] bg-[#f1f1f1] p-7"
               : undefined
           }
         >
           <span
             className={`mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl ${
-              dark ? "bg-white/10 text-white" : "bg-wealth/10 text-wealth"
+              dark ? "bg-white/10 text-white" : cards ? "bg-white text-ink" : "bg-wealth-light text-ink"
             }`}
           >
             {f.icon ?? autoIcon(f.title)}
@@ -248,7 +257,7 @@ export function FAQ({
                 <a
                   key={r.href}
                   href={r.href}
-                  className="rounded-full border border-ink/15 px-4 py-2 text-sm font-semibold text-ink/75 transition hover:border-wealth hover:text-wealth"
+                  className="rounded-full bg-[#f1f1f1] px-4 py-2 text-sm font-semibold text-ink/75 transition hover:bg-wealth-light hover:text-ink"
                 >
                   {r.label}
                 </a>
@@ -288,8 +297,8 @@ export function CheckList({ items, dark = false }: { items: string[]; dark?: boo
 // Proof strip used across pages: rating + licensing.
 export function ProofBar() {
   return (
-    <section className="border-y border-ink/10 bg-neutral-50">
-      <div className="container-x flex flex-wrap items-center justify-between gap-4 py-5 text-sm font-semibold text-ink/75">
+    <section className="container-x">
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-[25px] bg-[#f1f1f1] px-7 py-5 text-sm font-semibold text-ink/75">
         <span>
           <span aria-hidden className="text-wealth">
             ★★★★★

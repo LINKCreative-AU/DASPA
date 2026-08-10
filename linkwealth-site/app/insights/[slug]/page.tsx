@@ -98,7 +98,7 @@ export default async function PostPage({
         />
       </article>
 
-      <section className="border-y border-ink/10 bg-neutral-50 py-16">
+      <section className="py-16">
         <div className="container-x">
           <h2 className="font-display text-2xl font-normal tracking-tight text-ink">
             Keep reading.

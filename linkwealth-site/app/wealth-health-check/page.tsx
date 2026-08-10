@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { WealthCheck } from "./WealthCheck";
+import { BANDS, SCORED_AREAS } from "./questions";
 import { JsonLd, breadcrumbSchema, faqSchema } from "@/components/Schema";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
+import { DataTable } from "@/components/DataTable";
 
 // The LINK Wealth Check - the division's score engine (the house pattern:
 // HQ performance check, Advisors health check, Books Xero check). Primarily
@@ -54,6 +56,16 @@ const FAQS = [
   },
 ];
 
+// The crawlable version of the scale the check applies: the same BANDS the
+// tool reads and the same nine scored areas, so the scoring is indexable even
+// though the tool itself renders client-side.
+const BAND_ROWS = BANDS.map((b, i) => {
+  const upper = i === 0 ? 10 : BANDS[i - 1].min;
+  return [b.name, `${b.min.toFixed(1)} to ${upper.toFixed(1)}`, b.blurb];
+});
+
+const AREA_ROWS = SCORED_AREAS.map((a) => [a.area, a.stage, a.best]);
+
 export default function Page() {
   return (
     <main>
@@ -98,8 +110,41 @@ export default function Page() {
         </div>
       </section>
 
+      {/* The crawlable scale: what the tool scores and what each band means */}
+      <section className="py-20">
+        <div className="container-x max-w-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            How the score is worked out.
+          </h2>
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
+            Nine scored areas, each marked out of 1 and averaged, then multiplied by ten. The
+            three context questions (goals, situation, super band) carry no score at all: they
+            only decide which pathways show with your result.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Wealth Check score bands and what each one means"
+              head={["Band", "Score out of 10", "What it means"]}
+              rows={BAND_ROWS}
+              note="The same bands the tool above reads. The score weighs the nine areas equally and knows nothing about your income, age or goals, so it is a conversation starter, not a verdict."
+            />
+          </div>
+          <h3 className="mt-14 font-display text-xl font-bold tracking-tight text-ink">
+            The nine scored areas, and what a full mark looks like.
+          </h3>
+          <div className="mt-6">
+            <DataTable
+              caption="The nine scored areas in the LINK Wealth Check and what scores full marks in each"
+              head={["Area", "Stage", "What scores full marks"]}
+              rows={AREA_ROWS}
+              note="Read straight from the question set the tool runs. General information only, not personal advice."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* The net worth angle - the page's search legs */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             The one number behind the score: net worth.

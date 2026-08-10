@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { Section, FeatureGrid, CheckList, ProcessSteps, FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
+import { Pill } from "@/components/v2";
 
 // PROTECTED PAGE (James, 2026-08-08: replicate precisely). Every sentence,
 // FAQ, infographic and stat is carried verbatim from the live page in the
@@ -199,9 +200,7 @@ export default function Page() {
             accent
           />
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#contact" className="btn btn-primary">
-              Show me how
-            </a>
+            <Pill href="#contact">Show me how</Pill>
           </div>
           <p className="mt-6 text-sm text-ink/55">
             <span aria-hidden className="text-wealth">
@@ -213,7 +212,7 @@ export default function Page() {
         </div>
         <a
           href="/case-studies/scott-bought-his-business-premises-with-his-super"
-          className="group rounded-3xl border border-ink/10 bg-neutral-50 p-7 transition hover:border-wealth/40"
+          className="group rounded-[25px] bg-[#f1f1f1] p-7 transition hover:bg-wealth-light"
         >
           <p className="eyebrow mb-4">
             <span className="text-wealth">Success story</span>
@@ -255,7 +254,7 @@ export default function Page() {
               a commercial premises, then lease it back to their business at market rent.
             </p>
             <div className="mt-6 grid gap-4">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="rounded-[25px] border border-white/10 bg-white/5 p-5">
                 <h3 className="font-display text-base font-bold">
                   Your business operates exactly as it does today.
                 </h3>
@@ -264,7 +263,7 @@ export default function Page() {
                   over time).
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="rounded-[25px] border border-white/10 bg-white/5 p-5">
                 <h3 className="font-display text-base font-bold">
                   Your money works harder for you.
                 </h3>
@@ -309,7 +308,7 @@ export default function Page() {
               src="/wp-content/uploads/2026/03/smsf-business-loss-839x1024.png"
               alt="Diagram of the current situation: your business pays rent to a landlord and builds no asset"
               loading="lazy"
-              className="w-full rounded-2xl border border-ink/10"
+              className="w-full rounded-[25px] bg-white"
             />
           </figure>
           <figure>
@@ -320,11 +319,11 @@ export default function Page() {
               src="/wp-content/uploads/2026/03/smsf-business-win-838x1024.png"
               alt="Diagram of the SMSF strategy: your business pays market rent to your own super fund, which builds equity in the premises"
               loading="lazy"
-              className="w-full rounded-2xl border border-ink/10"
+              className="w-full rounded-[25px] bg-white"
             />
           </figure>
         </div>
-        <div className="mt-12 rounded-3xl bg-ink p-8 text-white sm:p-10">
+        <div className="mt-12 rounded-[25px] bg-ink p-8 text-white sm:p-10">
           <h3 className="font-display text-2xl font-normal tracking-tight">
             Is this strategy right for you?
           </h3>
@@ -333,9 +332,11 @@ export default function Page() {
             this is right for you. Plus, you’ll get a free copy of our SMSF Property Purchase
             Guide delivered to your inbox instantly.
           </p>
-          <a href="#contact" className="btn mt-6 bg-white text-ink hover:bg-neutral-100">
-            Show me how
-          </a>
+          <div className="mt-6">
+            <Pill href="#contact" variant="onDark">
+              Show me how
+            </Pill>
+          </div>
         </div>
       </Section>
 
@@ -348,7 +349,7 @@ export default function Page() {
       >
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {SPECIALISTS.map((s) => (
-            <div key={s.team} className="overflow-hidden rounded-3xl border border-ink/10 bg-white">
+            <div key={s.team} className="overflow-hidden rounded-[25px] bg-[#f1f1f1]">
               <img
                 src={s.img}
                 alt={`${s.title.replace(/\.$/, "")} at LINK`}
@@ -389,25 +390,23 @@ export default function Page() {
             intro="Licensed tax agents, financial advisors & mortgage brokers. Helping business owners grow wealth."
           />
           <dl className="mt-10 grid grid-cols-2 gap-5 sm:max-w-md">
-            <div className="rounded-2xl border border-ink/10 p-6">
+            <div className="rounded-[25px] bg-[#f1f1f1] p-6">
               <dd className="font-display text-4xl font-semibold text-wealth">100%</dd>
               <dt className="mt-1 text-sm font-semibold text-ink/55">ASIC &amp; ATO compliant</dt>
             </div>
-            <div className="rounded-2xl border border-ink/10 p-6">
+            <div className="rounded-[25px] bg-[#f1f1f1] p-6">
               <dd className="font-display text-4xl font-semibold text-wealth">30+</dd>
               <dt className="mt-1 text-sm font-semibold text-ink/55">years experience</dt>
             </div>
           </dl>
-          <a href="#contact" className="btn btn-primary mt-8">
-            Show me how
-          </a>
+          <div className="mt-8">
+            <Pill href="#contact">Show me how</Pill>
+          </div>
         </div>
       </section>
 
       {/* FAQs - all 14, verbatim, house treatment */}
-      <section className="border-y border-ink/10 bg-neutral-50">
-        <FAQ title="Your questions, answered." faqs={FAQS} />
-      </section>
+      <FAQ title="Your questions, answered." faqs={FAQS} />
 
       {/* Make it count - verbatim, with the live page's image */}
       <section className="py-20">
@@ -437,7 +436,7 @@ export default function Page() {
             src="/wp-content/uploads/2026/03/1a1643209924763ed399c5cae74b5c452611156b-1024x483.jpg"
             alt="Commercial business premises owned through an SMSF"
             loading="lazy"
-            className="w-full rounded-3xl object-cover"
+            className="w-full rounded-[25px] object-cover"
           />
         </div>
       </section>

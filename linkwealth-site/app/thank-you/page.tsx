@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE } from "@/lib/site";
+import { Pill, EyebrowPill } from "@/components/v2";
 
 // Form destination page - noindex utility. Kept at its old URL.
 
@@ -13,8 +14,10 @@ export const metadata: Metadata = {
 export default function ThankYou() {
   return (
     <main className="container-x flex min-h-[50vh] max-w-2xl flex-col justify-center py-24">
-      <span className="eyebrow mb-5 text-wealth">Message received</span>
-      <h1 className="font-display text-4xl font-normal tracking-tight text-ink">
+      <div className="mb-6">
+        <EyebrowPill tint>Message received</EyebrowPill>
+      </div>
+      <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
         Thank you for getting in touch.
       </h1>
       <p className="mt-5 text-lg leading-[1.4] text-ink/80">
@@ -25,13 +28,11 @@ export default function ThankYou() {
         </a>
         .
       </p>
-      <div className="mt-8 flex gap-3">
-        <a href="/insights" className="btn btn-primary">
-          Read our insights
-        </a>
-        <a href="/" className="btn btn-ghost">
+      <div className="mt-8 flex flex-wrap gap-3">
+        <Pill href="/insights">Read our insights</Pill>
+        <Pill href="/" variant="ghost">
           Back home
-        </a>
+        </Pill>
       </div>
     </main>
   );

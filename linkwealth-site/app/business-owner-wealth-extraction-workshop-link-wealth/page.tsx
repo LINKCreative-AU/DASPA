@@ -5,6 +5,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { TeamGrid } from "@/components/TeamGrid";
 import { CtaBand } from "@/components/CtaBand";
 import { TEAM } from "@/lib/site";
+import { Pill } from "@/components/v2";
 
 // PROTECTED PAGE. Every sentence of body copy on this page is carried
 // VERBATIM from the live site (James, 2026-08-08: "a lot of work was put
@@ -126,7 +127,7 @@ export default function Page() {
       </PageHero>
 
       {/* What the session covers / who it's for - verbatim */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
             <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
@@ -151,15 +152,17 @@ export default function Page() {
               If you’ve built success inside your company, this is how you turn it into
               personal wealth outside it.
             </p>
-            <div className="mt-8 rounded-3xl bg-ink p-8 text-white">
+            <div className="mt-8 rounded-[25px] bg-ink p-8 text-white">
               <p className="font-display text-xl font-bold tracking-tight">
                 Meet with a licensed adviser who will review your current structure, profit
                 flow, and tax position.
               </p>
               <p className="mt-3 text-white/65">What’s stopping you from starting today?</p>
-              <a href="#contact" className="btn mt-6 bg-white text-ink hover:bg-neutral-100">
-                Book a call
-              </a>
+              <div className="mt-6">
+                <Pill href="#contact" variant="onDark">
+                  Book a call
+                </Pill>
+              </div>
             </div>
           </div>
         </div>
@@ -172,9 +175,9 @@ export default function Page() {
             What You Can Expect?
           </h2>
           <CheckList items={EXPECT} />
-          <a href="#contact" className="btn btn-primary mt-8">
-            Book a call
-          </a>
+          <div className="mt-8">
+            <Pill href="#contact">Book a call</Pill>
+          </div>
         </div>
       </section>
 
@@ -207,7 +210,7 @@ export default function Page() {
 
       {/* Cross-division handoff: LINK's exits practice routes sale proceeds here */}
       <section className="container-x pb-4">
-        <div className="rounded-3xl border border-ink/10 bg-neutral-50 p-8 sm:p-10">
+        <div className="rounded-[25px] bg-[#f1f1f1] p-8 sm:p-10">
           <p className="eyebrow mb-4">
             <span className="text-wealth">Selling, not just extracting?</span>
           </p>
@@ -219,14 +222,11 @@ export default function Page() {
             CGT concessions, deal structure - and hands the proceeds strategy to us. Same
             group, one picture of your finances.
           </p>
-          <a
-            href="https://link.com.au/selling-your-business"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-ghost mt-6"
-          >
-            Selling your business, at LINK
-          </a>
+          <div className="mt-6">
+            <Pill href="https://link.com.au/selling-your-business" variant="ghost">
+              Selling your business, at LINK
+            </Pill>
+          </div>
         </div>
       </section>
 

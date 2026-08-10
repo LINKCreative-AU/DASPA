@@ -25,8 +25,7 @@ export default function Contact() {
       />
       <section className="container-x grid items-start gap-12 pb-16 pt-10 sm:pt-14 lg:grid-cols-[1fr_1.2fr]">
         <div>
-          <span className="eyebrow text-wealth">Contact</span>
-          <h1 className="mt-6 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
+          <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
             Your path to financial freedom <span className="marker">is waiting.</span>
           </h1>
           <p className="mt-6 text-lg text-ink/70">
@@ -59,10 +58,10 @@ export default function Contact() {
             </div>
           </div>
           <img
-            src="/wp-content/uploads/2024/12/AdobeStock_345768996-1-min-scaled.jpeg"
-            alt="A business owner on the phone to her adviser"
+            src="/wp-content/uploads/2026/03/1a1643209924763ed399c5cae74b5c452611156b-1024x483.jpg"
+            alt="LINK team members on the street outside the Fortitude Valley office"
             loading="lazy"
-            className="mt-10 aspect-[3/2] w-full rounded-3xl object-cover"
+            className="mt-10 aspect-[21/9] w-full rounded-[25px] object-cover"
           />
         </div>
         <div>

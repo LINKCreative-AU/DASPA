@@ -3,6 +3,7 @@ import { Calculator } from "./Calculator";
 import { JsonLd, breadcrumbSchema, calculatorSchema, faqSchema } from "@/components/Schema";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CtaBand } from "@/components/CtaBand";
+import { DataTable } from "@/components/DataTable";
 
 // The equity calculator is the site's biggest organic opportunity: "home
 // equity calculator" 1,077/mo KD 0, parent topic "equity calculator"
@@ -45,6 +46,23 @@ const FAQS = [
   },
 ];
 
+// The crawlable version of the tool: the same two lines of arithmetic the
+// Calculator runs, pre-computed across the property values and loan balances
+// people actually type in, so the figures are indexable.
+const fmt = (n: number) =>
+  n.toLocaleString("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
+
+const TABLE_VALUES = [600000, 800000, 1000000, 1200000, 1500000];
+const TABLE_LOANS = [200000, 400000, 600000];
+
+const equity = (value: number, loan: number) => value - loan;
+const usableEquity = (value: number, loan: number) => Math.max(0.8 * value - loan, 0);
+
+const EQUITY_ROWS = TABLE_VALUES.map((v) => [
+  fmt(v),
+  ...TABLE_LOANS.flatMap((l) => [fmt(equity(v, l)), fmt(usableEquity(v, l))]),
+]);
+
 export default function Page() {
   return (
     <main>
@@ -67,8 +85,7 @@ export default function Page() {
 
       <section className="container-x pb-16 pt-10 sm:pt-14">
         <div className="max-w-3xl">
-          <span className="eyebrow text-wealth">Free tool</span>
-          <h1 className="mt-6 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
+          <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
             Home Equity <span className="marker">Estimator</span>
           </h1>
           {/* Answer-first: the formula in the first paragraph, for featured
@@ -92,7 +109,7 @@ export default function Page() {
           <Calculator />
         </div>
 
-        <p className="mt-6 max-w-3xl rounded-3xl border border-ink/10 bg-neutral-50 p-5 text-sm text-ink/60">
+        <p className="mt-6 max-w-3xl rounded-[25px] bg-[#f1f1f1] p-5 text-sm text-ink/60">
           <strong className="text-ink/80">Important:</strong> This calculator provides general
           information only and does not take into account your objectives, financial situation
           or needs. Results are estimates and may differ from actual outcomes. Consider
@@ -101,8 +118,40 @@ export default function Page() {
         </p>
       </section>
 
+      {/* The crawlable table: a client-rendered calculator is invisible to Google */}
+      <section className="py-20">
+        <div className="container-x max-w-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            Home equity by property value and loan balance.
+          </h2>
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
+            The same two lines of arithmetic the estimator runs, worked through for common
+            Australian numbers. <strong className="text-ink">Equity</strong> is the property
+            value minus the loan. <strong className="text-ink">Usable equity</strong> is 80% of
+            the property value minus the loan: the part most lenders will let you borrow
+            against before lenders mortgage insurance applies.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Home equity and usable equity at 80% LVR, by property value and home loan balance"
+              head={[
+                "Property value",
+                "$200k loan: equity",
+                "$200k loan: usable",
+                "$400k loan: equity",
+                "$400k loan: usable",
+                "$600k loan: equity",
+                "$600k loan: usable",
+              ]}
+              rows={EQUITY_ROWS}
+              note="Equity = property value − loan balance. Usable equity = (80% × property value) − loan balance, floored at zero. The same model the estimator above runs, before selling costs and other secured debts. Lender policies differ."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* What to do with the number - internal links to the money pages */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x max-w-4xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             Know your equity? Here’s what it can do.
@@ -120,13 +169,13 @@ export default function Page() {
             <li>See if you’re on track and explore the steps to unlock your property wealth.</li>
           </ul>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            <a href="/home-equity-long-term-wealth-strategy" className="rounded-3xl border border-ink/10 bg-white p-5 font-semibold text-ink transition hover:border-wealth">
+            <a href="/home-equity-long-term-wealth-strategy" className="rounded-[25px] bg-[#f1f1f1] p-5 font-semibold text-ink transition hover:bg-wealth-light">
               Equity Strategy Workshop →
             </a>
-            <a href="/insights/wealth-creation-using-debt-recycling" className="rounded-3xl border border-ink/10 bg-white p-5 font-semibold text-ink transition hover:border-wealth">
+            <a href="/insights/wealth-creation-using-debt-recycling" className="rounded-[25px] bg-[#f1f1f1] p-5 font-semibold text-ink transition hover:bg-wealth-light">
               Debt recycling explained →
             </a>
-            <a href="/property-investment-advice" className="rounded-3xl border border-ink/10 bg-white p-5 font-semibold text-ink transition hover:border-wealth">
+            <a href="/property-investment-advice" className="rounded-[25px] bg-[#f1f1f1] p-5 font-semibold text-ink transition hover:bg-wealth-light">
               Property investment advice →
             </a>
           </div>

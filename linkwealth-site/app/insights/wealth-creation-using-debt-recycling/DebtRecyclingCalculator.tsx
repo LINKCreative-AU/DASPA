@@ -85,14 +85,26 @@ export function DebtRecyclingCalculator() {
     portfolio = portfolio * (1 + g) + C + refund;
     redrawn += C;
   }
-  const recycleNet = portfolio - redrawn + payDown; // loan is repaid then redrawn: paydown benefit kept
+  // Both strategies are measured against the same reference: deploying the
+  // surplus nowhere. Paying down leaves you ahead by the contributions plus
+  // the interest they avoid, which is `payDown`. Recycling leaves total debt
+  // unchanged (the loan is repaid and immediately redrawn as a deductible
+  // split), so the gain is the portfolio itself, with the tax refunds on the
+  // deductible interest already reinvested into it.
+  //
+  // The previous formulation added `payDown` on top of `portfolio - redrawn`,
+  // which credited recycling with a loan reduction it never actually keeps.
+  // Algebraically that cancelled `payDown` out of the comparison entirely, so
+  // the loan rate never entered it and recycling won at every return, even
+  // below the loan rate, contradicting this page's own caveat.
+  const recycleNet = portfolio;
   const diff = recycleNet - payDown;
 
   const valid = C > 0;
 
   return (
     <div className="not-prose grid gap-8 lg:grid-cols-2">
-      <div className="space-y-5 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
+      <div className="space-y-5 rounded-[25px] bg-[#f1f1f1] p-6 sm:p-8">
         <Field
           label="Amount you can direct each year"
           hint="Surplus cash you could put against the mortgage (and redraw to invest)."
@@ -117,7 +129,7 @@ export function DebtRecyclingCalculator() {
         <Field label="Timeframe" value={years} onChange={setYears} suffix="years" />
       </div>
 
-      <div className="rounded-3xl bg-ink p-6 text-white sm:p-8">
+      <div className="rounded-[25px] bg-ink p-6 text-white sm:p-8 lg:sticky lg:top-24 lg:self-start">
         {!valid ? (
           <p className="text-white/75">Enter an annual amount to see the comparison.</p>
         ) : (
@@ -139,8 +151,9 @@ export function DebtRecyclingCalculator() {
                 {fmt(recycleNet)}
               </dd>
               <p className="mt-1 text-xs text-white/55">
-                Portfolio of {fmt(portfolio)} + the same loan reduction − the {fmt(redrawn)}{" "}
-                investment loan.
+                A portfolio of {fmt(portfolio)}, built while total debt stays put:{" "}
+                {fmt(redrawn)} of it converted from non-deductible to deductible, with the
+                tax refunds reinvested.
               </p>
             </div>
             <div className="border-t border-white/15 pt-5">

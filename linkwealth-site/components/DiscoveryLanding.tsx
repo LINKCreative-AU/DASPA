@@ -70,7 +70,7 @@ export function DiscoveryLanding({
           <SectionHead as="h1" eyebrow={eyebrow} title={h1} mark={h1Mark} accent />
           <p className="mt-6 font-semibold text-ink">It starts with a simple conversation</p>
           <CheckList items={bullets} />
-          <div className="mt-8 flex items-center gap-4 rounded-2xl border border-ink/10 bg-neutral-50 p-4">
+          <div className="mt-8 flex items-center gap-4 rounded-[25px] bg-[#f1f1f1] p-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/wp-content/uploads/2026/06/Richard-Wealth-1024-x-1024-Grey-Square-768x768.jpg"
@@ -104,7 +104,7 @@ export function DiscoveryLanding({
             src={heroImage}
             alt={heroImageAlt ?? ""}
             loading="lazy"
-            className="aspect-[21/8] w-full rounded-3xl object-cover"
+            className="aspect-[21/8] w-full rounded-[25px] object-cover"
           />
         </div>
       )}
@@ -113,7 +113,7 @@ export function DiscoveryLanding({
       {sections.map((s, i) => (
         <section
           key={s.heading}
-          className={i % 2 === 0 ? "border-y border-ink/10 bg-neutral-50 py-20" : "py-20"}
+          className={i % 2 === 0 ? "py-20" : "py-20"}
         >
           <div className="container-x max-w-3xl">
             <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">

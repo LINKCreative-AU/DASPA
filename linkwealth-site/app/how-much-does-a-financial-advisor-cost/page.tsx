@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JsonLd, breadcrumbSchema, faqSchema } from "@/components/Schema";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CtaBand } from "@/components/CtaBand";
+import { EyebrowPill } from "@/components/v2";
 
 // NEW page, born from the SERP: every People Also Ask slot under "financial
 // advisor brisbane" is a cost question ("How much does a financial advisor
@@ -74,8 +75,10 @@ export default function Page() {
       />
 
       <article className="container-x max-w-3xl pb-16 pt-10 sm:pt-14">
-        <span className="eyebrow text-wealth">Fees, published</span>
-        <h1 className="mt-6 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
+        <div className="mb-6">
+          <EyebrowPill tint>Fees, published</EyebrowPill>
+        </div>
+        <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
           How much does a financial advisor <span className="marker">actually cost?</span>
         </h1>
         <p className="mt-6 text-lg text-ink/80">
@@ -114,6 +117,23 @@ export default function Page() {
           in a Financial Services Guide before you commit; ours is linked in the footer.
         </p>
 
+        <div className="mt-8 flex items-center gap-5 rounded-[25px] bg-[#f1f1f1] p-5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/wp-content/uploads/2026/06/Richard-Wealth-1024-x-1024-Grey-Square-768x768.jpg"
+            alt="Richard Leal, Managing Director at LINK Wealth"
+            loading="lazy"
+            className="h-20 w-20 shrink-0 rounded-2xl object-cover"
+          />
+          <p className="text-sm leading-relaxed text-ink/70">
+            <span className="block font-display text-base font-bold text-ink">
+              Richard Leal quotes every engagement himself.
+            </span>
+            Managing Director, AR 327265. The free first meeting and the $660 workshops above
+            are his, and so is the number on any advice quote that follows them.
+          </p>
+        </div>
+
         <h2 className="mt-14 font-display text-2xl font-normal tracking-tight text-ink sm:text-3xl">
           What moves the fee.
         </h2>
@@ -146,7 +166,7 @@ export default function Page() {
       </article>
 
       {/* FAQs (visible text and schema kept in sync) */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
             Frequently asked questions.

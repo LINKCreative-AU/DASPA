@@ -110,7 +110,7 @@ export function ContactForm({
 
   if (sent) {
     return (
-      <div className="rounded-3xl border border-ink/10 bg-white p-8">
+      <div className="rounded-[25px] bg-[#f1f1f1] p-8">
         <p className="text-sm font-semibold uppercase tracking-wider text-wealth">
           {guide ? "Guide on its way" : "Message sent"}
         </p>
@@ -143,7 +143,7 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={submit} className="rounded-3xl border border-ink/10 bg-white p-6 sm:p-7">
+    <form onSubmit={submit} className="rounded-[25px] bg-[#f1f1f1] p-6 sm:p-7">
       <div className="space-y-4">
         <div>
           <p className="text-sm font-bold text-ink">

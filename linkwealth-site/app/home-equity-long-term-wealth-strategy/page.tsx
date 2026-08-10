@@ -4,6 +4,7 @@ import { JsonLd, breadcrumbSchema, faqSchema, workshopSchema } from "@/component
 import { PageHero, Section, FeatureGrid, CheckList, FAQ } from "@/components/ServicePage";
 import { Testimonials } from "@/components/Testimonials";
 import { CtaBand } from "@/components/CtaBand";
+import { Pill } from "@/components/v2";
 
 // The LINK Equity Strategy Workshop. Body copy carried verbatim from the
 // live page. SEO targets the "using equity to buy investment property" /
@@ -140,12 +141,12 @@ export default function Page() {
           src="/wp-content/uploads/2024/12/AdobeStock_599893056-1-min-scaled.jpeg"
           alt="A couple exploring investment property options for their home equity"
           loading="lazy"
-          className="aspect-[21/8] w-full rounded-3xl object-cover"
+          className="aspect-[21/8] w-full rounded-[25px] object-cover"
         />
       </div>
 
       {/* What is the workshop / who - verbatim */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
             <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
@@ -168,14 +169,16 @@ export default function Page() {
               Who is This Workshop For?
             </h2>
             <CheckList items={WHO} />
-            <div className="mt-8 rounded-3xl bg-ink p-8 text-white">
+            <div className="mt-8 rounded-[25px] bg-ink p-8 text-white">
               <p className="font-display text-xl font-bold tracking-tight">
                 In 90 minutes, align your equity, cash flow, and investments for growth.
               </p>
               <p className="mt-3 text-white/65">What’s stopping you from starting today?</p>
-              <a href="#contact" className="btn mt-6 bg-white text-ink hover:bg-neutral-100">
-                Talk to Richard to see if a workshop is right for you
-              </a>
+              <div className="mt-6">
+                <Pill href="#contact" variant="onDark">
+                  Talk to Richard to see if a workshop is right for you
+                </Pill>
+              </div>
             </div>
           </div>
         </div>
@@ -208,7 +211,7 @@ export default function Page() {
 
       {/* Investment - verbatim, house dark panel */}
       <section className="container-x py-20">
-        <div className="rounded-3xl bg-ink p-10 text-white sm:p-14">
+        <div className="rounded-[25px] bg-ink p-10 text-white sm:p-14">
           <p className="eyebrow guide-line-inline mb-4">
             <span className="text-white/60">Your Investment</span>
           </p>
@@ -227,9 +230,9 @@ export default function Page() {
             arrange your LINK Equity Strategy Workshop.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <a href="#contact" className="btn bg-white text-ink hover:bg-neutral-100">
+            <Pill href="#contact" variant="onDark">
               Talk to Richard to see if a workshop is right for you
-            </a>
+            </Pill>
           </div>
           <p className="mt-4 text-sm text-white/55">No obligation. No lock-in. Just clarity.</p>
         </div>
@@ -257,9 +260,9 @@ export default function Page() {
               Have a quick call with Richard to confirm the LINK Equity Workshop is right for
               you. This call is obligation free.
             </p>
-            <a href="#contact" className="btn btn-primary mt-5">
-              Book a call
-            </a>
+            <div className="mt-5">
+              <Pill href="#contact">Book a call</Pill>
+            </div>
           </div>
         </div>
       </section>

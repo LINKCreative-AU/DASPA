@@ -82,7 +82,7 @@ export function Calculator() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
-      <div className="space-y-5 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
+      <div className="space-y-5 rounded-[25px] bg-[#f1f1f1] p-6 sm:p-8">
         <NumField
           label="Estimated property value"
           hint="Tip: enter your best estimate (e.g., recent appraisal, comparable sales)."
@@ -108,7 +108,7 @@ export function Calculator() {
         </button>
       </div>
 
-      <div className="rounded-3xl bg-ink p-6 text-white sm:p-8">
+      <div className="rounded-[25px] bg-ink p-6 text-white sm:p-8 lg:sticky lg:top-24 lg:self-start">
         {!hasValue ? (
           <p className="text-white/75">Enter an estimated property value to see results.</p>
         ) : (

@@ -133,7 +133,7 @@ export function NetWorthCalculator() {
   return (
     <div className="grid gap-8 lg:grid-cols-2">
       <div className="space-y-8">
-        <div className="space-y-5 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
+        <div className="space-y-5 rounded-[25px] bg-[#f1f1f1] p-6 sm:p-8">
           <div className="flex items-center justify-between gap-4">
             <p className="eyebrow">
               <span className="text-wealth">What you own</span>
@@ -159,7 +159,7 @@ export function NetWorthCalculator() {
             />
           ))}
         </div>
-        <div className="space-y-5 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
+        <div className="space-y-5 rounded-[25px] bg-[#f1f1f1] p-6 sm:p-8">
           <p className="eyebrow">
             <span className="text-wealth">What you owe</span>
           </p>
@@ -178,7 +178,7 @@ export function NetWorthCalculator() {
         </div>
       </div>
 
-      <div className="rounded-3xl bg-ink p-6 text-white sm:p-8 lg:sticky lg:top-24 lg:self-start">
+      <div className="rounded-[25px] bg-ink p-6 text-white sm:p-8 lg:sticky lg:top-24 lg:self-start">
         {!started ? (
           <p className="text-white/75">
             Start entering what you own and owe. The number updates as you type. Use{" "}

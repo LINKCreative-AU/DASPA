@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { SITE } from "@/lib/site";
 
 // Real Google reviews, copied verbatim from the live site's review widget on
 // 2026-08-08 - Wealth clients only. (The old widget mixed in LINK Advisors'
 // accounting reviews, which belong to a different Google listing; those are
-// deliberately not carried over.) House review-card treatment.
-const REVIEWS: { name: string; text: string }[] = [
+// deliberately not carried over.) V2 review tile treatment.
+export const REVIEWS: { name: string; text: string }[] = [
   {
     name: "Sarah Wilson",
     text: "Richard has been amazing in helping me get into a position to purchase my first home. He took the time to go through my situation in detail and help set my finances up to enable me to be better prepared for the future.",
@@ -90,45 +89,87 @@ const REVIEWS: { name: string; text: string }[] = [
   },
 ];
 
-export function Testimonials({ heading = "Hear from our happy clients." }: { heading?: string }) {
-  const [expanded, setExpanded] = useState(false);
-  const shown = expanded ? REVIEWS : REVIEWS.slice(0, 6);
+// The register light tint carries the initials on the review tiles.
+export const REVIEW_TINT = "#daf2eb";
+
+export const reviewInitials = (name: string) =>
+  name
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+
+export function ReviewStars({ size = 16 }: { size?: number }) {
   return (
-    <section className="bg-ink py-20 text-white">
-      <div className="container-x">
-        <div className="max-w-3xl">
-          <h2 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight sm:text-[50px]">
-            {heading}
-          </h2>
-          <p className="mt-5 text-lg text-white/70">
-            {SITE.reviews.count} Google reviews at {SITE.reviews.rating.toFixed(1)} stars. A few
-            recent ones:
-          </p>
-        </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {shown.map((r) => (
-            <figure key={r.name} className="rounded-3xl border border-white/10 bg-white/5 p-7">
-              <p aria-hidden className="text-wealth-bright">
-                ★★★★★
-              </p>
-              <blockquote className="mt-3 text-sm leading-relaxed text-white/75">
-                &ldquo;{r.text}&rdquo;
+    <span aria-hidden className="flex gap-0.5 text-wealth">
+      {[0, 1, 2, 3, 4].map((i) => (
+        <svg key={i} width={size} height={size} viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
+// The homepage treatment: a drifting row of grey review tiles, doubled so the
+// track loops, paused on hover and static under reduced motion.
+export function Testimonials({ heading = "Hear from our happy clients." }: { heading?: string }) {
+  const track = [...REVIEWS, ...REVIEWS];
+  return (
+    <section aria-label="Reviews from LINK Wealth clients" className="py-16 sm:py-20">
+      <div className="container-x flex flex-wrap items-end justify-between gap-4">
+        <h2 className="max-w-xl font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+          {heading}
+        </h2>
+        <span className="flex gap-5">
+          <a
+            href="/reviews"
+            className="text-sm font-semibold text-ink/60 underline-offset-4 hover:text-ink hover:underline"
+          >
+            The reviews page →
+          </a>
+          <a
+            href={SITE.reviews.googleUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-ink/60 underline-offset-4 hover:text-ink hover:underline"
+          >
+            Verify on Google →
+          </a>
+        </span>
+      </div>
+      <p className="container-x mt-3 text-sm font-semibold text-ink/55">
+        {SITE.reviews.count} Google reviews at {SITE.reviews.rating.toFixed(1)} stars.
+      </p>
+
+      <div className="marquee mt-10 overflow-hidden">
+        <div className="marquee-track flex w-max gap-5">
+          {track.map((r, i) => (
+            <figure
+              key={i}
+              aria-hidden={i >= REVIEWS.length}
+              className="flex w-[330px] shrink-0 flex-col rounded-[25px] bg-[#f1f1f1] p-7 sm:w-[373px]"
+            >
+              <ReviewStars />
+              <blockquote className="mt-4 line-clamp-6 text-[15px] leading-[1.45] text-ink">
+                {r.text}
               </blockquote>
-              <figcaption className="mt-4 text-sm font-semibold text-white/90">
-                {r.name}
-                <span className="ml-2 font-normal text-white/40">Google review</span>
+              <figcaption className="mt-auto flex items-center gap-3 pt-5">
+                <span
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-ink"
+                  style={{ backgroundColor: REVIEW_TINT }}
+                >
+                  {reviewInitials(r.name)}
+                </span>
+                <span>
+                  <span className="block text-[15px] font-semibold text-ink">{r.name}</span>
+                  <span className="block text-[13px] text-ink/55">Google review</span>
+                </span>
               </figcaption>
             </figure>
           ))}
         </div>
-        {!expanded && (
-          <button
-            onClick={() => setExpanded(true)}
-            className="btn mt-8 border border-white/25 text-white hover:border-white"
-          >
-            Show more reviews
-          </button>
-        )}
       </div>
     </section>
   );

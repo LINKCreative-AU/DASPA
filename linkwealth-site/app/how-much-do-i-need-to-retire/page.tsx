@@ -5,6 +5,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
+import { Pill } from "@/components/v2";
+import { DataTable } from "@/components/DataTable";
 
 // NEW page from the second competitor pass: the retirement cluster is the
 // biggest soft field on the map - "retirement calculator (australia)"
@@ -66,6 +68,34 @@ const FAQS = [
   },
 ];
 
+// The crawlable version of the readiness check: the same projection loop and
+// the same rule-of-25 the tool runs, pre-computed, because a client-rendered
+// calculator is invisible to Google.
+const REAL_RETURN = 0.04;
+
+const fmtAud = (n: number) =>
+  n.toLocaleString("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
+
+function projectSuper(balance: number, contribution: number, years: number) {
+  let v = balance;
+  for (let y = 0; y < years; y++) v = v * (1 + REAL_RETURN) + contribution;
+  return v;
+}
+
+// Capital needed = annual spending x 25 (the 4% drawdown rule the check uses).
+const CAPITAL_ROWS = [33500, 48500, 52500, 74000, 100000].map((income) => [
+  `${fmtAud(income)} a year`,
+  `${fmtAud(income / 12)} a month`,
+  fmtAud(income * 25),
+]);
+
+const PROJECTION_YEARS = [10, 15, 20, 25, 30];
+const PROJECTION_BALANCES = [100000, 250000, 500000];
+const PROJECTION_ROWS = PROJECTION_YEARS.map((years) => [
+  `${years} years`,
+  ...PROJECTION_BALANCES.map((b) => fmtAud(projectSuper(b, 15000, years))),
+]);
+
 export default function Page() {
   return (
     <main>
@@ -126,8 +156,43 @@ export default function Page() {
         </div>
       </section>
 
+      {/* The crawlable tables: the check's own maths, pre-computed */}
+      <section className="py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            The capital each income level needs, and what super grows to.
+          </h2>
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
+            Both tables run the same arithmetic as the readiness check above. The first applies
+            the rule of 25 to the income you want. The second projects a super balance forward
+            in today&apos;s dollars at a 4% real return with $15,000 a year going in.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Capital needed to fund a retirement income under the rule of 25"
+              head={["Retirement income you want", "The same, per month", "Capital needed (rule of 25)"]}
+              rows={CAPITAL_ROWS}
+              note="Capital needed = annual spending × 25, the 4% drawdown rule the check uses. It assumes no Age Pension. The ASFA lump sums land far lower (about $595,000 single and $690,000 couple for comfortable) because they assume a part pension tops you up."
+            />
+          </div>
+          <div className="mt-12">
+            <DataTable
+              caption="Projected superannuation balance at retirement in today's dollars"
+              head={[
+                "Years until you retire",
+                "From $100,000 today",
+                "From $250,000 today",
+                "From $500,000 today",
+              ]}
+              rows={PROJECTION_ROWS}
+              note="Balance × 1.04 each year plus $15,000 of contributions, compounded, in today's dollars. 4% is a typical growth fund's long-run return net of fees and inflation, not a guarantee. It ignores tax nuances, career breaks, the Age Pension and market sequence risk."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* The two benchmarks */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             The two numbers everyone quotes, and why they differ.
@@ -203,9 +268,35 @@ export default function Page() {
         </div>
       </section>
 
+      {/* The advisers who model the real version of this */}
+      <section className="container-x pb-16">
+        <div className="grid items-center gap-8 rounded-[25px] bg-[#f1f1f1] p-8 sm:p-10 lg:grid-cols-[1fr_0.8fr]">
+          <div>
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+              The people who model the real version.
+            </h2>
+            <p className="mt-5 text-lg leading-[1.4] text-ink/80">
+              A calculator assumes a steady 4% and a straight line. Richard Leal (AR 327265)
+              and PJ Byrne run the version with your tax position, contribution caps, the Age
+              Pension and a bad first year of retirement in it. That is the Retirement Funding
+              Workshop, and the first conversation before it costs nothing.
+            </p>
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/wp-content/uploads/2026/06/Wealth-PJ-and-Richard-NEW-scaled.jpg"
+            alt="Richard Leal and PJ Byrne, financial advisers at LINK Wealth"
+            width={2560}
+            height={1700}
+            loading="lazy"
+            className="mx-auto h-[260px] max-w-full object-contain mix-blend-multiply sm:h-[320px]"
+          />
+        </div>
+      </section>
+
       {/* Route to the service */}
       <section className="container-x pb-4">
-        <div className="rounded-3xl bg-ink p-10 text-white sm:p-14">
+        <div className="rounded-[25px] bg-ink p-10 text-white sm:p-14">
           <p className="eyebrow guide-line-inline mb-4">
             <span className="text-white/60">From estimate to plan</span>
           </p>
@@ -218,15 +309,12 @@ export default function Page() {
             Retirement Funding Workshop (Value Guarantee: full refund if it is not worth it).
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <a href="/retirement-planning" className="btn bg-white text-ink hover:bg-neutral-100">
+            <Pill href="/retirement-planning" variant="onDark">
               Retirement planning advice
-            </a>
-            <a
-              href="/retirement-funding-workshop-link-wealth"
-              className="btn border border-white/25 text-white hover:border-white"
-            >
+            </Pill>
+            <Pill href="/retirement-funding-workshop-link-wealth" variant="ghostDark">
               Retirement Funding Workshop
-            </a>
+            </Pill>
           </div>
         </div>
       </section>

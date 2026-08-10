@@ -27,6 +27,7 @@ Key facts:
 - [Equity Strategy Workshop](https://wealth.link.com.au/home-equity-long-term-wealth-strategy): put home equity to work via shares, property or debt recycling
 
 ## Tools
+- [All tools](https://wealth.link.com.au/tools): the hub, with each calculator framed by the question it answers
 - [Home Equity Calculator](https://wealth.link.com.au/home-equity-estimator-calculator): free Australian home equity estimator (value minus loans, usable equity at 80% LVR)
 - [Debt Recycling Calculator](https://wealth.link.com.au/insights/wealth-creation-using-debt-recycling): compare paying down the mortgage vs debt recycling with your numbers
 - [Retirement Readiness Check](https://wealth.link.com.au/how-much-do-i-need-to-retire): projected super vs the ASFA benchmarks and the rule of 25, with the gap in today's dollars

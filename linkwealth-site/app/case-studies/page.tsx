@@ -15,8 +15,7 @@ export default function CaseStudies() {
   return (
     <main>
       <section className="container-x pb-16 pt-10 sm:pt-14">
-        <span className="eyebrow text-wealth">Case studies</span>
-        <h1 className="mt-6 font-display text-4xl font-normal tracking-tight text-ink sm:text-5xl">
+        <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-[58px]">
           Real clients, real strategies<span className="text-wealth">.</span>
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-[1.4] text-ink/80">
@@ -27,7 +26,7 @@ export default function CaseStudies() {
           {posts.map((p) => {
             const img = postImage(p);
             return (
-              <a key={p.urlPath} href={p.urlPath} className="group rounded-2xl border border-ink/10 p-6 transition hover:border-wealth hover:shadow-[0_12px_32px_-16px_rgba(32,67,71,0.35)]">
+              <a key={p.urlPath} href={p.urlPath} className="group rounded-[25px] bg-[#f1f1f1] p-6 transition hover:bg-wealth-light">
                 {img && (
                   <img
                     src={img}

@@ -21,6 +21,7 @@ const WORKSHOPS = [
 ];
 
 const RESOURCES = [
+  { label: "All tools", href: "/tools" },
   { label: "Wealth health check", href: "/wealth-health-check" },
   { label: "Home equity calculator", href: "/home-equity-estimator-calculator" },
   { label: "Retirement readiness check", href: "/how-much-do-i-need-to-retire" },

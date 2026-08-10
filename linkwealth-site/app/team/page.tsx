@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { TeamGrid } from "@/components/TeamGrid";
 import { CtaBand } from "@/components/CtaBand";
+import { Pill } from "@/components/v2";
 import { SITE, TEAM } from "@/lib/site";
 
 // NEW page - every sibling site fronts a named person (Chris on Advisors,
@@ -70,7 +71,7 @@ export default function Team() {
             intro="Get expert guidance when you need it most with one-on-one collaboration an agile, responsive advisory team who adapts as your goals and circumstances evolve."
             accent
           />
-          <div className="mt-8 rounded-3xl border border-ink/10 bg-neutral-50 p-7">
+          <div className="mt-8 rounded-[25px] bg-[#f1f1f1] p-7">
             <h2 className="font-display text-xl font-bold tracking-tight text-ink">
               Richard Leal · Managing Director
             </h2>
@@ -93,20 +94,20 @@ export default function Team() {
               </a>
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <a href="/contact" className="btn btn-primary">
-                Book a call with Richard
-              </a>
-              <a href="/case-studies" className="btn btn-ghost">
+              <Pill href="/contact">Book a call with Richard</Pill>
+              <Pill href="/case-studies" variant="ghost">
                 See client outcomes
-              </a>
+              </Pill>
             </div>
           </div>
         </div>
-        <img
-          src="/wp-content/uploads/2026/06/Richard-Wealth-1024-x-1024-Grey-Square-768x768.jpg"
-          alt="Richard Leal, Managing Director of LINK Wealth"
-          className="hidden aspect-square w-full rounded-3xl object-cover lg:block"
-        />
+        <div className="hidden overflow-hidden rounded-[25px] bg-[#f1f1f1] lg:block">
+          <img
+            src="/wp-content/uploads/2026/06/Richard-Wealth-1024-x-1024-Grey-Square-768x768.jpg"
+            alt="Richard Leal, Managing Director of LINK Wealth"
+            className="aspect-square w-full object-cover"
+          />
+        </div>
       </section>
 
       <TeamGrid heading="The whole team." members={TEAM} />

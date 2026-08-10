@@ -106,7 +106,7 @@ export default function Page() {
       </article>
 
       {/* The calculator nobody else in the SERP has */}
-      <section id="calculator" className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section id="calculator" className="py-20">
         <div className="container-x">
           <div className="max-w-3xl">
             <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">

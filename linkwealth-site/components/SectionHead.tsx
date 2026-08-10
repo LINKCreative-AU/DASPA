@@ -1,5 +1,8 @@
-// Editorial section header in the V1.5 style: big faded number, grey eyebrow with Guide Line,
-// then a large bold title with a period. `accent` renders the eyebrow's guide line in green.
+// Editorial section header in the V2 style: a bordered EyebrowPill, then the
+// display heading. `accent` fills the eyebrow with the Wealth light tint (the
+// treatment reserved for the pill that sits above an H1).
+import { EyebrowPill } from "./v2";
+
 function markTitle(title: string, mark?: string) {
   if (!mark) return title;
   const i = title.indexOf(mark);
@@ -36,13 +39,9 @@ export function SectionHead({
     <div className="max-w-3xl">
       {eyebrow && (
         <div className="mb-6">
-          <span
-            className={`eyebrow ${accent ? "text-wealth" : ""} ${
-              dark ? "!text-white/60" : ""
-            }`}
-          >
+          <EyebrowPill tint={accent && !dark} onDark={dark}>
             {eyebrow}
-          </span>
+          </EyebrowPill>
         </div>
       )}
       <Tag

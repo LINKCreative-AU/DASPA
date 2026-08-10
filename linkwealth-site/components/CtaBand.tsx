@@ -22,7 +22,7 @@ export function CtaBand({
 }) {
   return (
     <section id="contact" className="container-x pb-24 pt-6">
-      <div className="grid gap-10 rounded-3xl bg-ink p-8 text-white sm:p-12 lg:grid-cols-[1.15fr_1fr]">
+      <div className="grid gap-10 rounded-[25px] bg-ink p-8 text-white sm:p-12 lg:grid-cols-[1.15fr_1fr]">
         <div>
           <p className="eyebrow guide-line-inline mb-4">
             <span className="text-white/60">Innovative solutions. Unmatched service. Delivered as promised.</span>

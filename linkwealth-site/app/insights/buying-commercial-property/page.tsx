@@ -129,7 +129,7 @@ export default function Page() {
       </article>
 
       {/* FAQs (visible text and schema kept in sync) */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
             Frequently asked questions.

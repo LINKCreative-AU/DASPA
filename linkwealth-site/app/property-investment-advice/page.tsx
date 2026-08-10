@@ -4,6 +4,7 @@ import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/components
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Testimonials } from "@/components/Testimonials";
 import { CtaBand } from "@/components/CtaBand";
+import { Pill } from "@/components/v2";
 
 // Head terms: "property investment advice" (336/mo, KD 8) + "property
 // investment advisor australia" (150/mo). Intro copy verbatim. The old
@@ -73,8 +74,7 @@ export default function Page() {
       {/* Hero - verbatim intro */}
       <section className="container-x grid items-start gap-12 pb-16 pt-10 sm:pt-14 lg:grid-cols-2">
         <div>
-          <span className="eyebrow text-wealth">Property investment</span>
-          <h1 className="mt-6 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
+          <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
             Property Investment Advice to <span className="marker">grow and protect your wealth.</span>
           </h1>
           <div className="mt-6 space-y-4 text-lg text-ink/70">
@@ -95,16 +95,18 @@ export default function Page() {
             </p>
           </div>
         </div>
-        <div className="self-center rounded-3xl bg-ink p-8 text-white">
+        <div className="self-center rounded-[25px] bg-ink p-8 text-white">
           <h2 className="font-display text-xl font-bold">
             Book your free discovery meeting to get started.
           </h2>
           <p className="mt-2 text-sm text-white/65">
             We’ll be in touch within a few business hours to set up a time.
           </p>
-          <a href="#contact" className="btn mt-5 bg-white text-ink hover:bg-neutral-100">
-            Book my free discovery meeting
-          </a>
+          <div className="mt-5">
+            <Pill href="#contact" variant="onDark">
+              Book my free discovery meeting
+            </Pill>
+          </div>
         </div>
       </section>
 
@@ -113,12 +115,12 @@ export default function Page() {
           src="/wp-content/uploads/2024/12/AdobeStock_599893056-1-min-scaled.jpeg"
           alt="A couple comparing property listings while planning an investment purchase"
           loading="lazy"
-          className="aspect-[21/8] w-full rounded-3xl object-cover"
+          className="aspect-[21/8] w-full rounded-[25px] object-cover"
         />
       </div>
 
       {/* The essentials - the four promised topics, now with real content */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x max-w-4xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             The Essentials of Property Investment

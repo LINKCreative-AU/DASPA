@@ -5,6 +5,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { TeamGrid } from "@/components/TeamGrid";
 import { CtaBand } from "@/components/CtaBand";
 import { TEAM } from "@/lib/site";
+import { Pill } from "@/components/v2";
 
 // Body copy carried verbatim from the live page; structure fixed (one H1),
 // meta kept, Service+Offer, FAQ and Breadcrumb schema added. V1.5 bones.
@@ -121,7 +122,7 @@ export default function Page() {
       </PageHero>
 
       {/* Discover + who - verbatim */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
             <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
@@ -143,15 +144,17 @@ export default function Page() {
               Who Is This Workshop For?
             </h2>
             <CheckList items={WHO} />
-            <div className="mt-8 rounded-3xl bg-ink p-8 text-white">
+            <div className="mt-8 rounded-[25px] bg-ink p-8 text-white">
               <p className="font-display text-xl font-bold tracking-tight">
                 In just 90 minutes, you’ll see how your money can fund your lifestyle — not
                 just your retirement.
               </p>
               <p className="mt-3 text-white/65">What’s stopping you from starting today?</p>
-              <a href="#contact" className="btn mt-6 bg-white text-ink hover:bg-neutral-100">
-                Book a call
-              </a>
+              <div className="mt-6">
+                <Pill href="#contact" variant="onDark">
+                  Book a call
+                </Pill>
+              </div>
             </div>
           </div>
         </div>
@@ -185,9 +188,9 @@ export default function Page() {
           <p className="mt-4 text-lg font-semibold text-ink">
             You’ll leave this session with insight, direction, and confidence.
           </p>
-          <a href="#contact" className="btn btn-primary mt-8">
-            Book a call
-          </a>
+          <div className="mt-8">
+            <Pill href="#contact">Book a call</Pill>
+          </div>
         </div>
       </section>
 

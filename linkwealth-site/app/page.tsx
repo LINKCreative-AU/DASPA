@@ -9,6 +9,7 @@ import { TeamGrid } from "@/components/TeamGrid";
 import { CtaBand } from "@/components/CtaBand";
 import { SITE, TEAM, GROUP_TEAMS } from "@/lib/site";
 import { getPosts, postImage } from "@/lib/posts";
+import { Pill, EyebrowPill } from "@/components/v2";
 
 // Homepage. Head term: "financial advisor brisbane" (1,400/mo, KD 0) with
 // "wealth advisor" and "financial planner brisbane" secondary - carried in
@@ -133,10 +134,10 @@ export default function Home() {
       {/* HERO - verbatim copy, house treatment */}
       <section className="container-x grid items-center gap-12 pb-14 pt-12 sm:pt-16 lg:grid-cols-[1.15fr_1fr]">
         <div>
-          <p className="eyebrow guide-line-inline mb-6">
-            <span className="text-wealth">Financial advisors · Brisbane</span>
-          </p>
-          <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-6xl">
+          <div className="mb-6">
+            <EyebrowPill tint>Financial advisors · Brisbane</EyebrowPill>
+          </div>
+          <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-[58px]">
             Helping business owners and professionals grow their{" "}
             <span className="marker">personal wealth.</span>
           </h1>
@@ -146,12 +147,10 @@ export default function Home() {
             and your goals.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="/contact" className="btn btn-primary">
-              Book a call
-            </a>
-            <a href={SITE.phoneHref} className="btn btn-ghost">
+            <Pill href="/contact">Book a call</Pill>
+            <Pill href={SITE.phoneHref} variant="ghost">
               Call {SITE.phone}
-            </a>
+            </Pill>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-2.5">
             {[
@@ -170,13 +169,15 @@ export default function Home() {
           </div>
         </div>
         <div className="relative hidden lg:block">
-          <img
-            src="/wp-content/uploads/2026/06/Wealth-PJ-and-Richard-NEW-scaled.jpg"
-            alt="LINK Wealth financial advisors Richard Leal and PJ Byrne in Brisbane"
-            className="aspect-[4/5] w-full rounded-3xl object-cover"
-            fetchPriority="high"
-          />
-          <div className="absolute -bottom-6 -left-6 rounded-2xl bg-white px-5 py-4 shadow-lg">
+          <div className="flex items-end justify-center rounded-[25px] bg-[#f1f1f1] px-6 pt-10">
+            <img
+              src="/wp-content/uploads/2026/06/Wealth-PJ-and-Richard-NEW-scaled.jpg"
+              alt="LINK Wealth financial advisors Richard Leal and PJ Byrne in Brisbane"
+              className="max-h-[460px] w-auto mix-blend-multiply"
+              fetchPriority="high"
+            />
+          </div>
+          <div className="absolute -bottom-6 -left-6 rounded-[25px] bg-white px-5 py-4 shadow-lg">
             <p className="flex items-center gap-2 font-display text-sm font-semibold text-ink">
               <span className="text-wealth">
                 <Icon.star className="h-5 w-5" />
@@ -222,33 +223,29 @@ export default function Home() {
               What are you waiting for?
             </p>
           </div>
-          <a href="/contact" className="btn btn-primary mt-8">
-            Book a call
-          </a>
+          <div className="mt-8">
+            <Pill href="/contact">Book a call</Pill>
+          </div>
         </div>
       </section>
 
       {/* OUR SERVICES - verbatim copy, house router cards */}
-      <Section
-        tint
-       
-        title="How we grow and protect your wealth."
-      >
+      <Section title="How we grow and protect your wealth.">
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
           {SERVICES.map((s) => (
             <a
               key={s.href}
               href={s.href}
-              className="group rounded-3xl border border-ink/10 bg-white p-7 transition hover:-translate-y-0.5 hover:border-wealth/40 hover:shadow-[0_12px_32px_-16px_rgba(31,158,132,0.35)]"
+              className="group flex flex-col rounded-[25px] bg-[#f1f1f1] p-7 transition hover:bg-wealth-light"
             >
-              <span className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-wealth/10 text-wealth transition group-hover:bg-wealth group-hover:text-white">
+              <span className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-ink">
                 {s.icon}
               </span>
-              <h3 className="font-display text-lg font-bold tracking-tight text-ink transition group-hover:text-wealth">
+              <h3 className="font-display text-lg font-bold tracking-tight text-ink">
                 {s.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ink/65">{s.body}</p>
-              <p className="mt-4 text-sm font-semibold text-wealth opacity-0 transition group-hover:opacity-100">
+              <p className="mt-auto pt-5 text-sm font-semibold text-ink/40 transition group-hover:text-ink">
                 Explore →
               </p>
             </a>
@@ -338,13 +335,23 @@ export default function Home() {
                 href={t.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group rounded-2xl border border-ink/10 p-6 transition hover:border-ink"
+                className="group rounded-[25px] bg-[#f1f1f1] p-6 transition hover:bg-wealth-light"
               >
                 <span className="mb-4 block h-[3px] w-10" style={{ backgroundColor: t.color }} />
                 <p className="font-display text-lg font-bold text-ink">LINK {t.name}</p>
                 <p className="mt-1 text-sm text-ink/55">{t.meaning}</p>
               </a>
             ))}
+          </div>
+          <div className="mt-10 overflow-hidden rounded-[25px] bg-[#f1f1f1] px-6 pt-8">
+            <img
+              src="/wp-content/uploads/2026/06/Wealth-Web-scaled.jpg"
+              alt="The LINK Wealth advisory team in Brisbane"
+              width={2560}
+              height={1676}
+              loading="lazy"
+              className="mx-auto h-[300px] max-w-full object-contain mix-blend-multiply sm:h-[420px]"
+            />
           </div>
         </div>
       </section>

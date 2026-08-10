@@ -104,7 +104,7 @@ export default function Page() {
       </section>
 
       {/* How to calculate - the answer-first section for the 1,500/mo query */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             How to calculate net worth.

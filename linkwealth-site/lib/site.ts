@@ -89,7 +89,9 @@ export const NAV: NavItem[] = [
   { label: "SMSF", href: "/smsf" },
   {
     label: "Tools",
+    href: "/tools",
     children: [
+      { label: "All tools", href: "/tools" },
       { label: "Wealth health check", href: "/wealth-health-check" },
       { label: "Net worth calculator", href: "/net-worth-calculator" },
       { label: "Home equity calculator", href: "/home-equity-estimator-calculator" },
