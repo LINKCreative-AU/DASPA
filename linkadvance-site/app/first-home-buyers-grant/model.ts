@@ -114,6 +114,7 @@ export const STACK: StackRow[] = [
   stackRow("New build or off the plan", 550_000, "new"),
   stackRow("New build or off the plan", 700_000, "new"),
   stackRow("New build or off the plan", 749_000, "new"),
+  stackRow("New build or off the plan", 750_000, "new"),
   stackRow("New build or off the plan", 850_000, "new"),
   stackRow("Established home", 600_000, "established"),
   stackRow("Established home", 700_000, "established"),

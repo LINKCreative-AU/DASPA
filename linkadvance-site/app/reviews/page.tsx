@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CtaBand } from "@/components/CtaBand";
 import { ReviewWall, CountUp } from "./ReviewWall";
 import { SITE, TEAM } from "@/lib/site";
+import { Icon } from "@/components/Icons";
 
 // The proof page, in the link.com.au treatment: the count-up number, the
 // grey review tiles, the people. Review velocity on the Google listing is
@@ -87,6 +88,57 @@ export default function Reviews() {
       {/* The wall: link.com.au tiles, filterable */}
       <section className="container-x pb-20">
         <ReviewWall />
+        <p className="mt-10 max-w-2xl text-sm leading-relaxed text-ink/55">
+          These 24 are the reviews published in full on this site, reproduced word for word.
+          The full set of {SITE.reviews.count} sits on our Google listing, where you can also
+          see who wrote them and when.{" "}
+          <a
+            href={SITE.reviews.googleUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-ink underline underline-offset-4"
+          >
+            Read every review on Google
+          </a>
+          .
+        </p>
+      </section>
+
+
+      {/* What the reviews keep saying. Every count is computed from the
+          verbatim text of the 24 reviews above, so it can be checked. */}
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+        <div className="container-x">
+          <h2 className="max-w-2xl font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            The same four things, over and over.
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg leading-[1.4] text-ink/80">
+            Counted from the words in the 24 reviews on this page, not from a
+            marketing workshop.
+          </p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { n: 15, icon: Icon.star, title: "Recommend us outright.", quote: "Highly recommend to anyone needing an amazing mortgage broking team." },
+              { n: 12, icon: Icon.shieldCheck, title: "Say we made it easy.", quote: "Made what could have been a very stressful experience feel smooth and manageable." },
+              { n: 11, icon: Icon.userPhone, title: "Single out the communication.", quote: "We were kept informed every step of the way and nothing was ever too much trouble." },
+              { n: 6, icon: Icon.trendingUp, title: "Say we went further than asked.", quote: "Renegotiated our interest rate proactively, which has brought welcome savings." },
+            ].map((t) => (
+              <div key={t.title} className="rounded-[25px] bg-white p-7">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-advance-light text-ink">
+                  <t.icon className="h-5 w-5" />
+                </span>
+                <p className="mt-5 font-display text-4xl font-normal tracking-tight text-ink">
+                  {t.n}
+                  <span className="text-lg text-ink/40"> of 24</span>
+                </p>
+                <p className="mt-1 font-semibold text-ink">{t.title}</p>
+                <blockquote className="mt-3 text-sm leading-relaxed text-ink/60">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* The people the reviews keep naming - the real shot, not tiles */}

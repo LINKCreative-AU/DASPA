@@ -125,6 +125,37 @@ export function workshopSchema(w: {
   };
 }
 
+// The articles hub and each category index are collections, not articles.
+// CollectionPage + an ItemList of the real post URLs gives crawlers the
+// full inventory of the section from one page, which the old flat grid
+// never expressed in markup.
+export function collectionPageSchema(c: {
+  name: string;
+  description: string;
+  path: string;
+  items: { title: string; path: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: c.name,
+    description: c.description,
+    url: `${SITE.url}${c.path}`,
+    isPartOf: { "@type": "Blog", name: "LINK Advance Articles", url: `${SITE.url}/blog` },
+    publisher: { "@id": `${SITE.url}/#firm` },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: c.items.length,
+      itemListElement: c.items.map((item, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: item.title,
+        url: `${SITE.url}${item.path}`,
+      })),
+    },
+  };
+}
+
 export function articleSchema(a: {
   title: string;
   description: string;

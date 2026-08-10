@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { POSTS } from "@/lib/posts";
+import { CATEGORY_SLUGS } from "@/lib/article-hub";
 
 const CORE: { path: string; priority: number }[] = [
   { path: "/", priority: 1 },
@@ -43,6 +44,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE.url}${c.path === "/" ? "" : c.path}`,
       lastModified: now,
       priority: c.priority,
+    })),
+    // Category indexes: real pages now, and the target of every post breadcrumb.
+    ...CATEGORY_SLUGS.map((c) => ({
+      url: `${SITE.url}/blog/${c}`,
+      lastModified: now,
+      priority: 0.6,
     })),
     ...POSTS.map((p) => ({
       url: `${SITE.url}${p.path}`,

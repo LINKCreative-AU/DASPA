@@ -39,7 +39,7 @@ export default async function Page({ params }: Params) {
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Articles", path: "/blog" },
-    { name: CATEGORY_LABELS[post.category] ?? post.category, path: "/blog" },
+    { name: CATEGORY_LABELS[post.category] ?? post.category, path: `/blog/${post.category}` },
     { name: post.title, path: post.path },
   ];
   return (

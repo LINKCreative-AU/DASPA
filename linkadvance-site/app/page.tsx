@@ -4,10 +4,11 @@ import { SectionHead } from "@/components/SectionHead";
 import { Icon } from "@/components/Icons";
 import { FeatureGrid, CheckList, FAQ, ProcessSteps } from "@/components/ServicePage";
 import { ReviewStrip } from "@/components/ReviewStrip";
-import { TeamGrid } from "@/components/TeamGrid";
 import { CtaBand } from "@/components/CtaBand";
 import { LenderMarquee } from "@/components/LenderMarquee";
-import { SITE, TEAM, GROUP_TEAMS } from "@/lib/site";
+import { LaneChooser } from "@/components/LaneChooser";
+import { Specialists } from "@/components/Specialists";
+import { SITE, GROUP_TEAMS } from "@/lib/site";
 import { Pill, EyebrowPill } from "@/components/v2";
 
 // The homepage: "mortgage broker brisbane" (1,710/mo, KD 24) is the head
@@ -90,13 +91,12 @@ export default function Page() {
           <h1 className="mt-5 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-[58px]">
             We make lending <span className="marker">easy.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-[1.4] text-ink/80">
-            Work with experienced mortgage brokers who partner with you to get the outcome you
-            want: one broker through the entire journey, from the initial coffee to approval,
-            settlement, and every repricing after. Your goals are priority number one.
+          <p className="mt-6 max-w-xl text-xl leading-[1.4] text-ink sm:text-[22px] sm:leading-[31px]">
+            One broker from the first coffee to settlement, and every repricing after. We put
+            35+ lenders in competition for your loan, and it costs you nothing.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Pill href="#contact">Talk to a broker for free</Pill>
+            <Pill href="#contact">Talk to a broker</Pill>
             <Pill href="/home-loan-health-check" variant="ghost">
               Check your current loan
             </Pill>
@@ -104,20 +104,6 @@ export default function Page() {
           <p className="mt-6 text-sm font-semibold text-ink/60">
             <span aria-hidden className="text-advance">★★★★★</span> {SITE.reviews.rating.toFixed(1)} from{" "}
             {SITE.reviews.count} Google reviews · 35+ lenders · one broker end to end
-          </p>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink/60">
-            <a href="/first-home-buyers-loan" className="font-semibold text-ink/80 underline-offset-4 hover:text-ink hover:underline">
-              First home buyers
-            </a>{" "}
-            (the $30,000 QLD grant and 5% deposit paths),{" "}
-            <a href="/refinancing-brisbane" className="font-semibold text-ink/80 underline-offset-4 hover:text-ink hover:underline">
-              refinancers
-            </a>{" "}
-            (a free loan review, or we make your lender price-match) and{" "}
-            <a href="/commercial-lending" className="font-semibold text-ink/80 underline-offset-4 hover:text-ink hover:underline">
-              business owners
-            </a>{" "}
-            (premises, working capital, acquisitions): one desk covers all of it.
           </p>
         </div>
         <div className="flex items-end justify-center rounded-[25px] bg-[#f1f1f1] px-6 pt-8 lg:self-stretch">
@@ -156,69 +142,39 @@ export default function Page() {
         </div>
       </section>
 
-      {/* The cost answer, in visible copy - the head-term PAA is four cost
-          questions and they shouldn't live only inside a collapsed FAQ */}
-      <section className="py-20">
-        <div className="container-x grid gap-12 lg:grid-cols-2">
-          <div>
+      {/* The lender panel: white, headed properly, logos at real size.
+          James, 10 Aug: the grey band made it look small and incidental. */}
+      <section className="py-20 sm:py-24">
+        <div className="container-x">
+          <div className="max-w-3xl">
             <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
-              What a broker costs, and who pays.
+              Direct access to 35+ lenders, <span className="marker">not just the big four.</span>
             </h2>
             <p className="mt-5 text-lg leading-[1.4] text-ink/80">
-              For home loans: <strong className="text-ink">you pay nothing</strong>. The lender
-              pays a commission when the loan settles, and we disclose exactly what it is before
-              you sign anything. The comparison across 35+ lenders, the negotiation and the
-              yearly repricing call are all part of that.
-            </p>
-            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
-              For complex commercial work, where a fee can apply, it&apos;s quoted in writing
-              before anything starts. No surprises either way: since 2021 mortgage brokers owe
-              you a legal Best Interests Duty. Your bank owes you nothing of the kind.
-            </p>
-            <p className="mt-5 text-sm font-semibold">
-              <a href="/blog/home-loans/mortgage-broker-vs-bank" className="text-ink/70 underline-offset-4 hover:text-ink hover:underline">
-                The full broker-vs-bank breakdown →
-              </a>
+              Majors, second-tier banks, credit unions and specialist lenders, all on the
+              panel. When they compete for your loan, the pricing gets sharp and the policy
+              gets flexible. Your bank can only ever offer you its own.
             </p>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-left text-[15px]">
-              <thead>
-                <tr className="border-b-2 border-advance text-xs font-semibold uppercase tracking-wider text-ink/50">
-                  <th className="py-3 pr-3"></th>
-                  <th className="py-3 pr-3">Your bank</th>
-                  <th className="py-3 text-ink">LINK Advance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Loans compared", "Its own products", "35+ lenders, including your bank"],
-                  ["Legally serves", "Its shareholders", "You: Best Interests Duty"],
-                  ["Your rate", "The advertised one", "Negotiated, with walk-away leverage"],
-                  ["The paperwork", "You chase it", "Prepared and chased for you"],
-                  ["After settlement", "Nothing", "Repriced every year"],
-                  ["Cost to you", "$0", "$0 for home loans, disclosed commission"],
-                ].map((r) => (
-                  <tr key={r[0]} className="border-b border-ink/10 align-top">
-                    <td className="py-3 pr-3 font-semibold text-ink">{r[0]}</td>
-                    <td className="py-3 pr-3 text-ink/55">{r[1]}</td>
-                    <td className="py-3 font-medium text-ink/85">{r[2]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        </div>
+        <div className="mt-12">
+          <LenderMarquee />
         </div>
       </section>
 
-      {/* The lender panel, as a continuous ribbon */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-12">
+      {/* What are you here for: personal or commercial. Both grids stay in
+          the DOM (hidden, not unmounted) so every lane link is crawlable. */}
+      <section className="border-y border-ink/10 bg-white py-20 sm:py-24">
         <div className="container-x">
-          <p className="text-center text-sm font-semibold text-ink/50">
-            Direct access to 35+ lenders, not just the big four.
-          </p>
+          <SectionHead
+            title="Whatever the loan, one broker owns it."
+            mark="one broker owns it."
+            intro="Two very different conversations, so pick your side and we'll show you the right desk."
+          />
+          <div className="mt-10">
+            <LaneChooser />
+          </div>
         </div>
-        <LenderMarquee />
       </section>
 
       {/* First home - the division's proven strength gets its own band
@@ -282,88 +238,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* The lanes */}
-      <section className="py-20 sm:py-24">
-        <div className="container-x">
-          <SectionHead
-            title="Whatever the loan, one broker owns it."
-            mark="one broker owns it."
-          />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { label: "Home loans", href: "/home-loans-brisbane", note: "The big one, done properly", icon: <Icon.home /> },
-              { label: "First home buyers", href: "/first-home-buyers-loan", note: "5% deposit paths and the $30k grant", icon: <Icon.key /> },
-              { label: "Refinancing", href: "/refinancing-brisbane", note: "Or we make your lender price-match", icon: <Icon.tag /> },
-              { label: "Investment loans", href: "/investment-home-loans", note: "Structure for the portfolio", icon: <Icon.trendingUp /> },
-              { label: "Construction loans", href: "/construction-loans-brisbane", note: "Staged like the build", icon: <Icon.wrench /> },
-              { label: "SMSF loans", href: "/smsf-mortgage-broker", note: "Property inside super, including your premises", icon: <Icon.shieldCheck /> },
-              { label: "Business loans", href: "/business-loans", note: "Growth, cash flow, acquisition", icon: <Icon.dollar /> },
-              { label: "Car & equipment", href: "/business-car-and-equipment-loans", note: "Often approved in days", icon: <Icon.rocket /> },
-            ].map((s) => (
-              <a
-                key={s.href}
-                href={s.href}
-                className="group rounded-[25px] bg-[#f1f1f1] p-6 transition hover:bg-advance-light"
-              >
-                <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-ink">
-                  {s.icon}
-                </span>
-                <p className="font-display text-lg font-bold tracking-tight text-ink">
-                  {s.label}
-                  <span className="text-advance">.</span>
-                </p>
-                <p className="mt-1.5 text-sm text-ink/55">{s.note}</p>
-                <p className="mt-4 text-sm font-semibold text-ink/40 transition group-hover:text-ink">
-                  Learn more →
-                </p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Commercial - new to the brand, so the homepage has to declare it */}
-      <section className="bg-ink py-20 text-white">
-        <div className="container-x grid items-center gap-10 lg:grid-cols-[2fr_1fr]">
-          <div>
-            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
-              Lending for the business, not just the house.
-            </h2>
-            <p className="mt-5 max-w-2xl text-lg text-white/70">
-              The commercial desk writes premises purchases (including through your SMSF, with
-              LVRs to 80%), working capital against invoices and equipment, acquisition funding
-              at 50 to 70% of maintainable earnings, and development finance to 65 to 80% of
-              total development cost.
-            </p>
-            <p className="mt-4 max-w-2xl text-lg text-white/70">
-              Start with the Business Borrowing Health Check: seven minutes on structure,
-              numbers, profit and the ATO position, and you&apos;ll know how a commercial credit
-              desk reads your file before a lender ever does.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a href="/business-borrowing-health-check" className="btn btn-advance">
-                Score your business file
-              </a>
-              <a href="/commercial-lending" className="btn border border-white/25 text-white hover:border-white">
-                Commercial lending
-              </a>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 rounded-3xl border border-white/10 bg-white/5 p-5 lg:flex-col lg:items-start">
-            <img
-              src="/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png"
-              alt="Jacob, mortgage broker at LINK Advance"
-              className="h-20 w-20 rounded-2xl object-cover lg:h-auto lg:w-full"
-              loading="lazy"
-            />
-            <p className="text-sm text-white/65">
-              <span className="block font-semibold text-white">Jacob runs the commercial desk.</span>
-              The lending other brokers find difficult: complex commercial, SMSF, small business
-              finance.
-            </p>
-          </div>
-        </div>
-      </section>
+      <Specialists />
 
       {/* The journey - the old site's process pages, surfaced */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
@@ -384,8 +259,6 @@ export default function Page() {
       </section>
 
       {/* The brokers */}
-      <TeamGrid members={TEAM} />
-
       <ReviewStrip />
 
       {/* Three guides - freshness, blog equity, expertise beyond sales pages */}
@@ -413,23 +286,52 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Tools strip */}
-      <section className="py-20">
-        <div className="container-x">
-          <SectionHead
-            title="Run your own numbers first."
-            mark="your own numbers"
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Tools: a list beside the pitch. A four-card grid here sat directly
+          on top of the group's four-card grid and read as one repeated shape
+          (James, 10 Aug). */}
+      <section className="py-20 sm:py-24">
+        <div className="container-x grid items-start gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+          <div>
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+              Run your own numbers <span className="marker">first.</span>
+            </h2>
+            <p className="mt-5 text-lg leading-[1.4] text-ink/80">
+              Seven tools, free, on screen, no email wall. Work out what you can borrow, what
+              it costs, what the government takes and gives back, then bring the numbers to a
+              broker who can move them.
+            </p>
+            <div className="mt-8">
+              <Pill href="/calculators" variant="ghost">
+                All calculators and checks
+              </Pill>
+            </div>
+          </div>
+          <div className="divide-y divide-ink/10 rounded-[25px] bg-[#f1f1f1] px-7">
             {[
-              { label: "Home loan health check", href: "/home-loan-health-check", note: "Score your current loan in 2 minutes" },
-              { label: "Borrowing power estimator", href: "/borrowing-power-calculator", note: "What lenders are likely to lend you" },
-              { label: "Repayments + LMI", href: "/home-loan-repayment-calculator", note: "What it costs per month, stress-tested" },
-              { label: "Stamp duty QLD", href: "/stamp-duty-calculator-qld", note: "Duty + first-home concessions" },
+              { label: "Borrowing power estimator", href: "/borrowing-power-calculator", note: "What a lender will actually lend you, with the APRA buffer", icon: <Icon.calculator /> },
+              { label: "Repayments and stress test", href: "/home-loan-repayment-calculator", note: "Monthly cost, and the cost if rates rise 3%", icon: <Icon.dollar /> },
+              { label: "Stamp duty QLD", href: "/stamp-duty-calculator-qld", note: "Duty by buyer type, including the first home rules", icon: <Icon.home /> },
+              { label: "LMI estimator", href: "/lenders-mortgage-insurance-calculator", note: "The premium, and the four ways to avoid paying it", icon: <Icon.shieldCheck /> },
+              { label: "First home grant check", href: "/first-home-buyers-grant", note: "The $30,000 grant, against the real eligibility rules", icon: <Icon.key /> },
+              { label: "Home loan health check", href: "/home-loan-health-check", note: "Score the loan you already have, out of 10", icon: <Icon.clipboardCheck /> },
+              { label: "Business borrowing check", href: "/business-borrowing-health-check", note: "How a commercial credit desk would read your file", icon: <Icon.trendingUp /> },
             ].map((t) => (
-              <a key={t.href} href={t.href} className="group rounded-[25px] border-t-4 border-t-advance bg-[#f1f1f1] p-6 transition hover:bg-advance-light">
-                <p className="font-display text-lg font-bold tracking-tight text-ink">{t.label}</p>
-                <p className="mt-1.5 text-sm text-ink/55">{t.note}</p>
+              <a key={t.href} href={t.href} className="group flex items-center gap-4 py-5">
+                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-ink">
+                  {t.icon}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-lg font-bold tracking-tight text-ink">
+                    {t.label}
+                  </span>
+                  <span className="block text-sm text-ink/60">{t.note}</span>
+                </span>
+                <span
+                  aria-hidden
+                  className="shrink-0 text-lg text-ink/30 transition group-hover:translate-x-1 group-hover:text-ink"
+                >
+                  →
+                </span>
               </a>
             ))}
           </div>
@@ -466,7 +368,64 @@ export default function Page() {
         </div>
       </section>
 
+      {/* The cost answer, in visible copy - the head-term PAA is four cost
+          questions and they shouldn't live only inside a collapsed FAQ */}
+      <section className="py-20">
+        <div className="container-x grid gap-12 lg:grid-cols-2">
+          <div>
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+              What a broker costs, and what you get.
+            </h2>
+            <p className="mt-5 text-lg leading-[1.4] text-ink/80">
+              For home loans: <strong className="text-ink">you pay nothing</strong>. The lender
+              pays a commission when the loan settles, and we disclose exactly what it is before
+              you sign anything. The comparison across 35+ lenders, the negotiation and the
+              yearly repricing call are all part of that.
+            </p>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+              For complex commercial work, where a fee can apply, it&apos;s quoted in writing
+              before anything starts. No surprises either way: since 2021 mortgage brokers owe
+              you a legal Best Interests Duty. Your bank owes you nothing of the kind.
+            </p>
+            <p className="mt-5 text-sm font-semibold">
+              <a href="/blog/home-loans/mortgage-broker-vs-bank" className="text-ink/70 underline-offset-4 hover:text-ink hover:underline">
+                The full broker-vs-bank breakdown →
+              </a>
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-left text-[15px]">
+              <thead>
+                <tr className="border-b-2 border-advance text-xs font-semibold uppercase tracking-wider text-ink/50">
+                  <th className="py-3 pr-3"></th>
+                  <th className="py-3 pr-3">Your bank</th>
+                  <th className="py-3 text-ink">LINK Advance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Loans compared", "Its own products", "35+ lenders, including your bank"],
+                  ["Legally serves", "Its shareholders", "You: Best Interests Duty"],
+                  ["Your rate", "The advertised one", "Negotiated, with walk-away leverage"],
+                  ["The paperwork", "You chase it", "Prepared and chased for you"],
+                  ["After settlement", "Nothing", "Repriced every year"],
+                  ["Cost to you", "$0", "$0 for home loans, disclosed commission"],
+                ].map((r) => (
+                  <tr key={r[0]} className="border-b border-ink/10 align-top">
+                    <td className="py-3 pr-3 font-semibold text-ink">{r[0]}</td>
+                    <td className="py-3 pr-3 text-ink/55">{r[1]}</td>
+                    <td className="py-3 font-medium text-ink/85">{r[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <FAQ title="Straight answers first." faqs={FAQS} />
+
+      <CtaBand />
 
       {/* Local band - the map pack is the head-term prize, and a
           geo-consistent homepage supports it */}
@@ -512,7 +471,6 @@ export default function Page() {
         </div>
       </section>
 
-      <CtaBand />
     </main>
   );
 }

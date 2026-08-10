@@ -16,7 +16,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "A home loan is the biggest financial decision most people ever make, and the lender's job is to sell you theirs. Ours is to compare 35+ of them, negotiate the one that fits, and stay on it for the life of the loan.",
     heroImage: "/wp-content/uploads/2026/05/ADVANCE-2025-Web-scaled.jpg",
-    heroImageAlt: "The LINK Advance team",
+    heroImageAlt: "The LINK Advance mortgage broking team in Fortitude Valley, Brisbane",
     bullets: [
       "One broker from first coffee to settlement and beyond, never a call centre",
       "35+ lenders compared, not just the big four",
@@ -121,7 +121,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "Most people's loans quietly drift onto a worse rate than their lender offers new customers. A refinance review compares your loan against 35+ lenders, and sometimes the best move is making your current lender match, which costs you nothing at all.",
     heroImage: "/wp-content/uploads/2023/01/hugh.jpg",
-    heroImageAlt: "Hugh, co-founder of LINK Advance",
+    heroImageAlt: "Hugh, co-founder of LINK Advance, Brisbane mortgage brokers",
     bullets: [
       "Free loan review against 35+ lenders, including your own",
       "Lower repayments, debt consolidation, or equity out for the next move",
@@ -231,7 +231,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "A bridging loan covers the gap between buying your next home and settling the sale of your current one, so you never have to win both settlements on the same day, or let the right house go because yours hasn't sold yet. It's specialist lending: only some lenders do it, fewer do it well, and the structure matters more than the rate.",
     heroImage: "/wp-content/uploads/2026/05/ADVANCE-the-boys-2025-web-scaled.jpg",
-    heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers",
+    heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers in Brisbane",
     bullets: [
       "Buy first, sell second, move once: no rentals, no double moves, no rushed sale",
       "Interest usually capitalised during the bridge, so you're not paying two mortgages from cash flow",
@@ -304,7 +304,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "You've never done this before. We do it every week. One broker walks you from \"can we even buy?\" through deposit strategy, grants, pre-approval, the contract and settlement, answering the questions you didn't know to ask.",
     heroImage: "/wp-content/uploads/2026/05/Callum-Advance-1024x1024-LinkedIn-Grey-Square.png",
-    heroImageAlt: "Callum, first home and investment broker at LINK Advance",
+    heroImageAlt: "Callum, first home and investment broker at LINK Advance in Brisbane",
     bullets: [
       "Deposit strategy: 5% with the First Home Guarantee, guarantor options, or LMI, with the trade-offs in real dollars",
       "Every grant and concession claimed: FHOG QLD, stamp duty concessions, the Guarantee",
@@ -403,7 +403,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "The wrong loan structure costs investors more than the wrong rate. We set up investment lending so this purchase works, and the next one is still possible: equity release, offsets in the right places, and lenders chosen for how they treat rental income.",
     heroImage: "/wp-content/uploads/2026/05/ADVANCE-the-boys-2025-web-scaled.jpg",
-    heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers",
+    heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers in Brisbane",
     bullets: [
       "Structure first: interest-only vs P&I, offsets, splits, and keeping deductible debt clean",
       "Lenders picked for investor policy: rental income shading, portfolio limits and trust lending differ wildly",
@@ -494,7 +494,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "A construction loan isn't a home loan with a different name. It pays your builder in progress payments, charges interest only on what's drawn, and lives or dies on the paperwork: fixed-price contract, plans, and a lender who's comfortable with your builder.",
     heroImage: "/wp-content/uploads/2026/05/ADVANCE-2025-Web-1-scaled.jpg",
-    heroImageAlt: "The LINK Advance team",
+    heroImageAlt: "The LINK Advance mortgage broking team in Fortitude Valley, Brisbane",
     bullets: [
       "Progress payments matched to the build stages: deposit, slab, frame, lockup, fixing, completion",
       "Interest-only on drawn funds during the build, converting to a standard loan at completion",
@@ -582,7 +582,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "Buying property inside a self-managed super fund uses a special loan (a limited recourse borrowing arrangement) with its own lenders, deposits and compliance rules. It's Jacob's specialty, and the strategy side is handled with the advisers at LINK Wealth.",
     heroImage: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
-    heroImageAlt: "Jacob, commercial broker at LINK Advance",
+    heroImageAlt: "Jacob, commercial and SMSF broker at LINK Advance in Brisbane",
     bullets: [
       "Residential and commercial SMSF lending across the specialist lender panel",
       "Business owners: buy your premises through your SMSF and pay rent to your own fund",
@@ -674,7 +674,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "Business lending is where the right broker earns real money for you: the spread between lenders is wider, the structures matter more, and the bank's first offer is rarely its best. One broker, your numbers, and a panel that includes the lenders who actually want your industry.",
     heroImage: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
-    heroImageAlt: "Jacob, commercial broker at LINK Advance",
+    heroImageAlt: "Jacob, commercial and SMSF broker at LINK Advance in Brisbane",
     bullets: [
       "Growth funding, cash-flow and working capital, commercial property, franchise and acquisition lending",
       "One broker who learns your business once, not a new banker every eighteen months",
@@ -772,7 +772,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "Asset finance moves fast when the file is right, often approved in days. Cars, utes, trucks, trailers, machinery and business equipment, financed against the asset itself, for business or personal use.",
     heroImage: "/wp-content/uploads/2026/05/ADVANCE-the-boys-2025-web-scaled.jpg",
-    heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers",
+    heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers in Brisbane",
     bullets: [
       "Chattel mortgage, lease or personal loan: the structure changes the tax outcome, so we match it to advice",
       "New, used and private-sale vehicles financed",
@@ -855,7 +855,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "Buying the building your business runs from is the classic owner's move: rent stops leaving, equity starts building. We finance premises purchases, commercial investment property and the SMSF version, with the deal structured the way commercial credit teams want to see it.",
     heroImage: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
-    heroImageAlt: "Jacob, commercial broker at LINK Advance",
+    heroImageAlt: "Jacob, commercial and SMSF broker at LINK Advance in Brisbane",
     bullets: [
       "Owner-occupied premises, commercial investment and SMSF commercial (LRBA) lending",
       "Typical LVRs 65-80% depending on property type and lease profile",
@@ -944,7 +944,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "Most growing businesses die of timing, not losses: the work is done, the invoice is out, the wages are due. Working capital facilities bridge that gap, and the right structure costs a fraction of the wrong one.",
     heroImage: "/wp-content/uploads/2026/05/ADVANCE-2025-Web-1-scaled.jpg",
-    heroImageAlt: "The LINK Advance team",
+    heroImageAlt: "The LINK Advance mortgage broking team in Fortitude Valley, Brisbane",
     bullets: [
       "Overdrafts, invoice finance, trade and import facilities, short-term loans",
       "Facilities matched to the cash-flow shape: seasonal, project-based or growth",
@@ -1034,7 +1034,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "Acquisition lending is where preparation pays most: lenders are financing a business you don't run yet, so the file has to prove the earnings are real and you can hold them. Get the structure right and the target's own cash flow does the heavy lifting.",
     heroImage: "/wp-content/uploads/2026/05/ADVANCE-the-boys-2025-web-scaled.jpg",
-    heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers",
+    heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers in Brisbane",
     bullets: [
       "Acquisitions, buy-ins, partner buyouts and franchise purchases",
       "Funding typically blends lender debt, your equity and sometimes vendor finance",
@@ -1124,7 +1124,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     intro:
       "Development funding is its own discipline: land, construction drawdowns and the exit all financed against a project that doesn't exist yet. Banks fund the conservative end; private and non-bank lenders fund the rest, at prices that make lender choice the biggest number in your feasibility.",
     heroImage: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
-    heroImageAlt: "Jacob, commercial broker at LINK Advance",
+    heroImageAlt: "Jacob, commercial and SMSF broker at LINK Advance in Brisbane",
     bullets: [
       "Site acquisition, construction facilities, residual stock and bridging",
       "Bank, non-bank and private funding compared: the rate spread is enormous",

@@ -111,7 +111,7 @@ export function LoanPage({ data }: { data: LoanPageData }) {
         title={data.h1}
         mark={data.h1Mark}
         intro={data.intro}
-        ctaLabel="Talk to a broker for free"
+        ctaLabel="Talk to a broker"
         ctaHref="#contact"
         panelImage={data.heroImage}
         panelImageAlt={data.heroImageAlt}

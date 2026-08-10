@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Icon } from "@/components/Icons";
 import { FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
-import { EyebrowPill } from "@/components/v2";
+import { EyebrowPill, TextLink } from "@/components/v2";
 
 // The tools hub: every calculator and check in one place. Plays for the
 // "home loan calculators" long tail and, more importantly, gives the seven
@@ -95,6 +95,18 @@ const FAQS = [
     q: "Why do your results sometimes differ from a bank's calculator?",
     a: "Bank calculators use that bank's own policy and often flatter the result to start a conversation. These tools use benchmark settings and show ranges where lenders genuinely differ: the borrowing power spread between lenders on identical inputs is routinely six figures, which is the point of using a broker.",
   },
+  {
+    q: "Are the calculators free, and is there a catch?",
+    a: "Free, and the catch is stated openly: we build them because people who find their numbers useful sometimes call us, and when they do the lender pays us rather than the client on most home lending. Nothing is gated, nothing is stored, and no result changes if you never make contact.",
+  },
+  {
+    q: "Do these calculators work outside Queensland?",
+    a: "Five of the seven do. Borrowing power, repayments, LMI and both health checks are national, because serviceability, amortisation and LMI pricing do not change at a state border. The stamp duty calculator is Queensland only, since every state writes its own duty rates and concessions, and the FHOG checker applies the Queensland grant rules. If you are buying interstate, use the national tools and check the duty and grant with that state's revenue office.",
+  },
+  {
+    q: "How current are the figures behind them?",
+    a: "The duty rates, concession tables and grant rules were checked against the Queensland Revenue Office in August 2026, and the tables on each page are generated from the same model the tool runs, so a page can never disagree with its own calculator. Government thresholds move, sometimes at short notice: qld.gov.au and qro.qld.gov.au are the official sources and they win over anything here.",
+  },
 ];
 
 const CRUMBS = [
@@ -112,6 +124,18 @@ export default function Page() {
             "@type": "CollectionPage",
             name: "LINK Advance home loan calculators and checks",
             url: `https://linkadvance.com.au${PATH}`,
+            mainEntity: {
+              "@type": "ItemList",
+              name: "Free mortgage calculators and borrowing checks",
+              numberOfItems: TOOLS.length,
+              itemListElement: TOOLS.map((t, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                name: t.title,
+                description: t.answers,
+                url: `https://linkadvance.com.au${t.href}`,
+              })),
+            },
           },
           faqSchema(FAQS),
           breadcrumbSchema(CRUMBS),
@@ -160,6 +184,88 @@ export default function Page() {
         </div>
       </section>
 
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            The order to run them in.
+          </h2>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            Each tool answers one question, and the questions have a natural sequence. Running
+            them out of order is how people end up in love with a price they cannot fund, or
+            saving for a deposit that turns out to be bigger than they needed.
+          </p>
+          <div className="mt-10 space-y-8 text-lg leading-[1.4] text-ink/80">
+            <div>
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink">
+                Buying your first home in Queensland.
+              </h3>
+              <p className="mt-2">
+                Start with the{" "}
+                <TextLink href="/first-home-buyers-grant">$30,000 grant eligibility check</TextLink>,
+                because the answer changes your savings target before anything else does. Then{" "}
+                <TextLink href="/stamp-duty-calculator-qld">stamp duty</TextLink>, where a new
+                build now attracts none at all, then{" "}
+                <TextLink href="/borrowing-power-calculator">borrowing power</TextLink> for the
+                price bracket that is actually real, and finally{" "}
+                <TextLink href="/lenders-mortgage-insurance-calculator">LMI</TextLink>, which the{" "}
+                <TextLink href="/first-home-guarantee">First Home Guarantee</TextLink> may remove
+                entirely. The whole path is set out on the{" "}
+                <TextLink href="/first-home-buyers-loan">first home buyer page</TextLink>.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink">
+                Buying again, or buying an investment.
+              </h3>
+              <p className="mt-2">
+                <TextLink href="/borrowing-power-calculator">Borrowing power</TextLink> first,
+                because equity and income together set the ceiling. Then{" "}
+                <TextLink href="/home-loan-repayment-calculator">repayments</TextLink> at the
+                stress-tested rate, not the advertised one, then{" "}
+                <TextLink href="/stamp-duty-calculator-qld">duty</TextLink> at investor rates,
+                which are the highest of the lot.{" "}
+                <TextLink href="/investment-home-loans">Investment lending</TextLink> and{" "}
+                <TextLink href="/bridging-loans">bridging</TextLink> are where the structure
+                questions get answered.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink">
+                You already have a loan.
+              </h3>
+              <p className="mt-2">
+                Two minutes on the{" "}
+                <TextLink href="/home-loan-health-check">home loan health check</TextLink> tells
+                you whether a review is worth having. If it is, the{" "}
+                <TextLink href="/home-loan-repayment-calculator">repayments calculator</TextLink>{" "}
+                prices what half a percentage point is worth on your balance, and{" "}
+                <TextLink href="/refinancing-brisbane">refinancing</TextLink> explains what
+                actually happens next. Most reviews end in a repricing call, not a switch.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink">
+                You run a business.
+              </h3>
+              <p className="mt-2">
+                The{" "}
+                <TextLink href="/business-borrowing-health-check">
+                  business borrowing health check
+                </TextLink>{" "}
+                scores your file the way a commercial credit desk would, before you put it in
+                front of one. From there,{" "}
+                <TextLink href="/commercial-lending">commercial lending</TextLink> for the
+                overview,{" "}
+                <TextLink href="/commercial-property-loans">premises</TextLink> if you are tired
+                of paying rent, and{" "}
+                <TextLink href="/working-capital-finance">working capital</TextLink> if the
+                problem is timing rather than profit.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-ink py-20 text-white">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
@@ -172,6 +278,40 @@ export default function Page() {
             with you. The bet is simple: if the numbers are useful, you&apos;ll want the
             person who can move them.
           </p>
+          <p className="mt-4 text-lg leading-[1.5] text-white/80">
+            Each page also publishes its numbers as a table you can read without touching the
+            tool, generated from the same model the tool runs. That is deliberate. A calculator
+            that only exists as a widget is a page you have to trust; a calculator that shows its
+            reference figures is one you can check.
+          </p>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            What these tools cannot tell you.
+          </h2>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            Worth saying plainly, because the gap between a good estimate and an approval is
+            where most disappointment lives. None of these tools can see your credit file, your
+            employment stability or your probation period, whether your deposit is genuine
+            savings, how a valuer will value the property, or the policy quirks that decide which
+            of 35+ lenders will say yes to your particular situation. They also cannot see the
+            structure of a deal: guarantors, family pledges, professional waivers, trusts and
+            self-managed super all change the answer entirely.
+          </p>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            What they can do is get you to the right question quickly, with numbers that have not
+            been tuned to flatter. Everything here is general information and none of it is
+            credit advice or an offer of credit; figures are indicative, and government
+            thresholds are current as at August 2026 with qld.gov.au and qro.qld.gov.au as the
+            official sources. When you want the version that accounts for your actual file, a{" "}
+            <TextLink href="/mortgage-brokers-brisbane">Brisbane broker</TextLink> will do it
+            with you at no cost, and the{" "}
+            <TextLink href="/reviews">262 five-star Google reviews</TextLink> are the fairest
+            evidence we can offer of what that is like.
+          </p>
         </div>
       </section>
 
@@ -182,6 +322,7 @@ export default function Page() {
           { label: "First Home Buyers Grant QLD", href: "/first-home-buyers-grant" },
           { label: "Home loans Brisbane", href: "/home-loans-brisbane" },
           { label: "Commercial lending", href: "/commercial-lending" },
+          { label: "Refinancing Brisbane", href: "/refinancing-brisbane" },
         ]}
       />
 

@@ -161,10 +161,13 @@ export default function Page() {
             and the{" "}
             <TextLink href="/first-home-guarantee">5% deposit First Home Guarantee</TextLink>
             : sequenced together on a new build, the stack is routinely worth more than $50,000.
-            To be treated as a first home buyer you (and your spouse) must never have held
-            residential property in Australia, you must move in within a year, and the QRO
-            applies residence rules for the first 12 months after that. When a case is
-            borderline, we check it against the QRO rules before you sign.
+            The two schemes do not use the same first home buyer test, and the duty one is
+            stricter: for the concession you (and your spouse) must never have held an interest in
+            another residence anywhere in Australia or overseas, so a home you once owned in
+            another country counts against you here even though it may not affect the grant. You
+            must move in within a year of settlement, a deadline the QRO cannot extend, and
+            residence rules apply for the 12 months after that. When a case is borderline, we
+            check it against the QRO rules before you sign.
           </p>
         </div>
       </section>

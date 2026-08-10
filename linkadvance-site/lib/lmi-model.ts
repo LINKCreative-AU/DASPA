@@ -20,9 +20,9 @@ export function premiumRange(loan: number, lvr: number): [number, number] | null
 // Helia, the largest LMI provider in Australia, publishes a partial refund
 // where the loan is discharged early and never fell into arrears.
 export const REFUND_TIERS = [
-  { window: "Discharged within 12 months", share: "up to 40% of the premium" },
-  { window: "Discharged in months 13 to 24", share: "up to 20% of the premium" },
-  { window: "Discharged after 24 months", share: "no refund" },
+  { window: "Discharged within 12 months", share: "Up to 40% of the premium" },
+  { window: "Discharged in months 13 to 24", share: "Up to 20% of the premium" },
+  { window: "Discharged after 24 months", share: "No refund" },
 ];
 
 export const money = (n: number) =>

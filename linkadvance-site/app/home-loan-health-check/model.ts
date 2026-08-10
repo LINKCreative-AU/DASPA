@@ -130,8 +130,8 @@ export const SCORED = QUESTIONS.filter((q) => q.scored !== false);
 export const BANDS = [
   { min: 8.5, name: "Dialled in", blurb: "The loan is being managed the way brokers manage them: sharp rate, working structure, annual attention. The remaining wins are opportunistic: cashbacks, split tweaks, and the next property's pre-positioning." },
   { min: 6.5, name: "Mostly working", blurb: "The bones are good, but at least one lever (rate, structure or attention) is idle. Idle levers on a mortgage are measured in thousands per year." },
-  { min: 4, name: "Drifting", blurb: "This is where most loans live: set up properly once, then left alone while the lender quietly repriced the loyalty. The flags below are usually fixable inside a fortnight, often without refinancing." },
-  { min: 0, name: "On autopilot", blurb: "No judgement: loans are built to be forgotten. But on a typical balance, the gap between an autopilot loan and a managed one is serious money. Start with the first flag below." },
+  { min: 4, name: "Drifting", blurb: "This is where most loans live: set up properly once, then left alone while the lender quietly repriced the loyalty. The flags this check raises are usually fixable inside a fortnight, often without refinancing." },
+  { min: 0, name: "On autopilot", blurb: "No judgement: loans are built to be forgotten. But on a typical balance, the gap between an autopilot loan and a managed one is serious money. Start with the first flag this check raises." },
 ];
 
 export type Selections = Record<string, number[]>;

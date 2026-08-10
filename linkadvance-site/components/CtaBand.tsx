@@ -4,15 +4,18 @@ import { useState } from "react";
 import { SITE } from "@/lib/site";
 import { SendFailed } from "./SendFailed";
 
-// The sitewide closing band - compact by rule (kit v3.20): a four-field
-// mini form only. The full qualifying form (chips, timing, message) lives
-// on the contact page, nowhere else. James, three times of asking.
+// The sitewide closing band. Compact by rule (kit v3.20): the full
+// qualifying form (chips, timing, long message) lives on the contact page,
+// nowhere else. James, three times of asking. Then, 10 Aug, he asked for
+// enough to know what the person actually wants, so the four fields gained
+// a reason select and one optional line. The API already carried both:
+// `reason` even goes into the lead subject for triage.
 export function CtaBand({
   heading = "One broker, 35+ lenders, zero cost to you.",
   intro = "Tell us what you're planning and a broker will call to map your options. Free, no obligation. Most home loan broking is paid by the lender, not you.",
   variant = "contact",
   subject,
-  formTitle = "Talk to a broker for free",
+  formTitle = "Talk to a broker",
 }: {
   heading?: string;
   intro?: string;
@@ -56,6 +59,18 @@ export function CtaBand({
   );
 }
 
+// Short on purpose: enough for a broker to open the call knowing which
+// conversation it is, without turning the band back into a long form.
+const REASONS = [
+  "Buying my first home",
+  "Buying or upgrading",
+  "Refinancing an existing loan",
+  "Investment property",
+  "Building or renovating",
+  "Business or commercial lending",
+  "Not sure yet",
+];
+
 function MiniForm({
   variant,
   subject,
@@ -65,7 +80,7 @@ function MiniForm({
   subject?: string;
   formTitle: string;
 }) {
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", reason: "", message: "" });
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
 
   const submit = async (e: React.FormEvent) => {
@@ -106,6 +121,31 @@ function MiniForm({
         <Dark label="Last name" value={form.lastName} onChange={(v) => setForm({ ...form, lastName: v })} required autoComplete="family-name" />
         <Dark label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required autoComplete="email" />
         <Dark label="Phone" type="tel" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} required autoComplete="tel" />
+        <label className="block sm:col-span-2">
+          <span className="text-xs font-semibold text-white/50">What can we help with? *</span>
+          <select
+            required
+            value={form.reason}
+            onChange={(e) => setForm({ ...form, reason: e.target.value })}
+            className="mt-1 w-full border-0 border-b-2 border-white/20 bg-transparent py-2 text-white outline-none transition focus:border-white [&>option]:bg-ink"
+          >
+            <option value="" disabled>
+              Choose one
+            </option>
+            {REASONS.map((r) => (
+              <option key={r} value={r}>
+                {r}
+              </option>
+            ))}
+          </select>
+        </label>
+        <div className="sm:col-span-2">
+          <Dark
+            label="Anything we should know? (optional)"
+            value={form.message}
+            onChange={(v) => setForm({ ...form, message: v })}
+          />
+        </div>
       </div>
       <button type="submit" disabled={state === "sending"} className="btn mt-6 w-full bg-white text-ink hover:bg-neutral-100 disabled:opacity-50 sm:w-auto">
         {state === "sending" ? "Sending…" : "Book my free chat"}

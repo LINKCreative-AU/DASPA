@@ -28,16 +28,16 @@ export function LenderMarquee() {
           src={l.src}
           alt={hidden ? "" : l.name}
           loading="lazy"
-          className="mx-7 h-10 w-auto max-w-[130px] object-contain opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-12"
+          className="mx-8 h-14 w-auto max-w-[190px] object-contain opacity-80 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:mx-10 sm:h-[68px]"
         />
       ))}
     </div>
   );
   return (
-    <div className="marquee relative overflow-hidden py-2">
+    <div className="marquee relative overflow-hidden py-3">
       <div className="marquee-track flex w-max">{[row("a", false), row("b", true)]}</div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-neutral-50 to-transparent sm:w-32" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-neutral-50 to-transparent sm:w-32" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent sm:w-32" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent sm:w-32" />
     </div>
   );
 }

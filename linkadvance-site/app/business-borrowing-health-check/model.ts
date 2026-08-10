@@ -142,8 +142,8 @@ export const SCORED = QUESTIONS.filter((q) => q.scored !== false);
 export const BANDS = [
   { min: 8.5, name: "Bankable", blurb: "This file would read well on a credit desk. The wins from here are pricing and structure: competition between lenders, and security working as hard as it can." },
   { min: 6.5, name: "Fundable", blurb: "The bones are good; one or two gaps are costing pricing power. Closing them before the next application usually pays for itself in the rate." },
-  { min: 4, name: "Preparable", blurb: "Fundable with preparation. Most businesses sit here. The flags below are the pre-lender checklist; several are accountant conversations, not lending ones." },
-  { min: 0, name: "Groundwork first", blurb: "No judgement, but going to lenders now would price badly or stall. The flags below, roughly in order, are the groundwork that changes the answer." },
+  { min: 4, name: "Preparable", blurb: "Fundable with preparation. Most businesses sit here. The flags this check raises are the pre-lender checklist; several are accountant conversations, not lending ones." },
+  { min: 0, name: "Groundwork first", blurb: "No judgement, but going to lenders now would price badly or stall. The flags this check raises, roughly in order, are the groundwork that changes the answer." },
 ];
 
 export type Selections = Record<string, number[]>;
