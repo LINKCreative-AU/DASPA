@@ -34,7 +34,6 @@ export default function Page() {
       <section className="container-x pb-8 pt-10">
         <SectionHead
           as="h1"
-          eyebrow="The LINK Advance way"
           title="We make lending easy."
           mark="easy."
           intro="LINK Advance was built around giving clients the best possible experience of getting a loan: a personal, one-on-one service where your broker gets to know you, what you want out of the loan, answers everything - and then fights for the outcome across 35+ lenders."
@@ -92,7 +91,6 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x max-w-3xl">
           <SectionHead
-            eyebrow="Part of LINK"
             title="The lending desk of a bigger team."
             mark="a bigger team."
             intro={`${SITE.group.line} When your loan touches tax, strategy or property management, the specialists are down the hall - not across town.`}

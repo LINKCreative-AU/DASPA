@@ -5,6 +5,7 @@ import { FeatureGrid, CheckList, FAQ, ProcessSteps } from "@/components/ServiceP
 import { Testimonials } from "@/components/Testimonials";
 import { TeamGrid } from "@/components/TeamGrid";
 import { CtaBand } from "@/components/CtaBand";
+import { LenderMarquee } from "@/components/LenderMarquee";
 import { SITE, TEAM, GROUP_TEAMS } from "@/lib/site";
 
 // The homepage: "mortgage broker brisbane" (1,710/mo, KD 24) is the head
@@ -42,8 +43,10 @@ export default function Page() {
         ]}
       />
 
-      {/* Hero */}
+      {/* Hero - text left, team cutout on the grey panel right (the full-width
+          band gave the image too much real estate; James, 9 Aug) */}
       <section className="container-x pb-16 pt-12 sm:pt-16">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="max-w-3xl">
           <p className="eyebrow">
             <span className="text-advance">Brisbane finance brokers</span>
@@ -69,23 +72,20 @@ export default function Page() {
             {SITE.reviews.count} Google reviews · 35+ lenders · one broker end to end
           </p>
         </div>
-      </section>
-
-      <div className="container-x pb-14">
-        <div className="rounded-3xl bg-neutral-50 px-6 pt-10">
+        <div className="flex items-end justify-center rounded-3xl bg-neutral-50 px-6 pt-8 lg:self-stretch">
           <img
-            src="/wp-content/uploads/2026/05/ADVANCE-2025-Web-scaled.jpg"
-            alt="The LINK Advance broker team"
-            className="mx-auto max-h-[480px] w-auto mix-blend-multiply"
+            src="/wp-content/uploads/2023/01/hugh.jpg"
+            alt="Hugh, co-founder of LINK Advance"
+            className="max-h-[440px] w-auto mix-blend-multiply"
           />
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Why - the old site's three proofs, tightened */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x">
           <SectionHead
-            eyebrow="Why LINK Advance"
             title="Why borrowers choose us for the loan or the refinance."
             mark="the loan or the refinance."
           />
@@ -108,11 +108,20 @@ export default function Page() {
         </div>
       </section>
 
+      {/* The panel of lenders - all 31 logos from the old site, scrolling */}
+      <section className="py-14">
+        <div className="container-x">
+          <p className="eyebrow justify-center">
+            <span>Our panel of lenders</span>
+          </p>
+        </div>
+        <LenderMarquee />
+      </section>
+
       {/* The lanes */}
       <section className="py-20">
         <div className="container-x">
           <SectionHead
-            eyebrow="How we help"
             title="Whatever the loan, one broker owns it."
             mark="one broker owns it."
           />
@@ -150,7 +159,6 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x">
           <SectionHead
-            eyebrow="The process"
             title="From first coffee to settled, with one person."
             mark="with one person."
           />
@@ -174,7 +182,6 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x">
           <SectionHead
-            eyebrow="Free tools"
             title="Run your own numbers first."
             mark="your own numbers"
           />
@@ -198,7 +205,6 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x">
           <SectionHead
-            eyebrow="The LINK group"
             title="The finance team at LINK."
             mark="at LINK."
             intro="One connected team when you want it, just the loan when you don't."

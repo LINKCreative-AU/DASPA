@@ -68,7 +68,6 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="First Home Owners Grant QLD"
             title="The $30,000 First Home Buyers Grant, QLD: who gets it and how."
             mark="who gets it and how."
             intro="If you're buying or building your first home in Queensland, the First Home Owner Grant puts $30,000 toward it - if you pass the eligibility tests and the home is new. Here's every test, what stacks on top, and a two-minute checker that gives you a straight answer."

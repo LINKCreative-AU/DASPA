@@ -20,7 +20,6 @@ export default function Page() {
       <section className="container-x pb-20 pt-10">
         <SectionHead
           as="h1"
-          eyebrow="Articles"
           title="Lending, explained straight."
           mark="straight."
           intro="What's changing in lending and what it means for your loan - from the brokers who deal with 35+ lenders every day."

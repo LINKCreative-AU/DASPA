@@ -157,6 +157,23 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
         ],
       },
       {
+        heading: "Tips for first home buyers.",
+        paragraphs: [
+          "Do your homework before the property search: start with your finances - the repayments you can afford without overextending, the budget trade-offs, and the loan size you'd qualify for. That homework lays the foundation for the entire process, and the grants above can shift the numbers substantially.",
+          "Research the home itself: write the list before you look - must-haves, nice-to-haves, must-not-haves - because no house is perfect and knowing your compromises in advance beats discovering them under offer.",
+          "And you're not on this journey alone: a broker finds your maximum borrowing capacity, figures out repayments, identifies the unexpected costs, checks your grant eligibility and does the lender legwork - the same path hundreds of first home buyers have taken with us.",
+        ],
+      },
+      {
+        heading: "Different circumstances? There's a loan for that.",
+        paragraphs: ["If the standard path doesn't fit, specialist lending usually does:"],
+        bullets: [
+          "Professionals - doctors and other eligible professions can access loans with LMI completely waived (see our home loans for doctors page)",
+          "Guarantor loans - when the deposit isn't there yet, family security can bridge it",
+          "Unusual employment - self-employed and contractors have more doors than the banks suggest; matching the lender to the income type is the job",
+        ],
+      },
+      {
         heading: "Meet Callum - the first home specialist.",
         paragraphs: [
           "First home buyers work with Callum: five years on both sides of the desk (loan processing and broking), a Bachelor of Business in Economics and Finance, and a habit of answering the questions you didn't know you had. He cuts the process down to what actually matters this week.",

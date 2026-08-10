@@ -15,7 +15,7 @@ const PHOTOS: Record<string, string> = {
 
 export function TeamGrid({
   heading = "Meet your financial force.",
-  eyebrow = "The team",
+  eyebrow,
   members,
 }: {
   heading?: string;

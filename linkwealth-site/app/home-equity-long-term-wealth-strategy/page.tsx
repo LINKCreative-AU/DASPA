@@ -236,7 +236,7 @@ export default function Page() {
       </section>
 
       {/* Common questions - verbatim */}
-      <FAQ eyebrow="Common questions" title="Wondering How It Works?" faqs={FAQS} />
+      <FAQ title="Wondering How It Works?" faqs={FAQS} />
 
       {/* Get advice from Richard - verbatim */}
       <section className="pb-20">

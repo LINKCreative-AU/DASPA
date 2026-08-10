@@ -65,7 +65,6 @@ export default function Team() {
         <div>
           <SectionHead
             as="h1"
-            eyebrow="The team"
             title="Meet your financial force."
             mark="financial force."
             intro="Get expert guidance when you need it most with one-on-one collaboration an agile, responsive advisory team who adapts as your goals and circumstances evolve."
@@ -110,13 +109,12 @@ export default function Team() {
         />
       </section>
 
-      <TeamGrid heading="The whole team." eyebrow="Everyone you'll deal with" members={TEAM} />
+      <TeamGrid heading="The whole team." members={TEAM} />
 
       {/* The group behind the team */}
       <section className="border-t border-ink/10 py-20">
         <div className="container-x max-w-3xl">
           <SectionHead
-            eyebrow="Behind the advice"
             title="One connected group."
             intro={`${SITE.group.line} When your strategy needs an accountant, a broker or a property manager, the specialist is one warm introduction away - with your consent, working from the same picture of your finances.`}
           />

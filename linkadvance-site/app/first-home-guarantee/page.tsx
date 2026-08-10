@@ -68,7 +68,6 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="First Home Guarantee"
             title="Buy your first home with a 5% deposit - no LMI."
             mark="no LMI."
             intro="The First Home Guarantee has the federal government guarantee part of your loan so a participating lender accepts a 5% deposit without charging lenders mortgage insurance. Since October 2025 there are no income caps and no place limits - the question is no longer whether you qualify, but whether the numbers suit you."

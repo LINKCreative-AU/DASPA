@@ -33,7 +33,6 @@ export default function Reviews() {
       <section className="container-x pb-4 pt-10 sm:pt-14">
         <SectionHead
           as="h1"
-          eyebrow="Reviews"
           title="We love our clients, and our clients love us."
           mark="love us."
           intro={`${SITE.reviews.count} Google reviews at ${SITE.reviews.rating.toFixed(1)} stars. Every one of them is real, from the listing you can check yourself.`}

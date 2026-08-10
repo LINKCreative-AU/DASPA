@@ -282,7 +282,6 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x max-w-3xl">
           <SectionHead
-            eyebrow="Who it’s for"
             title="This strategy suits a specific type of business owner."
           />
           <CheckList items={WHO_FOR} />
@@ -292,14 +291,14 @@ export default function Page() {
       {/* Why it works - verbatim */}
       <Section
         tint
-        eyebrow="Why it works"
+       
         title="Why do business owners use their super to buy their premises?"
       >
         <FeatureGrid items={WHY_WORKS} cards />
       </Section>
 
       {/* How it works - verbatim, house numbered steps + live infographics */}
-      <Section eyebrow="How it works" title="How it works.">
+      <Section title="How it works.">
         <ProcessSteps steps={HOW} />
         <div className="mt-14 grid gap-6 sm:grid-cols-2">
           <figure>
@@ -343,7 +342,7 @@ export default function Page() {
       {/* How we help - verbatim */}
       <Section
         tint
-        eyebrow="How we help"
+       
         title="All the specialists you need. Working together."
         intro="To do this properly, you need a licensed financial advisor, an SMSF accountant and a specialist SMSF lender. Most firms only handle one part of the strategy. LINK coordinates the whole process. From start to finish."
       >
@@ -386,7 +385,6 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x max-w-3xl">
           <SectionHead
-            eyebrow="Why us?"
             title="SMSF commercial property specialists."
             intro="Licensed tax agents, financial advisors & mortgage brokers. Helping business owners grow wealth."
           />
@@ -408,7 +406,7 @@ export default function Page() {
 
       {/* FAQs - all 14, verbatim, house treatment */}
       <section className="border-y border-ink/10 bg-neutral-50">
-        <FAQ eyebrow="FAQs" title="Your questions, answered." faqs={FAQS} />
+        <FAQ title="Your questions, answered." faqs={FAQS} />
       </section>
 
       {/* Make it count - verbatim, with the live page's image */}

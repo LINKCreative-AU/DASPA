@@ -40,7 +40,6 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="First Home Super Saver scheme"
             title="Build your deposit inside super - at 15% tax."
             mark="at 15% tax."
             intro="The FHSS scheme lets you save your first home deposit through voluntary super contributions taxed at 15% instead of your marginal rate, then release up to $50,000 each (plus earnings) when you buy. It's the least-known leg of the first-home stack - and one of the most valuable for planners."

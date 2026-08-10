@@ -231,7 +231,7 @@ export default function Home() {
       {/* OUR SERVICES - verbatim copy, house router cards */}
       <Section
         tint
-        eyebrow="Our services"
+       
         title="How we grow and protect your wealth."
       >
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
@@ -264,7 +264,7 @@ export default function Home() {
       {/* WHAT'S INCLUDED - protected copy, house dark section */}
       <Section
         dark
-        eyebrow="What’s included?"
+       
         title="A clear master plan to get you where you want to be."
       >
         <FeatureGrid items={INCLUDED} cols={2} dark cards />
@@ -328,7 +328,6 @@ export default function Home() {
       <section className="border-t border-ink/10 py-20">
         <div className="container-x">
           <SectionHead
-            eyebrow="The LINK group"
             title="Wealth is just the start."
             intro={SITE.group.line}
           />

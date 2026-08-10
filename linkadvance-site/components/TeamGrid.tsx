@@ -7,7 +7,7 @@ import { SectionHead } from "./SectionHead";
 
 export function TeamGrid({
   heading = "Meet our Mortgage Brokers.",
-  eyebrow = "The brokers",
+  eyebrow,
   members,
 }: {
   heading?: string;

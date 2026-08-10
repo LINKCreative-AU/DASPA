@@ -46,7 +46,6 @@ export function LoanPage({ data }: { data: LoanPageData }) {
       />
       <PageHero
         crumbs={crumbs}
-        eyebrow={data.eyebrow}
         title={data.h1}
         mark={data.h1Mark}
         intro={data.intro}
