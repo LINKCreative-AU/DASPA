@@ -37,6 +37,9 @@ export function firmSchema() {
       reviewCount: SITE.reviews.count,
       bestRating: 5,
     },
+    // Ties the entity to its profiles - the Google listing carries the 262
+    // reviews, so the connection matters more here than usual.
+    sameAs: [SITE.reviews.googleUrl, SITE.social.instagram, SITE.social.facebook],
     parentOrganization: { "@type": "Organization", name: "LINK", url: SITE.group.url },
     knowsAbout: [
       "Mortgage broking",

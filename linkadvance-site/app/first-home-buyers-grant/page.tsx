@@ -151,7 +151,7 @@ export default function Page() {
         faqs={FAQS}
         related={[
           { label: "First Home Guarantee (5% deposit)", href: "/first-home-guarantee" },
-          { label: "Stamp duty QLD calculator", href: "/stamp-duty-calculator-qld" },
+          { label: "First home stamp duty rules + calculator", href: "/stamp-duty-calculator-qld#first-home" },
           { label: "First home buyer loans", href: "/first-home-buyers-loan" },
         ]}
       />

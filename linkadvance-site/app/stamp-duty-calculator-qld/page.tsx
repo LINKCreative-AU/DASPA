@@ -66,6 +66,44 @@ export default function Page() {
           <Calculator />
         </div>
       </section>
+      {/* The first-home answer, in visible copy with its own anchor:
+          "stamp duty first home buyer qld" is 337/mo at KD 1 */}
+      <section id="first-home" className="border-y border-ink/10 bg-neutral-50 py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            Stamp duty for first home buyers in QLD.
+          </h2>
+          <p className="mt-5 text-lg text-ink/65">
+            <strong className="text-ink">Buying or building new: $0.</strong> Since 1 May 2025,
+            Queensland first home buyers pay no transfer duty on a new home, with no price cap.
+            On a $750,000 new build that is roughly $19,600 staying in your pocket compared with
+            an owner-occupier buying the same house.
+          </p>
+          <p className="mt-4 text-lg text-ink/65">
+            <strong className="text-ink">Buying established:</strong> the first home concession
+            wipes the duty entirely up to $700,000, then phases out to $800,000. Above that you
+            pay the ordinary home rate. <strong className="text-ink">Vacant land:</strong> full
+            relief to $350,000, phasing out at $500,000, and you can still claim the new-build
+            exemption on the house you put on it.
+          </p>
+          <p className="mt-4 text-lg text-ink/65">
+            The duty saving stacks with the{" "}
+            <a href="/first-home-buyers-grant" className="font-medium text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
+              $30,000 First Home Owner Grant
+            </a>{" "}
+            and the{" "}
+            <a href="/first-home-guarantee" className="font-medium text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
+              5% deposit First Home Guarantee
+            </a>
+            : sequenced together on a new build, the stack is routinely worth more than $50,000.
+            To be treated as a first home buyer you (and your spouse) must never have held
+            residential property in Australia, you must move in within a year, and the QRO
+            applies residence rules for the first 12 months after that. When a case is
+            borderline, we check it against the QRO rules before you sign.
+          </p>
+        </div>
+      </section>
+
       <FAQ
         title="Frequently asked questions."
         faqs={FAQS}

@@ -33,14 +33,22 @@ export function ReviewStrip() {
         <h2 className="max-w-xl font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
           262 five-star reviews, and counting<span className="text-advance">.</span>
         </h2>
-        <a
-          href={SITE.reviews.googleUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-semibold text-ink/60 underline-offset-4 hover:text-ink hover:underline"
-        >
-          Read them on Google →
-        </a>
+        <span className="flex gap-5">
+          <a
+            href="/reviews"
+            className="text-sm font-semibold text-ink/60 underline-offset-4 hover:text-ink hover:underline"
+          >
+            The reviews page →
+          </a>
+          <a
+            href={SITE.reviews.googleUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-ink/60 underline-offset-4 hover:text-ink hover:underline"
+          >
+            Verify on Google →
+          </a>
+        </span>
       </div>
 
       <div className="marquee mt-10 overflow-hidden">

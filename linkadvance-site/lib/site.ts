@@ -41,7 +41,7 @@ export const SITE = {
     publisher:
       "LINK Advance ABN 12 612 337 587. The Brokers are authorised as credit representatives of Connective Credit Services Pty Ltd ACN 143 651 496 (Australian Credit Licence 389328).",
     disclaimer:
-      "The information on this website is general in nature and does not take into account your objectives, financial situation or needs. All loan applications are subject to the credit provider's assessment and lending criteria. Terms, conditions, fees and charges apply. Comparison rates and calculator results are indicative only - they are not a quote, a loan offer or a suggestion of your borrowing capacity, and you should always confirm figures with your broker or lender before acting.",
+      "The information on this website is general in nature and does not take into account your objectives, financial situation or needs. All loan applications are subject to the credit provider's assessment and lending criteria. Terms, conditions, fees and charges apply. Comparison rates and calculator results are indicative only: they are not a quote, a loan offer or a suggestion of your borrowing capacity, and you should always confirm figures with your broker or lender before acting.",
     privacyPath: "/privacy-policy",
     emailDisclaimerPath: "/mail-disclaimer",
   },
@@ -79,6 +79,7 @@ export const NAV: NavItem[] = [
           { label: "Home loans", href: "/home-loans-brisbane" },
           { label: "First home buyers", href: "/first-home-buyers-loan" },
           { label: "Refinancing", href: "/refinancing-brisbane" },
+          { label: "Bridging loans", href: "/bridging-loans" },
           { label: "Investment loans", href: "/investment-home-loans" },
           { label: "Construction loans", href: "/construction-loans-brisbane" },
           { label: "Doctors & professionals", href: "/home-loans-for-doctors" },

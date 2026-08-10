@@ -123,6 +123,70 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     subject: "Refinancing",
   },
 
+  // NEW page (10 Aug 2026): "bridging loan" 4,409/mo at KD 53 and no
+  // Brisbane broker owns the term. The content play is the mechanics
+  // nobody explains properly: peak debt, end debt, the worked example.
+  "bridging-loans": {
+    path: "/bridging-loans",
+    serviceName: "Bridging loans",
+    serviceDescription:
+      "Bridging finance for buying your next home before the current one sells: peak debt, end debt and capitalised interest explained, compared across the lenders that do bridging well.",
+    crumbName: "Bridging Loans",
+    eyebrow: "Bridging finance",
+    h1: "Buy the next home before this one sells.",
+    h1Mark: "before this one sells.",
+    intro:
+      "A bridging loan covers the gap between buying your next home and settling the sale of your current one, so you never have to win both settlements on the same day, or let the right house go because yours hasn't sold yet. It's specialist lending: only some lenders do it, fewer do it well, and the structure matters more than the rate.",
+    bullets: [
+      "Buy first, sell second, move once: no rentals, no double moves, no rushed sale",
+      "Interest usually capitalised during the bridge, so you're not paying two mortgages from cash flow",
+      "Compared across the lenders that actually do bridging well, with the exit numbers stress-tested first",
+    ],
+    sections: [
+      {
+        heading: "How a bridging loan works: peak debt and end debt.",
+        paragraphs: [
+          "During the bridge you briefly owe two amounts at once. Peak debt is everything combined: your existing home loan, plus the purchase price of the new home, plus costs like stamp duty, usually with the bridging interest added on top rather than paid monthly. End debt is what's left after your old home sells and the proceeds come off the pile: it becomes your ordinary home loan and has to be serviceable on your income like any other loan.",
+          "A worked example: you owe $400,000 on a home that should sell for $900,000, and you're buying at $1,100,000 with about $50,000 of costs. Peak debt is roughly $1,550,000 plus capitalised interest. Your sale clears about $880,000 after agent fees, leaving an end debt around $670,000. The lender's real question is whether you can service that $670,000, and whether the sale assumptions behind it are honest. That's the assessment we build before anything is submitted.",
+        ],
+      },
+      {
+        heading: "The terms that actually matter.",
+        paragraphs: [
+          "Bridging terms usually run up to 6 months when you're buying an established home, and up to 12 months when you're building. Most lenders cap total lending around 80% of the combined value of both properties, which is why bridging works best when there's solid equity in the current home. Interest is charged at variable rates and is usually capitalised into peak debt, though you can service it monthly to keep the balance down if cash flow allows.",
+          "The honest risks: if the old home sells slower or lower than assumed, the capitalised interest keeps compounding and the end debt lands higher than planned. We stress the numbers with a longer sale window and a softer price before recommending the bridge, and if they don't hold, we'll tell you to sell first instead.",
+        ],
+      },
+      {
+        heading: "When bridging is the wrong tool.",
+        paragraphs: [
+          "Bridging isn't for everyone. If your equity is thin, if the end debt only works at a best-case sale price, or if your market is slow, alternatives usually win: selling first with a longer settlement or a rent-back agreement, negotiating the purchase subject to sale, or using a deposit bond to secure the new place while your sale catches up. Part of the job is telling you which of these your numbers actually support: the answer is bridging often enough that the product exists, and not so often that it should be anyone's default.",
+        ],
+      },
+    ],
+    features: [
+      { title: "The exit is the loan.", body: "Bridging approval lives or dies on the end debt. We build that case first: sale evidence, serviceability, buffer." },
+      { title: "Only lenders who bridge well.", body: "Policies differ wildly: capitalised interest caps, term limits, valuation appetite. We know who's genuinely good at this." },
+      { title: "One broker, both loans.", body: "The bridge and the end-debt loan are structured together, so you're not refinancing again the month after you move." },
+    ],
+    faqs: [
+      { q: "How does a bridging loan work?", a: "The lender temporarily finances both properties at once: your existing loan, the new purchase and costs combine into a peak debt, usually with interest capitalised so there are no extra repayments during the bridge. When your old home sells, the proceeds reduce the pile and the remainder becomes your ordinary home loan (the end debt). Terms typically run up to 6 months for established homes and 12 months when building." },
+      { q: "How much equity do I need for a bridging loan?", a: "Most lenders want total lending (peak debt, including capitalised interest) to stay around 80% of the combined value of both properties. In practice that means meaningful equity in your current home. The stronger the equity, the more comfortable the numbers, and the better the pricing." },
+      { q: "Do I make repayments during the bridging period?", a: "Usually you keep paying your existing loan as normal, and the bridging interest is capitalised (added to the balance) rather than paid monthly. Some borrowers choose to service the bridging interest to stop the balance growing. We model both so you can see the difference in dollars." },
+      { q: "What happens if my house doesn't sell in time?", a: "This is the real risk, and the reason bridging needs honest numbers up front. If the term expires unsold, lenders can extend, reprice or ultimately require the property be sold. We stress-test the plan with a slower sale and a softer price before recommending a bridge, and set the term with margin rather than optimism." },
+      { q: "Is a bridging loan expensive?", a: "Rates are typically variable and a little above standard owner-occupier rates, and because interest capitalises, the cost grows with time. A three-month bridge on honest numbers is usually cheap compared with a double move, storage and rent. A twelve-month bridge on hopeful numbers is not. The worked numbers decide it." },
+      { q: "Can I buy subject to sale instead?", a: "Sometimes, and when the market's in your favour it can beat bridging: no extra interest at all. But subject-to-sale offers are weaker offers, and in a competitive market they lose. Bridging exists so you can make a clean, unconditional offer. Which tool fits depends on your equity, your suburb's pace and your appetite; we'll give you a straight recommendation." },
+    ],
+    related: [
+      { label: "Home loan health check", href: "/home-loan-health-check" },
+      { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },
+      { label: "Stamp duty calculator QLD", href: "/stamp-duty-calculator-qld" },
+    ],
+    ctaHeading: "Thinking of buying before you sell?",
+    ctaIntro: "Bring the addresses and the loan balance. A broker will run the peak-debt and end-debt numbers with you, stress-tested, free.",
+    subject: "Bridging loans",
+  },
+
   "first-home-buyers-loan": {
     path: "/first-home-buyers-loan",
     serviceName: "First home buyer loans",

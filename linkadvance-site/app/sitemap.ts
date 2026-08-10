@@ -7,6 +7,7 @@ const CORE: { path: string; priority: number }[] = [
   { path: "/home-loans-brisbane", priority: 0.9 },
   { path: "/mortgage-brokers-brisbane", priority: 0.9 },
   { path: "/refinancing-brisbane", priority: 0.9 },
+  { path: "/bridging-loans", priority: 0.9 },
   { path: "/first-home-buyers-loan", priority: 0.9 },
   { path: "/first-home-buyers-grant", priority: 0.9 },
   { path: "/first-home-guarantee", priority: 0.9 },
