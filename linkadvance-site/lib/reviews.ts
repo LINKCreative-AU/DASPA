@@ -153,3 +153,49 @@ export const countPraise = (p: Praise) => ALL_REVIEWS.filter((r) => r.praise.inc
 // rather than only on /reviews.
 export const reviewsFor = (service: Service, limit = 3): Review[] =>
   ALL_REVIEWS.filter((r) => r.service === service).slice(0, limit);
+
+// The page's default view is every review, grouped under the thing the client
+// came in for, so you can read the lot section by section without clicking a
+// filter and hiding the rest. The last group catches the reviews that name no
+// transaction: they are about the people rather than the job, and they are
+// still someone's words, so they get a heading of their own instead of being
+// quietly dropped.
+export type Group = {
+  key: string;
+  heading: string;
+  blurb: string;
+  service?: Service;
+  reviews: Review[];
+};
+
+const BLURBS: Record<Service, string> = {
+  "First home": "First home buyers, who ask the most questions and deserve the most patience.",
+  "Home purchase": "Buying a home, not their first, where the pressure is usually the settlement date.",
+  Refinance: "Refinances and repricings, including the ones where we never changed lenders.",
+  Investing: "Investors adding a property, where the structure matters as much as the rate.",
+  "Bought & sold": "Selling one and buying another, both ends running at once.",
+};
+
+export const GROUPS: Group[] = [
+  ...SERVICES.map((s) => ({
+    key: s,
+    heading: s,
+    blurb: BLURBS[s],
+    service: s,
+    reviews: ALL_REVIEWS.filter((r) => r.service === s),
+  })),
+  {
+    key: "team",
+    heading: "Working with the team",
+    blurb: "Reviews that talk about the people rather than the transaction.",
+    reviews: ALL_REVIEWS.filter((r) => !r.service),
+  },
+].filter((g) => g.reviews.length > 0);
+
+// Grouping must be a partition: every review in exactly one group, none lost.
+const GROUPED = GROUPS.reduce((n, g) => n + g.reviews.length, 0);
+if (GROUPED !== ALL_REVIEWS.length) {
+  throw new Error(
+    `Review groups cover ${GROUPED} of ${ALL_REVIEWS.length} reviews. Every review must sit in exactly one group.`
+  );
+}

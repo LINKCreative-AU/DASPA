@@ -4,17 +4,25 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ALL_REVIEWS,
   BROKERS,
+  GROUPS,
   PRAISES,
   SERVICES,
   type Broker,
+  type Group,
   type Praise,
   type Review,
   type Service,
   brokersIn,
 } from "@/lib/reviews";
 
-// The review wall in the link.com.au treatment: grey tiles, tint avatars,
-// every review on the page and reachable by at least one filter.
+// The review wall in the link.com.au treatment: grey tiles, tint avatars.
+//
+// Default view is every review GROUPED by what the client came in for, each
+// section with its own heading, count and expand, so you can read the whole
+// lot section by section without touching a filter. Filtering is the other
+// mode: pick a chip and it collapses to a single flat list of the matches.
+// The first version only had the flat list, which meant the only way to see
+// a section was to hide every other one.
 //
 // Two filter families, both read from the review text and never inferred:
 // what the client came in for, and what they singled out. Reviews that name
@@ -27,8 +35,9 @@ import {
 // reason this page exists.
 
 const TINT = "#fff6cc";
-const INITIAL = 9;
+const INITIAL = 9; // flat list, when a filter is on
 const BATCH = 9;
+const PER_GROUP = 3; // grouped view, per section before its own expand
 
 const initials = (name: string) =>
   name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
@@ -105,7 +114,8 @@ function Chip({
   );
 }
 
-function Tile({ r }: { r: Review }) {
+// showService is off inside a group, where the heading above already says it.
+function Tile({ r, showService = true }: { r: Review; showService?: boolean }) {
   return (
     <figure className="mb-5 break-inside-avoid rounded-[25px] bg-[#f1f1f1] p-7">
       <Stars />
@@ -120,11 +130,60 @@ function Tile({ r }: { r: Review }) {
         <span>
           <span className="block text-[15px] font-semibold text-ink">{r.name}</span>
           <span className="block text-[13px] text-ink/60">
-            Google review{r.service ? ` · ${r.service}` : ""}
+            Google review{showService && r.service ? ` · ${r.service}` : ""}
           </span>
         </span>
       </figcaption>
     </figure>
+  );
+}
+
+// One section of the grouped view: heading, count, its own expand. Reviews
+// beyond the fold stay in the DOM and are hidden with CSS, same as the flat
+// list, so the whole set is in the prerendered HTML either way.
+function GroupSection({ g }: { g: Group }) {
+  const [open, setOpen] = useState(false);
+  const visible = open ? g.reviews.length : Math.min(PER_GROUP, g.reviews.length);
+  const hidden = g.reviews.length - visible;
+
+  return (
+    <section aria-labelledby={`group-${g.key}`} className="border-t border-ink/10 pt-8">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+        <h3
+          id={`group-${g.key}`}
+          className="font-display text-2xl font-bold tracking-tight text-ink"
+        >
+          {g.heading}
+          <span className="ml-2 text-lg font-normal tabular-nums text-ink/40">
+            {g.reviews.length}
+          </span>
+        </h3>
+        {hidden > 0 && (
+          <button
+            onClick={() => setOpen(true)}
+            className="text-sm font-semibold text-ink underline underline-offset-4 hover:text-advance-mid"
+          >
+            Show all {g.reviews.length}
+          </button>
+        )}
+        {open && g.reviews.length > PER_GROUP && (
+          <button
+            onClick={() => setOpen(false)}
+            className="text-sm font-semibold text-ink/60 underline underline-offset-4 hover:text-ink"
+          >
+            Show fewer
+          </button>
+        )}
+      </div>
+      <p className="mt-1 text-sm text-ink/55">{g.blurb}</p>
+      <div className="mt-6 columns-1 gap-5 sm:columns-2 lg:columns-3">
+        {g.reviews.map((r, idx) => (
+          <div key={r.name} className={idx >= visible ? "hidden" : ""}>
+            <Tile r={r} showService={false} />
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -244,56 +303,72 @@ export function ReviewWall() {
       </div>
 
       <p aria-live="polite" className="mt-6 text-sm text-ink/55">
-        Showing <strong className="font-semibold text-ink">{visible}</strong> of {filtered.length}
-        {filtering ? " matching" : ""} {filtered.length === 1 ? "review" : "reviews"}.
-        {filtering && (
-          <button
-            onClick={() =>
-              applyFilter(() => {
-                setService(null);
-                setPraise(null);
-                setBroker(null);
-              })
-            }
-            className="ml-2 font-semibold text-ink underline underline-offset-4"
-          >
-            Clear filters
-          </button>
+        {filtering ? (
+          <>
+            Showing <strong className="font-semibold text-ink">{visible}</strong> of{" "}
+            {filtered.length} matching {filtered.length === 1 ? "review" : "reviews"}.
+            <button
+              onClick={() =>
+                applyFilter(() => {
+                  setService(null);
+                  setPraise(null);
+                  setBroker(null);
+                })
+              }
+              className="ml-2 font-semibold text-ink underline underline-offset-4"
+            >
+              Back to all sections
+            </button>
+          </>
+        ) : (
+          <>
+            All <strong className="font-semibold text-ink">{ALL_REVIEWS.length}</strong> reviews,
+            grouped by what the client came in for. Open a section to read the rest, or use a
+            filter above to cut across the lot.
+          </>
         )}
       </p>
 
-      {filtered.length === 0 ? (
-        <p className="mt-8 rounded-[25px] bg-[#f1f1f1] p-7 text-ink/70">
-          No review matches all of those at once. Clear one and try again.
-        </p>
-      ) : (
-        <div className="mt-6 columns-1 gap-5 sm:columns-2 lg:columns-3">
-          {filtered.map((r, idx) => (
-            // Hidden, not removed: the full set stays in the prerendered HTML.
-            <div key={r.name} className={idx >= visible ? "hidden" : ""}>
-              <Tile r={r} />
+      {filtering ? (
+        filtered.length === 0 ? (
+          <p className="mt-8 rounded-[25px] bg-[#f1f1f1] p-7 text-ink/70">
+            No review matches all of those at once. Clear one and try again.
+          </p>
+        ) : (
+          <>
+            <div className="mt-6 columns-1 gap-5 sm:columns-2 lg:columns-3">
+              {filtered.map((r, idx) => (
+                <div key={r.name} className={idx >= visible ? "hidden" : ""}>
+                  <Tile r={r} />
+                </div>
+              ))}
             </div>
+            {(remaining > 0 || visible > INITIAL) && (
+              <div className="mt-4 flex flex-wrap gap-3">
+                {remaining > 0 && (
+                  <button onClick={() => setShown(visible + nextBatch)} className="btn btn-ghost">
+                    Show {nextBatch} more {nextBatch === 1 ? "review" : "reviews"}
+                  </button>
+                )}
+                {remaining > nextBatch && (
+                  <button onClick={() => setShown(filtered.length)} className="btn btn-ghost">
+                    Show all {filtered.length}
+                  </button>
+                )}
+                {visible > INITIAL && (
+                  <button onClick={() => setShown(INITIAL)} className="btn btn-ghost">
+                    Show fewer
+                  </button>
+                )}
+              </div>
+            )}
+          </>
+        )
+      ) : (
+        <div className="mt-8 space-y-12">
+          {GROUPS.map((g) => (
+            <GroupSection key={g.key} g={g} />
           ))}
-        </div>
-      )}
-
-      {(remaining > 0 || visible > INITIAL) && (
-        <div className="mt-4 flex flex-wrap gap-3">
-          {remaining > 0 && (
-            <button onClick={() => setShown(visible + nextBatch)} className="btn btn-ghost">
-              Show {nextBatch} more {nextBatch === 1 ? "review" : "reviews"}
-            </button>
-          )}
-          {remaining > 0 && remaining > nextBatch && (
-            <button onClick={() => setShown(filtered.length)} className="btn btn-ghost">
-              Show all {filtered.length}
-            </button>
-          )}
-          {visible > INITIAL && (
-            <button onClick={() => setShown(INITIAL)} className="btn btn-ghost">
-              Show fewer
-            </button>
-          )}
         </div>
       )}
     </div>
