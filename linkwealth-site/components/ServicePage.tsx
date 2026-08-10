@@ -213,8 +213,8 @@ export function ProcessSteps({
 
 export function FAQ({
   faqs,
-  title = "Your questions, answered.",
-  eyebrow = "Good to know",
+  title = "Frequently asked questions.",
+  eyebrow = "FAQ",
   related,
 }: {
   faqs: { q: string; a: string }[];

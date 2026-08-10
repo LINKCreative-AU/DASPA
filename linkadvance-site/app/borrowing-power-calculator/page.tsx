@@ -21,10 +21,10 @@ export const metadata: Metadata = {
 };
 
 const FAQS = [
-  { q: "How is borrowing power calculated?", a: "Lenders take your after-tax income, subtract living expenses (benchmarked to a minimum even if you declare less), existing commitments and about 3.8% per month of your credit card LIMITS, then work out what loan the remaining surplus services at your rate plus a ~3% buffer. Same formula here - which is why the estimate is honest rather than flattering." },
-  { q: "Why do different lenders offer such different amounts?", a: "Policy. Lenders treat overtime, bonuses, casual income, rental income and self-employed income differently, apply different expense benchmarks, and a few use different buffers for refinances. On identical inputs, the spread between the most and least generous lender is routinely six figures - that spread is why brokers exist." },
-  { q: "Do credit cards really reduce my borrowing power?", a: "Yes, dramatically - lenders assess about 3.8% of your total limit per month as a commitment even if the card is never used. A $20,000 unused limit can cost roughly $100,000 of borrowing power. Cancelling or cutting limits before applying is the quickest capacity win available." },
-  { q: "How can I increase my borrowing power?", a: "In rough order of speed: cut card limits, clear small personal loans, trim provable living expenses for three months, ensure all income is documented (and consistent), then consider the bigger levers - a longer term, a co-borrower or lenders whose policy suits your income type. Our article on increasing borrowing capacity covers the details." },
+  { q: "How is borrowing power calculated?", a: "Lenders take your after-tax income, subtract living expenses (benchmarked to a minimum even if you declare less), existing commitments and about 3.8% per month of your credit card LIMITS, then work out what loan the remaining surplus services at your rate plus a ~3% buffer. Same formula here, which is why the estimate is honest rather than flattering." },
+  { q: "Why do different lenders offer such different amounts?", a: "Policy. Lenders treat overtime, bonuses, casual income, rental income and self-employed income differently, apply different expense benchmarks, and a few use different buffers for refinances. On identical inputs, the spread between the most and least generous lender is routinely six figures. That spread is why brokers exist." },
+  { q: "Do credit cards really reduce my borrowing power?", a: "Yes, dramatically: lenders assess about 3.8% of your total limit per month as a commitment even if the card is never used. A $20,000 unused limit can cost roughly $100,000 of borrowing power. Cancelling or cutting limits before applying is the quickest capacity win available." },
+  { q: "How can I increase my borrowing power?", a: "In rough order of speed: cut card limits, clear small personal loans, trim provable living expenses for three months, ensure all income is documented (and consistent), then consider the bigger levers: a longer term, a co-borrower or lenders whose policy suits your income type. Our article on increasing borrowing capacity covers the details." },
 ];
 
 const CRUMBS = [
@@ -58,7 +58,7 @@ export default function Page() {
             eyebrow="Free tool · assessed like a lender would"
             title="How much can you borrow? The honest version."
             mark="The honest version."
-            intro="Most borrowing calculators flatter you. This one runs the numbers the way a lender's serviceability engine does - net income, benchmarked expenses, the APRA buffer, and the card-limit rule most people have never heard of."
+            intro="Most borrowing calculators flatter you. This one runs the numbers the way a lender's serviceability engine does: net income, benchmarked expenses, the APRA buffer, and the card-limit rule most people have never heard of."
             accent
           />
         </div>
@@ -67,7 +67,7 @@ export default function Page() {
         </div>
       </section>
       <FAQ
-        title="Borrowing power, answered."
+        title="Frequently asked questions."
         faqs={FAQS}
         related={[
           { label: "Repayments calculator", href: "/home-loan-repayment-calculator" },
@@ -77,7 +77,7 @@ export default function Page() {
       />
       <CtaBand
         heading="The range is the reason to call."
-        intro="Lenders differ by six figures on the same inputs. A broker finds which end of the range is yours - free."
+        intro="Lenders differ by six figures on the same inputs. A broker finds which end of the range is yours, free."
         subject="Borrowing power"
       />
     </main>

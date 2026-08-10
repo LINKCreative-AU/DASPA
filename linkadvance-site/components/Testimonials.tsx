@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site";
 
 // All 24 reviews the old homepage widget served, verbatim (Google, 5.0 avg
 // across 262). Names and text untouched.
-const REVIEWS: { name: string; text: string }[] = [
+export const REVIEWS: { name: string; text: string }[] = [
   { name: "Alys Taylor", text: "Hugh and the team have been great, guiding us through the daunting process of buying a home as first home buyers. We’ve really appreciated how communicative and responsive they have been." },
   { name: "Micky Parker", text: "The BEST experience with LINK Advance! I came to Jacob at LINK with a fairly stressful property purchase, and from the very beginning his prompt, professional approach put me completely at ease. He was able to secure me a great loan outcome, and his communication throughout the entire process was clear, proactive, and exceptional. Thank you, thank you! I've bought and sold three properties and worked with multiple brokers over the years, and LINK Advance is easily the best. I highly recommend Jacob and the entire team!" },
   { name: "James Roberts", text: "We had a lovely experience with Jacob, well mannered young man. Very professional and knew what he was doing." },

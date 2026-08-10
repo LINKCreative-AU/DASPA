@@ -24,9 +24,38 @@ function DesktopItem({ item }: { item: NavItem }) {
       className="flex items-center gap-1 whitespace-nowrap text-sm font-semibold text-ink underline-offset-4 transition hover:underline"
     >
       {item.label}
-      {item.children && <Chevron />}
+      {(item.children || item.columns) && <Chevron />}
     </a>
   );
+
+  if (item.columns) {
+    return (
+      <div className="group relative">
+        {trigger}
+        <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+          <div className="flex gap-7 rounded-2xl border border-line bg-white p-7 shadow-lg">
+            {item.columns.map((col) => (
+              <div key={col.heading} className="min-w-[11rem]">
+                <p className="eyebrow mb-3 whitespace-nowrap !text-[10px]">{col.heading}</p>
+                <ul className="space-y-0.5">
+                  {col.links.map((l) => (
+                    <li key={l.href}>
+                      <a
+                        href={l.href}
+                        className="block whitespace-nowrap rounded-lg px-2 py-1.5 text-sm font-medium text-ink/75 transition hover:bg-neutral-50 hover:text-ink"
+                      >
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (item.children) {
     return (
@@ -97,12 +126,13 @@ export function Header() {
           className="max-h-[80vh] overflow-y-auto border-t border-line bg-white px-6 pb-6 pt-2 lg:hidden"
           aria-label="Main"
         >
-          {NAV.map((n) =>
-            n.children ? (
+          {NAV.map((n) => {
+            const links = n.columns?.flatMap((c) => c.links) ?? n.children ?? null;
+            return links ? (
               <div key={n.label} className="border-b border-ink/5 py-3">
                 <p className="eyebrow !text-[10px]">{n.label}</p>
-                <div className="mt-6">
-                  {n.children.map((c) => (
+                <div className="mt-2">
+                  {links.map((c) => (
                     <a
                       key={c.href}
                       href={c.href}
@@ -123,8 +153,8 @@ export function Header() {
               >
                 {n.label}
               </a>
-            )
-          )}
+            );
+          })}
           <div className="mt-4 flex items-center gap-3">
             <a href="/contact-us" onClick={() => setOpen(false)} className="btn btn-primary flex-1">
               Book a call

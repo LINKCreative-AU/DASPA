@@ -122,7 +122,7 @@ export function RetirementCheck() {
         <div>
           <p className="text-sm font-bold text-ink">Retirement lifestyle</p>
           <p className="mt-0.5 text-xs text-ink/50">
-            ASFA Retirement Standard annual budgets (2025-26, rounded) - or set your own.
+            ASFA Retirement Standard annual budgets (2025-26, rounded), or set your own.
           </p>
           <div className="mt-2.5 flex flex-wrap gap-2">
             {LIFESTYLES.map((l) => (
@@ -207,22 +207,22 @@ export function RetirementCheck() {
                   <p className="mt-2 text-sm text-white/70">
                     Closing it from here means roughly{" "}
                     <strong className="text-white">{fmt(extraPerYear)}/yr</strong> more into
-                    super (or a strategy that works harder - that&apos;s the conversation).
+                    super (or a strategy that works harder; that&apos;s the conversation).
                   </p>
                 )}
               </div>
             </dl>
             <a href="#contact" className="btn mt-7 bg-white text-ink hover:bg-neutral-100">
-              {onTrack ? "Keep it on track - talk to an adviser" : "Close the gap - book a free call"}
+              {onTrack ? "Keep it on track: talk to an adviser" : "Close the gap: book a free call"}
             </a>
           </>
         )}
         <div className="mt-8 border-t border-white/15 pt-5 text-xs leading-relaxed text-white/60">
           <p>
             Everything is in today&apos;s dollars, assuming a 4% p.a. real return (a typical
-            growth fund&apos;s long-run return net of fees and inflation - not guaranteed) and
+            growth fund&apos;s long-run return net of fees and inflation, not guaranteed) and
             steady contributions. It ignores tax nuances, career breaks, the Age Pension and
-            market sequence risk - the things a real plan models. General information only,
+            market sequence risk: the things a real plan models. General information only,
             not personal advice.
           </p>
         </div>

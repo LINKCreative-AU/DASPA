@@ -42,12 +42,12 @@ const QUESTIONS: Question[] = [
     type: "multi",
     scored: false,
     label: "What do you want your money to do next?",
-    hint: "Tick everything that's on the list. Goals don't move the score - they decide which pathways show with your result.",
+    hint: "Tick everything that's on the list. Goals don't move the score. They decide which pathways show with your result.",
     options: [
       { label: "Buy (or upgrade) a home", points: 0 },
-      { label: "Get the kids set up - education, first homes", points: 0 },
+      { label: "Get the kids set up: education, first homes", points: 0 },
       { label: "Grow investments and income", points: 0 },
-      { label: "Retire well - maybe early", points: 0 },
+      { label: "Retire well, maybe early", points: 0 },
       { label: "Grow the business, or get its value out", points: 0 },
       { label: "Protect what we've already built", points: 0 },
     ],
@@ -58,7 +58,7 @@ const QUESTIONS: Question[] = [
     area: "Context",
     type: "multi",
     scored: false,
-    label: "First - which of these fit you?",
+    label: "First, which of these fit you?",
     hint: "Tick everything that's true. This doesn't move the score; it makes the next steps actually fit your situation.",
     options: [
       { label: "I run a business (or I'm self-employed)", points: 0 },
@@ -74,11 +74,11 @@ const QUESTIONS: Question[] = [
     area: "Net worth",
     type: "single",
     label: "How well do you know your household net worth?",
-    hint: "Everything you own minus everything you owe - the scoreboard behind every other answer here.",
+    hint: "Everything you own minus everything you owe: the scoreboard behind every other answer here.",
     options: [
       { label: "Honestly, no idea", points: 0, tip: "Start with the number: net worth = assets minus debts. You can't steer what you don't measure." },
-      { label: "A rough figure in my head", points: 0.4, tip: "Rough is a start - writing it down once a year turns a guess into a trend." },
-      { label: "I know the number", points: 0.7, tip: "Knowing it is most of the battle - tracking it yearly shows whether the strategy is actually working." },
+      { label: "A rough figure in my head", points: 0.4, tip: "Rough is a start. Writing it down once a year turns a guess into a trend." },
+      { label: "I know the number", points: 0.7, tip: "Knowing it is most of the battle. Tracking it yearly shows whether the strategy is actually working." },
       { label: "I track it, and it's trending up", points: 1 },
     ],
     tool: { label: "Net worth calculator", href: "/net-worth-calculator" },
@@ -89,10 +89,10 @@ const QUESTIONS: Question[] = [
     area: "Buffer",
     type: "single",
     label: "If your income stopped tomorrow, how long could you cover the essentials?",
-    hint: "Cash you could reach within days - savings, offset, redraw.",
+    hint: "Cash you could reach within days: savings, offset, redraw.",
     options: [
-      { label: "Less than a month", points: 0, tip: "A cash buffer is the foundation everything else stands on - most plans start by building 3 months of essentials." },
-      { label: "One to three months", points: 0.4, tip: "A solid start - the common target is 3-6 months of essential spending." },
+      { label: "Less than a month", points: 0, tip: "A cash buffer is the foundation everything else stands on. Most plans start by building 3 months of essentials." },
+      { label: "One to three months", points: 0.4, tip: "A solid start. The common target is 3-6 months of essential spending." },
       { label: "Three to six months", points: 0.8 },
       { label: "Six months or more", points: 1 },
     ],
@@ -106,7 +106,7 @@ const QUESTIONS: Question[] = [
     hint: "Tick everything that applies.",
     base: 0.5,
     lowTip:
-      "High-interest debt goes first - it usually beats any investment return. Then make the home loan work harder: offsets, splits and debt recycling turn the same repayments into progress.",
+      "High-interest debt goes first. It usually beats any investment return. Then make the home loan work harder: offsets, splits and debt recycling turn the same repayments into progress.",
     options: [
       { label: "Credit cards or personal loans carrying a balance", points: -0.5 },
       { label: "A home loan", points: 0 },
@@ -123,7 +123,7 @@ const QUESTIONS: Question[] = [
     type: "single",
     scored: false,
     label: "Roughly where does your super sit today?",
-    hint: "Combined across accounts (and partners, if you plan together). It doesn't move the score - it changes which strategies are even on the table.",
+    hint: "Combined across accounts (and partners, if you plan together). It doesn't move the score. It changes which strategies are even on the table.",
     options: [
       { label: "Under $100k", points: 0 },
       { label: "$100k to $200k", points: 0 },
@@ -137,7 +137,7 @@ const QUESTIONS: Question[] = [
     stage: "Making money work",
     area: "Super",
     type: "multi",
-    label: "And how hands-on are you with it - which of these are true?",
+    label: "And how hands-on are you with it? Which of these are true?",
     hint: "Tick everything that applies. For most people super is the second-biggest asset they own.",
     lowTip:
       "Super is most people's second-biggest asset, run on default settings. Knowing the balance, choosing the investment option deliberately and adding even a little extra are the three highest-leverage moves.",
@@ -146,7 +146,7 @@ const QUESTIONS: Question[] = [
       { label: "I've deliberately chosen my investment option", points: 0.3 },
       { label: "I contribute more than the employer minimum", points: 0.25 },
       { label: "I run (or am working toward) an SMSF strategy", points: 0.2 },
-      { label: "None of these - super runs itself", points: 0, none: true },
+      { label: "None of these: super runs itself", points: 0, none: true },
     ],
     tool: { label: "Retirement readiness check", href: "/how-much-do-i-need-to-retire#check" },
   },
@@ -158,9 +158,9 @@ const QUESTIONS: Question[] = [
     label: "Outside super, where does investing sit?",
     hint: "Tick everything that applies. This is the wealth that funds life before preservation age.",
     lowTip:
-      "Wealth outside super is what funds life before preservation age - and a regular, automated plan usually beats ad-hoc buying. Even a small monthly amount compounds.",
+      "Wealth outside super is what funds life before preservation age, and a regular, automated plan usually beats ad-hoc buying. Even a small monthly amount compounds.",
     options: [
-      { label: "I hold investments - shares, ETFs or property", points: 0.4 },
+      { label: "I hold investments: shares, ETFs or property", points: 0.4 },
       { label: "I add to them regularly (automated or scheduled)", points: 0.3 },
       { label: "There's a written strategy behind what I buy", points: 0.3 },
       { label: "Not investing outside super yet", points: 0, none: true },
@@ -172,16 +172,16 @@ const QUESTIONS: Question[] = [
     area: "Protection",
     type: "multi",
     label: "If illness or injury stopped you working, what's actually in place?",
-    hint: "Tick everything you hold. Default cover inside super counts - but tick the review line only if someone has sized it to your real debts and dependants.",
+    hint: "Tick everything you hold. Default cover inside super counts, but tick the review line only if someone has sized it to your real debts and dependants.",
     lowTip:
-      "Protection is the part of wealth most people under-do: the FSC estimates 3.4 million Australians are underinsured for income protection alone. Your income funds every other answer in this check - cover sized to your real debts and dependants (not the default in super) is usually the first advice conversation.",
+      "Protection is the part of wealth most people under-do: the FSC estimates 3.4 million Australians are underinsured for income protection alone. Your income funds every other answer in this check. Cover sized to your real debts and dependants (not the default in super) is usually the first advice conversation.",
     options: [
       { label: "Life cover", points: 0.2 },
       { label: "TPD (total & permanent disability) cover", points: 0.2 },
       { label: "Income protection", points: 0.3 },
       { label: "Trauma / critical illness cover", points: 0.1 },
       { label: "Cover reviewed against my debts and dependants in the last 3 years", points: 0.2 },
-      { label: "No cover - or honestly not sure", points: 0, none: true },
+      { label: "No cover, or honestly not sure", points: 0, none: true },
     ],
     tool: { label: "Insurance advice fees are now often tax-deductible", href: "/insights/you-can-now-claim-a-tax-deduction-on-personal-insurance-advice-fees" },
   },
@@ -193,7 +193,7 @@ const QUESTIONS: Question[] = [
     label: "If something happened to you tomorrow, what paperwork is ready?",
     hint: "Tick everything that's current.",
     lowTip:
-      "Without a will, state formulas decide - and super sits outside your will entirely. A will, enduring powers of attorney and up-to-date super death-benefit nominations are the minimum kit.",
+      "Without a will, state formulas decide, and super sits outside your will entirely. A will, enduring powers of attorney and up-to-date super death-benefit nominations are the minimum kit.",
     options: [
       { label: "A current will", points: 0.4 },
       { label: "Enduring powers of attorney", points: 0.3 },
@@ -206,12 +206,12 @@ const QUESTIONS: Question[] = [
     stage: "Pulling it together",
     area: "Plan",
     type: "single",
-    label: "And the plan holding it all together - what does it look like?",
+    label: "And the plan holding it all together: what does it look like?",
     hint: "The thing that decides whether the other answers point in the same direction.",
     options: [
-      { label: "There isn't one", points: 0, tip: "A goal without a number is a wish - even one page with targets changes behaviour." },
-      { label: "Goals, but they live in my head", points: 0.4, tip: "Write them down with dollar figures and dates - that's when trade-offs get visible." },
-      { label: "Written goals with real numbers", points: 0.7, tip: "The last step is a review rhythm - a plan looked at yearly survives contact with real life." },
+      { label: "There isn't one", points: 0, tip: "A goal without a number is a wish. Even one page with targets changes behaviour." },
+      { label: "Goals, but they live in my head", points: 0.4, tip: "Write them down with dollar figures and dates. That's when trade-offs get visible." },
+      { label: "Written goals with real numbers", points: 0.7, tip: "The last step is a review rhythm: a plan looked at yearly survives contact with real life." },
       { label: "A written plan I review at least yearly", points: 1 },
     ],
   },
@@ -223,10 +223,10 @@ const QUESTIONS: Question[] = [
     label: "Last one. Day to day, how does money actually feel?",
     hint: "The validated wellbeing scales all end up here: not what you have, but whether it runs you or you run it.",
     options: [
-      { label: "It controls my life - constant stress", points: 0, tip: "Money stress is a signal, not a character flaw - and it usually traces to one or two of the flags above. Fixing the buffer and the highest-interest debt is where the feeling starts to shift." },
-      { label: "I worry more than I'd like", points: 0.35, tip: "Worry usually lives in the unknowns - an unanswered 'are we okay?'. A plan with real numbers is the most reliable cure the research finds." },
-      { label: "Mostly on top of it", points: 0.7, tip: "Solid - the step from 'on top of it' to genuinely calm is usually a written plan that's already decided what happens in a bad year." },
-      { label: "Calm - money's a tool, not a worry", points: 1 },
+      { label: "It controls my life: constant stress", points: 0, tip: "Money stress is a signal, not a character flaw, and it usually traces to one or two of the flags above. Fixing the buffer and the highest-interest debt is where the feeling starts to shift." },
+      { label: "I worry more than I'd like", points: 0.35, tip: "Worry usually lives in the unknowns: an unanswered 'are we okay?'. A plan with real numbers is the most reliable cure the research finds." },
+      { label: "Mostly on top of it", points: 0.7, tip: "Solid. The step from 'on top of it' to genuinely calm is usually a written plan that's already decided what happens in a bad year." },
+      { label: "Calm: money's a tool, not a worry", points: 1 },
     ],
   },
 ];
@@ -235,9 +235,9 @@ const SCORED = QUESTIONS.filter((q) => q.scored !== false);
 
 const BANDS = [
   { min: 8.5, name: "Optimising", blurb: "The foundations are set and working. At this level the wins are in fine-tuning: tax structure, contribution strategy, and making sure the plan survives a bad year." },
-  { min: 6.5, name: "Compounding", blurb: "You're ahead of most - the machine is built and running. The gap between here and optimised is usually structure: where assets sit, whose name they're in, and how tax-efficiently money moves." },
-  { min: 4, name: "Building", blurb: "Real progress with real gaps. One or two of the flags below are quietly expensive - closing them is usually worth more than picking better investments." },
-  { min: 0, name: "Foundations first", blurb: "No judgement - almost everyone starts here. The flags below are in rough priority order, and the first two or three are usually fixable within a month." },
+  { min: 6.5, name: "Compounding", blurb: "You're ahead of most. The machine is built and running. The gap between here and optimised is usually structure: where assets sit, whose name they're in, and how tax-efficiently money moves." },
+  { min: 4, name: "Building", blurb: "Real progress with real gaps. One or two of the flags below are quietly expensive. Closing them is usually worth more than picking better investments." },
+  { min: 0, name: "Foundations first", blurb: "No judgement: almost everyone starts here. The flags below are in rough priority order, and the first two or three are usually fixable within a month." },
 ];
 
 // selections per question key (option indices) - kept raw so Back restores
@@ -275,24 +275,24 @@ function buildPathways(sel: Selections): Pathway[] {
   if (biz && superOver200k) {
     out.push({
       title: "Your premises, owned by your super.",
-      body: "Business owners with around $200k+ in super often use an SMSF to buy the premises they already rent - so the rent builds their retirement instead of a landlord's.",
+      body: "Business owners with around $200k+ in super often use an SMSF to buy the premises they already rent, so the rent builds their retirement instead of a landlord's.",
       href: "/smsf",
       linkLabel: "How SMSF commercial property works",
     });
   } else if (biz) {
     out.push({
       title: "Profits into personal wealth.",
-      body: "The gap between a good business and a wealthy owner is usually structure - how profit gets out of the company and into your name, tax-effectively.",
+      body: "The gap between a good business and a wealthy owner is usually structure: how profit gets out of the company and into your name, tax-effectively.",
       href: "/business-owner-wealth-extraction-workshop-link-wealth",
       linkLabel: "The Business Owner Wealth Extraction Workshop",
     });
   }
   if ((deps || protectLow) && protectLow) {
     out.push({
-      title: "Protection first - it's the part most people under-do.",
+      title: "Protection first: it's the part most people under-do.",
       body: deps
-        ? "With people depending on your income, cover sized to your actual debts and dependants matters more than any investment choice - and part of the advice fee is now often tax-deductible."
-        : "Cover sized to your actual debts and situation - not the default in super - is usually the quickest gap to close, and part of the advice fee is now often tax-deductible.",
+        ? "With people depending on your income, cover sized to your actual debts and dependants matters more than any investment choice, and part of the advice fee is now often tax-deductible."
+        : "Cover sized to your actual debts and situation (not the default in super) is usually the quickest gap to close, and part of the advice fee is now often tax-deductible.",
       href: "/insights/you-can-now-claim-a-tax-deduction-on-personal-insurance-advice-fees",
       linkLabel: "What changed with insurance advice fees",
     });
@@ -300,7 +300,7 @@ function buildPathways(sel: Selections): Pathway[] {
   if (retire10) {
     out.push({
       title: "The next ten years decide the shape of retirement.",
-      body: "Inside a decade of retiring, sequencing matters as much as saving - contribution strategy, tax and when to de-risk. This is when a funding plan earns its keep.",
+      body: "Inside a decade of retiring, sequencing matters as much as saving: contribution strategy, tax and when to de-risk. This is when a funding plan earns its keep.",
       href: "/retirement-funding-workshop-link-wealth",
       linkLabel: "The Retirement Funding Workshop",
     });
@@ -308,7 +308,7 @@ function buildPathways(sel: Selections): Pathway[] {
   if (goalKids) {
     out.push({
       title: "Wealth that includes the kids.",
-      body: "Education and investment bonds are a tax-effective way to build school fees and first-home head starts - one of the most-used tools in family wealth plans.",
+      body: "Education and investment bonds are a tax-effective way to build school fees and first-home head starts, one of the most-used tools in family wealth plans.",
       href: "/family-wealth-management",
       linkLabel: "How family wealth management works",
     });
@@ -316,7 +316,7 @@ function buildPathways(sel: Selections): Pathway[] {
   if (home && !biz) {
     out.push({
       title: "The equity in your home can work harder.",
-      body: "Homeowners often have more strategy options than they realise - offsets, splits, debt recycling and equity redeployed into investments, modelled against your own numbers.",
+      body: "Homeowners often have more strategy options than they realise: offsets, splits, debt recycling and equity redeployed into investments, modelled against your own numbers.",
       href: "/home-equity-long-term-wealth-strategy",
       linkLabel: "The Equity Strategy Workshop",
     });
@@ -352,7 +352,7 @@ function Intro({ onStart }: { onStart: () => void }) {
       <p className="mt-5 text-xl font-semibold">2 minutes. 9 areas. One real score.</p>
       <p className="mx-auto mt-3 max-w-2xl text-lg text-white/80">
         One screen at a time, starting where an adviser would: what you want money to do.
-        Then where you stand, how it&apos;s working, what&apos;s protecting it, the plan - and
+        Then where you stand, how it&apos;s working, what&apos;s protecting it, the plan, and
         how it all feels. Your score, the flags and the likely next steps show up straight
         away.
       </p>
@@ -650,7 +650,7 @@ function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void })
         <div>
           <Radar sel={sel} size={280} />
           <p className="mt-1 text-center text-xs text-ink/45">
-            Your shape - the dashed ring is the strong mark. The goal is to fill it on every axis.
+            Your shape: the dashed ring is the strong mark. The goal is to fill it on every axis.
           </p>
         </div>
       </div>
@@ -676,7 +676,7 @@ function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void })
             ))}
           </div>
           <p className="mt-6 text-xs text-white/45">
-            General pathways people in similar positions often explore - not a recommendation.
+            General pathways people in similar positions often explore, not a recommendation.
             Whether any of them fit you is exactly what a discovery meeting works out.
           </p>
         </div>
@@ -730,7 +730,7 @@ function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void })
       <SnapshotForm score={score} band={band.name} flags={flags} profile={profileSummary(sel)} />
 
       <p className="mt-6 text-xs leading-relaxed text-ink/45">
-        The score weighs nine general markers of financial health equally - it doesn&apos;t know
+        The score weighs nine general markers of financial health equally. It doesn&apos;t know
         your income, age or goals, so treat it as a conversation starter, not a verdict. General
         information only, not personal advice.
       </p>
@@ -815,7 +815,7 @@ function SnapshotForm({
       <div className="mt-6 rounded-3xl bg-ink p-8 text-center text-white">
         <h3 className="font-display text-2xl font-bold tracking-tight">Speak soon.</h3>
         <p className="mx-auto mt-2 max-w-md text-white/70">
-          Your result is with the team - an adviser will be in touch within a few business hours
+          Your result is with the team. An adviser will be in touch within a few business hours
           to talk it through. No cost, no obligation.
         </p>
       </div>
@@ -828,12 +828,12 @@ function SnapshotForm({
         Talk the result through
       </p>
       <h3 className="mt-2 max-w-2xl font-display text-2xl font-normal tracking-tight sm:text-3xl">
-        Turn the flags into a sequence - free, with a licensed adviser.
+        Turn the flags into a sequence. Free, with a licensed adviser.
       </h3>
       <p className="mt-2 max-w-xl text-white/65">
         Your score, flags and context travel with the enquiry, so the conversation starts at
         the answer, not the form. In the FAAA&apos;s Value of Advice research, 88% of advised
-        Australians are confident they&apos;ll have enough for retirement - against 62% of the
+        Australians are confident they&apos;ll have enough for retirement, against 62% of the
         unadvised.
       </p>
       <div className="mt-6 grid gap-3 sm:grid-cols-2">

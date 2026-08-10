@@ -53,55 +53,63 @@ export const SITE = {
     name: "LINK",
     url: "https://link.com.au",
     careersUrl: "https://link.com.au/careers",
-    line: "Part of LINK - accounting, bookkeeping, finance, wealth and property, one connected team.",
+    line: "Part of LINK: accounting, bookkeeping, finance, wealth and property, one connected team.",
   },
 } as const;
 
 // One page per head term - the keyword map lives in SEO.md. Existing slugs
 // carried 1:1 (the FHOG QLD page ranks #1 on its eligibility cluster).
 export type NavLink = { label: string; href: string };
+export type NavColumn = { heading: string; links: NavLink[] };
 export type NavItem = {
   label: string;
   href?: string;
-  children?: NavLink[];
+  children?: NavLink[]; // simple dropdown
+  columns?: NavColumn[]; // grouped panel
 };
 
 export const NAV: NavItem[] = [
   {
-    label: "Personal",
-    children: [
-      { label: "Home loans", href: "/home-loans-brisbane" },
-      { label: "First home buyers", href: "/first-home-buyers-loan" },
-      { label: "Refinancing", href: "/refinancing-brisbane" },
-      { label: "Investment loans", href: "/investment-home-loans" },
-      { label: "Construction loans", href: "/construction-loans-brisbane" },
-      { label: "Home loans for doctors", href: "/home-loans-for-doctors" },
-      { label: "SMSF loans", href: "/smsf-mortgage-broker" },
-    ],
-  },
-  {
-    label: "Commercial",
-    children: [
-      { label: "Commercial lending", href: "/commercial-lending" },
-      { label: "Commercial property loans", href: "/commercial-property-loans" },
-      { label: "Working capital finance", href: "/working-capital-finance" },
-      { label: "Acquisition & franchise", href: "/business-acquisition-loans" },
-      { label: "Development finance", href: "/development-finance" },
-      { label: "Business loans", href: "/business-loans" },
-      { label: "Car & equipment finance", href: "/business-car-and-equipment-loans" },
-    ],
-  },
-  {
-    label: "First home",
-    children: [
-      { label: "First Home Buyers Grant QLD", href: "/first-home-buyers-grant" },
-      { label: "First Home Guarantee (5% deposit)", href: "/first-home-guarantee" },
-      { label: "First home buyer loans", href: "/first-home-buyers-loan" },
-      { label: "First Home Super Saver", href: "/first-home-super-saver" },
+    label: "Lending",
+    href: "/home-loans-brisbane",
+    columns: [
+      {
+        heading: "Personal",
+        links: [
+          { label: "Home loans", href: "/home-loans-brisbane" },
+          { label: "First home buyers", href: "/first-home-buyers-loan" },
+          { label: "Refinancing", href: "/refinancing-brisbane" },
+          { label: "Investment loans", href: "/investment-home-loans" },
+          { label: "Construction loans", href: "/construction-loans-brisbane" },
+          { label: "Doctors & professionals", href: "/home-loans-for-doctors" },
+          { label: "SMSF loans", href: "/smsf-mortgage-broker" },
+        ],
+      },
+      {
+        heading: "Commercial",
+        links: [
+          { label: "Commercial lending", href: "/commercial-lending" },
+          { label: "Commercial property", href: "/commercial-property-loans" },
+          { label: "Working capital", href: "/working-capital-finance" },
+          { label: "Acquisition & franchise", href: "/business-acquisition-loans" },
+          { label: "Development finance", href: "/development-finance" },
+          { label: "Business loans", href: "/business-loans" },
+          { label: "Equipment & vehicles", href: "/business-car-and-equipment-loans" },
+        ],
+      },
+      {
+        heading: "First home extras",
+        links: [
+          { label: "First Home Owners Grant QLD", href: "/first-home-buyers-grant" },
+          { label: "First Home Guarantee", href: "/first-home-guarantee" },
+          { label: "First Home Super Saver", href: "/first-home-super-saver" },
+        ],
+      },
     ],
   },
   {
     label: "Tools",
+    href: "/home-loan-health-check",
     children: [
       { label: "Home loan health check", href: "/home-loan-health-check" },
       { label: "Business borrowing check", href: "/business-borrowing-health-check" },
@@ -136,13 +144,13 @@ export const TEAM = [
   {
     name: "Callum",
     role: "Mortgage Broker",
-    focus: "First home buyers and investors - Bachelor of Business (Economics and Finance), five years both sides of the desk.",
+    focus: "First home buyers and investors. Bachelor of Business (Economics and Finance), five years both sides of the desk.",
     image: "/wp-content/uploads/2026/05/Callum-Advance-1024x1024-LinkedIn-Grey-Square.png",
   },
   {
     name: "Jacob",
     role: "Mortgage Broker",
-    focus: "The lending other brokers find difficult - complex commercial, SMSF, small business finance.",
+    focus: "The lending other brokers find difficult: complex commercial, SMSF, small business finance.",
     image: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
   },
 ] as const;

@@ -22,7 +22,7 @@ const QUESTIONS: Q[] = [
     label: "Are you 18 or older, applying as a person (not a company or trust)?",
     options: [
       { label: "Yes", pass: true },
-      { label: "No", pass: false, why: "The grant is only available to natural persons aged 18+ - companies and trusts can't apply." },
+      { label: "No", pass: false, why: "The grant is only available to natural persons aged 18+. Companies and trusts can't apply." },
     ],
   },
   {
@@ -46,8 +46,8 @@ const QUESTIONS: Q[] = [
     label: "Have you or your spouse ever owned AND lived in a property in Australia?",
     hint: "Owning an investment property you never lived in may still be OK.",
     options: [
-      { label: "No - never owned, or only an investment we never lived in", pass: true },
-      { label: "Yes - owned and lived in one", pass: false, why: "Having owned and occupied a home before rules the grant out - though investment-only ownership can survive the test; worth checking properly." },
+      { label: "No, never owned, or only an investment we never lived in", pass: true },
+      { label: "Yes, owned and lived in one", pass: false, why: "Having owned and occupied a home before rules the grant out, though investment-only ownership can survive the test; worth checking properly." },
     ],
   },
   {
@@ -55,13 +55,13 @@ const QUESTIONS: Q[] = [
     label: "Is the home brand new, off the plan, a new build, or substantially renovated?",
     hint: "Cosmetic work (paint, sanded floors) doesn't count as substantial renovation.",
     options: [
-      { label: "Yes - new, off the plan, building, or substantially renovated", pass: true },
-      { label: "No - an established home", pass: false, why: "The QLD grant only applies to new or substantially renovated homes - but established-home buyers still get stamp duty concessions, which can be worth even more." },
+      { label: "Yes: new, off the plan, building, or substantially renovated", pass: true },
+      { label: "No, an established home", pass: false, why: "The QLD grant only applies to new or substantially renovated homes, but established-home buyers still get stamp duty concessions, which can be worth even more." },
     ],
   },
   {
     key: "value",
-    label: "Will the total value - home plus land - be $750,000 or less?",
+    label: "Will the total value (home plus land) be $750,000 or less?",
     options: [
       { label: "Yes, $750k or under", pass: true },
       { label: "No, over $750k", pass: false, why: "The grant caps total value (home + land) at $750,000." },
@@ -73,7 +73,7 @@ const QUESTIONS: Q[] = [
     label: "Will you live in the home for at least 6 months within the first year?",
     options: [
       { label: "Yes", pass: true },
-      { label: "No / not sure", pass: null, why: "The residence requirement is six continuous months within the first year - if that's uncertain, it's worth a conversation before you commit." },
+      { label: "No / not sure", pass: null, why: "The residence requirement is six continuous months within the first year. If that's uncertain, it's worth a conversation before you commit." },
     ],
   },
 ];
@@ -122,7 +122,7 @@ export function FhogChecker() {
           Check your <strong className="font-bold">$30,000 grant eligibility.</strong>
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-lg text-white/80">
-          Seven quick questions - the same tests the QLD Government applies. Your answer shows
+          Seven quick questions, the same tests the QLD Government applies. Your answer shows
           straight away, no details required.
         </p>
         <button
@@ -152,20 +152,20 @@ export function FhogChecker() {
         <h3 className="mt-3 font-display text-3xl font-normal tracking-tight text-ink">
           {likely
             ? maybes.length > 0
-              ? "Likely eligible - with a couple of things to confirm."
+              ? "Likely eligible, with a couple of things to confirm."
               : "You look likely to be eligible."
-            : "The grant looks unlikely - but don't stop here."}
+            : "The grant looks unlikely, but don't stop here."}
         </h3>
         {likely ? (
           <p className="mt-3 max-w-2xl text-ink/65">
             On your answers, you pass the tests the $30,000 FHOG QLD turns on
-            {maybes.length > 0 && " - subject to the items below"}. The formal check happens
+            {maybes.length > 0 && ", subject to the items below"}. The formal check happens
             with your application (your broker or lender lodges it, usually so the grant is
             available at settlement), and the official rules live at qld.gov.au.
           </p>
         ) : (
           <p className="mt-3 max-w-2xl text-ink/65">
-            One or more answers rule the grant out on the standard tests - but first home
+            One or more answers rule the grant out on the standard tests, but first home
             buyers routinely save more from stamp duty concessions and the 5% deposit First
             Home Guarantee than from the grant itself. Worth five minutes with a broker before
             you write anything off.
@@ -188,14 +188,14 @@ export function FhogChecker() {
         )}
         <div className="mt-7 flex flex-wrap items-center gap-4">
           <a href="#contact" className="btn btn-primary">
-            Get it confirmed - free
+            Get it confirmed for free
           </a>
           <a href="/first-home-guarantee" className="text-sm font-semibold text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
             Also check the 5% deposit Guarantee →
           </a>
         </div>
         <p className="mt-5 text-xs text-ink/45">
-          General information only, based on the published QLD eligibility tests - not a
+          General information only, based on the published QLD eligibility tests, not a
           determination. Official rules: qld.gov.au. <button onClick={restart} className="font-semibold underline">Retake</button>
         </p>
       </div>

@@ -51,7 +51,7 @@ export const SITE = {
     name: "LINK",
     url: "https://link.com.au",
     careersUrl: "https://link.com.au/careers",
-    line: "Part of LINK - accounting, bookkeeping, finance, wealth and property, one connected team.",
+    line: "Part of LINK: accounting, bookkeeping, finance, wealth and property, one connected team.",
   },
 } as const;
 

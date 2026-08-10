@@ -102,7 +102,7 @@ export function DebtRecyclingCalculator() {
         <Field label="Home loan interest rate" value={loanRate} onChange={setLoanRate} suffix="% p.a." />
         <Field
           label="Expected investment return"
-          hint="Total return (income + growth), before tax. Long-run Australian shares have averaged 8-9% p.a. - not guaranteed."
+          hint="Total return (income + growth), before tax. Long-run Australian shares have averaged 8-9% p.a., not guaranteed."
           value={invReturn}
           onChange={setInvReturn}
           suffix="% p.a."
@@ -128,7 +128,7 @@ export function DebtRecyclingCalculator() {
               </dt>
               <dd className="mt-1 font-display text-3xl font-semibold">{fmt(payDown)}</dd>
               <p className="mt-1 text-xs text-white/55">
-                Loan reduction - a guaranteed, tax-free return at your loan rate.
+                Loan reduction: a guaranteed, tax-free return at your loan rate.
               </p>
             </div>
             <div>
@@ -164,7 +164,7 @@ export function DebtRecyclingCalculator() {
             markets are not), the tax refund on investment-loan interest is reinvested, and
             franking credits, fees, and rate changes are ignored. If your investment return
             ends up below your loan rate, recycling leaves you worse off than paying down the
-            loan. General information only - not personal advice.
+            loan. General information only, not personal advice.
           </p>
         </div>
       </div>

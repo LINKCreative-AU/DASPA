@@ -26,7 +26,7 @@ export default function Page() {
       serviceDescription="Wealth management for families: investment strategy, insurance, education funding, inheritance and estate planning."
       crumbName="Family Wealth Management"
       heroImage="/wp-content/uploads/2024/12/AdobeStock_460793440-min-scaled.jpeg"
-      heroImageAlt="A young family at home - planning for their future together"
+      heroImageAlt="A young family at home, planning for their future together"
       eyebrow="Family wealth management"
       h1="Helping you plan, grow, and protect your family’s wealth with confidence."
       h1Mark="family’s wealth"
@@ -40,8 +40,8 @@ export default function Page() {
         {
           heading: "One plan for the whole family's finances.",
           paragraphs: [
-            "Family wealth management brings every moving part of your family's finances into one strategy: investments, superannuation, insurance, education funding, property and estate planning - so decisions support each other instead of competing.",
-            "Generic, cookie-cutter solutions don't cut it. With tailored advice for your specific situation, you get strategies built for you - your family, your lifestyle, your future.",
+            "Family wealth management brings every moving part of your family's finances into one strategy: investments, superannuation, insurance, education funding, property and estate planning, so decisions support each other instead of competing.",
+            "Generic, cookie-cutter solutions don't cut it. With tailored advice for your specific situation, you get strategies built for you: your family, your lifestyle, your future.",
           ],
         },
         {
@@ -59,7 +59,7 @@ export default function Page() {
         {
           heading: "Advice that grows with your family.",
           paragraphs: [
-            "Get expert guidance when you need it most with one-on-one collaboration and an agile, responsive advisory team who adapts as your goals and circumstances evolve - from first homes and growing families through to inheritance and legacy planning.",
+            "Get expert guidance when you need it most with one-on-one collaboration and an agile, responsive advisory team who adapts as your goals and circumstances evolve, from first homes and growing families through to inheritance and legacy planning.",
           ],
         },
       ]}
@@ -70,7 +70,7 @@ export default function Page() {
         },
         {
           q: "Can you help us invest for our children?",
-          a: "Yes. Education and investment bonds are a tax-effective way to build wealth for children - our advisers use them regularly for school fees and first-home head starts. Read our guide to children's bonds in Australia for how they work.",
+          a: "Yes. Education and investment bonds are a tax-effective way to build wealth for children. Our advisers use them regularly for school fees and first-home head starts. Read our guide to children's bonds in Australia for how they work.",
         },
         {
           q: "Do you handle inheritances?",
@@ -78,7 +78,7 @@ export default function Page() {
         },
         {
           q: "What does the first meeting cost?",
-          a: "Nothing. Your discovery meeting is free and no-obligation - we get to know you and your goals, and you leave knowing exactly what a plan would look like.",
+          a: "Nothing. Your discovery meeting is free and no-obligation. We get to know you and your goals, and you leave knowing exactly what a plan would look like.",
         },
       ]}
       relatedLinks={[

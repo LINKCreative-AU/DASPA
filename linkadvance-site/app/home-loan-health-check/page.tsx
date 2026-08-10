@@ -15,7 +15,7 @@ const PATH = "/home-loan-health-check";
 export const metadata: Metadata = {
   title: { absolute: "Free Home Loan Health Check | Score Your Loan Out of 10" },
   description:
-    "Seven quick questions, a score out of 10 - rate awareness, review recency, structure, fit, equity and attention. See what your loan's costing you in neglect, on screen, no email wall.",
+    "Seven quick questions, a score out of 10: rate awareness, review recency, structure, fit, equity and attention. See what your loan's costing you in neglect, on screen, no email wall.",
   alternates: { canonical: PATH },
   openGraph: {
     title: "The Home Loan Health Check - score your loan out of 10",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
 
 const FAQS = [
   { q: "What is a home loan health check?", a: "A structured review of whether your loan is still working: is the rate sharp, is the structure (offset, splits, repayments) being used, does the loan still fit your life, and is anyone paying attention to it. This tool scores those markers in two minutes; a broker review then does the real comparison across 35+ lenders." },
-  { q: "How often should I review my home loan?", a: "Annually. That doesn't mean refinancing annually - most annual reviews end in a free repricing call to your existing lender rather than a switch. What matters is that someone makes that call; loans drift precisely because nobody does." },
-  { q: "Is the check personal or credit advice?", a: "No - it weighs six general markers of loan health and returns general observations. It doesn't know your rate, balance or circumstances. It's built to start the right conversation; the free review with a broker is where your actual loan gets assessed." },
-  { q: "What happens if my loan scores badly?", a: "Usually good news, oddly: a low score means idle levers, and idle levers mean recoverable money. The most common fixes - a repricing call, activating an offset, cutting unused card limits - don't even require refinancing." },
+  { q: "How often should I review my home loan?", a: "Annually. That doesn't mean refinancing annually. Most annual reviews end in a free repricing call to your existing lender rather than a switch. What matters is that someone makes that call; loans drift precisely because nobody does." },
+  { q: "Is the check personal or credit advice?", a: "No. It weighs six general markers of loan health and returns general observations. It doesn't know your rate, balance or circumstances. It's built to start the right conversation; the free review with a broker is where your actual loan gets assessed." },
+  { q: "What happens if my loan scores badly?", a: "Usually good news, oddly: a low score means idle levers, and idle levers mean recoverable money. The most common fixes (a repricing call, activating an offset, cutting unused card limits) don't even require refinancing." },
 ];
 
 const CRUMBS = [
@@ -62,7 +62,7 @@ export default function Page() {
             eyebrow="Free tool · 2 minutes · no email needed"
             title="The Home Loan Health Check: score your loan out of 10."
             mark="out of 10."
-            intro="Loans are built to be forgotten - and lenders price that forgetting. Seven quick questions across the things that decide whether your loan is still working, with your score, flags and next steps on screen immediately."
+            intro="Loans are built to be forgotten, and lenders price that forgetting. Seven quick questions across the things that decide whether your loan is still working, with your score, flags and next steps on screen immediately."
             accent
           />
         </div>
@@ -71,17 +71,17 @@ export default function Page() {
         </div>
       </section>
       <FAQ
-        title="Health checks, answered."
+        title="Frequently asked questions."
         faqs={FAQS}
         related={[
-          { label: "Refinancing - the free review", href: "/refinancing-brisbane" },
+          { label: "Refinancing: the free review", href: "/refinancing-brisbane" },
           { label: "Repayments calculator", href: "/home-loan-repayment-calculator" },
           { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },
         ]}
       />
       <CtaBand
         heading="A score is a start. Savings are the point."
-        intro="Bring your result to a free review - either we find a sharper loan across 35+ lenders, or we make your lender price-match."
+        intro="Bring your result to a free review. Either we find a sharper loan across 35+ lenders, or we make your lender price-match."
         subject="Home Loan Health Check"
       />
     </main>

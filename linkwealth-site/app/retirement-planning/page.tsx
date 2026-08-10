@@ -43,7 +43,7 @@ export default function Page() {
         {
           heading: "Retirement planning that starts with your life, not a product.",
           paragraphs: [
-            "Retirement planning is working out the lifestyle you want, what it costs, and how your superannuation, savings, investments and the Age Pension can fund it - then putting a strategy in place while time is still on your side.",
+            "Retirement planning is working out the lifestyle you want, what it costs, and how your superannuation, savings, investments and the Age Pension can fund it, then putting a strategy in place while time is still on your side.",
             "You get a detailed, step-by-step plan tailored to your timeline. We map out clear actions for today and tomorrow. So you're set for 5, 10, or 20 years down the line.",
             "The earlier you start, the more options you have: contribution strategies, transition-to-retirement pensions, investment structures and tax planning all work harder with time.",
           ],
@@ -74,11 +74,11 @@ export default function Page() {
       faqs={[
         {
           q: "How much do I need to retire in Australia?",
-          a: "It depends on the lifestyle you want. As a reference point, the ASFA Retirement Standard estimates a comfortable retirement costs roughly $52,000 a year for singles and $73,000 for couples who own their home. Your own number depends on your spending, health, housing and plans - which is exactly what a retirement plan works out.",
+          a: "It depends on the lifestyle you want. As a reference point, the ASFA Retirement Standard estimates a comfortable retirement costs roughly $52,000 a year for singles and $73,000 for couples who own their home. Your own number depends on your spending, health, housing and plans, which is exactly what a retirement plan works out.",
         },
         {
           q: "When should I start retirement planning?",
-          a: "Earlier than you think. From about age 45 the levers get powerful: contribution strategies, investment structure and tax planning all compound with time. But a plan adds value at any age - including after you have already retired.",
+          a: "Earlier than you think. From about age 45 the levers get powerful: contribution strategies, investment structure and tax planning all compound with time. But a plan adds value at any age, including after you have already retired.",
         },
         {
           q: "Do you advise on superannuation?",

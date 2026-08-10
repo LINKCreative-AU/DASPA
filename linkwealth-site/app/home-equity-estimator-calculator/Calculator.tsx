@@ -144,7 +144,7 @@ export function Calculator() {
               <dd className="mt-1 font-display text-2xl font-semibold">{fmt(Math.max(usable, 0))}</dd>
               <p className="mt-2 text-xs text-white/55">
                 Most lenders let you borrow against up to 80% of your property’s value without
-                lenders mortgage insurance. A rule of thumb only - lender policies differ.
+                lenders mortgage insurance. A rule of thumb only; lender policies differ.
               </p>
             </div>
           </dl>

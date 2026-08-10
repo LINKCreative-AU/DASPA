@@ -17,7 +17,7 @@ const PATH = "/first-home-buyers-grant";
 export const metadata: Metadata = {
   title: { absolute: "First Home Buyers Grant QLD | $30,000 FHOG Eligibility Check" },
   description:
-    "The $30,000 First Home Owner Grant QLD, explained: eligibility tests, the $750k value cap, new-build rules and how to apply - plus a 2-minute eligibility checker and the stamp duty savings that stack on top.",
+    "The $30,000 First Home Owner Grant QLD, explained: eligibility tests, the $750k value cap, new-build rules and how to apply, plus a 2-minute eligibility checker and the stamp duty savings that stack on top.",
   alternates: { canonical: PATH },
   openGraph: {
     title: "First Home Buyers Grant QLD - check your $30,000 eligibility",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 const FAQS = [
   {
     q: "How much is the First Home Owners Grant in QLD?",
-    a: "$30,000 for eligible transactions - the Queensland Government doubled it from $15,000 for contracts signed from 20 November 2023 and has extended the $30,000 window since. The amount turns on your contract date, so confirm the current window at qld.gov.au before you rely on it.",
+    a: "$30,000 for eligible transactions. The Queensland Government doubled it from $15,000 for contracts signed from 20 November 2023 and has extended the $30,000 window since. The amount turns on your contract date, so confirm the current window at qld.gov.au before you rely on it.",
   },
   {
     q: "Who is eligible for the First Home Buyers Grant in QLD?",
@@ -37,7 +37,7 @@ const FAQS = [
   },
   {
     q: "Does the grant apply to established homes?",
-    a: "No - the QLD grant is for new homes only: new builds, off-the-plan purchases and substantially renovated homes (cosmetic work like paint doesn't count). Established-home buyers still get first-home stamp duty concessions, which can be worth more than the grant itself.",
+    a: "No. The QLD grant is for new homes only: new builds, off-the-plan purchases and substantially renovated homes (cosmetic work like paint doesn't count). Established-home buyers still get first-home stamp duty concessions, which can be worth more than the grant itself.",
   },
   {
     q: "Do first home buyers pay stamp duty in QLD?",
@@ -45,11 +45,11 @@ const FAQS = [
   },
   {
     q: "How do I apply for the FHOG in QLD?",
-    a: "Most people apply through their lender or broker with the loan application, so the grant is available at settlement - that's how we do it, and it's the path we recommend. You can also apply directly to the Queensland Revenue Office. Either way you'll need ID and your contract paperwork; applications generally must be lodged within a year of taking possession.",
+    a: "Most people apply through their lender or broker with the loan application, so the grant is available at settlement. That's how we do it, and it's the path we recommend. You can also apply directly to the Queensland Revenue Office. Either way you'll need ID and your contract paperwork; applications generally must be lodged within a year of taking possession.",
   },
   {
     q: "Can the grant be used as part of my deposit?",
-    a: "Often yes - many lenders count the FHOG toward your deposit for a new build, especially alongside the First Home Guarantee's 5% deposit path. Which lenders, and how the timing works with progress payments, is exactly the kind of thing your broker sequences.",
+    a: "Often yes: many lenders count the FHOG toward your deposit for a new build, especially alongside the First Home Guarantee's 5% deposit path. Which lenders, and how the timing works with progress payments, is exactly the kind of thing your broker sequences.",
   },
 ];
 
@@ -70,7 +70,7 @@ export default function Page() {
             as="h1"
             title="The $30,000 First Home Buyers Grant, QLD: who gets it and how."
             mark="who gets it and how."
-            intro="If you're buying or building your first home in Queensland, the First Home Owner Grant puts $30,000 toward it - if you pass the eligibility tests and the home is new. Here's every test, what stacks on top, and a two-minute checker that gives you a straight answer."
+            intro="If you're buying or building your first home in Queensland, the First Home Owner Grant puts $30,000 toward it, if you pass the eligibility tests and the home is new. Here's every test, what stacks on top, and a two-minute checker that gives you a straight answer."
             accent
           />
         </div>
@@ -92,9 +92,9 @@ export default function Page() {
                 "You're a person (not a company or trust), 18 or older",
                 "You or a co-applicant is an Australian citizen or permanent resident",
                 "Neither you nor your spouse has received a First Home Owner Grant anywhere in Australia",
-                "Neither of you has previously owned and lived in an Australian property - owning an investment you never lived in can be OK",
+                "Neither of you has previously owned and lived in an Australian property (owning an investment you never lived in can be OK)",
                 "The home is new: a new build, off the plan, or substantially renovated (cosmetic work doesn't count)",
-                "Total value - home plus land - is $750,000 or less",
+                "Total value (home plus land) is $750,000 or less",
                 "You'll live in it for at least six continuous months within the first year",
               ]}
             />
@@ -108,21 +108,21 @@ export default function Page() {
               they're now often worth more:{" "}
               <strong className="text-ink">
                 first home buyers building or buying a new home in Queensland pay no transfer
-                duty at all - no price cap.
+                duty at all, with no price cap.
               </strong>{" "}
               Buying an established home? The first-home concession applies in full up to
               $700,000 and phases out to $800,000; for vacant land it's full relief to
-              $350,000, phasing to $500,000. (Official thresholds: qld.gov.au - and our stamp
+              $350,000, phasing to $500,000. (Official thresholds: qld.gov.au, and our stamp
               duty calculator runs your numbers in seconds.)
             </p>
           </div>
           <div>
             <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
-              How to apply - and when the money lands.
+              How to apply, and when the money lands.
             </h2>
             <p className="mt-4 text-lg text-ink/65">
               The practical path: apply through your lender with the loan, so the grant is
-              approved alongside the finance and available when you need it - at settlement
+              approved alongside the finance and available when you need it: at settlement
               for a purchase, or at the first progress payment for a build. We prepare the
               application and the supporting documents (ID, contract, and the build paperwork
               for construction) as part of the loan, at no charge. Prefer to do it yourself?
@@ -136,10 +136,10 @@ export default function Page() {
             <p className="mt-4 text-lg text-ink/65">Line all four up before you look at listings:</p>
             <CheckList
               items={[
-                "First Home Owner Grant - $30,000 toward a new home (this page)",
-                "Stamp duty relief - zero duty on new homes; concessions to $800k on established",
-                "First Home Guarantee - buy with 5% deposit and no LMI, now without income caps",
-                "First Home Super Saver - release voluntary super contributions for the deposit",
+                "First Home Owner Grant: $30,000 toward a new home (this page)",
+                "Stamp duty relief: zero duty on new homes; concessions to $800k on established",
+                "First Home Guarantee: buy with 5% deposit and no LMI, now without income caps",
+                "First Home Super Saver: release voluntary super contributions for the deposit",
               ]}
             />
           </div>
@@ -147,7 +147,7 @@ export default function Page() {
       </section>
 
       <FAQ
-        title="Grant questions, answered."
+        title="Frequently asked questions."
         faqs={FAQS}
         related={[
           { label: "First Home Guarantee (5% deposit)", href: "/first-home-guarantee" },
@@ -158,7 +158,7 @@ export default function Page() {
 
       <CtaBand
         heading="Maximise every grant you're entitled to."
-        intro="Tell us where you're at and a broker will map the grant, the duty relief and the deposit path together - free, no obligation."
+        intro="Tell us where you're at and a broker will map the grant, the duty relief and the deposit path together. Free, no obligation."
         subject="FHOG QLD"
       />
     </main>

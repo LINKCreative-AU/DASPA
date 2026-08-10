@@ -22,7 +22,7 @@ export default function Page() {
           as="h1"
           title="Lending, explained straight."
           mark="straight."
-          intro="What's changing in lending and what it means for your loan - from the brokers who deal with 35+ lenders every day."
+          intro="What's changing in lending and what it means for your loan, from the brokers who deal with 35+ lenders every day."
           accent
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

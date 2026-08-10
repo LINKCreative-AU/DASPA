@@ -41,7 +41,7 @@ export default function Page() {
         {
           heading: "Wealth management built around preservation and growth.",
           paragraphs: [
-            "With significant wealth, the questions change: it is less about accumulating and more about structuring - protecting what you have built, growing it tax-effectively, and moving it to the next generation on your terms.",
+            "With significant wealth, the questions change: it is less about accumulating and more about structuring: protecting what you have built, growing it tax-effectively, and moving it to the next generation on your terms.",
             "Our advisers work with a deliberately small number of high net worth clients, integrating investment strategy, trust and company structures, superannuation and estate planning into one coordinated plan.",
           ],
         },
@@ -60,7 +60,7 @@ export default function Page() {
         {
           heading: "The whole LINK group behind your strategy.",
           paragraphs: [
-            "Wealth strategies at this level touch tax, lending and accounting. Through the LINK group, your adviser coordinates chartered accountants (LINK Advisors) and lending specialists (LINK Advance) as regulation allows - one connected team, rather than three firms who never speak.",
+            "Wealth strategies at this level touch tax, lending and accounting. Through the LINK group, your adviser coordinates chartered accountants (LINK Advisors) and lending specialists (LINK Advance) as regulation allows, one connected team rather than three firms who never speak.",
           ],
         },
       ]}
@@ -71,7 +71,7 @@ export default function Page() {
         },
         {
           q: "Do you work with trusts and companies?",
-          a: "Yes. Family trusts, bucket companies, investment bonds and SMSFs are core tools in high net worth planning - we assess the tax efficiency of your existing structures and model alternatives before recommending changes.",
+          a: "Yes. Family trusts, bucket companies, investment bonds and SMSFs are core tools in high net worth planning. We assess the tax efficiency of your existing structures and model alternatives before recommending changes.",
         },
         {
           q: "Can you work alongside my existing accountant and lawyer?",
@@ -79,7 +79,7 @@ export default function Page() {
         },
         {
           q: "How do your fees work?",
-          a: "Fees are agreed up front and quoted for your situation - no percentage-of-assets surprises. The first conversation is free, confidential and no-obligation.",
+          a: "Fees are agreed up front and quoted for your situation, with no percentage-of-assets surprises. The first conversation is free, confidential and no-obligation.",
         },
       ]}
       relatedLinks={[

@@ -32,7 +32,7 @@ export function DiscoveryLanding({
   bullets,
   sections,
   faqs,
-  faqHeading = "Your questions, answered.",
+  faqHeading = "Frequently asked questions.",
   relatedLinks,
 }: {
   path: string;

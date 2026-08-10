@@ -17,7 +17,7 @@ const PATH = "/wealth-health-check";
 export const metadata: Metadata = {
   title: { absolute: "Free Wealth Health Check | Score Your Finances Out of 10" },
   description:
-    "Two minutes, a score out of 10 - buffer, debt, super, investments, protection, estate, the plan and how money feels day to day. See what's holding your wealth back, no email required. Plus: how Australian net worth stacks up by age.",
+    "Two minutes, a score out of 10: buffer, debt, super, investments, protection, estate, the plan and how money feels day to day. See what's holding your wealth back, no email required. Plus: how Australian net worth stacks up by age.",
   alternates: { canonical: PATH },
   openGraph: {
     title: "The LINK Wealth Check - score your finances out of 10",
@@ -34,23 +34,23 @@ const FAQS = [
   },
   {
     q: "What is the average net worth in Australia?",
-    a: "ABS household wealth data puts the average Australian household around the $1.5-1.6 million mark - but that average is dragged up hard by the wealthiest households, and the median (typical) household sits far lower. Age matters more than averages: net worth normally peaks in the early-60s just before retirement drawdown starts.",
+    a: "ABS household wealth data puts the average Australian household around the $1.5-1.6 million mark, but that average is dragged up hard by the wealthiest households, and the median (typical) household sits far lower. Age matters more than averages: net worth normally peaks in the early-60s just before retirement drawdown starts.",
   },
   {
     q: "What net worth should I have at my age?",
-    a: "There is no official target - it depends on income, city and goals. A useful pattern from the ABS data: households typically cross the median in their 40s as home equity and super compound, and the strongest predictor of an above-average curve is starting the boring things (buffer, contributions, regular investing) a decade earlier than feels necessary. The full ABS age-by-age table lives on our net worth calculator page.",
+    a: "There is no official target. It depends on income, city and goals. A useful pattern from the ABS data: households typically cross the median in their 40s as home equity and super compound, and the strongest predictor of an above-average curve is starting the boring things (buffer, contributions, regular investing) a decade earlier than feels necessary. The full ABS age-by-age table lives on our net worth calculator page.",
   },
   {
     q: "Why does the check ask about insurance?",
-    a: "Because protection is the part of wealth most people under-do. The Financial Services Council estimates around 1 million Australians are underinsured for death and TPD cover and 3.4 million for income protection - and the default cover inside super is rarely sized to your actual debts and dependants. A plan that builds assets but leaves the income funding them unprotected is one accident away from unwinding, which is why the check weighs life, TPD, income protection and trauma cover alongside super and investments.",
+    a: "Because protection is the part of wealth most people under-do. The Financial Services Council estimates around 1 million Australians are underinsured for death and TPD cover and 3.4 million for income protection, and the default cover inside super is rarely sized to your actual debts and dependants. A plan that builds assets but leaves the income funding them unprotected is one accident away from unwinding, which is why the check weighs life, TPD, income protection and trauma cover alongside super and investments.",
   },
   {
     q: "Why does it ask about my situation and super balance?",
-    a: "Three context questions - what you want money to do next, whether you run a business, own a home, are within about ten years of retirement or have people depending on your income, and roughly where your super sits - don't move the score at all. They decide which general pathways show with your result, because the strategies worth exploring at $80k of super are different from the ones on the table at $300k, and a plan that starts from your goals beats one that starts from averages. If you'd rather not say, the check still works.",
+    a: "Three context questions (what you want money to do next, whether you run a business, own a home, are within about ten years of retirement or have people depending on your income, and roughly where your super sits) don't move the score at all. They decide which general pathways show with your result, because the strategies worth exploring at $80k of super are different from the ones on the table at $300k, and a plan that starts from your goals beats one that starts from averages. If you'd rather not say, the check still works.",
   },
   {
     q: "Is the wealth check personal advice?",
-    a: "No. It weighs nine general markers of financial health and returns a score with general observations - it doesn't know your income, age or circumstances. It's built to start the right conversation; the free discovery meeting is where your actual situation gets assessed by a licensed adviser.",
+    a: "No. It weighs nine general markers of financial health and returns a score with general observations. It doesn't know your income, age or circumstances. It's built to start the right conversation; the free discovery meeting is where your actual situation gets assessed by a licensed adviser.",
   },
 ];
 
@@ -89,7 +89,7 @@ export default function Page() {
             eyebrow="Free tool · 2 minutes · no email needed"
             title="The Wealth Check: score your finances out of 10."
             mark="out of 10."
-            intro="Nine scored areas across the things that actually decide financial health - buffer, debt, super, investments, protection, estate, the plan and how money feels day to day - plus three quick context questions so the next steps fit your goals and situation. Your score, the flags holding it back and the pathways people in your position usually explore show up immediately, on screen, no email wall."
+            intro="Nine scored areas across the things that actually decide financial health (buffer, debt, super, investments, protection, estate, the plan and how money feels day to day), plus three quick context questions so the next steps fit your goals and situation. Your score, the flags holding it back and the pathways people in your position usually explore show up immediately, on screen, no email wall."
             accent
           />
         </div>
@@ -108,7 +108,7 @@ export default function Page() {
             <strong className="text-ink">Net worth = everything you own minus everything you
             owe.</strong> Home at market value, super, investments and cash on one side; the
             mortgage, investment loans and cards on the other. It's the first scored question
-            in the check because it's the scoreboard for all the others - and if you don't
+            in the check because it's the scoreboard for all the others, and if you don't
             know yours, the free{" "}
             <a href="/net-worth-calculator" className="font-medium text-wealth underline decoration-wealth/30 underline-offset-2 hover:decoration-wealth">
               net worth calculator
@@ -117,11 +117,11 @@ export default function Page() {
           </p>
           <p className="mt-4 text-lg text-ink/65">
             For context, ABS household wealth data puts the <em>average</em> Australian
-            household around $1.5-1.6 million - a figure dragged up by the wealthiest
+            household around $1.5-1.6 million, a figure dragged up by the wealthiest
             households, with the typical (median) household far lower. The shape matters more
             than the number: net worth usually compounds hardest through the 40s and 50s as
             home equity and super stack, peaking just before retirement. Where you are on that
-            curve - and whether the curve is steep enough for the retirement you want - is
+            curve (and whether the curve is steep enough for the retirement you want) is
             exactly what the{" "}
             <a href="/how-much-do-i-need-to-retire" className="font-medium text-wealth underline decoration-wealth/30 underline-offset-2 hover:decoration-wealth">
               retirement readiness check
@@ -133,7 +133,7 @@ export default function Page() {
 
       {/* FAQs (visible text and schema kept in sync) */}
       <FAQ
-        title="Net worth and the check, answered."
+        title="Frequently asked questions."
         faqs={FAQS}
         related={[
           { label: "Retirement readiness check", href: "/how-much-do-i-need-to-retire" },
@@ -144,7 +144,7 @@ export default function Page() {
 
       <CtaBand
         heading="A score is a start. A plan is the point."
-        intro="Bring your result to a free, no-obligation discovery meeting and a licensed adviser will turn the flags into a sequence - what to fix first, and what it's worth."
+        intro="Bring your result to a free, no-obligation discovery meeting and a licensed adviser will turn the flags into a sequence: what to fix first, and what it's worth."
         variant="discovery"
         subject="Wealth Health Check"
       />

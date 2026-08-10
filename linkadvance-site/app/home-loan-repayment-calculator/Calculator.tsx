@@ -97,7 +97,7 @@ export function Calculator() {
             </div>
             <p className="text-xs text-white/55">
               Lenders assess your application at roughly 3 percentage points above the actual
-              rate - if the stressed repayment scares you, so will the bank's calculator.
+              rate. If the stressed repayment scares you, so will the bank's calculator.
             </p>
             {ex > 0 && interestSaved > 0 && (
               <div className="border-t border-white/15 pt-5">
@@ -112,7 +112,7 @@ export function Calculator() {
             )}
             <div className="border-t border-white/15 pt-5 text-sm text-white/70">
               <p>
-                Indicative only - repayments vary with fees, offsets and rate changes. The real
+                Indicative only: repayments vary with fees, offsets and rate changes. The real
                 question is whether {fmt(monthly)} is the sharpest the market offers for your
                 situation:{" "}
                 <a href="/home-loan-health-check" className="font-semibold text-advance-bright underline decoration-advance-bright/30 underline-offset-2">

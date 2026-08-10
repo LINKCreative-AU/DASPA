@@ -14,12 +14,12 @@ const PATH = "/insights/buying-commercial-property";
 export const metadata: Metadata = {
   title: { absolute: "Buying Commercial Property With an SMSF: Rules + Traps | LINK Wealth" },
   description:
-    "How Australian business owners use SMSFs to buy commercial property - plus the rules the ATO actually polices: business real property, the 5% in-house asset rule, NALI/NALE and arm's length terms.",
+    "How Australian business owners use SMSFs to buy commercial property, plus the rules the ATO actually polices: business real property, the 5% in-house asset rule, NALI/NALE and arm's length terms.",
   alternates: { canonical: PATH },
   openGraph: {
     title: "Buying commercial property with an SMSF: the rules that matter",
     description:
-      "Business real property, the 5% in-house asset rule, NALI and arm's length terms - explained for business owners.",
+      "Business real property, the 5% in-house asset rule, NALI and arm's length terms, explained for business owners.",
     url: PATH,
     type: "article",
   },
@@ -29,19 +29,19 @@ export const metadata: Metadata = {
 const FAQS = [
   {
     q: "What is the 5% SMSF rule?",
-    a: "An SMSF can hold at most 5% of its total assets in 'in-house assets' - investments in, loans to, or assets leased to related parties. Commercial property escapes the cap through a specific exception: business real property (property used wholly and exclusively in a business) can be leased to a related business at market rent without counting as an in-house asset. That exception is the entire legal basis of the buy-your-premises strategy - and it does not extend to residential property.",
+    a: "An SMSF can hold at most 5% of its total assets in 'in-house assets': investments in, loans to, or assets leased to related parties. Commercial property escapes the cap through a specific exception: business real property (property used wholly and exclusively in a business) can be leased to a related business at market rent without counting as an in-house asset. That exception is the entire legal basis of the buy-your-premises strategy, and it does not extend to residential property.",
   },
   {
     q: "What is NALI and why does it matter for SMSF property?",
-    a: "Non-arm's length income (NALI) is income an SMSF earns from arrangements that are not on commercial terms - like your business paying above-market rent to the fund, or the fund buying the property below market value. NALI is taxed at 45% instead of 15%, which destroys the strategy's tax advantage. The cousin, NALE (non-arm's length expenses - e.g. free renovations by your own trade business), can taint the property's income the same way. Market-rate lease, independent valuations, documented terms: that discipline is what keeps the 15% rate.",
+    a: "Non-arm's length income (NALI) is income an SMSF earns from arrangements that are not on commercial terms, like your business paying above-market rent to the fund, or the fund buying the property below market value. NALI is taxed at 45% instead of 15%, which destroys the strategy's tax advantage. The cousin, NALE (non-arm's length expenses, e.g. free renovations by your own trade business), can taint the property's income the same way. Market-rate lease, independent valuations, documented terms: that discipline is what keeps the 15% rate.",
   },
   {
     q: "What counts as business real property?",
-    a: "Land and buildings used wholly and exclusively in one or more businesses - an office, warehouse, factory, medical suite, shop or farm (a farmhouse on farming land has a limited allowance). The test is about use, not zoning: a residential house used as a genuine business premises can qualify, and a commercial unit sitting empty as an investment may not. It has to pass at the time the fund acquires or leases it to a related party.",
+    a: "Land and buildings used wholly and exclusively in one or more businesses: an office, warehouse, factory, medical suite, shop or farm (a farmhouse on farming land has a limited allowance). The test is about use, not zoning: a residential house used as a genuine business premises can qualify, and a commercial unit sitting empty as an investment may not. It has to pass at the time the fund acquires or leases it to a related party.",
   },
   {
     q: "Can my SMSF renovate the property it bought with a loan?",
-    a: "Under a limited recourse borrowing arrangement the fund can repair and maintain the property, but cannot use borrowed money to improve it, and cannot change the asset's fundamental character while the loan is in place (a warehouse cannot become apartments). Once the loan is repaid, improvements are generally allowed. Tenants - including your own business - typically handle fit-outs instead.",
+    a: "Under a limited recourse borrowing arrangement the fund can repair and maintain the property, but cannot use borrowed money to improve it, and cannot change the asset's fundamental character while the loan is in place (a warehouse cannot become apartments). Once the loan is repaid, improvements are generally allowed. Tenants (including your own business) typically handle fit-outs instead.",
   },
 ];
 
@@ -99,18 +99,18 @@ export default function Page() {
           <li>
             <strong className="text-ink">Business real property.</strong> Your business can
             only lease property from your fund if it is used wholly and exclusively in a
-            business. That exception is what lets the deal exist at all - residential property
+            business. That exception is what lets the deal exist at all; residential property
             never qualifies for lease to you or your business.
           </li>
           <li>
             <strong className="text-ink">The 5% in-house asset rule.</strong> Related-party
-            assets are capped at 5% of the fund - business real property leased at market
+            assets are capped at 5% of the fund; business real property leased at market
             rent is the carve-out. Stay inside the carve-out and the cap never bites.
           </li>
           <li>
             <strong className="text-ink">Arm's length everything (NALI/NALE).</strong> Market
             rent, independent valuations, real lease terms, no mates-rates services to the
-            fund. Non-arm's length income is taxed at 45% instead of 15% - the single fastest
+            fund. Non-arm's length income is taxed at 45% instead of 15%, the single fastest
             way to wreck the economics.
           </li>
           <li>
@@ -132,7 +132,7 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
-            The rules, answered.
+            Frequently asked questions.
           </h2>
           <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {FAQS.map((f) => (

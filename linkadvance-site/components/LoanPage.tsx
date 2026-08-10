@@ -49,7 +49,7 @@ export function LoanPage({ data }: { data: LoanPageData }) {
         title={data.h1}
         mark={data.h1Mark}
         intro={data.intro}
-        ctaLabel="Talk to a broker - free"
+        ctaLabel="Talk to a broker for free"
         ctaHref="#contact"
       >
         <div className="mt-6 max-w-xl">
@@ -96,13 +96,13 @@ export function LoanPage({ data }: { data: LoanPageData }) {
 
       <Testimonials />
 
-      <FAQ title="Good questions." faqs={data.faqs} related={data.related} />
+      <FAQ title="Frequently asked questions." faqs={data.faqs} related={data.related} />
 
       <CtaBand
         heading={data.ctaHeading ?? "One broker, 35+ lenders, zero cost to you."}
         intro={
           data.ctaIntro ??
-          "Most home loan broking is paid by the lender, not you. Tell us what you're planning and a broker will call to map your options - free, no obligation."
+          "Most home loan broking is paid by the lender, not you. Tell us what you're planning and a broker will call to map your options. Free, no obligation."
         }
         subject={data.subject}
       />

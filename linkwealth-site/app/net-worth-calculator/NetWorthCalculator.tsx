@@ -20,7 +20,7 @@ type Field = { key: string; label: string; hint?: string; detail?: boolean; quic
 const ASSETS: Field[] = [
   { key: "home", label: "Family home", hint: "Your best estimate of market value today." },
   { key: "property", label: "Investment property", hint: "Combined value if you hold more than one." },
-  { key: "superA", label: "Superannuation", hint: "Combined across accounts - and partners, if you plan together." },
+  { key: "superA", label: "Superannuation", hint: "Combined across accounts (and partners, if you plan together)." },
   { key: "shares", label: "Shares, ETFs and managed funds", hint: "Outside super." },
   { key: "cash", label: "Cash and savings", hint: "Including offset balances." },
   { key: "business", label: "Business value", hint: "Your share, at a realistic sale price. Rough is fine.", detail: true },
@@ -181,7 +181,7 @@ export function NetWorthCalculator() {
       <div className="rounded-3xl bg-ink p-6 text-white sm:p-8 lg:sticky lg:top-24 lg:self-start">
         {!started ? (
           <p className="text-white/75">
-            Start entering what you own and owe - the number updates as you type. Use{" "}
+            Start entering what you own and owe. The number updates as you type. Use{" "}
             <strong className="text-white">+ More detail</strong> for the full itemised
             balance sheet. Nothing you enter leaves this page.
           </p>
@@ -214,7 +214,7 @@ export function NetWorthCalculator() {
               </div>
             </div>
             <p className="text-xs text-white/55">
-              Liquid = cash, shares and crypto minus card and personal-loan balances - the
+              Liquid = cash, shares and crypto minus card and personal-loan balances: the
               wealth you could actually reach within days. Debt ratio = total debts as a share
               of total assets.
             </p>
@@ -266,8 +266,8 @@ export function NetWorthCalculator() {
                     The ABS puts the <em>average</em> household net worth for the {absBand.band}{" "}
                     age group at <strong className="text-white">{fmt(absBand.mean)}</strong>{" "}
                     (2019-20 survey, the latest age breakdown). Averages are pulled up hard by
-                    the wealthiest households - the national median that year was roughly half
-                    the mean - so treat it as a rough marker of the curve, not a target.{" "}
+                    the wealthiest households (the national median that year was roughly half
+                    the mean), so treat it as a rough marker of the curve, not a target.{" "}
                     <a href="#by-age" className="font-semibold text-wealth-bright underline decoration-wealth-bright/30 underline-offset-2 hover:decoration-wealth-bright">
                       Full table below
                     </a>
@@ -288,7 +288,7 @@ export function NetWorthCalculator() {
         <div className="mt-8 border-t border-white/15 pt-5 text-sm text-white/70">
           <p className="font-semibold text-white">Track it, then stress-test it</p>
           <p className="mt-2">
-            Write today&apos;s number down - net worth once a year is the cleanest scoreboard
+            Write today&apos;s number down: net worth once a year is the cleanest scoreboard
             your finances have. Then take the{" "}
             <a href="/wealth-health-check" className="font-semibold text-wealth-bright underline decoration-wealth-bright/30 underline-offset-2 hover:decoration-wealth-bright">
               Wealth Check
@@ -296,7 +296,7 @@ export function NetWorthCalculator() {
             to see whether the behaviours behind the number are set up to grow it.
           </p>
           <p className="mt-2 text-xs text-white/50">
-            Everything is calculated on your screen - nothing is stored or sent. General
+            Everything is calculated on your screen. Nothing is stored or sent. General
             information only, not personal advice.
           </p>
         </div>

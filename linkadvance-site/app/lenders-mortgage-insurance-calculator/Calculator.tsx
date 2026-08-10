@@ -80,22 +80,22 @@ export function Calculator() {
                 <dd className="mt-1 font-display text-3xl font-semibold text-advance-bright">$0</dd>
               ) : lvr > 95 ? (
                 <dd className="mt-2 text-sm text-white/80">
-                  Above 95% LVR, standard lending generally isn&apos;t available - but the First
+                  Above 95% LVR, standard lending generally isn&apos;t available, but the First
                   Home Guarantee&apos;s 5% path or a guarantor may be.
                 </dd>
               ) : (
                 <dd className="mt-1 font-display text-3xl font-semibold text-advance-bright">
-                  {range ? `${fmt(range[0])} - ${fmt(range[1])}` : "-"}
+                  {range ? `${fmt(range[0])} to ${fmt(range[1])}` : "-"}
                 </dd>
               )}
               {lvr <= 80 && v > 0 && (
                 <p className="mt-2 text-sm text-white/70">
-                  At 80% LVR or below, lenders don&apos;t charge LMI - your deposit clears the line.
+                  At 80% LVR or below, lenders don&apos;t charge LMI. Your deposit clears the line.
                 </p>
               )}
               {lvr > 80 && lvr <= 95 && (
                 <p className="mt-2 text-xs text-white/55">
-                  Indicative range modelled on published insurer tables - the exact premium
+                  Indicative range modelled on published insurer tables. The exact premium
                   varies by lender, insurer and whether it&apos;s capitalised into the loan.
                 </p>
               )}
@@ -104,17 +104,17 @@ export function Calculator() {
               <div className="border-t border-white/15 pt-5">
                 <dt className="text-sm font-semibold uppercase tracking-wider text-white/60">Ways to avoid it</dt>
                 <dd className="mt-2 space-y-2 text-sm text-white/80">
-                  <p>· <strong className="text-white">First Home Guarantee</strong> - eligible first home buyers pay no LMI with 5% down</p>
-                  <p>· <strong className="text-white">Guarantor</strong> - family security takes the effective LVR to 80% or below</p>
-                  <p>· <strong className="text-white">Professional waivers</strong> - some lenders waive LMI to 90% for certain professions</p>
-                  <p>· <strong className="text-white">A bigger deposit</strong> - each LVR band down cuts the premium sharply</p>
+                  <p>· <strong className="text-white">First Home Guarantee</strong>: eligible first home buyers pay no LMI with 5% down</p>
+                  <p>· <strong className="text-white">Guarantor</strong>: family security takes the effective LVR to 80% or below</p>
+                  <p>· <strong className="text-white">Professional waivers</strong>: some lenders waive LMI to 90% for certain professions</p>
+                  <p>· <strong className="text-white">A bigger deposit</strong>: each LVR band down cuts the premium sharply</p>
                 </dd>
               </div>
             )}
           </dl>
         )}
         <p className="mt-6 border-t border-white/15 pt-4 text-xs text-white/50">
-          General information only - not a quote. LMI protects the lender, not you.
+          General information only, not a quote. LMI protects the lender, not you.
         </p>
       </div>
     </div>

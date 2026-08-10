@@ -31,7 +31,7 @@ const QUESTIONS: Question[] = [
     area: "Context",
     type: "multi",
     scored: false,
-    label: "First - which of these describe your situation?",
+    label: "First, which of these describe your situation?",
     hint: "Tick everything that's true. This doesn't move the score; it shapes the next steps.",
     options: [
       { label: "It's the loan on the home we live in", points: 0 },
@@ -47,12 +47,12 @@ const QUESTIONS: Question[] = [
     area: "Rate",
     type: "single",
     label: "Do you know your current interest rate?",
-    hint: "Not what it was at settlement - what it is today.",
+    hint: "Not what it was at settlement, but what it is today.",
     options: [
-      { label: "Honestly, no idea", points: 0, tip: "Your rate is the single most expensive thing to not know - find it on your statement or app in two minutes, then compare it. Loyalty is priced." },
-      { label: "Roughly", points: 0.4, tip: "Close enough to start - now compare it against what your own lender offers new customers for the same loan." },
+      { label: "Honestly, no idea", points: 0, tip: "Your rate is the single most expensive thing to not know. Find it on your statement or app in two minutes, then compare it. Loyalty is priced." },
+      { label: "Roughly", points: 0.4, tip: "Close enough to start. Now compare it against what your own lender offers new customers for the same loan." },
       { label: "Exactly", points: 0.7, tip: "Knowing it is half the job; the other half is knowing what the market (and your own lender's new customers) pay." },
-      { label: "Exactly - and I've compared it recently", points: 1 },
+      { label: "Exactly, and I've compared it recently", points: 1 },
     ],
   },
   {
@@ -61,10 +61,10 @@ const QUESTIONS: Question[] = [
     area: "Review",
     type: "single",
     label: "When was the loan last reviewed or repriced?",
-    hint: "A review means someone compared it or pushed the lender for a sharper rate - not just a statement arriving.",
+    hint: "A review means someone compared it or pushed the lender for a sharper rate, not just a statement arriving.",
     options: [
-      { label: "Never, or 3+ years ago", points: 0, tip: "Loans drift. Three unreviewed years is typically thousands in loyalty tax - a repricing call to your lender is free and often works same-week." },
-      { label: "A couple of years back", points: 0.4, tip: "The market has moved since - an annual review (not necessarily a refinance) keeps the rate honest." },
+      { label: "Never, or 3+ years ago", points: 0, tip: "Loans drift. Three unreviewed years is typically thousands in loyalty tax. A repricing call to your lender is free and often works same-week." },
+      { label: "A couple of years back", points: 0.4, tip: "The market has moved since. An annual review (not necessarily a refinance) keeps the rate honest." },
       { label: "Within the last 18 months", points: 0.7 },
       { label: "Within the last year", points: 1 },
     ],
@@ -77,14 +77,14 @@ const QUESTIONS: Question[] = [
     label: "Which of these is your loan actually using?",
     hint: "Tick everything that applies.",
     lowTip:
-      "Structure is free money: an offset you actually use, extra or fortnightly repayments and deliberate splits can save more than a rate cut - and they're available without refinancing.",
+      "Structure is free money: an offset you actually use, extra or fortnightly repayments and deliberate splits can save more than a rate cut, and they're available without refinancing.",
     options: [
       { label: "An offset account with real money in it", points: 0.4 },
       { label: "Extra repayments (or fortnightly payments)", points: 0.3 },
       { label: "A deliberate fixed/variable split", points: 0.3 },
       { label: "None of these", points: 0, none: true },
     ],
-    tool: { label: "What extra repayments save - calculator", href: "/home-loan-repayment-calculator" },
+    tool: { label: "What extra repayments save: calculator", href: "/home-loan-repayment-calculator" },
   },
   {
     key: "fit",
@@ -92,12 +92,12 @@ const QUESTIONS: Question[] = [
     area: "Fit",
     type: "single",
     label: "Since the loan was set up, how much has life changed?",
-    hint: "Income, family, plans - the loan was built for a version of you.",
+    hint: "Income, family, plans: the loan was built for a version of you.",
     options: [
-      { label: "A lot - and the loan hasn't been touched", points: 0, tip: "A loan set up for a different life rarely fits the current one - features, structure and even the lender may be wrong now. That's a review conversation, not necessarily a refinance." },
-      { label: "A fair bit", points: 0.4, tip: "Worth a check - changed income or plans often unlock better options (or flag risks worth restructuring around)." },
+      { label: "A lot, and the loan hasn't been touched", points: 0, tip: "A loan set up for a different life rarely fits the current one: features, structure and even the lender may be wrong now. That's a review conversation, not necessarily a refinance." },
+      { label: "A fair bit", points: 0.4, tip: "Worth a check: changed income or plans often unlock better options (or flag risks worth restructuring around)." },
       { label: "A little", points: 0.7 },
-      { label: "Not much - or the loan was updated as life changed", points: 1 },
+      { label: "Not much, or the loan was updated as life changed", points: 1 },
     ],
   },
   {
@@ -105,12 +105,12 @@ const QUESTIONS: Question[] = [
     stage: "The position",
     area: "Equity",
     type: "single",
-    label: "Do you know your equity position - roughly what share of the property you own?",
+    label: "Do you know your equity position, roughly what share of the property you own?",
     options: [
       { label: "No idea", points: 0, tip: "Equity is your option book: it decides your rate band (LVR), whether LMI ever applies again, and what the next move could be funded with. Estimate it in two minutes: value minus loan." },
-      { label: "Roughly", points: 0.5, tip: "Good - the next step is knowing your usable equity (what a lender would release at 80% LVR), because that's the number that funds renovations or the next property." },
+      { label: "Roughly", points: 0.5, tip: "Good. The next step is knowing your usable equity (what a lender would release at 80% LVR), because that's the number that funds renovations or the next property." },
       { label: "Yes, I know it", points: 0.8 },
-      { label: "Yes - including what's usable for the next move", points: 1 },
+      { label: "Yes, including what's usable for the next move", points: 1 },
     ],
   },
   {
@@ -135,10 +135,10 @@ const QUESTIONS: Question[] = [
 const SCORED = QUESTIONS.filter((q) => q.scored !== false);
 
 const BANDS = [
-  { min: 8.5, name: "Dialled in", blurb: "The loan is being managed the way brokers manage them - sharp rate, working structure, annual attention. The remaining wins are opportunistic: cashbacks, split tweaks, and the next property's pre-positioning." },
-  { min: 6.5, name: "Mostly working", blurb: "The bones are good, but at least one lever - rate, structure or attention - is idle. Idle levers on a mortgage are measured in thousands per year." },
-  { min: 4, name: "Drifting", blurb: "This is where most loans live: set up properly once, then left alone while the lender quietly repriced the loyalty. The flags below are usually fixable inside a fortnight - often without refinancing." },
-  { min: 0, name: "On autopilot", blurb: "No judgement - loans are built to be forgotten. But on a typical balance, the gap between an autopilot loan and a managed one is serious money. Start with the first flag below." },
+  { min: 8.5, name: "Dialled in", blurb: "The loan is being managed the way brokers manage them: sharp rate, working structure, annual attention. The remaining wins are opportunistic: cashbacks, split tweaks, and the next property's pre-positioning." },
+  { min: 6.5, name: "Mostly working", blurb: "The bones are good, but at least one lever (rate, structure or attention) is idle. Idle levers on a mortgage are measured in thousands per year." },
+  { min: 4, name: "Drifting", blurb: "This is where most loans live: set up properly once, then left alone while the lender quietly repriced the loyalty. The flags below are usually fixable inside a fortnight, often without refinancing." },
+  { min: 0, name: "On autopilot", blurb: "No judgement: loans are built to be forgotten. But on a typical balance, the gap between an autopilot loan and a managed one is serious money. Start with the first flag below." },
 ];
 
 type Selections = Record<string, number[]>;
@@ -165,10 +165,10 @@ function buildPathways(sel: Selections): Pathway[] {
   const out: Pathway[] = [];
   if (reviewScore < 0.7 || tight) {
     out.push({
-      title: "A free review - or a repricing call.",
+      title: "A free review, or a repricing call.",
       body: tight
         ? "When money's tighter, the loan is the biggest single lever: a review finds whether a sharper rate, consolidation or a structure change frees the most cash."
-        : "An unreviewed loan is almost always paying loyalty tax. Either we find a sharper deal across 35+ lenders, or we make your lender price-match - both free.",
+        : "An unreviewed loan is almost always paying loyalty tax. Either we find a sharper deal across 35+ lenders, or we make your lender price-match, both free.",
       href: "/refinancing-brisbane",
       linkLabel: "How the free review works",
     });
@@ -176,7 +176,7 @@ function buildPathways(sel: Selections): Pathway[] {
   if (fixed) {
     out.push({
       title: "A fixed rate ending is a decision point.",
-      body: "When the fixed term ends you'll roll to your lender's revert rate - usually their worst. Diarising the expiry and lining up the next move two months early is where the money is.",
+      body: "When the fixed term ends you'll roll to your lender's revert rate, usually their worst. Diarising the expiry and lining up the next move two months early is where the money is.",
       href: "/refinancing-brisbane",
       linkLabel: "Plan the roll-off",
     });
@@ -184,7 +184,7 @@ function buildPathways(sel: Selections): Pathway[] {
   if (nextProp || invest) {
     out.push({
       title: "The next property starts inside this loan.",
-      body: "Usable equity, structure and lender choice decide whether property two is easy or impossible - long before you find the property. Worth mapping early.",
+      body: "Usable equity, structure and lender choice decide whether property two is easy or impossible, long before you find the property. Worth mapping early.",
       href: "/investment-home-loans",
       linkLabel: "How investors structure it",
     });
@@ -474,7 +474,7 @@ function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void })
         <div>
           <Radar sel={sel} size={280} />
           <p className="mt-1 text-center text-xs text-ink/45">
-            Your loan's shape - the dashed ring is the strong mark.
+            Your loan's shape: the dashed ring is the strong mark.
           </p>
         </div>
       </div>
@@ -496,7 +496,7 @@ function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void })
             ))}
           </div>
           <p className="mt-6 text-xs text-white/45">
-            General pathways people in similar positions often explore - not a recommendation.
+            General pathways people in similar positions often explore, not a recommendation.
             Whether any fit you is what the free review works out.
           </p>
         </div>
@@ -548,7 +548,7 @@ function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void })
       <SnapshotForm score={score} band={band.name} flags={flags} profile={profileSummary(sel)} />
 
       <p className="mt-6 text-xs leading-relaxed text-ink/45">
-        The score weighs six general markers of loan health equally - it doesn&apos;t know your
+        The score weighs six general markers of loan health equally. It doesn&apos;t know your
         rate, balance or circumstances, so treat it as a conversation starter, not a verdict.
         General information only, not credit advice.
       </p>
@@ -609,7 +609,7 @@ function SnapshotForm({ score, band, flags, profile }: { score: number; band: st
       <div className="mt-6 rounded-3xl bg-ink p-8 text-center text-white">
         <h3 className="font-display text-2xl font-bold tracking-tight">Speak soon.</h3>
         <p className="mx-auto mt-2 max-w-md text-white/70">
-          Your result is with the team - a broker will be in touch within a few business hours
+          Your result is with the team. A broker will be in touch within a few business hours
           to talk it through. No cost, no obligation.
         </p>
       </div>
@@ -620,7 +620,7 @@ function SnapshotForm({ score, band, flags, profile }: { score: number; band: st
     <form onSubmit={submit} className="mt-6 rounded-3xl bg-ink p-8 text-white sm:p-10">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">Talk the result through</p>
       <h3 className="mt-2 max-w-2xl font-display text-2xl font-normal tracking-tight sm:text-3xl">
-        Turn the flags into savings - free, with a broker.
+        Turn the flags into savings. Free, with a broker.
       </h3>
       <p className="mt-2 max-w-xl text-white/65">
         Your score, flags and context travel with the enquiry, so the conversation starts at

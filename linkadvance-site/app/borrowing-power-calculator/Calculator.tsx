@@ -81,9 +81,9 @@ export function Calculator() {
   return (
     <div className="grid gap-8 lg:grid-cols-2">
       <div className="space-y-5 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
-        <Field label="Your income (gross, per year)" hint="Before tax - salary, plus reliable overtime/bonus." value={income1} onChange={setIncome1} />
+        <Field label="Your income (gross, per year)" hint="Before tax: salary, plus reliable overtime/bonus." value={income1} onChange={setIncome1} />
         <Field label="Partner's income (gross, per year)" hint="Leave blank if applying alone." value={income2} onChange={setIncome2} />
-        <Field label="Monthly living expenses" hint="Groceries, transport, bills, subscriptions - lenders apply a minimum benchmark even if you enter less." value={expenses} onChange={setExpenses} />
+        <Field label="Monthly living expenses" hint="Groceries, transport, bills, subscriptions. Lenders apply a minimum benchmark even if you enter less." value={expenses} onChange={setExpenses} />
         <Field label="Other loan repayments (monthly)" hint="Car loans, personal loans, HELP repayments." value={repayments} onChange={setRepayments} />
         <Field label="Credit card limits (total)" hint="Lenders assess ~3.8% of the LIMIT per month, even if you never use the cards." value={cardLimits} onChange={setCardLimits} />
         <Field label="Dependants" hint="Children or others you support." value={dependants} onChange={setDependants} prefix="#" />
@@ -96,7 +96,7 @@ export function Calculator() {
           <div className="text-white/80">
             <p className="font-display text-2xl font-semibold">The maths is tight right now.</p>
             <p className="mt-3 text-sm text-white/70">
-              On these numbers the assessed surplus is negative - but the inputs matter
+              On these numbers the assessed surplus is negative, but the inputs matter
               enormously: card limits you don&apos;t use, expenses that could be trimmed for
               three months, or a different income treatment can all change the answer. This is
               exactly the situation where a broker call is worth the most.
@@ -107,11 +107,11 @@ export function Calculator() {
             <div>
               <dt className="text-sm font-semibold uppercase tracking-wider text-white/60">Estimated borrowing power</dt>
               <dd className="mt-1 font-display text-4xl font-semibold text-advance-bright">
-                {fmt(low)} - {fmt(high)}
+                {fmt(low)} to {fmt(high)}
               </dd>
               <p className="mt-2 text-xs text-white/55">
                 Assessed at {assessRate}% (a typical rate plus the ~3% APRA buffer) over 30
-                years. Lenders differ by six figures on the same inputs - that spread is the
+                years. Lenders differ by six figures on the same inputs. That spread is the
                 range, and finding your best lender is the job.
               </p>
             </div>
@@ -129,7 +129,7 @@ export function Calculator() {
               <p className="text-sm text-white/70">
                 Those card limits cost you about{" "}
                 <strong className="text-advance-bright">{fmt(maxLoan(cardLoad, assessRate))}</strong> of borrowing
-                power - cancelling or reducing unused limits is the fastest capacity win there is.
+                power. Cancelling or reducing unused limits is the fastest capacity win there is.
               </p>
             )}
             <div className="border-t border-white/15 pt-5 text-sm text-white/70">
@@ -144,7 +144,7 @@ export function Calculator() {
           </dl>
         )}
         <p className="mt-6 border-t border-white/15 pt-4 text-xs text-white/50">
-          Indicative estimate only - not a quote, an offer of credit or a suggestion of what
+          Indicative estimate only: not a quote, an offer of credit or a suggestion of what
           you should borrow. Lender policies, income types and expenses treatment vary.
         </p>
       </div>

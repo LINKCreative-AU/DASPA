@@ -36,7 +36,7 @@ export default function Page() {
           as="h1"
           title="We make lending easy."
           mark="easy."
-          intro="LINK Advance was built around giving clients the best possible experience of getting a loan: a personal, one-on-one service where your broker gets to know you, what you want out of the loan, answers everything - and then fights for the outcome across 35+ lenders."
+          intro="LINK Advance was built around giving clients the best possible experience of getting a loan: a personal, one-on-one service where your broker gets to know you, what you want out of the loan, answers everything, and then fights for the outcome across 35+ lenders."
           accent
         />
       </section>
@@ -54,7 +54,7 @@ export default function Page() {
               Hugh founded LINK Advance to give his clients the best experience possible in
               financing, and it shows in how the firm runs: one broker per client, end to end.
               With previous experience in real estate and property brokerage, Hugh knows the
-              industry from both sides - and clients get an approachable, straight-talking
+              industry from both sides, and clients get an approachable, straight-talking
               expert who is ready to fight for a great outcome.
             </p>
           </div>
@@ -63,7 +63,7 @@ export default function Page() {
               About Callum.
             </h2>
             <p className="mt-4 text-lg text-ink/65">
-              Callum's focus is making home ownership a reality - from first home buyers
+              Callum's focus is making home ownership a reality, from first home buyers
               stepping into the market to investors building complex portfolios. With a
               Bachelor of Business majoring in Economics and Finance and more than five years
               as both a loan processor and a broker, he knows what happens on both sides of
@@ -79,7 +79,7 @@ export default function Page() {
               Jacob's specialty is the lending other brokers find difficult: complex
               commercial deals, SMSF lending, small business finance. Five years in, he's
               built a reputation for getting results on transactions that need more than a
-              straightforward application - backed by ongoing study in computational
+              straightforward application, backed by ongoing study in computational
               mathematics with a minor in Finance and Economics, and a calm, straight-talking
               manner that makes even the complicated deals feel handled.
             </p>
@@ -93,7 +93,7 @@ export default function Page() {
           <SectionHead
             title="The lending desk of a bigger team."
             mark="a bigger team."
-            intro={`${SITE.group.line} When your loan touches tax, strategy or property management, the specialists are down the hall - not across town.`}
+            intro={`${SITE.group.line} When your loan touches tax, strategy or property management, the specialists are down the hall, not across town.`}
           />
         </div>
       </section>
@@ -102,7 +102,7 @@ export default function Page() {
 
       <CtaBand
         heading="Meet your broker."
-        intro="A free, no-obligation chat about what you're planning - and an honest read on what's achievable."
+        intro="A free, no-obligation chat about what you're planning, and an honest read on what's achievable."
         subject="About us"
       />
     </main>

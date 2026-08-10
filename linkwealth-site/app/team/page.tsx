@@ -78,7 +78,7 @@ export default function Team() {
               Richard leads the advice team and runs every LINK Wealth strategy workshop. He
               is an authorised representative (AR 327265) of Millennium 3 Financial Services
               Pty Ltd (AFSL 244252), and specialises in integrated strategies that connect
-              property, tax, investments and superannuation - the big-picture approach the
+              property, tax, investments and superannuation: the big-picture approach the
               whole firm is built on.
             </p>
             <p className="mt-3 text-sm text-ink/55">
@@ -116,7 +116,7 @@ export default function Team() {
         <div className="container-x max-w-3xl">
           <SectionHead
             title="One connected group."
-            intro={`${SITE.group.line} When your strategy needs an accountant, a broker or a property manager, the specialist is one warm introduction away - with your consent, working from the same picture of your finances.`}
+            intro={`${SITE.group.line} When your strategy needs an accountant, a broker or a property manager, the specialist is one warm introduction away, with your consent, working from the same picture of your finances.`}
           />
         </div>
       </section>

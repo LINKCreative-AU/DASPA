@@ -46,23 +46,23 @@ const BY_AGE: [string, string][] = [
 const FAQS = [
   {
     q: "How much money do you need to retire in Australia?",
-    a: "As a benchmark, the ASFA Retirement Standard (2025-26) puts a comfortable retirement at roughly $52,500 a year for a single home-owner or $74,000 for a couple, and ASFA estimates lump sums of about $595,000 (single) or $690,000 (couple) get you there with a part Age Pension. If you want to fund the same lifestyle without relying on the pension, the rule-of-25 says you need about 25 times your annual spending - $1.3m-$1.85m. Your real number depends on your spending, housing and health, which is what a retirement plan works out.",
+    a: "As a benchmark, the ASFA Retirement Standard (2025-26) puts a comfortable retirement at roughly $52,500 a year for a single home-owner or $74,000 for a couple, and ASFA estimates lump sums of about $595,000 (single) or $690,000 (couple) get you there with a part Age Pension. If you want to fund the same lifestyle without relying on the pension, the rule-of-25 says you need about 25 times your annual spending: $1.3m-$1.85m. Your real number depends on your spending, housing and health, which is what a retirement plan works out.",
   },
   {
     q: "How much do I need to retire at 60 in Australia?",
-    a: "Retiring at 60 instead of 67 means funding roughly seven extra years yourself, with no Age Pension until 67. As a rough guide, add your annual lifestyle cost for each early year on top of the lump sums above - a comfortable single retiring at 60 is closer to $950,000+ than $595,000. Early retirement is exactly the scenario worth modelling properly before you commit.",
+    a: "Retiring at 60 instead of 67 means funding roughly seven extra years yourself, with no Age Pension until 67. As a rough guide, add your annual lifestyle cost for each early year on top of the lump sums above. A comfortable single retiring at 60 is closer to $950,000+ than $595,000. Early retirement is exactly the scenario worth modelling properly before you commit.",
   },
   {
     q: "When can I access my super?",
-    a: "At your preservation age - which is 60 for anyone born after 30 June 1964, so effectively 60 for everyone still working. You can access super at 60 if you retire (or via a transition-to-retirement pension while still working), and at 65 regardless of work status. The Age Pension, separately, starts at 67.",
+    a: "At your preservation age, which is 60 for anyone born after 30 June 1964, so effectively 60 for everyone still working. You can access super at 60 if you retire (or via a transition-to-retirement pension while still working), and at 65 regardless of work status. The Age Pension, separately, starts at 67.",
   },
   {
     q: "Does the Age Pension count towards retirement income?",
-    a: "Yes, and it does more of the work than most people expect: ASFA's comfortable lump sums assume a part Age Pension tops up your drawdown as your balance runs down. The full couple rate is roughly $45,000 a year (indexed). Assets and income tests decide your entitlement - another reason two households with the same super can need very different plans.",
+    a: "Yes, and it does more of the work than most people expect: ASFA's comfortable lump sums assume a part Age Pension tops up your drawdown as your balance runs down. The full couple rate is roughly $45,000 a year (indexed). Assets and income tests decide your entitlement, another reason two households with the same super can need very different plans.",
   },
   {
     q: "Is $500,000 in super enough to retire on?",
-    a: "For a couple who own their home, roughly $500,000 plus the Age Pension can sustain a lifestyle between ASFA's modest and comfortable standards. For a single, it is close to ASFA's comfortable lump sum. Whether it is enough for you depends on the retirement you actually want - run your numbers through the readiness check above, then test them properly in a Retirement Funding Workshop.",
+    a: "For a couple who own their home, roughly $500,000 plus the Age Pension can sustain a lifestyle between ASFA's modest and comfortable standards. For a single, it is close to ASFA's comfortable lump sum. Whether it is enough for you depends on the retirement you actually want. Run your numbers through the readiness check above, then test them properly in a Retirement Funding Workshop.",
   },
 ];
 
@@ -113,8 +113,8 @@ export default function Page() {
               Pension.
             </strong>{" "}
             Fund it entirely from your own capital and the rule-of-25 says you need around 25
-            times your annual spending. Your number sits somewhere between those two -
-            here&apos;s how to find it.
+            times your annual spending. Your number sits somewhere between those two.
+            Here&apos;s how to find it.
           </p>
         </div>
 
@@ -130,24 +130,24 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
-            The two numbers everyone quotes - and why they differ.
+            The two numbers everyone quotes, and why they differ.
           </h2>
           <p className="mt-5 text-lg text-ink/65">
             <strong className="text-ink">The ASFA Retirement Standard</strong> prices a real
             retirement budget each quarter: modest (~$33,500 single / $48,500 couple a year)
-            and comfortable (~$52,500 / $74,000). Its famous lump sums - about $595,000 for a
-            single, $690,000 for a couple - look achievable because they assume the Age
+            and comfortable (~$52,500 / $74,000). Its famous lump sums (about $595,000 for a
+            single, $690,000 for a couple) look achievable because they assume the Age
             Pension progressively tops you up as your balance runs down.
           </p>
           <p className="mt-4 text-lg text-ink/65">
             <strong className="text-ink">The rule of 25</strong> (the 4% drawdown rule) prices
             independence: 25 times your annual spending, no pension assumed. For the same
-            comfortable couple that is ~$1.85m. Neither number is wrong - they answer
+            comfortable couple that is ~$1.85m. Neither number is wrong; they answer
             different questions, and most real plans land between them.
           </p>
           <p className="mt-4 text-lg text-ink/65">
             One date worth knowing: your <strong className="text-ink">preservation age</strong>{" "}
-            - when you can access super - is 60 for anyone born after 30 June 1964. The Age
+            (when you can access super) is 60 for anyone born after 30 June 1964. The Age
             Pension starts separately at 67. Retiring in the 60-67 window means your super
             carries everything until the pension arrives.
           </p>
@@ -162,7 +162,7 @@ export default function Page() {
           </h2>
           <p className="mt-5 text-lg text-ink/65">
             ASFA&apos;s guide to the balance that keeps you on course for a comfortable
-            retirement at 67 (indicative and rounded - the live figures move with markets and
+            retirement at 67 (indicative and rounded; the live figures move with markets and
             wages; check ASFA&apos;s Super Balance Detective for today&apos;s number):
           </p>
           <div className="mt-8 overflow-x-auto">
@@ -194,7 +194,7 @@ export default function Page() {
             <a href="/insights/wealth-creation-using-debt-recycling" className="font-medium text-wealth underline decoration-wealth/30 underline-offset-2 hover:decoration-wealth">
               debt recycling
             </a>{" "}
-            outside super, and - for business owners -{" "}
+            outside super, and, for business owners,{" "}
             <a href="/smsf" className="font-medium text-wealth underline decoration-wealth/30 underline-offset-2 hover:decoration-wealth">
               an SMSF that owns your premises
             </a>
@@ -213,8 +213,8 @@ export default function Page() {
             The check gives you a number. The plan gets you there.
           </h2>
           <p className="mt-4 max-w-xl text-white/70">
-            A licensed adviser models your real position - tax, Age Pension, contribution
-            caps, market sequence - in a free discovery meeting, or one-on-one in the $660
+            A licensed adviser models your real position (tax, Age Pension, contribution
+            caps, market sequence) in a free discovery meeting, or one-on-one in the $660
             Retirement Funding Workshop (Value Guarantee: full refund if it is not worth it).
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
@@ -233,7 +233,7 @@ export default function Page() {
 
       {/* FAQs (visible text and schema kept in sync) */}
       <FAQ
-        title="Retirement numbers, answered."
+        title="Frequently asked questions."
         faqs={FAQS}
         related={[
           { label: "Retirement planning", href: "/retirement-planning" },

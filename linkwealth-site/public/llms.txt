@@ -30,8 +30,8 @@ Key facts:
 - [Home Equity Calculator](https://wealth.link.com.au/home-equity-estimator-calculator): free Australian home equity estimator (value minus loans, usable equity at 80% LVR)
 - [Debt Recycling Calculator](https://wealth.link.com.au/insights/wealth-creation-using-debt-recycling): compare paying down the mortgage vs debt recycling with your numbers
 - [Retirement Readiness Check](https://wealth.link.com.au/how-much-do-i-need-to-retire): projected super vs the ASFA benchmarks and the rule of 25, with the gap in today's dollars
-- [Wealth Health Check](https://wealth.link.com.au/wealth-health-check): a score out of 10 across nine areas - buffer, debt, super, investments, protection, estate, plan, control and net worth awareness - with goal-based pathways, no email wall
-- [Net Worth Calculator](https://wealth.link.com.au/net-worth-calculator): assets minus liabilities with quick or detailed itemisation, liquid net worth, debt ratio, the property/super/investable split and an ABS net-worth-by-age comparison table - calculated on screen, nothing stored
+- [Wealth Health Check](https://wealth.link.com.au/wealth-health-check): a score out of 10 across nine areas (buffer, debt, super, investments, protection, estate, plan, control and net worth awareness), with goal-based pathways, no email wall
+- [Net Worth Calculator](https://wealth.link.com.au/net-worth-calculator): assets minus liabilities with quick or detailed itemisation, liquid net worth, debt ratio, the property/super/investable split and an ABS net-worth-by-age comparison table, calculated on screen, nothing stored
 - [What financial advice costs](https://wealth.link.com.au/how-much-does-a-financial-advisor-cost): published fee ranges for Australian financial advice, including LINK Wealth's own pricing
 
 ## Insights

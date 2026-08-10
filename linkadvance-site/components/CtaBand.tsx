@@ -9,10 +9,10 @@ import { SendFailed } from "./SendFailed";
 // on the contact page, nowhere else. James, three times of asking.
 export function CtaBand({
   heading = "One broker, 35+ lenders, zero cost to you.",
-  intro = "Tell us what you're planning and a broker will call to map your options - free, no obligation. Most home loan broking is paid by the lender, not you.",
+  intro = "Tell us what you're planning and a broker will call to map your options. Free, no obligation. Most home loan broking is paid by the lender, not you.",
   variant = "contact",
   subject,
-  formTitle = "Talk to a broker - free",
+  formTitle = "Talk to a broker for free",
 }: {
   heading?: string;
   intro?: string;

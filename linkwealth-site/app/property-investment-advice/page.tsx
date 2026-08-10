@@ -30,11 +30,11 @@ export const metadata: Metadata = {
 const FAQS = [
   {
     q: "Do I need a financial adviser to invest in property?",
-    a: "You don't need one to buy, but you do benefit from one before you commit. An adviser stress-tests whether property fits your cash flow, tax position and goals - and whether shares, super or a blended approach would serve you better. We advise on the strategy; we don't sell property, so the advice has no listing behind it.",
+    a: "You don't need one to buy, but you do benefit from one before you commit. An adviser stress-tests whether property fits your cash flow, tax position and goals, and whether shares, super or a blended approach would serve you better. We advise on the strategy; we don't sell property, so the advice has no listing behind it.",
   },
   {
     q: "Is an investment property better than shares?",
-    a: "Neither is better in isolation. Property offers leverage and stability but concentrates risk in one asset and one suburb; shares offer liquidity and diversification but more day-to-day volatility. The right mix depends on your equity, income, timeframe and temperament - that is what the advice works out.",
+    a: "Neither is better in isolation. Property offers leverage and stability but concentrates risk in one asset and one suburb; shares offer liquidity and diversification but more day-to-day volatility. The right mix depends on your equity, income, timeframe and temperament. That is what the advice works out.",
   },
   {
     q: "Can I use my home equity to buy an investment property?",
@@ -42,7 +42,7 @@ const FAQS = [
   },
   {
     q: "Can my super buy property?",
-    a: "Through a self-managed super fund, yes - including the commercial premises your own business rents. Residential property in an SMSF is possible but often less suitable. See our SMSF commercial property page for how the strategy works.",
+    a: "Through a self-managed super fund, yes, including the commercial premises your own business rents. Residential property in an SMSF is possible but often less suitable. See our SMSF commercial property page for how the strategy works.",
   },
 ];
 
@@ -136,7 +136,7 @@ export default function Page() {
             </p>
             <p>
               The costs are just as real: stamp duty and agent fees at each end, land tax,
-              maintenance, vacancy risk, and concentration - one asset, one suburb, one
+              maintenance, vacancy risk, and concentration: one asset, one suburb, one
               tenant. A property that strains your cash flow can force you to sell at the
               worst time. The pros only win when the numbers work in your plan, not in a
               seminar spreadsheet.
@@ -148,7 +148,7 @@ export default function Page() {
           </h3>
           <div className="mt-4 space-y-4 text-lg text-ink/70">
             <p>
-              Houses, units, townhouses, commercial premises - each behaves differently.
+              Houses, units, townhouses, commercial premises: each behaves differently.
               Houses typically carry more land value and growth; units yield more but grow
               slower; commercial property offers higher yields and longer leases with more
               vacancy risk. New builds bring depreciation benefits, established homes bring
@@ -156,7 +156,7 @@ export default function Page() {
             </p>
             <p>
               The right type is the one that matches your cash flow, borrowing power and
-              timeframe - not the one being promoted this month. That is the assessment we
+              timeframe, not the one being promoted this month. That is the assessment we
               build with you before you ever go to an open home.
             </p>
           </div>
@@ -189,8 +189,8 @@ export default function Page() {
           <div className="mt-4 space-y-4 text-lg text-ink/70">
             <p>
               Most investors fund their first property with home equity rather than cash.
-              Knowing your usable equity - typically up to 80% of your home's value minus your
-              loan - tells you what is realistic before you fall in love with a listing. Our{" "}
+              Knowing your usable equity (typically up to 80% of your home's value minus your
+              loan) tells you what is realistic before you fall in love with a listing. Our{" "}
               <a href="/home-equity-estimator-calculator" className="font-semibold text-wealth underline decoration-wealth underline-offset-2">
                 free home equity calculator
               </a>{" "}

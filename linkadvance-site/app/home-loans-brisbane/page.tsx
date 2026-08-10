@@ -6,9 +6,9 @@ const data = LOAN_PAGES["home-loans-brisbane"];
 
 export const metadata: Metadata = {
   title: { absolute: 'Brisbane Home Loans | Brisbane Home Loan Broker - LINK Advance' },
-  description: 'Brisbane home loan broking across 35+ lenders: one broker end to end, discretionary pricing negotiated, and your rate repriced every year after settlement. Free - the lender pays us.',
+  description: 'Brisbane home loan broking across 35+ lenders: one broker end to end, discretionary pricing negotiated, and your rate repriced every year after settlement. Free, because the lender pays us.',
   alternates: { canonical: data.path },
-  openGraph: { title: data.h1, description: 'Brisbane home loan broking across 35+ lenders: one broker end to end, discretionary pricing negotiated, and your rate repriced every year after settlement. Free - the lender pays us.', url: data.path },
+  openGraph: { title: data.h1, description: 'Brisbane home loan broking across 35+ lenders: one broker end to end, discretionary pricing negotiated, and your rate repriced every year after settlement. Free, because the lender pays us.', url: data.path },
 };
 
 export default function Page() {

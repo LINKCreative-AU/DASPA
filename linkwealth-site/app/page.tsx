@@ -116,7 +116,7 @@ const FAQS = [
   },
   {
     q: "How much does financial advice cost?",
-    a: "Your first consultation is free and no-obligation. Our strategy workshops are $660 including GST, backed by LINK's Value Guarantee: if you don't walk away with clear, actionable insights, we refund you in full. Ongoing advice is quoted up front once we understand your situation. If you just want free general guidance first, the government's Moneysmart.gov.au is a good place to start - and our advice cost guide publishes the industry-wide fee ranges.",
+    a: "Your first consultation is free and no-obligation. Our strategy workshops are $660 including GST, backed by LINK's Value Guarantee: if you don't walk away with clear, actionable insights, we refund you in full. Ongoing advice is quoted up front once we understand your situation. If you just want free general guidance first, the government's Moneysmart.gov.au is a good place to start, and our advice cost guide publishes the industry-wide fee ranges.",
   },
   {
     q: "Are you licensed?",

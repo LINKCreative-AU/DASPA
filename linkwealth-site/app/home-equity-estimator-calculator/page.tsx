@@ -33,11 +33,11 @@ const FAQS = [
   },
   {
     q: "What is usable equity?",
-    a: "Usable equity is the part of your equity a lender will typically let you borrow against - usually up to 80% of your property's value minus your current loan. On a $900,000 home with a $500,000 loan, usable equity is roughly $220,000 (80% x $900,000 - $500,000).",
+    a: "Usable equity is the part of your equity a lender will typically let you borrow against, usually up to 80% of your property's value minus your current loan. On a $900,000 home with a $500,000 loan, usable equity is roughly $220,000 (80% x $900,000 minus $500,000).",
   },
   {
     q: "How much equity do I need to buy an investment property?",
-    a: "As a rough guide you need enough usable equity to cover a 10-20% deposit plus purchase costs (stamp duty, legal fees). Whether that is a good idea depends on your cash flow, goals and risk position - that is exactly what our Equity Strategy Workshop models for you.",
+    a: "As a rough guide you need enough usable equity to cover a 10-20% deposit plus purchase costs (stamp duty, legal fees). Whether that is a good idea depends on your cash flow, goals and risk position. That is exactly what our Equity Strategy Workshop models for you.",
   },
   {
     q: "Is this calculator financial advice?",
@@ -137,7 +137,7 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x max-w-4xl">
           <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
-            Home equity questions, answered.
+            Frequently asked questions.
           </h2>
           <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {FAQS.map((f) => (

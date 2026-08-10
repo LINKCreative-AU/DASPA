@@ -39,15 +39,15 @@ function duty(v: number, b: Buyer): { duty: number; note: string } {
   if (v <= 0) return { duty: 0, note: "" };
   switch (b) {
     case "fh-new":
-      return { duty: 0, note: "First home buyers pay no transfer duty on new homes in QLD (from 1 May 2025) - no price cap." };
+      return { duty: 0, note: "First home buyers pay no transfer duty on new homes in QLD (from 1 May 2025), with no price cap." };
     case "fh-established": {
       const base = homeDuty(v);
-      if (v <= 700_000) return { duty: 0, note: "Full first home concession - no duty up to $700,000." };
+      if (v <= 700_000) return { duty: 0, note: "Full first home concession: no duty up to $700,000." };
       if (v < 800_000) {
         const d = base * Math.min((v - 700_000) / 100_000, 1);
-        return { duty: d, note: "Concession phasing out between $700,000 and $800,000 (indicative straight-line estimate - QRO uses a stepped table)." };
+        return { duty: d, note: "Concession phasing out between $700,000 and $800,000 (indicative straight-line estimate; QRO uses a stepped table)." };
       }
-      return { duty: base, note: "Above $800,000 the first home concession no longer applies - the owner-occupier home rate applies." };
+      return { duty: base, note: "Above $800,000 the first home concession no longer applies. The owner-occupier home rate applies." };
     }
     case "fh-land": {
       if (v <= 350_000) return { duty: 0, note: "No duty on first-home vacant land up to $350,000." };
@@ -59,16 +59,16 @@ function duty(v: number, b: Buyer): { duty: number; note: string } {
       return { duty: base, note: "Above $500,000 the vacant land concession no longer applies." };
     }
     case "home":
-      return { duty: homeDuty(v), note: "Owner-occupier (home) concession rate applied - you must move in within a year and live there for one year." };
+      return { duty: homeDuty(v), note: "Owner-occupier (home) concession rate applied. You must move in within a year and live there for one year." };
     case "investor":
-      return { duty: generalDuty(v), note: "General transfer duty rates - no concession for investment purchases." };
+      return { duty: generalDuty(v), note: "General transfer duty rates, with no concession for investment purchases." };
   }
 }
 
 const OPTIONS: { key: Buyer; label: string }[] = [
-  { key: "fh-new", label: "First home - new build / off the plan" },
-  { key: "fh-established", label: "First home - established home" },
-  { key: "fh-land", label: "First home - vacant land" },
+  { key: "fh-new", label: "First home: new build / off the plan" },
+  { key: "fh-established", label: "First home: established home" },
+  { key: "fh-land", label: "First home: vacant land" },
   { key: "home", label: "Home to live in (not first)" },
   { key: "investor", label: "Investment property" },
 ];

@@ -16,7 +16,7 @@ const PATH = "/how-much-does-a-financial-advisor-cost";
 export const metadata: Metadata = {
   title: { absolute: "How Much Does a Financial Advisor Cost in Australia? (2026)" },
   description:
-    "Real numbers: what financial advice costs in Australia in 2026 - initial advice documents, ongoing fees, hourly rates, and LINK Wealth's own pricing ($0 first meeting, $660 strategy workshops).",
+    "Real numbers: what financial advice costs in Australia in 2026: initial advice documents, ongoing fees, hourly rates, and LINK Wealth's own pricing ($0 first meeting, $660 strategy workshops).",
   alternates: { canonical: PATH },
   openGraph: {
     title: "How Much Does a Financial Advisor Cost in Australia?",
@@ -33,20 +33,20 @@ const FAQS = [
   },
   {
     q: "Is it worth paying for a financial advisor?",
-    a: "It depends on what is at stake. Advice tends to pay for itself when a decision is large and hard to reverse: structuring a business exit, an SMSF property purchase, retirement drawdown, debt recycling, or an inheritance. For simple situations, the free guidance on Moneysmart.gov.au and your super fund's intra-fund advice may be enough - and we will tell you if that is the case.",
+    a: "It depends on what is at stake. Advice tends to pay for itself when a decision is large and hard to reverse: structuring a business exit, an SMSF property purchase, retirement drawdown, debt recycling, or an inheritance. For simple situations, the free guidance on Moneysmart.gov.au and your super fund's intra-fund advice may be enough, and we will tell you if that is the case.",
   },
   {
     q: "What is a normal fee for a financial advisor to charge?",
-    a: "Three common models: a fixed fee for an advice document (roughly $3,500-$6,000 initial), an ongoing fixed fee ($3,000-$8,000+ a year), or hourly rates (commonly $250-$450). Percentage-of-assets fees still exist but are increasingly rare. Any licensed adviser must disclose fees up front in their Financial Services Guide - ours is linked in the footer of every page.",
+    a: "Three common models: a fixed fee for an advice document (roughly $3,500-$6,000 initial), an ongoing fixed fee ($3,000-$8,000+ a year), or hourly rates (commonly $250-$450). Percentage-of-assets fees still exist but are increasingly rare. Any licensed adviser must disclose fees up front in their Financial Services Guide. Ours is linked in the footer of every page.",
   },
   {
     q: "Is $500,000 enough to work with a financial advisor?",
-    a: "Yes - and you do not need anywhere near that. Fixed-fee advice makes sense when the fee is small relative to the value of the decisions, not the size of the portfolio. Building wealth isn't just for those with millions in the bank; strategies like super contributions, insurance structuring and debt recycling matter most in the accumulation years.",
+    a: "Yes, and you do not need anywhere near that. Fixed-fee advice makes sense when the fee is small relative to the value of the decisions, not the size of the portfolio. Building wealth isn't just for those with millions in the bank; strategies like super contributions, insurance structuring and debt recycling matter most in the accumulation years.",
   },
 ];
 
 const TABLE: [string, string, string][] = [
-  ["First conversation at LINK Wealth", "$0", "Free, no-obligation discovery meeting - we get to know you and your goals."],
+  ["First conversation at LINK Wealth", "$0", "Free, no-obligation discovery meeting. We get to know you and your goals."],
   ["LINK strategy workshop", "$660 inc GST", "90 minutes one-on-one with a licensed adviser, modelling your numbers. Value Guarantee: full refund if you don't find it worthwhile."],
   ["Initial advice document (SoA), industry-wide", "≈ $3,500-$6,000", "Industry surveys put the average cost of initial advice around $5,000-$6,000 in 2025-26. Complexity moves the real number."],
   ["Ongoing advice, industry-wide", "≈ $3,000-$8,000+ / yr", "Annual strategy, portfolio and insurance reviews. Scales with complexity (entities, SMSF, property)."],
@@ -109,7 +109,7 @@ export default function Page() {
         </div>
         <p className="mt-4 text-sm text-ink/55">
           Industry-wide figures are indicative ranges from published adviser fee surveys and
-          move with complexity - a couple with a company, trust and SMSF pays more than a
+          move with complexity: a couple with a company, trust and SMSF pays more than a
           single person with one super fund. Every licensed adviser must disclose their fees
           in a Financial Services Guide before you commit; ours is linked in the footer.
         </p>
@@ -130,7 +130,7 @@ export default function Page() {
         <p className="mt-5 text-lg text-ink/70">
           Paying $5,000 for advice to shuffle a simple index portfolio is poor value. Paying
           $5,000 before an SMSF property purchase, a business exit, or a decade of debt
-          recycling is usually the cheapest insurance you will ever buy - one structural
+          recycling is usually the cheapest insurance you will ever buy: one structural
           mistake in any of those costs multiples of the fee. If your situation is simple,
           start with the free tools: Moneysmart.gov.au, your super fund's advice line, and
           our own{" "}
@@ -149,7 +149,7 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
-            Cost questions, answered.
+            Frequently asked questions.
           </h2>
           <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {FAQS.map((f) => (
@@ -169,7 +169,7 @@ export default function Page() {
 
       <CtaBand
         heading="Start with the free conversation."
-        intro="Your first meeting costs nothing and obligates you to nothing. We'll tell you what advice would cost for your situation - and whether you need it at all."
+        intro="Your first meeting costs nothing and obligates you to nothing. We'll tell you what advice would cost for your situation, and whether you need it at all."
         subject="Advice cost page"
       />
     </main>

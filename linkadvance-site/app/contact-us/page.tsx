@@ -10,7 +10,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact Us: Talk to a Brisbane Mortgage Broker",
   description:
-    "Book a free, no-obligation consultation with LINK Advance's Brisbane financial advisors. Call (07) 2101 4377 or send us a message - we reply within a few business hours.",
+    "Book a free, no-obligation consultation with LINK Advance's Brisbane financial advisors. Call (07) 2101 4377 or send us a message. We reply within a few business hours.",
   alternates: { canonical: "/contact-us" },
 };
 

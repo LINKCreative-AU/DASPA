@@ -71,7 +71,7 @@ export default async function Page({ params }: Params) {
       </article>
       <CtaBand
         heading="Questions about your own loan?"
-        intro="Talk it through with a broker - free, no obligation, and across 35+ lenders."
+        intro="Talk it through with a broker: free, no obligation, and across 35+ lenders."
       />
     </main>
   );

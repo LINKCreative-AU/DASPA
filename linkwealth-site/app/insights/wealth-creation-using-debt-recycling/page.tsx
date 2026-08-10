@@ -33,23 +33,23 @@ export const metadata: Metadata = {
 const FAQS = [
   {
     q: "Is debt recycling legal in Australia?",
-    a: "Yes. Debt recycling uses ordinary loan features (repayments, redraws or split loans) and the standard tax rule that interest on money borrowed to produce assessable income is deductible. The structure has to be clean - borrowed funds must go directly to income-producing investments, never mixed with personal spending - which is where advice earns its keep.",
+    a: "Yes. Debt recycling uses ordinary loan features (repayments, redraws or split loans) and the standard tax rule that interest on money borrowed to produce assessable income is deductible. The structure has to be clean (borrowed funds must go directly to income-producing investments, never mixed with personal spending), which is where advice earns its keep.",
   },
   {
     q: "Does debt recycling actually work?",
-    a: "It works when your after-tax investment return beats your loan rate over the period. The tax deduction lowers the effective cost of the investment debt, which tilts the odds in your favour, but markets can underperform your mortgage rate for years at a time. It suits investors with stable income, a cash-flow buffer and a decade-plus timeframe - not someone who would be forced to sell in a downturn.",
+    a: "It works when your after-tax investment return beats your loan rate over the period. The tax deduction lowers the effective cost of the investment debt, which tilts the odds in your favour, but markets can underperform your mortgage rate for years at a time. It suits investors with stable income, a cash-flow buffer and a decade-plus timeframe, not someone who would be forced to sell in a downturn.",
   },
   {
     q: "What is an example of debt recycling?",
-    a: "You have a $500,000 home loan and $20,000 of surplus cash each year. You pay the $20,000 into the loan, then redraw it through an investment split and buy a share portfolio. The interest on the redrawn $20,000 is now tax-deductible, and dividends plus the tax saving go back into the home loan - so each year more of your debt converts from non-deductible to deductible while a portfolio builds.",
+    a: "You have a $500,000 home loan and $20,000 of surplus cash each year. You pay the $20,000 into the loan, then redraw it through an investment split and buy a share portfolio. The interest on the redrawn $20,000 is now tax-deductible, and dividends plus the tax saving go back into the home loan, so each year more of your debt converts from non-deductible to deductible while a portfolio builds.",
   },
   {
     q: "Is debt recycling the same as negative gearing?",
-    a: "No. Negative gearing means your investment costs (mostly interest) exceed the income it produces, and you claim the loss against your salary. Debt recycling is about converting existing home loan debt into deductible investment debt - the investment can be positively or negatively geared. The two can overlap, but recycling works best when the investments produce income to fire back at the home loan. See our negative gearing analysis for that side of the story.",
+    a: "No. Negative gearing means your investment costs (mostly interest) exceed the income it produces, and you claim the loss against your salary. Debt recycling is about converting existing home loan debt into deductible investment debt. The investment can be positively or negatively geared. The two can overlap, but recycling works best when the investments produce income to fire back at the home loan. See our negative gearing analysis for that side of the story.",
   },
   {
     q: "Do I need a financial adviser to debt recycle?",
-    a: "No - your bank can set up a split loan and you can invest yourself. Advice matters for the structure (keeping deductible and non-deductible debt separate so the ATO position is clean), the sizing (how much leverage your cash flow can safely carry), and the investment selection. Our Equity Strategy Workshop models exactly this for your numbers, for $660 with a full refund if it is not worth it.",
+    a: "No. Your bank can set up a split loan and you can invest yourself. Advice matters for the structure (keeping deductible and non-deductible debt separate so the ATO position is clean), the sizing (how much leverage your cash flow can safely carry), and the investment selection. Our Equity Strategy Workshop models exactly this for your numbers, for $660 with a full refund if it is not worth it.",
   },
 ];
 
@@ -94,7 +94,7 @@ export default function Page() {
         {/* Answer-first, for snippets and AI overviews */}
         <p className="mt-6 rounded-xl2 border border-wealth/30 bg-wealth-light/40 p-5 text-lg text-ink/85">
           <strong>Debt recycling</strong> is the strategy of paying down your non-deductible
-          home loan and re-borrowing the same amount to invest in income-producing assets -
+          home loan and re-borrowing the same amount to invest in income-producing assets,
           converting "bad" debt into tax-deductible investment debt while a portfolio builds.
           It is legal, uses ordinary loan features, and works when your long-run investment
           return beats your mortgage rate. It adds risk: you are investing with borrowed money
@@ -127,7 +127,7 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
-            Debt recycling questions, answered.
+            Frequently asked questions.
           </h2>
           <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {FAQS.map((f) => (
