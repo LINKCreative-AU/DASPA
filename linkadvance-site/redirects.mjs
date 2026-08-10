@@ -19,6 +19,11 @@ export const REDIRECTS = [
   { source: "/contact", destination: "/contact-us", permanent: true },
   { source: "/team", destination: "/about-us" , permanent: true },
 
+  // NOTE: no uppercase-path redirect rules here - Next matches redirect
+  // sources case-insensitively, so /Contact-Us -> /contact-us matches its
+  // own destination and loops forever (the removed middleware existed for
+  // this; legacy uppercase URLs now 404, which is acceptable).
+
   // WP internals
   { source: "/wp-admin/:path*", destination: "/", permanent: true },
   { source: "/feed", destination: "/", permanent: true },
