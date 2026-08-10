@@ -148,7 +148,7 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               What is the LINK Equity Strategy Workshop?
             </h2>
             <p className="mt-5 text-ink/65">
@@ -164,7 +164,7 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               Who is This Workshop For?
             </h2>
             <CheckList items={WHO} />
@@ -185,14 +185,14 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x">
           <div className="max-w-3xl">
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               Why Choose LINK?
             </h2>
-            <p className="mt-5 text-lg text-ink/65">
+            <p className="mt-5 text-lg leading-[1.4] text-ink/80">
               At LINK, our wealth director Richard specialises in integrated financial
               strategies that connect property, tax, investments and superannuation.
             </p>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Our big-picture approach helps clients move beyond one-off transactions — giving
               them the structure and insight to make strategic, long-term decisions with
               confidence.
@@ -212,7 +212,7 @@ export default function Page() {
           <p className="eyebrow guide-line-inline mb-4">
             <span className="text-white/60">Your Investment</span>
           </p>
-          <h2 className="max-w-2xl font-display text-3xl font-normal tracking-tight sm:text-4xl">
+          <h2 className="max-w-2xl font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
             Book your LINK Equity Strategy Workshop for $660 (inc. GST).
           </h2>
           <p className="mt-4 max-w-xl text-white/70">
@@ -247,7 +247,7 @@ export default function Page() {
             className="w-40 rounded-2xl object-cover sm:w-48"
           />
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
               Get advice from Richard.
             </h2>
             <p className="mt-2 text-sm font-semibold text-ink/55">

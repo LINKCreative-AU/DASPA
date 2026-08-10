@@ -19,7 +19,7 @@ export default function CaseStudies() {
         <h1 className="mt-6 font-display text-4xl font-normal tracking-tight text-ink sm:text-5xl">
           Real clients, real strategies<span className="text-wealth">.</span>
         </h1>
-        <p className="mt-5 max-w-2xl text-lg text-ink/65">
+        <p className="mt-5 max-w-2xl text-lg leading-[1.4] text-ink/80">
           See examples of how LINK Wealth has helped clients with our financial advice case
           studies.
         </p>

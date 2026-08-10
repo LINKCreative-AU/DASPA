@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/components/Schema";
 import { PageHero, Section, FeatureGrid, CheckList, FAQ, ProofBar } from "@/components/ServicePage";
-import { Testimonials } from "@/components/Testimonials";
+import { ReviewStrip } from "@/components/ReviewStrip";
 import { CtaBand } from "@/components/CtaBand";
 
 // The data-driven loan service page - Advance's equivalent of the Wealth
@@ -74,11 +74,11 @@ export function LoanPage({ data }: { data: LoanPageData }) {
         <div className="container-x max-w-3xl space-y-12">
           {data.sections.map((s) => (
             <div key={s.heading}>
-              <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+              <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
                 {s.heading}
               </h2>
               {s.paragraphs.map((p) => (
-                <p key={p.slice(0, 40)} className="mt-4 text-lg text-ink/65">
+                <p key={p.slice(0, 40)} className="mt-4 text-lg leading-[1.4] text-ink/80">
                   {p}
                 </p>
               ))}
@@ -94,7 +94,40 @@ export function LoanPage({ data }: { data: LoanPageData }) {
         </Section>
       )}
 
-      <Testimonials />
+      {/* The people, on every lending page - the broker who meets you writes
+          the loan (cutout on the light panel, never a 21/8 crop) */}
+      <section className="border-y border-ink/10 bg-neutral-50 py-16">
+        <div className="container-x grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="flex items-end justify-center rounded-3xl bg-white px-8 pt-6">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/wp-content/uploads/2026/05/ADVANCE-the-boys-2025-web-scaled.jpg"
+              alt="Jacob, Callum and Hugh, the LINK Advance brokers"
+              className="max-h-[360px] w-auto mix-blend-multiply"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+              Your broker, not a call centre.
+            </h2>
+            <p className="mt-4 max-w-xl text-lg leading-[1.4] text-ink/80">
+              Hugh, Callum and Jacob write every loan themselves: the person who meets you is
+              the person who structures the deal, drives the approval and reprices your rate
+              every year after settlement. That&apos;s why 262 Google reviews name them
+              personally.
+            </p>
+            <a
+              href="/about-us"
+              className="mt-6 inline-block text-sm font-semibold text-ink/60 underline-offset-4 hover:text-ink hover:underline"
+            >
+              Meet the team →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <ReviewStrip />
 
       <FAQ title="Frequently asked questions." faqs={data.faqs} related={data.related} />
 

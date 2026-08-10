@@ -119,7 +119,7 @@ export default function Page() {
         </div>
 
         <div id="check" className="mt-10 scroll-mt-24">
-          <h2 className="mb-6 font-display text-3xl font-normal tracking-tight text-ink">
+          <h2 className="mb-6 font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
             The retirement readiness check.
           </h2>
           <RetirementCheck />
@@ -129,23 +129,23 @@ export default function Page() {
       {/* The two benchmarks */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             The two numbers everyone quotes, and why they differ.
           </h2>
-          <p className="mt-5 text-lg text-ink/65">
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             <strong className="text-ink">The ASFA Retirement Standard</strong> prices a real
             retirement budget each quarter: modest (~$33,500 single / $48,500 couple a year)
             and comfortable (~$52,500 / $74,000). Its famous lump sums (about $595,000 for a
             single, $690,000 for a couple) look achievable because they assume the Age
             Pension progressively tops you up as your balance runs down.
           </p>
-          <p className="mt-4 text-lg text-ink/65">
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             <strong className="text-ink">The rule of 25</strong> (the 4% drawdown rule) prices
             independence: 25 times your annual spending, no pension assumed. For the same
             comfortable couple that is ~$1.85m. Neither number is wrong; they answer
             different questions, and most real plans land between them.
           </p>
-          <p className="mt-4 text-lg text-ink/65">
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             One date worth knowing: your <strong className="text-ink">preservation age</strong>{" "}
             (when you can access super) is 60 for anyone born after 30 June 1964. The Age
             Pension starts separately at 67. Retiring in the 60-67 window means your super
@@ -157,10 +157,10 @@ export default function Page() {
       {/* Balance by age */}
       <section className="py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             How much super should you have at your age?
           </h2>
-          <p className="mt-5 text-lg text-ink/65">
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             ASFA&apos;s guide to the balance that keeps you on course for a comfortable
             retirement at 67 (indicative and rounded; the live figures move with markets and
             wages; check ASFA&apos;s Super Balance Detective for today&apos;s number):
@@ -187,7 +187,7 @@ export default function Page() {
               </tbody>
             </table>
           </div>
-          <p className="mt-5 text-lg text-ink/65">
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             Behind? You are in the majority, and the levers get stronger the earlier you pull
             them: salary-sacrifice and catch-up concessional contributions, investment
             settings inside super, spouse contributions and splitting,{" "}
@@ -209,7 +209,7 @@ export default function Page() {
           <p className="eyebrow guide-line-inline mb-4">
             <span className="text-white/60">From estimate to plan</span>
           </p>
-          <h2 className="max-w-2xl font-display text-3xl font-normal tracking-tight sm:text-4xl">
+          <h2 className="max-w-2xl font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
             The check gives you a number. The plan gets you there.
           </h2>
           <p className="mt-4 max-w-xl text-white/70">

@@ -136,11 +136,11 @@ export default function Home() {
           <p className="eyebrow guide-line-inline mb-6">
             <span className="text-wealth">Financial advisors · Brisbane</span>
           </p>
-          <h1 className="font-display text-4xl font-normal leading-[1.02] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+          <h1 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-6xl">
             Helping business owners and professionals grow their{" "}
             <span className="marker">personal wealth.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-ink/65">
+          <p className="mt-6 max-w-xl text-lg leading-[1.4] text-ink/80">
             Grinding away on your business but feeling like you’ve got nothing to show for it?
             Let’s fix that. With expert advice and a financial strategy tailor-made for you
             and your goals.
@@ -200,7 +200,7 @@ export default function Home() {
             title="Turn your hard work into lasting financial freedom."
             mark="lasting financial freedom."
           />
-          <div className="mt-8 space-y-4 text-lg text-ink/65">
+          <div className="mt-8 space-y-4 text-lg leading-[1.4] text-ink/80">
             <p>
               Building wealth isn’t just for those with millions in the bank. It’s achievable,
               even if you’re just starting out. But you need more than a one-size-fits-all

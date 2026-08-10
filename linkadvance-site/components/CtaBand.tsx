@@ -27,7 +27,7 @@ export function CtaBand({
           <p className="eyebrow guide-line-inline mb-4">
             <span className="text-white/60">We make lending easy.</span>
           </p>
-          <h2 className="max-w-2xl font-display text-3xl font-normal tracking-tight sm:text-4xl">
+          <h2 className="max-w-2xl font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
             {heading}
           </h2>
           <p className="mt-4 max-w-xl text-white/70">{intro}</p>

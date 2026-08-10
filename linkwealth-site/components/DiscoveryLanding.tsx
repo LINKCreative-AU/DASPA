@@ -116,11 +116,11 @@ export function DiscoveryLanding({
           className={i % 2 === 0 ? "border-y border-ink/10 bg-neutral-50 py-20" : "py-20"}
         >
           <div className="container-x max-w-3xl">
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               {s.heading}
             </h2>
             {s.paragraphs.map((p) => (
-              <p key={p.slice(0, 40)} className="mt-5 text-lg text-ink/65">
+              <p key={p.slice(0, 40)} className="mt-5 text-lg leading-[1.4] text-ink/80">
                 {p}
               </p>
             ))}

@@ -106,10 +106,10 @@ export default function Page() {
       {/* How to calculate - the answer-first section for the 1,500/mo query */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             How to calculate net worth.
           </h2>
-          <p className="mt-5 text-lg text-ink/65">
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             <strong className="text-ink">Net worth = total assets − total liabilities.</strong>{" "}
             On the asset side: your home and any investment property at today&apos;s market
             value, super (all accounts), shares and managed funds, cash and offset balances,
@@ -117,7 +117,7 @@ export default function Page() {
             On the liability side: the home loan, investment loans, credit cards and personal
             loans, HECS/HELP and anything else owing.
           </p>
-          <p className="mt-4 text-lg text-ink/65">
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             A worked example: a home worth $950,000 with $420,000 owing, $310,000 of combined
             super, $60,000 in shares and $40,000 in savings, against $8,000 on cards, is a net
             worth of <strong className="text-ink">$932,000</strong>, with about 57% of it in
@@ -133,7 +133,7 @@ export default function Page() {
             </a>{" "}
             are for.
           </p>
-          <p className="mt-4 text-lg text-ink/65">
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             Then track it. Once a year, same method, written down. The trend (not the
             comparison to anyone else) is the cleanest scoreboard your finances have. When
             you want to know whether the <em>behaviours</em> behind the number are set up to
@@ -150,10 +150,10 @@ export default function Page() {
           by-age queries, ~1,000/mo combined). Hedged, household figures. */}
       <section id="by-age" className="py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             Net worth by age in Australia.
           </h2>
-          <p className="mt-5 text-lg text-ink/65">
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             The most recent detailed age breakdown from the ABS (Survey of Income and Housing,
             2019-20) shows <strong className="text-ink">average household net worth by age of
             the main income earner</strong>. Two caveats before the table: these are{" "}
@@ -187,7 +187,7 @@ export default function Page() {
             Source: ABS Survey of Income and Housing 2019-20, mean household net worth by age
             of household reference person. General information only.
           </p>
-          <p className="mt-6 text-lg text-ink/65">
+          <p className="mt-6 text-lg leading-[1.4] text-ink/80">
             The pattern to take from it: net worth roughly doubles across the 40s, peaks around
             65-69 at about $1.8 million on average, then declines through retirement drawdown.
             The wealthiest 20% of households hold the majority of it (their average sits

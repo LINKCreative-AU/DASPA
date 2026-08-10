@@ -232,7 +232,7 @@ export default function Page() {
       <section className="bg-ink py-20 text-white">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
               Your rent is making someone else wealthy.
             </h2>
             <p className="mt-5 text-white/70">
@@ -246,7 +246,7 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
               But what if your rent could work for you instead?
             </h2>
             <p className="mt-5 text-white/70">
@@ -413,7 +413,7 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               Your rent is due either way. <span className="marker">Make it count.</span>
             </h2>
             <h3 className="mt-5 font-semibold text-ink">

@@ -30,7 +30,7 @@ export function ReviewStrip() {
   return (
     <section aria-label="Reviews from LINK Advance clients" className="py-16 sm:py-20">
       <div className="container-x flex flex-wrap items-end justify-between gap-4">
-        <h2 className="max-w-xl font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+        <h2 className="max-w-xl font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
           262 five-star reviews, and counting<span className="text-advance">.</span>
         </h2>
         <span className="flex gap-5">
@@ -57,10 +57,10 @@ export function ReviewStrip() {
             <figure
               key={i}
               aria-hidden={i >= REVIEWS.length}
-              className="flex w-[330px] shrink-0 flex-col rounded-3xl bg-neutral-50 p-7 sm:w-[373px]"
+              className="flex w-[330px] shrink-0 flex-col rounded-[25px] bg-[#f1f1f1] p-7 sm:w-[373px]"
             >
               <Stars />
-              <blockquote className="mt-4 line-clamp-6 text-[15px] leading-[1.5] text-ink/80">
+              <blockquote className="mt-4 line-clamp-6 text-[15px] leading-[1.45] text-ink">
                 {r.text}
               </blockquote>
               <figcaption className="mt-auto flex items-center gap-3 pt-5">

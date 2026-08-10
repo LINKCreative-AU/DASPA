@@ -39,7 +39,7 @@ export function Testimonials({ heading = "Hear from our happy clients." }: { hea
     <section className="bg-ink py-20 text-white">
       <div className="container-x">
         <div className="max-w-3xl">
-          <h2 className="font-display text-4xl font-normal leading-[1.02] tracking-tight sm:text-5xl">
+          <h2 className="font-display text-[40px] font-normal leading-[1.15] tracking-tight sm:text-[50px]">
             {heading}
           </h2>
           <p className="mt-5 text-lg text-white/70">

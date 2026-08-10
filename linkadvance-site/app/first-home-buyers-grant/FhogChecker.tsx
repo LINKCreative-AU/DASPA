@@ -149,7 +149,7 @@ export function FhogChecker() {
         <p className="eyebrow">
           <span className="text-advance">Your result</span>
         </p>
-        <h3 className="mt-3 font-display text-3xl font-normal tracking-tight text-ink">
+        <h3 className="mt-3 font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
           {likely
             ? maybes.length > 0
               ? "Likely eligible, with a couple of things to confirm."

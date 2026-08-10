@@ -51,7 +51,7 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl space-y-12">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               The mechanics, in four steps.
             </h2>
             <CheckList
@@ -64,17 +64,17 @@ export default function Page() {
             />
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               Why it beats the savings account.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Every dollar you salary-sacrifice goes in at 15% tax instead of your marginal
               rate. On a 32% marginal rate, $15,000 of pre-tax salary becomes about $12,750
               inside super versus roughly $10,200 in your bank account: a 25% head start
               before earnings, repeated every year you save. A couple both using the scheme
               can release up to $100,000 plus deemed earnings.
             </p>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               The trade-off is flexibility: the money is locked to the home purchase (or
               stays in super), the release has real lead time, and only voluntary
               contributions count. The scheme rewards people who plan 1-3 years ahead,

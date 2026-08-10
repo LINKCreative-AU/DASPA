@@ -70,23 +70,23 @@ export default function Page() {
           "stamp duty first home buyer qld" is 337/mo at KD 1 */}
       <section id="first-home" className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             Stamp duty for first home buyers in QLD.
           </h2>
-          <p className="mt-5 text-lg text-ink/65">
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             <strong className="text-ink">Buying or building new: $0.</strong> Since 1 May 2025,
             Queensland first home buyers pay no transfer duty on a new home, with no price cap.
             On a $750,000 new build that is roughly $19,600 staying in your pocket compared with
             an owner-occupier buying the same house.
           </p>
-          <p className="mt-4 text-lg text-ink/65">
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             <strong className="text-ink">Buying established:</strong> the first home concession
             wipes the duty entirely up to $700,000, then phases out to $800,000. Above that you
             pay the ordinary home rate. <strong className="text-ink">Vacant land:</strong> full
             relief to $350,000, phasing out at $500,000, and you can still claim the new-build
             exemption on the house you put on it.
           </p>
-          <p className="mt-4 text-lg text-ink/65">
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             The duty saving stacks with the{" "}
             <a href="/first-home-buyers-grant" className="font-medium text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
               $30,000 First Home Owner Grant

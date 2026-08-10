@@ -3,7 +3,7 @@ import { JsonLd, breadcrumbSchema } from "@/components/Schema";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { TeamGrid } from "@/components/TeamGrid";
-import { Testimonials } from "@/components/Testimonials";
+import { ReviewStrip } from "@/components/ReviewStrip";
 import { CtaBand } from "@/components/CtaBand";
 import { SITE, TEAM } from "@/lib/site";
 
@@ -31,14 +31,24 @@ export default function Page() {
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
       <Breadcrumbs crumbs={CRUMBS} />
 
-      <section className="container-x pb-8 pt-10">
-        <SectionHead
-          as="h1"
-          title="We make lending easy."
-          mark="easy."
-          intro="LINK Advance was built around giving clients the best possible experience of getting a loan: a personal, one-on-one service where your broker gets to know you, what you want out of the loan, answers everything, and then fights for the outcome across 35+ lenders."
-          accent
-        />
+      <section className="container-x pb-16 pt-10">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+          <SectionHead
+            as="h1"
+            title="We make lending easy."
+            mark="easy."
+            intro="LINK Advance was built around giving clients the best possible experience of getting a loan: a personal, one-on-one service where your broker gets to know you, what you want out of the loan, answers everything, and then fights for the outcome across 35+ lenders."
+            accent
+          />
+          <div className="flex items-end justify-center rounded-3xl bg-neutral-50 px-8 pt-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/wp-content/uploads/2026/05/ADVANCE-2025-Web-scaled.jpg"
+              alt="The LINK Advance team"
+              className="max-h-[420px] w-auto mix-blend-multiply"
+            />
+          </div>
+        </div>
       </section>
 
       <TeamGrid members={TEAM} />
@@ -47,10 +57,10 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl space-y-12">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
               About Hugh.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Hugh founded LINK Advance to give his clients the best experience possible in
               financing, and it shows in how the firm runs: one broker per client, end to end.
               With previous experience in real estate and property brokerage, Hugh knows the
@@ -59,10 +69,10 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
               About Callum.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Callum's focus is making home ownership a reality, from first home buyers
               stepping into the market to investors building complex portfolios. With a
               Bachelor of Business majoring in Economics and Finance and more than five years
@@ -72,10 +82,10 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
               About Jacob.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Jacob's specialty is the lending other brokers find difficult: complex
               commercial deals, SMSF lending, small business finance. Five years in, he's
               built a reputation for getting results on transactions that need more than a
@@ -98,7 +108,7 @@ export default function Page() {
         </div>
       </section>
 
-      <Testimonials />
+      <ReviewStrip />
 
       <CtaBand
         heading="Meet your broker."

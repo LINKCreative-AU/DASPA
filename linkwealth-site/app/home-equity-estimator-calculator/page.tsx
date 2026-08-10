@@ -68,7 +68,7 @@ export default function Page() {
       <section className="container-x pb-16 pt-10 sm:pt-14">
         <div className="max-w-3xl">
           <span className="eyebrow text-wealth">Free tool</span>
-          <h1 className="mt-6 font-display text-4xl font-normal leading-[1.02] tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-6 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
             Home Equity <span className="marker">Estimator</span>
           </h1>
           {/* Answer-first: the formula in the first paragraph, for featured
@@ -104,7 +104,7 @@ export default function Page() {
       {/* What to do with the number - internal links to the money pages */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-4xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             Know your equity? Here’s what it can do.
           </h2>
           <p className="mt-5 text-lg text-ink/70">
@@ -136,7 +136,7 @@ export default function Page() {
       {/* FAQs (visible text and schema kept in sync) */}
       <section className="py-20">
         <div className="container-x max-w-4xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
             Frequently asked questions.
           </h2>
           <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">

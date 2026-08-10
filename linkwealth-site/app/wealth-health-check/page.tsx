@@ -101,10 +101,10 @@ export default function Page() {
       {/* The net worth angle - the page's search legs */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             The one number behind the score: net worth.
           </h2>
-          <p className="mt-5 text-lg text-ink/65">
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             <strong className="text-ink">Net worth = everything you own minus everything you
             owe.</strong> Home at market value, super, investments and cash on one side; the
             mortgage, investment loans and cards on the other. It's the first scored question
@@ -115,7 +115,7 @@ export default function Page() {
             </a>{" "}
             works it out on screen in two minutes.
           </p>
-          <p className="mt-4 text-lg text-ink/65">
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             For context, ABS household wealth data puts the <em>average</em> Australian
             household around $1.5-1.6 million, a figure dragged up by the wealthiest
             households, with the typical (median) household far lower. The shape matters more

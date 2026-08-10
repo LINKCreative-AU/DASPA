@@ -79,10 +79,10 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl space-y-12">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               What it actually does.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Normally, borrowing more than 80% of a property's value means paying lenders
               mortgage insurance, a premium that can run from a few thousand dollars to well
               over $25,000, protecting the lender, not you. Under the Guarantee, Housing
@@ -91,7 +91,7 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               The eligibility tests that remain.
             </h2>
             <CheckList
@@ -103,7 +103,7 @@ export default function Page() {
                 "The loan is with a participating lender (not every lender is in the scheme)",
               ]}
             />
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Price caps vary by state and region and get revised. In south-east Queensland
               the cap sits in the high hundreds of thousands, with regional caps lower. Check
               your exact suburb's cap at housingaustralia.gov.au, or ask us. It takes a
@@ -111,10 +111,10 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               The downsides, said out loud.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               A 95% loan means bigger repayments and substantially more interest over the life
               of the loan than a bigger-deposit loan; a thin equity buffer if prices dip; and
               a smaller pool of lenders, so the scheme rate may not be the market's sharpest.
@@ -124,10 +124,10 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               How to apply.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               You don't apply to the government. The scheme runs through participating
               lenders, and your broker reserves your place as part of the loan application.
               We check the price cap for your target area, pick the participating lender whose

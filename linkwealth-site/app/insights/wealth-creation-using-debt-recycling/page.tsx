@@ -109,7 +109,7 @@ export default function Page() {
       <section id="calculator" className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x">
           <div className="max-w-3xl">
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
               Debt recycling calculator.
             </h2>
             <p className="mt-4 text-lg text-ink/70">
@@ -126,7 +126,7 @@ export default function Page() {
       {/* FAQs = the live PAA questions (visible text and schema kept in sync) */}
       <section className="py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
             Frequently asked questions.
           </h2>
           <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">

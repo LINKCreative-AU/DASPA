@@ -83,10 +83,10 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl space-y-12">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               The eligibility tests, in plain English.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">To qualify for the FHOG QLD:</p>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">To qualify for the FHOG QLD:</p>
             <CheckList
               items={[
                 "You're a person (not a company or trust), 18 or older",
@@ -100,10 +100,10 @@ export default function Page() {
             />
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               Stamp duty: the saving that stacks on top.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               The grant gets the headlines, but the stamp duty rules changed on 1 May 2025 and
               they're now often worth more:{" "}
               <strong className="text-ink">
@@ -117,10 +117,10 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               How to apply, and when the money lands.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               The practical path: apply through your lender with the loan, so the grant is
               approved alongside the finance and available when you need it: at settlement
               for a purchase, or at the first progress payment for a build. We prepare the
@@ -130,10 +130,10 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               The full first-home stack.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">Line all four up before you look at listings:</p>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">Line all four up before you look at listings:</p>
             <CheckList
               items={[
                 "First Home Owner Grant: $30,000 toward a new home (this page)",

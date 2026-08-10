@@ -61,7 +61,7 @@ export default async function Page({ params }: Params) {
         <p className="eyebrow">
           <span className="text-advance">{CATEGORY_LABELS[post.category] ?? post.category}</span>
         </p>
-        <h1 className="mt-4 font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+        <h1 className="mt-4 font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
           {post.title}
         </h1>
         <p className="mt-3 text-sm text-ink/50">

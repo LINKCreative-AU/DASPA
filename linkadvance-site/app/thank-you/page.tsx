@@ -17,7 +17,7 @@ export default function ThankYou() {
       <h1 className="font-display text-4xl font-normal tracking-tight text-ink">
         Thank you for getting in touch.
       </h1>
-      <p className="mt-5 text-lg text-ink/65">
+      <p className="mt-5 text-lg leading-[1.4] text-ink/80">
         A LINK Advance broker will reach out to you shortly. Need an answer sooner? Call
         us on{" "}
         <a href={SITE.phoneHref} className="font-semibold text-advance">

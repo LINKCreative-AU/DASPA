@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { REVIEWS } from "@/components/Testimonials";
 
-// The review wall: all 24 verbatim Google reviews, filterable by what the
-// client actually came in for. Tags are read straight from the review text
-// (a review that says "as first home buyers" is tagged first home) - no
-// review is edited, only labelled.
+// The review wall in the link.com.au treatment: the count-up stat, then the
+// grey tiles ([#f1f1f1], rounded-[25px], tint avatars, "Google review · tag"
+// captions), filterable by what the client came in for. Tags are read
+// straight from the verbatim review text; nothing is edited, only labelled.
 
 type Tag = "First home" | "Refinance" | "Investing" | "Bought & sold" | "Home purchase";
+
+const TINT = "#fff6cc"; // the register light tint carries the initials
 
 const TAGS: Record<string, Tag> = {
   "Alys Taylor": "First home",
@@ -45,16 +47,49 @@ const FILTERS: { label: string; tag: Tag | null }[] = [
 const initials = (name: string) =>
   name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
 
-function Stars({ light = false }: { light?: boolean }) {
+function Stars({ size = 16 }: { size?: number }) {
   return (
-    <span aria-hidden className={`flex gap-0.5 ${light ? "text-advance-bright" : "text-advance"}`}>
+    <span aria-hidden className="flex gap-0.5 text-advance">
       {[0, 1, 2, 3, 4].map((i) => (
-        <svg key={i} width={15} height={15} viewBox="0 0 20 20" fill="currentColor">
+        <svg key={i} width={size} height={size} viewBox="0 0 20 20" fill="currentColor">
           <path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
         </svg>
       ))}
     </span>
   );
+}
+
+// The link.com.au count-up: eases to the target when it scrolls into view.
+export function CountUp({ target }: { target: number }) {
+  const [n, setN] = useState(0);
+  const [run, setRun] = useState(false);
+  const started = useRef(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setRun(true), {
+      threshold: 0.4,
+    });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!run || started.current) return;
+    started.current = true;
+    const dur = 1200;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setN(Math.round(target * eased));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [run, target]);
+
+  return <span ref={ref}>{n || "262"}</span>;
 }
 
 export function ReviewWall() {
@@ -88,52 +123,31 @@ export function ReviewWall() {
       </div>
 
       <div className="mt-8 columns-1 gap-5 sm:columns-2 lg:columns-3">
-        {shown.map((r, i) => {
-          const dark = !active && i % 9 === 4;
-          return (
-            <figure
-              key={r.name}
-              className={`mb-5 break-inside-avoid rounded-3xl p-7 ${
-                dark ? "bg-ink text-white" : "border border-ink/10 bg-white"
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <Stars light={dark} />
-                {TAGS[r.name] && (
-                  <span
-                    className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${
-                      dark ? "bg-white/10 text-white/70" : "bg-advance-light text-ink/70"
-                    }`}
-                  >
-                    {TAGS[r.name]}
-                  </span>
-                )}
-              </div>
-              <blockquote
-                className={`mt-4 text-[15px] leading-relaxed ${dark ? "text-white/80" : "text-ink/75"}`}
+        {shown.map((r) => (
+          <figure
+            key={r.name}
+            className="mb-5 break-inside-avoid rounded-[25px] bg-[#f1f1f1] p-7"
+          >
+            <Stars />
+            <blockquote className="mt-4 text-[15px] leading-[1.45] text-ink">
+              {r.text}
+            </blockquote>
+            <figcaption className="mt-5 flex items-center gap-3">
+              <span
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-ink"
+                style={{ backgroundColor: TINT }}
               >
-                &ldquo;{r.text}&rdquo;
-              </blockquote>
-              <figcaption className="mt-5 flex items-center gap-3">
-                <span
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${
-                    dark ? "bg-advance-bright text-ink" : "bg-advance-light text-ink"
-                  }`}
-                >
-                  {initials(r.name)}
+                {initials(r.name)}
+              </span>
+              <span>
+                <span className="block text-[15px] font-semibold text-ink">{r.name}</span>
+                <span className="block text-[13px] text-ink/60">
+                  Google review{TAGS[r.name] ? ` · ${TAGS[r.name]}` : ""}
                 </span>
-                <span>
-                  <span className={`block text-sm font-semibold ${dark ? "text-white" : "text-ink"}`}>
-                    {r.name}
-                  </span>
-                  <span className={`block text-[13px] ${dark ? "text-white/45" : "text-ink/50"}`}>
-                    Google review
-                  </span>
-                </span>
-              </figcaption>
-            </figure>
-          );
-        })}
+              </span>
+            </figcaption>
+          </figure>
+        ))}
       </div>
     </div>
   );

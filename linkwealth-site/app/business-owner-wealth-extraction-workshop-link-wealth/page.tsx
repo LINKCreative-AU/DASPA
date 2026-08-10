@@ -129,7 +129,7 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               What the Session Covers
             </h2>
             <p className="mt-5 text-ink/65">
@@ -143,7 +143,7 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               Who Is This Workshop For?
             </h2>
             <CheckList items={WHO} />
@@ -168,7 +168,7 @@ export default function Page() {
       {/* What you can expect - verbatim */}
       <section className="py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             What You Can Expect?
           </h2>
           <CheckList items={EXPECT} />
@@ -188,10 +188,10 @@ export default function Page() {
       {/* Why choose LINK Wealth - verbatim */}
       <section className="py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             Why Choose LINK Wealth?
           </h2>
-          <p className="mt-5 text-lg text-ink/65">
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             We understand business owners because we work with them every day. Our advisers
             integrate accounting, lending, and investment expertise to help you keep more of
             what you earn and deploy it with purpose.

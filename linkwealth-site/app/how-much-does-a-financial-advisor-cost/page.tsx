@@ -75,7 +75,7 @@ export default function Page() {
 
       <article className="container-x max-w-3xl pb-16 pt-10 sm:pt-14">
         <span className="eyebrow text-wealth">Fees, published</span>
-        <h1 className="mt-6 font-display text-4xl font-normal leading-[1.02] tracking-tight text-ink sm:text-5xl">
+        <h1 className="mt-6 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px]">
           How much does a financial advisor <span className="marker">actually cost?</span>
         </h1>
         <p className="mt-6 text-lg text-ink/80">
@@ -148,7 +148,7 @@ export default function Page() {
       {/* FAQs (visible text and schema kept in sync) */}
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-ink">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
             Frequently asked questions.
           </h2>
           <div className="mt-10 divide-y divide-ink/10 border-y border-ink/10">

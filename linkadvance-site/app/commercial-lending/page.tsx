@@ -3,7 +3,7 @@ import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/components
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { FAQ, ProofBar } from "@/components/ServicePage";
-import { Testimonials } from "@/components/Testimonials";
+import { ReviewStrip } from "@/components/ReviewStrip";
 import { CtaBand } from "@/components/CtaBand";
 
 // The commercial hub - the bolt-on's front door. Head terms: "commercial
@@ -91,10 +91,10 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl space-y-12">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               The file is the deal.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Commercial credit teams read the same things every time: two years of financials
               and what they really say once add-backs are understood; the ATO position, clean
               or with a plan; the security on offer and what it's genuinely worth; and the
@@ -104,10 +104,10 @@ export default function Page() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               One group, the whole balance sheet.
             </h2>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               Commercial deals cross disciplines: LINK Advisors gets the financials
               lender-ready and structures the entities; LINK Wealth handles the SMSF premises
               strategy and what the deal means for your personal position; the lending desk
@@ -118,7 +118,7 @@ export default function Page() {
         </div>
       </section>
 
-      <Testimonials />
+      <ReviewStrip />
 
       <FAQ title="Frequently asked questions." faqs={FAQS} related={[
         { label: "Business Borrowing Health Check", href: "/business-borrowing-health-check" },

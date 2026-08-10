@@ -222,7 +222,7 @@ export function BizCheck() {
 function Intro({ onStart }: { onStart: () => void }) {
   return (
     <div className="rounded-3xl bg-ink px-6 py-14 text-center text-white sm:px-16 sm:py-16">
-      <h2 className="mx-auto max-w-3xl font-display text-4xl font-normal leading-[1.05] tracking-tight sm:text-5xl">
+      <h2 className="mx-auto max-w-3xl font-display text-[40px] font-normal leading-[1.15] tracking-tight sm:text-[50px]">
         The <strong className="font-bold">Business Borrowing Health Check.</strong>
       </h2>
       <p className="mt-5 text-xl font-semibold">3 minutes. 7 areas. One real score.</p>
@@ -477,7 +477,7 @@ function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void })
           <div className="flex items-center gap-6">
             <ScoreRing value={score} />
             <div>
-              <h3 className="font-display text-3xl font-normal tracking-tight text-ink">{band.name}.</h3>
+              <h3 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">{band.name}.</h3>
               <p className="mt-2 max-w-md text-ink/65">{band.blurb}</p>
             </div>
           </div>

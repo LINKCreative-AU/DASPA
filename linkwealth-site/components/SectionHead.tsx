@@ -46,14 +46,16 @@ export function SectionHead({
         </div>
       )}
       <Tag
-        className={`font-display text-4xl font-normal leading-[1.02] tracking-tight sm:text-5xl ${
-          dark ? "text-white" : "text-ink"
-        }`}
+        className={`font-display font-normal leading-[1.15] tracking-tight ${
+          Tag === "h1"
+            ? "text-[40px] sm:text-[50px] lg:text-[58px]"
+            : "text-[34px] sm:text-[44px]"
+        } ${dark ? "text-white" : "text-ink"}`}
       >
         {markTitle(title, mark)}
       </Tag>
       {intro && (
-        <p className={`mt-5 text-lg ${dark ? "text-white/70" : "text-ink/65"}`}>{intro}</p>
+        <p className={`mt-5 text-lg leading-[1.4] ${dark ? "text-white/80" : "text-ink/80"}`}>{intro}</p>
       )}
     </div>
   );

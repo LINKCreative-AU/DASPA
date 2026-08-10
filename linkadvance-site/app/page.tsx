@@ -88,10 +88,10 @@ export default function Page() {
           <p className="eyebrow">
             <span className="text-advance">Brisbane finance brokers</span>
           </p>
-          <h1 className="mt-5 font-display text-4xl font-normal leading-[1.05] tracking-tight text-ink sm:text-6xl">
+          <h1 className="mt-5 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-[58px]">
             We make lending <span className="marker">easy.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-ink/65">
+          <p className="mt-6 max-w-2xl text-lg leading-[1.4] text-ink/80">
             Work with experienced mortgage brokers who partner with you to get the outcome you
             want: one broker through the entire journey, from the initial coffee to approval,
             settlement, and every repricing after. Your goals are priority number one.
@@ -164,16 +164,16 @@ export default function Page() {
       <section className="py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
               What a broker costs, and who pays.
             </h2>
-            <p className="mt-5 text-lg text-ink/65">
+            <p className="mt-5 text-lg leading-[1.4] text-ink/80">
               For home loans: <strong className="text-ink">you pay nothing</strong>. The lender
               pays a commission when the loan settles, and we disclose exactly what it is before
               you sign anything. The comparison across 35+ lenders, the negotiation and the
               yearly repricing call are all part of that.
             </p>
-            <p className="mt-4 text-lg text-ink/65">
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               For complex commercial work, where a fee can apply, it&apos;s quoted in writing
               before anything starts. No surprises either way: since 2021 mortgage brokers owe
               you a legal Best Interests Duty. Your bank owes you nothing of the kind.
@@ -230,7 +230,7 @@ export default function Page() {
         <div className="container-x">
           <div className="grid gap-10 lg:grid-cols-[0.85fr_2.15fr]">
             <div>
-              <h2 className="font-display text-3xl font-normal tracking-tight text-ink sm:text-4xl">
+              <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
                 First home in Queensland: the money on the table.
               </h2>
               <p className="mt-4 text-ink/65">
@@ -329,7 +329,7 @@ export default function Page() {
       <section className="bg-ink py-20 text-white">
         <div className="container-x grid items-center gap-10 lg:grid-cols-[2fr_1fr]">
           <div>
-            <h2 className="font-display text-3xl font-normal tracking-tight sm:text-4xl">
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
               Lending for the business, not just the house.
             </h2>
             <p className="mt-5 max-w-2xl text-lg text-white/70">
