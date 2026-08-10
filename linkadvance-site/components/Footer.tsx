@@ -15,6 +15,15 @@ const SERVICES = [
   { label: "Home loans for doctors", href: "/home-loans-for-doctors" },
 ];
 
+const COMMERCIAL = [
+  { label: "Commercial lending", href: "/commercial-lending" },
+  { label: "Commercial property", href: "/commercial-property-loans" },
+  { label: "Working capital", href: "/working-capital-finance" },
+  { label: "Acquisition & franchise", href: "/business-acquisition-loans" },
+  { label: "Development finance", href: "/development-finance" },
+  { label: "Business borrowing check", href: "/business-borrowing-health-check" },
+];
+
 const FIRSTHOME = [
   { label: "First Home Buyers Grant QLD", href: "/first-home-buyers-grant" },
   { label: "First Home Guarantee", href: "/first-home-guarantee" },
@@ -48,7 +57,7 @@ export function Footer() {
   return (
     <footer className="bg-ink py-16 text-white">
       <div className="container-x">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr_1fr]">
           <div>
             <Logo onDark height={22} />
             <p className="mt-5 max-w-xs text-sm text-white/70">
@@ -71,6 +80,7 @@ export function Footer() {
           </div>
 
           <FooterCol title="How we help" links={SERVICES} />
+          <FooterCol title="Commercial" links={COMMERCIAL} />
           <FooterCol title="First home" links={FIRSTHOME} />
           <FooterCol title="Resources" links={RESOURCES} />
           <div className="space-y-10">

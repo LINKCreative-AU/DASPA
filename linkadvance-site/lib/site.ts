@@ -68,17 +68,27 @@ export type NavItem = {
 
 export const NAV: NavItem[] = [
   {
-    label: "Loans",
+    label: "Personal",
     children: [
       { label: "Home loans", href: "/home-loans-brisbane" },
       { label: "First home buyers", href: "/first-home-buyers-loan" },
       { label: "Refinancing", href: "/refinancing-brisbane" },
       { label: "Investment loans", href: "/investment-home-loans" },
       { label: "Construction loans", href: "/construction-loans-brisbane" },
+      { label: "Home loans for doctors", href: "/home-loans-for-doctors" },
       { label: "SMSF loans", href: "/smsf-mortgage-broker" },
+    ],
+  },
+  {
+    label: "Commercial",
+    children: [
+      { label: "Commercial lending", href: "/commercial-lending" },
+      { label: "Commercial property loans", href: "/commercial-property-loans" },
+      { label: "Working capital finance", href: "/working-capital-finance" },
+      { label: "Acquisition & franchise", href: "/business-acquisition-loans" },
+      { label: "Development finance", href: "/development-finance" },
       { label: "Business loans", href: "/business-loans" },
       { label: "Car & equipment finance", href: "/business-car-and-equipment-loans" },
-      { label: "Home loans for doctors", href: "/home-loans-for-doctors" },
     ],
   },
   {
@@ -94,6 +104,7 @@ export const NAV: NavItem[] = [
     label: "Tools",
     children: [
       { label: "Home loan health check", href: "/home-loan-health-check" },
+      { label: "Business borrowing check", href: "/business-borrowing-health-check" },
       { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },
       { label: "Repayments calculator", href: "/home-loan-repayment-calculator" },
       { label: "LMI calculator", href: "/lenders-mortgage-insurance-calculator" },

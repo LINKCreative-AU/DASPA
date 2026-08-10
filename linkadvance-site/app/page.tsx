@@ -108,6 +108,30 @@ export default function Page() {
         </div>
       </section>
 
+      {/* Two doors - personal vs commercial */}
+      <section className="container-x pb-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <a href="/home-loans-brisbane" className="group rounded-3xl bg-ink p-8 text-white transition hover:opacity-95">
+            <p className="font-display text-2xl font-bold tracking-tight">
+              For you<span className="text-advance-bright">.</span>
+            </p>
+            <p className="mt-2 text-white/70">
+              Home loans, first home, refinancing, investment - the personal side of the desk.
+            </p>
+            <p className="mt-5 text-sm font-semibold text-advance-bright">Personal lending →</p>
+          </a>
+          <a href="/commercial-lending" className="group rounded-3xl border-2 border-ink bg-white p-8 transition hover:bg-neutral-50">
+            <p className="font-display text-2xl font-bold tracking-tight text-ink">
+              For your business<span className="text-advance">.</span>
+            </p>
+            <p className="mt-2 text-ink/65">
+              Premises, working capital, acquisitions, development - commercial is Jacob's desk.
+            </p>
+            <p className="mt-5 text-sm font-semibold text-advance">Commercial lending →</p>
+          </a>
+        </div>
+      </section>
+
       {/* The panel of lenders - all 31 logos from the old site, scrolling */}
       <section className="py-14">
         <div className="container-x">

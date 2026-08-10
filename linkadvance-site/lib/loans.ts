@@ -440,4 +440,199 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     ],
     subject: "Car & equipment finance",
   },
+  "commercial-property-loans": {
+    path: "/commercial-property-loans",
+    serviceName: "Commercial property loans",
+    serviceDescription:
+      "Commercial property finance for owner-occupiers and investors: premises purchases, commercial investment and SMSF commercial lending.",
+    crumbName: "Commercial Property Loans",
+    eyebrow: "Commercial property",
+    h1: "Commercial property loans - premises, investment, or through your super.",
+    h1Mark: "premises, investment, or through your super.",
+    intro:
+      "Buying the building your business runs from is the classic owner's move: rent stops leaving, equity starts building. We finance premises purchases, commercial investment property and the SMSF version - with the deal structured the way commercial credit teams want to see it.",
+    bullets: [
+      "Owner-occupied premises, commercial investment and SMSF commercial (LRBA) lending",
+      "Typical LVRs 65-80% depending on property type and lease profile",
+      "Structure set with your accountant - entity, security and tax working together",
+    ],
+    sections: [
+      {
+        heading: "Owner-occupiers: stop paying someone else's mortgage.",
+        paragraphs: [
+          "If the business pays rent reliably, it can usually pay a loan instead. Lenders assess premises deals on the business's capacity - financials, rental history, industry - and the property itself. Deposits run higher than residential (typically 20-35%), but the maths compounds: rent becomes equity, occupancy costs stabilise, and the property can end up in your SMSF paying rent to your own retirement.",
+          "That last version - business real property through a self-managed super fund - is the standout structure for established owners, run jointly with the licensed advisers at LINK Wealth.",
+        ],
+      },
+      {
+        heading: "What commercial credit teams look for.",
+        paragraphs: ["The strong files share the same bones:"],
+        bullets: [
+          "Two years of financials (or a strong story and security where trading is shorter)",
+          "A clear purpose and exit - what the property does for the business",
+          "Serviceability with buffers - including realistic outgoings and rate stress",
+          "Clean ATO position, or a plan for it - arrears aren't fatal, surprises are",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "What deposit do I need for a commercial property?", a: "Typically 20-35% depending on the property type, your trading history and whether it's owner-occupied - standard commercial sits around 65-80% LVR. Specialised properties (childcare, medical, industrial with single use) price and gear differently." },
+      { q: "Are commercial rates higher than home loan rates?", a: "Yes, generally 1-3% above residential depending on security and the deal's strength - which is exactly why the lender comparison matters more here. The spread between lenders on the same commercial deal is far wider than on home loans." },
+      { q: "Can my SMSF buy my business premises?", a: "Yes - business real property is the exception to the related-party rules. Your fund buys the premises, your business pays market rent to your own super. The lending is specialist (LRBA, 20-30% deposits); the strategy and compliance sit with LINK Wealth's advisers." },
+      { q: "How long does commercial approval take?", a: "Longer than residential - typically two to six weeks depending on the lender, valuation and the file's complexity. Deals prepared with financials, leases and ATO position up front move materially faster." },
+    ],
+    related: [
+      { label: "SMSF loans", href: "/smsf-mortgage-broker" },
+      { label: "Business Borrowing Health Check", href: "/business-borrowing-health-check" },
+      { label: "Business loans", href: "/business-loans" },
+    ],
+    ctaHeading: "Bring the premises plan.",
+    ctaIntro: "Jacob maps the lending - deposit, entity, lender shortlist - free, no obligation.",
+    subject: "Commercial property",
+  },
+
+  "working-capital-finance": {
+    path: "/working-capital-finance",
+    serviceName: "Working capital finance",
+    serviceDescription:
+      "Cash-flow lending for business: overdrafts, invoice finance, trade facilities and short-term working capital.",
+    crumbName: "Working Capital",
+    eyebrow: "Working capital",
+    h1: "Working capital finance - smooth the gap between the work and the money.",
+    h1Mark: "the work and the money.",
+    intro:
+      "Most growing businesses die of timing, not losses: the work is done, the invoice is out, the wages are due. Working capital facilities bridge that gap - and the right structure costs a fraction of the wrong one.",
+    bullets: [
+      "Overdrafts, invoice finance, trade and import facilities, short-term loans",
+      "Facilities matched to the cash-flow shape - seasonal, project-based or growth",
+      "Unsecured options exist; secured ones price far better - we show both",
+    ],
+    sections: [
+      {
+        heading: "Match the facility to the gap.",
+        paragraphs: ["Different gaps want different tools:"],
+        bullets: [
+          "Invoice finance - unlock 80-90% of invoices immediately; suits B2B businesses with 30-90 day terms",
+          "Overdraft - the flexible buffer for lumpy months; cheapest when secured",
+          "Trade finance - fund stock and imports between paying suppliers and selling through",
+          "Short-term loans - fast, purpose-built capital for a defined bridge (priced accordingly)",
+        ],
+      },
+      {
+        heading: "The honest pricing conversation.",
+        paragraphs: [
+          "Unsecured cash-flow lending is the most expensive mainstream debt a business can carry - fast money priced for risk. Sometimes it's still right (a contract worth far more than the interest). But often a secured facility, a restructure of existing debt, or fixing the actual cash-flow driver (terms, collections, stock) beats borrowing. We tell you which one you're looking at before anything is signed.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How fast can working capital be approved?", a: "Invoice finance and unsecured facilities can approve in days; secured overdrafts and bank facilities take one to three weeks. If there's a hard deadline, say so first - it changes the lender list." },
+      { q: "What does invoice finance cost?", a: "Typically a service fee plus interest on drawn funds - all-in costs commonly land in the high single digits to low teens annually depending on volume and debtor quality. It scales with use, which is the point: it grows with your receivables." },
+      { q: "Will I need property security?", a: "Not necessarily - invoice finance is secured by the receivables themselves, and unsecured products exist. But property-backed facilities price dramatically better; if you have security and expect to use the facility often, using it usually wins." },
+      { q: "Can this consolidate expensive short-term debts?", a: "Often, yes - rolling multiple high-rate cash-flow loans into one properly structured facility is one of the most valuable things a commercial broker does. Bring the loan statements; the comparison takes a day." },
+    ],
+    related: [
+      { label: "Business Borrowing Health Check", href: "/business-borrowing-health-check" },
+      { label: "Business loans", href: "/business-loans" },
+      { label: "Car & equipment finance", href: "/business-car-and-equipment-loans" },
+    ],
+    subject: "Working capital",
+  },
+
+  "business-acquisition-loans": {
+    path: "/business-acquisition-loans",
+    serviceName: "Business acquisition finance",
+    serviceDescription:
+      "Finance for buying a business or franchise: acquisition lending against cash flow, security and the target's earnings.",
+    crumbName: "Acquisition Finance",
+    eyebrow: "Acquisition & franchise",
+    h1: "Buying a business? Finance the acquisition properly.",
+    h1Mark: "Finance the acquisition properly.",
+    intro:
+      "Acquisition lending is where preparation pays most: lenders are financing a business you don't run yet, so the file has to prove the earnings are real and you can hold them. Get the structure right and the target's own cash flow does the heavy lifting.",
+    bullets: [
+      "Acquisitions, buy-ins, partner buyouts and franchise purchases",
+      "Funding typically blends lender debt, your equity and sometimes vendor finance",
+      "Franchise systems with track records unlock dedicated lender programs",
+    ],
+    sections: [
+      {
+        heading: "What lenders fund - and how much.",
+        paragraphs: [
+          "Expect lenders to fund roughly 50-70% of a business purchase against the business itself, more where property or strong security is in the mix, less for goodwill-heavy deals. The gap comes from your equity, and sometimes vendor finance - a seller leaving money in the deal is also the strongest signal the earnings are real.",
+          "Franchises of established systems often do better: majors run dedicated franchise programs with higher gearing for proven brands, because the system's numbers de-risk the purchase.",
+        ],
+      },
+      {
+        heading: "The file that gets funded.",
+        paragraphs: ["Strong acquisition applications share the same skeleton:"],
+        bullets: [
+          "Three years of the target's financials - and the story behind any adjustments (add-backs: directors' wages, one-offs, personal expenses)",
+          "Your experience in the industry, or the management staying on",
+          "A sensible price against maintainable earnings - lenders sanity-check the multiple",
+          "Working capital planned from day one, not discovered in month two",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How much deposit do I need to buy a business?", a: "Commonly 30-50% of the purchase price in equity, less where property secures the deal or a strong franchise program applies. Vendor finance can bridge part of the gap - and its presence reassures lenders." },
+      { q: "What are add-backs and why do they matter?", a: "Add-backs adjust the target's profit to show its true earning power for a new owner - directors' wages above market rate, one-off costs, personal expenses through the business. Lenders scrutinise them hard; realistic add-backs supported by evidence are the difference between a fundable file and a rejected one." },
+      { q: "Can I borrow against the business I'm buying?", a: "Partly - lenders lend against its maintainable earnings and any hard assets, but goodwill-heavy businesses gear lower. That's why acquisition funding usually blends lender debt, your equity, and sometimes property security or vendor finance." },
+      { q: "Do you handle the whole deal?", a: "The finance, yes - and the group covers the rest: LINK Advisors on due diligence and structure, LINK Wealth on what the acquisition means for your personal position. One roof, whole deal." },
+    ],
+    related: [
+      { label: "Business Borrowing Health Check", href: "/business-borrowing-health-check" },
+      { label: "Commercial property loans", href: "/commercial-property-loans" },
+      { label: "Working capital finance", href: "/working-capital-finance" },
+    ],
+    subject: "Acquisition finance",
+  },
+
+  "development-finance": {
+    path: "/development-finance",
+    serviceName: "Development finance",
+    serviceDescription:
+      "Property development funding: site acquisition, construction facilities and residual stock loans for small to mid-scale developers.",
+    crumbName: "Development Finance",
+    eyebrow: "Development finance",
+    h1: "Development finance - from site to settlement, funded in stages.",
+    h1Mark: "funded in stages.",
+    intro:
+      "Development funding is its own discipline: land, construction drawdowns and the exit all financed against a project that doesn't exist yet. Banks fund the conservative end; private and non-bank lenders fund the rest - at prices that make lender choice the biggest number in your feasibility.",
+    bullets: [
+      "Site acquisition, construction facilities, residual stock and bridging",
+      "Bank, non-bank and private funding compared - the rate spread is enormous",
+      "Small to mid-scale focus: duplexes, townhouses, small subdivisions and unit sites",
+    ],
+    sections: [
+      {
+        heading: "How development facilities work.",
+        paragraphs: [
+          "Lenders typically fund a percentage of total development cost (commonly 65-80% TDC) or of end value (55-65% GRV), drawn in stages against QS-certified progress. Interest usually capitalises into the facility - no repayments during the build - with the loan cleared by sales or refinance at completion. Presales requirements are the big fork: banks want them, many non-banks don't, and the pricing reflects it.",
+        ],
+      },
+      {
+        heading: "What makes a fundable project.",
+        paragraphs: ["The feasibility gets funded when it shows:"],
+        bullets: [
+          "Realistic end values with comparable evidence - the valuer will check",
+          "A contingency that survives contact with a builder (10%+ of construction)",
+          "A capable builder with capacity - lenders assess them as hard as you",
+          "A clear exit: presales, a hold-and-refinance plan, or residual stock strategy",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Do I need presales?", a: "For bank funding, usually yes - often debt cover of 60-100% in presales. Non-bank and private lenders frequently require none, at higher rates. Whether paying more for no presales beats waiting for presales is a feasibility question we model both ways." },
+      { q: "What experience do lenders want?", a: "First projects are fundable - at lower gearing, with a strong builder and often a development manager. Track record unlocks better terms with each completed project; the file should present whatever experience exists (trades, renovations, related industries)." },
+      { q: "What does development finance cost?", a: "Banks price lowest but gear conservatively with presales; non-banks run roughly 2-5% higher with more flexibility; private funding higher again for speed and edge cases. On most projects the right lender choice moves the feasibility more than any other line item." },
+      { q: "What's a residual stock loan?", a: "Finance against completed unsold stock at the end of a project - clearing the construction facility so you can sell in an orderly market instead of a fire sale, or hold and rent. Often the difference between a stressful exit and a profitable one." },
+    ],
+    related: [
+      { label: "Commercial property loans", href: "/commercial-property-loans" },
+      { label: "Construction loans", href: "/construction-loans-brisbane" },
+      { label: "Business Borrowing Health Check", href: "/business-borrowing-health-check" },
+    ],
+    subject: "Development finance",
+  },
 };
