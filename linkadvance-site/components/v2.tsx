@@ -73,6 +73,32 @@ export function Pill({
   );
 }
 
+// The in-body contextual link: the house underline treatment, used inside
+// sentences and result panels where the link earns the click. `onDark` is
+// the version for the ink panels.
+export function TextLink({
+  href,
+  children,
+  onDark = false,
+}: {
+  href: string;
+  children: ReactNode;
+  onDark?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      className={
+        onDark
+          ? "font-semibold text-advance-bright underline decoration-advance-bright/30 underline-offset-2 hover:decoration-advance-bright"
+          : "font-medium text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance"
+      }
+    >
+      {children}
+    </a>
+  );
+}
+
 export function EyebrowPill({
   children,
   tint = false,

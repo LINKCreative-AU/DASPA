@@ -2,36 +2,20 @@
 
 import { useState } from "react";
 
-// Borrowing power estimator - the serviceability math lenders actually run:
-// net income minus declared expenses (floored at a HEM-like minimum), minus
-// commitments and 3.8%/month of card limits, capitalised at the assessment
-// rate (actual + 3% buffer). Indicative by design; every lender differs.
+// Borrowing power estimator. The serviceability maths lives in
+// lib/serviceability.ts so this tool and the tables on the page are
+// generated from one model: net income minus declared expenses (floored at
+// a benchmark minimum), minus commitments and a percentage of card limits,
+// capitalised at the assessment rate. Indicative by design.
+
+import {
+  ASSESSMENT_RATE,
+  assess,
+  maxLoan,
+} from "@/lib/serviceability";
 
 const fmt = (n: number) =>
   n.toLocaleString("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
-
-// 2025-26 resident tax incl. Medicare levy (approximate, for estimation)
-function netAnnual(gross: number): number {
-  if (gross <= 0) return 0;
-  const brackets: [number, number, number][] = [
-    [0, 18_200, 0],
-    [18_200, 45_000, 0.16],
-    [45_000, 135_000, 0.30],
-    [135_000, 190_000, 0.37],
-    [190_000, Infinity, 0.45],
-  ];
-  let tax = 0;
-  for (const [from, to, rate] of brackets) tax += Math.max(Math.min(gross, to) - from, 0) * rate;
-  tax += gross * 0.02; // Medicare levy
-  return gross - tax;
-}
-
-function maxLoan(surplusMonthly: number, assessRate: number, years = 30): number {
-  const r = assessRate / 100 / 12;
-  const n = years * 12;
-  if (surplusMonthly <= 0) return 0;
-  return (surplusMonthly * (1 - Math.pow(1 + r, -n))) / r;
-}
 
 function Field({ label, hint, value, onChange, prefix = "$" }: { label: string; hint?: string; value: string; onChange: (v: string) => void; prefix?: string }) {
   return (
@@ -60,22 +44,17 @@ export function Calculator() {
 
   const g1 = parseFloat(income1) || 0;
   const g2 = parseFloat(income2) || 0;
-  const netMonthly = (netAnnual(g1) + netAnnual(g2)) / 12;
-
   const deps = Math.min(parseFloat(dependants) || 0, 8);
-  const single = g2 === 0;
-  // HEM-like floor: base living cost + per dependant (rough, indicative)
-  const hemFloor = (single ? 2_300 : 3_400) + deps * 550;
-  const livingExp = Math.max(parseFloat(expenses) || 0, hemFloor);
 
-  const commitments = parseFloat(repayments) || 0;
-  const cardLoad = ((parseFloat(cardLimits) || 0) * 0.038);
-
-  const surplus = netMonthly - livingExp - commitments - cardLoad;
-  const assessRate = 8.9; // ~5.9% typical variable + 3% APRA buffer
-  const cap = maxLoan(surplus, assessRate);
-  const low = cap * 0.9;
-  const high = cap * 1.1;
+  const { netMonthly, cardLoad, surplus, low, high } = assess({
+    income1: g1,
+    income2: g2,
+    expenses: parseFloat(expenses) || 0,
+    otherRepayments: parseFloat(repayments) || 0,
+    cardLimits: parseFloat(cardLimits) || 0,
+    dependants: deps,
+  });
+  const assessRate = ASSESSMENT_RATE;
   const started = g1 > 0;
 
   return (

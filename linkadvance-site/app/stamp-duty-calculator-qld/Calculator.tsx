@@ -2,76 +2,15 @@
 
 import { useState } from "react";
 
-// QLD transfer duty calculator. General brackets + the home concession +
-// the post-1-May-2025 first home rules (zero duty on new homes at any
-// price; established homes full relief to $700k phasing out at $800k;
-// vacant land relief to $350k phasing at $500k). Rates as published by the
-// Queensland Revenue Office mid-2026; indicative only.
+// QLD transfer duty calculator. The rates, concessions and buyer options
+// all live in lib/qld-duty.ts so this tool and the tables on the page are
+// generated from one model and cannot disagree. Rates as published by the
+// Queensland Revenue Office, checked August 2026; indicative only.
+
+import { BUYER_OPTIONS, duty, generalDuty, type Buyer } from "@/lib/qld-duty";
 
 const fmt = (n: number) =>
   n.toLocaleString("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
-
-// General transfer duty (QLD)
-function generalDuty(v: number): number {
-  if (v <= 5_000) return 0;
-  if (v <= 75_000) return ((v - 5_000) / 100) * 1.5;
-  if (v <= 540_000) return 1_050 + ((v - 75_000) / 100) * 3.5;
-  if (v <= 1_000_000) return 17_325 + ((v - 540_000) / 100) * 4.5;
-  return 38_025 + ((v - 1_000_000) / 100) * 5.75;
-}
-
-// Home (owner-occupier) concession: $1 per $100 on the first $350k, then
-// general marginal rates above.
-function homeDuty(v: number): number {
-  if (v <= 350_000) return v * 0.01;
-  let d = 3_500;
-  const over = (from: number, to: number, rate: number) =>
-    Math.max(Math.min(v, to) - from, 0) / 100 * rate;
-  d += over(350_000, 540_000, 3.5);
-  d += over(540_000, 1_000_000, 4.5);
-  d += over(1_000_000, Infinity, 5.75);
-  return d;
-}
-
-type Buyer = "fh-new" | "fh-established" | "fh-land" | "home" | "investor";
-
-function duty(v: number, b: Buyer): { duty: number; note: string } {
-  if (v <= 0) return { duty: 0, note: "" };
-  switch (b) {
-    case "fh-new":
-      return { duty: 0, note: "First home buyers pay no transfer duty on new homes in QLD (from 1 May 2025), with no price cap." };
-    case "fh-established": {
-      const base = homeDuty(v);
-      if (v <= 700_000) return { duty: 0, note: "Full first home concession: no duty up to $700,000." };
-      if (v < 800_000) {
-        const d = base * Math.min((v - 700_000) / 100_000, 1);
-        return { duty: d, note: "Concession phasing out between $700,000 and $800,000 (indicative straight-line estimate; QRO uses a stepped table)." };
-      }
-      return { duty: base, note: "Above $800,000 the first home concession no longer applies. The owner-occupier home rate applies." };
-    }
-    case "fh-land": {
-      if (v <= 350_000) return { duty: 0, note: "No duty on first-home vacant land up to $350,000." };
-      const base = generalDuty(v);
-      if (v < 500_000) {
-        const d = base * Math.min((v - 350_000) / 150_000, 1);
-        return { duty: d, note: "Land concession phasing out between $350,000 and $500,000 (indicative straight-line estimate)." };
-      }
-      return { duty: base, note: "Above $500,000 the vacant land concession no longer applies." };
-    }
-    case "home":
-      return { duty: homeDuty(v), note: "Owner-occupier (home) concession rate applied. You must move in within a year and live there for one year." };
-    case "investor":
-      return { duty: generalDuty(v), note: "General transfer duty rates, with no concession for investment purchases." };
-  }
-}
-
-const OPTIONS: { key: Buyer; label: string }[] = [
-  { key: "fh-new", label: "First home: new build / off the plan" },
-  { key: "fh-established", label: "First home: established home" },
-  { key: "fh-land", label: "First home: vacant land" },
-  { key: "home", label: "Home to live in (not first)" },
-  { key: "investor", label: "Investment property" },
-];
 
 export function Calculator() {
   const [value, setValue] = useState("");
@@ -99,7 +38,7 @@ export function Calculator() {
         <div>
           <span className="block text-sm font-bold text-ink">I&apos;m buying as</span>
           <div className="mt-2.5 flex flex-col items-start gap-2">
-            {OPTIONS.map((o) => (
+            {BUYER_OPTIONS.map((o) => (
               <button
                 key={o.key}
                 type="button"

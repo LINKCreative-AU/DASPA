@@ -3,18 +3,13 @@
 import { useState } from "react";
 
 // Repayments calculator - house pattern (live as you type, dark result
-// panel, stress test the banks actually apply). Indicative only.
+// panel, stress test the banks actually apply). The amortisation maths lives
+// in lib/loan-model.ts so the tool and the page tables agree. Indicative only.
+
+import { extraRepaymentEffect, pmt, totalInterest } from "@/lib/loan-model";
 
 const fmt = (n: number) =>
   n.toLocaleString("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
-
-function pmt(P: number, annualRate: number, years: number) {
-  const r = annualRate / 100 / 12;
-  const n = years * 12;
-  if (P <= 0 || n <= 0) return 0;
-  if (r === 0) return P / n;
-  return (P * r) / (1 - Math.pow(1 + r, -n));
-}
 
 function Field({ label, hint, value, onChange, suffix }: { label: string; hint?: string; value: string; onChange: (v: string) => void; suffix?: string }) {
   return (
@@ -46,23 +41,10 @@ export function Calculator() {
   const ex = parseFloat(extra) || 0;
 
   const monthly = pmt(P, r, y);
-  const totalInterest = monthly * y * 12 - P;
+  const total = totalInterest(P, r, y);
   const stressed = pmt(P, r + 3, y);
-
-  // extra repayments: simulate payoff
-  let months = 0, bal = P, interestPaid = 0;
-  const mr = r / 100 / 12;
-  const pay = monthly + ex;
-  if (P > 0 && pay > bal * mr) {
-    while (bal > 0 && months < y * 12 + 1) {
-      const int = bal * mr;
-      interestPaid += int;
-      bal = bal + int - pay;
-      months++;
-    }
-  }
-  const yearsSaved = P > 0 && ex > 0 ? y - months / 12 : 0;
-  const interestSaved = ex > 0 ? totalInterest - interestPaid : 0;
+  const { yearsSaved, interestSaved } =
+    ex > 0 ? extraRepaymentEffect(P, r, y, ex) : { yearsSaved: 0, interestSaved: 0 };
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
@@ -88,7 +70,7 @@ export function Calculator() {
             <div className="grid grid-cols-2 gap-4 border-t border-white/15 pt-5">
               <div>
                 <dt className="text-xs font-semibold uppercase tracking-wider text-white/60">Total interest</dt>
-                <dd className="mt-1 font-display text-xl font-semibold">{fmt(Math.max(totalInterest, 0))}</dd>
+                <dd className="mt-1 font-display text-xl font-semibold">{fmt(total)}</dd>
               </div>
               <div>
                 <dt className="text-xs font-semibold uppercase tracking-wider text-white/60">At +3% (bank stress test)</dt>

@@ -2,28 +2,14 @@
 
 import { useState } from "react";
 
-// LMI estimator - indicative premium ranges by LVR and loan-size band,
-// modelled on published insurer estimator outputs (rates differ by insurer
-// and lender; this brackets them). The avoid-LMI paths are the broker angle
-// none of the ranking calculators carry.
+// LMI estimator. The premium model lives in lib/lmi-model.ts so this tool
+// and the premium table on the page are generated from one source. The
+// avoid-LMI paths are the broker angle none of the ranking calculators carry.
+
+import { premiumRange } from "@/lib/lmi-model";
 
 const fmt = (n: number) =>
   n.toLocaleString("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
-
-// Indicative premium ranges as % of loan: rows are [low, high] for LVR
-// bands <=85 / <=90 / <=95, by loan-size band.
-const BANDS: { maxLoan: number; rates: [number, number][] }[] = [
-  { maxLoan: 300_000, rates: [[0.6, 0.9], [1.2, 1.7], [2.2, 3.2]] },
-  { maxLoan: 600_000, rates: [[0.7, 1.1], [1.5, 2.1], [2.8, 4.0]] },
-  { maxLoan: 1_000_000, rates: [[0.9, 1.4], [1.9, 2.6], [3.4, 4.6]] },
-];
-
-function premiumRange(loan: number, lvr: number): [number, number] | null {
-  if (lvr <= 80 || lvr > 95 || loan <= 0) return null;
-  const band = BANDS.find((b) => loan <= b.maxLoan) ?? BANDS[BANDS.length - 1];
-  const row = lvr <= 85 ? band.rates[0] : lvr <= 90 ? band.rates[1] : band.rates[2];
-  return [(loan * row[0]) / 100, (loan * row[1]) / 100];
-}
 
 function Field({ label, hint, value, onChange }: { label: string; hint?: string; value: string; onChange: (v: string) => void }) {
   return (

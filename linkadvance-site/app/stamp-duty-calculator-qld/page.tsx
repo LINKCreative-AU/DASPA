@@ -5,6 +5,15 @@ import { SectionHead } from "@/components/SectionHead";
 import { FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
 import { DataTable } from "@/components/DataTable";
+import { TextLink } from "@/components/v2";
+import {
+  AFAD_RATE,
+  duty,
+  firstHomeConcession,
+  generalDuty,
+  homeDuty,
+  money,
+} from "@/lib/qld-duty";
 import { Calculator } from "./Calculator";
 
 // NEW page: "stamp duty qld" 3,497/mo at KD 0 (TP 13k). The SERP leans on
@@ -22,16 +31,26 @@ export const metadata: Metadata = {
 };
 
 const FAQS = [
-  { q: "Do first home buyers pay stamp duty in QLD?", a: "Often not anymore. Since 1 May 2025, first home buyers building or buying a NEW home in Queensland pay no transfer duty at all, with no price cap. For established homes the concession gives full relief up to $700,000, phasing out at $800,000; for vacant land, full relief to $350,000 phasing out at $500,000." },
-  { q: "How much is stamp duty on a $750,000 house in QLD?", a: "It depends who's buying: an investor pays about $26,775 at general rates; an owner-occupier about $19,600 with the home concession; a first home buyer of an established home at $750,000 pays roughly half the home-rate duty under the phase-out; and a first home buyer of a NEW home pays $0. The calculator gives your exact case." },
-  { q: "When is stamp duty payable in QLD?", a: "Generally within 30 days of settlement, and in practice your solicitor arranges payment at settlement, which means it's cash you need on top of your deposit, not part of the loan (unless your equity supports borrowing it)." },
+  { q: "Do first home buyers pay stamp duty in QLD?", a: "Often not anymore. Since 1 May 2025, first home buyers building or buying a NEW home in Queensland pay no transfer duty at all, with no price cap, and first home vacant land also attracts a full concession with no value cap. For established homes the concession gives full relief up to $700,000, then steps down in $10,000 price bands until it disappears at $800,000." },
+  { q: "How much is stamp duty on a $750,000 house in QLD?", a: "It depends who's buying: an investor pays $26,775 at general rates; an owner-occupier $19,600 with the home concession; a first home buyer of an established home pays $10,925 (the $19,600 home-concession duty less the $8,675 first home concession the QRO's table gives at that price); and a first home buyer of a NEW home pays $0. The calculator gives your exact case." },
+  { q: "When is stamp duty payable in QLD?", a: "The liability arises when the contract is signed, and your documents must be lodged with the Queensland Revenue Office within 30 days of that date. The QRO then issues an assessment with its own due date. In practice your solicitor handles both and pays at settlement, which means it's cash you need on top of your deposit, not part of the loan (unless your equity supports borrowing it)." },
   { q: "Does the stamp duty saving stack with the $30,000 grant?", a: "Yes. A first home buyer building a new home can combine zero stamp duty, the $30,000 First Home Owner Grant, the 5% deposit First Home Guarantee and the First Home Super Saver scheme. The full stack can be worth $50,000+." },
+  { q: "How much is stamp duty on a $600,000 house in QLD?", a: "$20,025 at general (investor) rates, $12,850 with the owner-occupier home concession, and $0 for a first home buyer, whether the home is new or established, because $600,000 sits under the $700,000 full-concession threshold." },
+  { q: "Do foreign buyers pay extra stamp duty in QLD?", a: "Yes. Additional foreign acquirer duty (AFAD) adds 8% of the dutiable value on residential land acquired by a foreign person, on top of ordinary transfer duty, for liabilities arising on or after 1 July 2024. On an $800,000 house that is $64,000 in surcharge alone. From 1 August 2026 you must also be an Australian citizen, permanent resident or specified foreign retiree to claim any transfer duty home or first home concession." },
+  { q: "Can stamp duty be added to my home loan?", a: "Not directly. Duty is cash due around settlement, and lenders size the loan against the property value, not the value plus your costs. What you can sometimes do is borrow at a higher LVR (accepting LMI) so more of your savings stay free for duty, or draw on equity in another property. Both change your deposit maths, which is worth modelling before you sign." },
+  { q: "What happens if I don't live in the home after claiming the concession?", a: "The concession is reassessed and you pay the difference, plus possible unpaid tax interest and penalty tax. The QRO's rules are specific: move in within 1 year of settlement and live there daily, don't lease any part of it before you move in, and don't lease the whole home within the first year of occupying. Renting out part of the home while you still live there is allowed for leases starting on or after 10 September 2024. If plans change, tell the QRO rather than waiting to be found." },
 ];
 
 const CRUMBS = [
   { name: "Home", path: "/" },
   { name: "Stamp Duty Calculator QLD", path: PATH },
 ];
+
+// Every figure below is generated by lib/qld-duty.ts, the same model the
+// calculator above runs, so the page can never disagree with its own tool.
+const GLANCE_PRICES = [500_000, 600_000, 700_000, 750_000, 800_000, 900_000, 1_000_000];
+const STEP_PRICES = [700_000, 715_000, 735_000, 755_000, 775_000, 795_000, 800_000];
+const AFAD_PRICES = [600_000, 800_000, 1_000_000];
 
 export default function Page() {
   return (
@@ -80,15 +99,14 @@ export default function Page() {
             <DataTable
               caption="Queensland transfer duty by purchase price and buyer type"
               head={["Price", "First home, new build", "First home, established", "Owner-occupier", "Investor"]}
-              rows={[
-                ["$500,000", "$0", "$0", "$8,750", "$15,925"],
-                ["$600,000", "$0", "$0", "$12,850", "$20,025"],
-                ["$700,000", "$0", "$0", "$17,350", "$24,525"],
-                ["$750,000", "$0", "~$9,800", "$19,600", "$26,775"],
-                ["$800,000", "$0", "$21,850", "$21,850", "$29,025"],
-                ["$1,000,000", "$0", "$30,850", "$30,850", "$38,025"],
-              ]}
-              note="Same maths the calculator above runs. First home established figures between $700,000 and $800,000 are an indicative straight-line phase-out (the QRO uses a stepped table). Foreign-buyer surcharges excluded. Indicative only, confirm at qld.gov.au."
+              rows={GLANCE_PRICES.map((v) => [
+                money(v),
+                money(duty(v, "fh-new").duty),
+                money(Math.round(duty(v, "fh-established").duty)),
+                money(Math.round(homeDuty(v))),
+                money(Math.round(generalDuty(v))),
+              ])}
+              note="Generated by the same model the calculator above runs, using the QRO's published general rates, home concession rates and first home concession table. Foreign-buyer surcharges, registration fees and mortgage registration are excluded. Indicative only: confirm at qro.qld.gov.au."
             />
           </div>
           <p className="mt-6 text-lg leading-[1.4] text-ink/80">
@@ -96,7 +114,11 @@ export default function Page() {
             between an investor and a first home buyer building new is the entire $26,775. If
             any part of your situation is borderline (a spouse who owned property before, a
             granny flat you&apos;ll rent out, a build contract signed after purchase), the
-            classification is worth a conversation before the contract, not after.
+            classification is worth a conversation before the contract, not after. Duty is also
+            only one line in the cash you need on the day, so it is worth running it beside your{" "}
+            <TextLink href="/borrowing-power-calculator">borrowing power</TextLink> and your{" "}
+            <TextLink href="/lenders-mortgage-insurance-calculator">LMI estimate</TextLink>{" "}
+            rather than on its own.
           </p>
         </div>
       </section>
@@ -111,30 +133,216 @@ export default function Page() {
           <p className="mt-5 text-lg leading-[1.4] text-ink/80">
             <strong className="text-ink">Buying or building new: $0.</strong> Since 1 May 2025,
             Queensland first home buyers pay no transfer duty on a new home, with no price cap.
-            On a $750,000 new build that is roughly $19,600 staying in your pocket compared with
-            an owner-occupier buying the same house.
+            On a $750,000 new build that is $19,600 staying in your pocket compared with an
+            owner-occupier buying the same house, and $26,775 compared with an investor.
           </p>
           <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             <strong className="text-ink">Buying established:</strong> the first home concession
-            wipes the duty entirely up to $700,000, then phases out to $800,000. Above that you
-            pay the ordinary home rate. <strong className="text-ink">Vacant land:</strong> full
-            relief to $350,000, phasing out at $500,000, and you can still claim the new-build
-            exemption on the house you put on it.
+            wipes the duty entirely up to $700,000, then steps down in $10,000 price bands until
+            it runs out at $800,000. Above that you pay the ordinary home rate.{" "}
+            <strong className="text-ink">Vacant land:</strong> for contracts from 1 May 2025 the
+            first home vacant land concession is also a full concession with no value cap, and
+            you can still claim the new-home exemption on the house you build on it. You must
+            build and move in within two years of settlement, and the QRO says that two years
+            cannot be extended.
+          </p>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            <strong className="text-ink">New from 1 August 2026:</strong> to claim any transfer
+            duty home concession, first home concession or first home vacant land concession in
+            Queensland, you now have to be an Australian citizen, permanent resident or a
+            specified foreign retiree. That was announced in the 2026 state budget and it applies
+            to transactions entered into from 1 August 2026, so a buyer on a temporary or work
+            visa who would have received the concession in July 2026 does not receive it now.
+            Source: qro.qld.gov.au.
           </p>
           <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             The duty saving stacks with the{" "}
-            <a href="/first-home-buyers-grant" className="font-medium text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
-              $30,000 First Home Owner Grant
-            </a>{" "}
+            <TextLink href="/first-home-buyers-grant">$30,000 First Home Owner Grant</TextLink>{" "}
             and the{" "}
-            <a href="/first-home-guarantee" className="font-medium text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
-              5% deposit First Home Guarantee
-            </a>
+            <TextLink href="/first-home-guarantee">5% deposit First Home Guarantee</TextLink>
             : sequenced together on a new build, the stack is routinely worth more than $50,000.
             To be treated as a first home buyer you (and your spouse) must never have held
             residential property in Australia, you must move in within a year, and the QRO
             applies residence rules for the first 12 months after that. When a case is
             borderline, we check it against the QRO rules before you sign.
+          </p>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            The $700,000 to $800,000 cliff, band by band.
+          </h2>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            Between $700,000 and $800,000 the first home concession does not taper smoothly. The
+            QRO publishes a stepped table: the concession drops by $1,735 for every $10,000 of
+            price, and the home-rate duty rises $450 over the same $10,000, so each $10,000 of
+            price costs exactly $2,185 more in duty. The steps also mean the edges are worth
+            arguing over. A $790,000 contract attracts $1,735 of concession; $789,999 attracts
+            $3,470. One dollar of negotiation across that line is worth $1,735.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Queensland first home concession and duty payable between $700,000 and $800,000"
+              head={["Purchase price", "Home-rate duty", "First home concession", "Duty you pay"]}
+              rows={STEP_PRICES.map((v) => [
+                money(v),
+                money(Math.round(homeDuty(v))),
+                money(firstHomeConcession(v)),
+                money(Math.round(duty(v, "fh-established").duty)),
+              ])}
+              note="Concession amounts from the QRO's first home concession table for contracts signed on or after 9 June 2024. Established homes only: a new home at any of these prices attracts no duty at all."
+            />
+          </div>
+          <p className="mt-6 text-lg leading-[1.4] text-ink/80">
+            Read the last two rows together. At $795,000 an established-home first home buyer
+            pays $19,890 and at $800,000 they pay $21,850, so the last $5,000 of price costs
+            $1,960 in duty on top of the $5,000 itself. This is also the range where the new-build
+            question earns its keep: at $795,000 the same buyer purchasing a new home pays
+            nothing at all.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+        <div className="container-x max-w-3xl space-y-12">
+          <div>
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+              When duty is payable, and who pays it.
+            </h2>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+              Liability arises on the date the contract is entered into, not at settlement. The
+              documents have to be lodged with the Queensland Revenue Office within 30 days of
+              that date, the QRO issues a notice of assessment, and the assessment carries its
+              own due date. Both parties to the transaction are technically liable, but in
+              practice the buyer pays and the buyer&apos;s solicitor lodges and settles the duty
+              as part of the settlement process.
+            </p>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+              The practical consequence for your finance: duty is cash on the day. It is not
+              lent against the property, it does not come out of the loan, and it sits alongside
+              your deposit, legal fees, building and pest, council and water adjustments,
+              registration fees and any{" "}
+              <TextLink href="/lenders-mortgage-insurance-calculator">
+                lenders mortgage insurance
+              </TextLink>{" "}
+              you have chosen to pay up front. Most contracts that fall over at the last minute
+              fall over on cash to complete, not on approval.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+              Foreign buyers: the 8% AFAD surcharge.
+            </h2>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+              Additional foreign acquirer duty applies to foreign persons acquiring residential
+              land in Queensland, on top of ordinary transfer duty. The rate rose from 7% to{" "}
+              {(AFAD_RATE * 100).toFixed(0)}% for liabilities arising on or after 1 July 2024. It
+              catches more people than expected: foreign companies and trusts with foreign
+              interests are caught even where the individual buyer is not, and a temporary visa
+              holder buying a home is a foreign person for AFAD purposes.
+            </p>
+            <div className="mt-8">
+              <DataTable
+                caption="Queensland transfer duty plus additional foreign acquirer duty by price"
+                head={["Price", "Transfer duty", `AFAD at ${(AFAD_RATE * 100).toFixed(0)}%`, "Total duty"]}
+                rows={AFAD_PRICES.map((v) => [
+                  money(v),
+                  money(Math.round(generalDuty(v))),
+                  money(Math.round(v * AFAD_RATE)),
+                  money(Math.round(generalDuty(v) + v * AFAD_RATE)),
+                ])}
+                note="General transfer duty rates shown. AFAD is calculated on the dutiable value of the AFAD residential land. Rates per qro.qld.gov.au, checked August 2026."
+              />
+            </div>
+            <p className="mt-6 text-lg leading-[1.4] text-ink/80">
+              Two things follow. First, the surcharge is usually larger than the base duty, so
+              residency status is the single biggest number in a foreign buyer&apos;s cash to
+              complete. Second, from 1 August 2026 the same status question decides whether any
+              home or first home concession is available at all. If one applicant is a citizen
+              or permanent resident and the other is not, get the structure checked before the
+              contract: it changes both the duty and the lender shortlist.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+              Off the plan, house and land, and vacant land.
+            </h2>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+              Queensland does not have a separate off-the-plan duty concession the way some
+              states do. What it has instead is better for most first home buyers: the new-home
+              concession, which takes an off-the-plan apartment or a newly built house to zero
+              duty with no price cap. Duty is assessed on the contract, so a long off-the-plan
+              settlement does not change the amount, though it does change when the money is
+              needed.
+            </p>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+              House and land is usually two contracts: one to buy the land and one to build. Duty
+              applies to the land contract only, which is why the first home vacant land
+              concession matters, and why the build contract itself is not dutiable as a
+              property transfer. That split is also what makes the funding different: a{" "}
+              <TextLink href="/construction-loans-brisbane">construction loan</TextLink> settles
+              the land first and then releases progress payments to the builder, so your duty,
+              your first repayment and your builder&apos;s first invoice do not arrive together.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+              The claw-back if you fail the residence test.
+            </h2>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+              A concession is granted on a promise, and the QRO checks it. For the home and first
+              home concessions you must move in with your belongings and live there daily within
+              one year of settlement, and that year cannot be extended. Before you move in, you
+              cannot sell, transfer, lease or otherwise grant exclusive possession of any part of
+              the property. After you move in, selling or transferring all or part of it within
+              the first year triggers a reassessment, and so does leasing out the whole home.
+            </p>
+            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+              One rule has moved in buyers&apos; favour: for leases starting on or after
+              10 September 2024, you can rent out part of the home (a room, a granny flat) while
+              you continue to live there without losing the concession. For first home vacant
+              land the deadline is different again: build, move in and live there within two
+              years of settlement. If something changes, you notify the QRO and pay the
+              difference; unpaid tax interest and penalty tax are what happen to people who
+              don&apos;t. Rentvesting plans and interstate job offers are exactly the situations
+              worth modelling before you claim, and our note on{" "}
+              <TextLink href="/blog/investor-loans/rentvesting-explained">
+                how rentvesting actually works
+              </TextLink>{" "}
+              covers the finance side of that decision.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            Duty is one line in cash to complete.
+          </h2>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            The number this page gives you is the government&apos;s share. To know whether the
+            purchase works you need the rest of the day-one cash: deposit, duty, registration and
+            transfer fees, legal costs, building and pest, insurance, and any LMI you have chosen
+            not to capitalise. Then you need the monthly number that follows it.
+          </p>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            The quickest sequence is to run{" "}
+            <TextLink href="/borrowing-power-calculator">borrowing power</TextLink> first, so you
+            know the price bracket that is real, then{" "}
+            <TextLink href="/home-loan-repayment-calculator">repayments</TextLink> on that figure,
+            then this page and the{" "}
+            <TextLink href="/lenders-mortgage-insurance-calculator">LMI estimator</TextLink> for
+            the cash side. All seven of our{" "}
+            <TextLink href="/calculators">calculators and checks</TextLink> run on screen with no
+            email wall, and if you are buying your first home the{" "}
+            <TextLink href="/first-home-buyers-loan">first home buyer page</TextLink> maps the
+            grants and guarantees against the deposit you actually have.
           </p>
         </div>
       </section>
@@ -146,6 +354,7 @@ export default function Page() {
           { label: "First Home Buyers Grant QLD", href: "/first-home-buyers-grant" },
           { label: "First Home Guarantee", href: "/first-home-guarantee" },
           { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },
+          { label: "All calculators and checks", href: "/calculators" },
         ]}
       />
       <CtaBand

@@ -2,81 +2,14 @@
 
 import { useRef, useState } from "react";
 
+import { FHOG_AMOUNT, QUESTIONS, fhogMoney } from "./model";
+
 // The FHOG QLD eligibility checker, reworked as a standalone answer-anywhere
 // tool: all seven tests on screen as compact cards, a sticky live verdict
 // panel that updates on every tap. No splash, no start button; a searcher
 // landing from Google answers immediately. General information only, the
 // verdict says "likely", names qld.gov.au, and routes to a broker for the
 // real check.
-
-type Q = {
-  key: string;
-  label: string;
-  hint?: string;
-  options: { label: string; pass: boolean | null; why?: string }[];
-};
-
-const QUESTIONS: Q[] = [
-  {
-    key: "age",
-    label: "Are you 18 or older, applying as a person (not a company or trust)?",
-    options: [
-      { label: "Yes", pass: true },
-      { label: "No", pass: false, why: "The grant is only available to natural persons aged 18+. Companies and trusts can't apply." },
-    ],
-  },
-  {
-    key: "resident",
-    label: "Is at least one applicant an Australian citizen or permanent resident?",
-    options: [
-      { label: "Yes", pass: true },
-      { label: "No", pass: false, why: "At least one applicant must be an Australian citizen or permanent resident." },
-    ],
-  },
-  {
-    key: "priorGrant",
-    label: "Have you or your spouse ever received a First Home Owner Grant anywhere in Australia?",
-    options: [
-      { label: "No, never", pass: true },
-      { label: "Yes", pass: false, why: "A previous FHOG (yours or your spouse's, in any state) rules the grant out." },
-    ],
-  },
-  {
-    key: "priorHome",
-    label: "Have you or your spouse ever owned AND lived in a property in Australia?",
-    hint: "Owning an investment property you never lived in may still be OK.",
-    options: [
-      { label: "No, never owned, or only an investment we never lived in", pass: true },
-      { label: "Yes, owned and lived in one", pass: false, why: "Having owned and occupied a home before rules the grant out, though investment-only ownership can survive the test; worth checking properly." },
-    ],
-  },
-  {
-    key: "newHome",
-    label: "Is the home brand new, off the plan, a new build, or substantially renovated?",
-    hint: "Cosmetic work (paint, sanded floors) doesn't count as substantial renovation.",
-    options: [
-      { label: "Yes: new, off the plan, building, or substantially renovated", pass: true },
-      { label: "No, an established home", pass: false, why: "The QLD grant only applies to new or substantially renovated homes, but established-home buyers still get stamp duty concessions, which can be worth even more." },
-    ],
-  },
-  {
-    key: "value",
-    label: "Will the total value (home plus land) be $750,000 or less?",
-    options: [
-      { label: "Yes, $750k or under", pass: true },
-      { label: "No, over $750k", pass: false, why: "The grant caps total value (home + land) at $750,000." },
-      { label: "Not sure yet", pass: null },
-    ],
-  },
-  {
-    key: "live",
-    label: "Will you live in the home for at least 6 months within the first year?",
-    options: [
-      { label: "Yes", pass: true },
-      { label: "No / not sure", pass: null, why: "The residence requirement is six continuous months within the first year. If that's uncertain, it's worth a conversation before you commit." },
-    ],
-  },
-];
 
 export function FhogChecker() {
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -107,7 +40,7 @@ export function FhogChecker() {
       <div className="space-y-4">
         <div className="px-1">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">
-            Check your <strong className="font-bold">$30,000 grant eligibility.</strong>
+            Check your <strong className="font-bold">{fhogMoney(FHOG_AMOUNT)} grant eligibility.</strong>
           </h2>
           <p className="mt-2 max-w-xl text-ink/60">
             Seven quick questions, the same tests the QLD Government applies. Your answer shows
@@ -195,7 +128,7 @@ export function FhogChecker() {
         {complete ? (
           likely ? (
             <p className="mt-3 text-sm leading-relaxed text-white/70">
-              On your answers, you pass the tests the $30,000 FHOG QLD turns on
+              On your answers, you pass the tests the {fhogMoney(FHOG_AMOUNT)} FHOG QLD turns on
               {maybes.length > 0 && ", subject to the items below"}. The formal check happens
               with your application (your broker or lender lodges it, usually so the grant is
               available at settlement), and the official rules live at qld.gov.au.
