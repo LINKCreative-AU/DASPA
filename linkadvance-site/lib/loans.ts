@@ -475,6 +475,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     ],
     related: [
       { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },
+      { label: "Second tier lenders and your cost of capital", href: "/second-tier-lenders" },
       { label: "SMSF loans", href: "/smsf-mortgage-broker" },
       { label: "Refinancing for equity", href: "/refinancing-brisbane" },
       { label: "So you want to be a property investor", href: "/blog/investor-loans/so-you-want-to-be-a-property-investor" },

@@ -296,7 +296,7 @@ export default function Page() {
               Run your own numbers <span className="marker">first.</span>
             </h2>
             <p className="mt-5 text-lg leading-[1.4] text-ink/80">
-              Seven tools, free, on screen, no email wall. Work out what you can borrow, what
+              Eight tools, free, on screen, no email wall. Work out what you can borrow, what
               it costs, what the government takes and gives back, then bring the numbers to a
               broker who can move them.
             </p>

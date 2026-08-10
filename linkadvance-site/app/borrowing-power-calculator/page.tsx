@@ -56,7 +56,7 @@ const FAQS = [
   { q: "How is borrowing power calculated?", a: "Lenders take your after-tax income, subtract living expenses (benchmarked to a minimum even if you declare less), existing commitments and about 3.8% per month of your credit card LIMITS, then work out what loan the remaining surplus services at your rate plus a ~3% buffer. Same formula here, which is why the estimate is honest rather than flattering." },
   { q: "Why do different lenders offer such different amounts?", a: "Policy. Lenders treat overtime, bonuses, casual income, rental income and self-employed income differently, apply different expense benchmarks, and a few use different buffers for refinances. On identical inputs, the spread between the most and least generous lender is routinely six figures. That spread is why brokers exist." },
   { q: "Do credit cards really reduce my borrowing power?", a: "Yes, dramatically: lenders assess about 3.8% of your total limit per month as a commitment even if the card is never used. A $20,000 unused limit is assessed as $760 a month, which on a 30-year loan at an 8.9% assessment rate is roughly $95,000 of borrowing power. Cancelling or cutting limits before applying is the quickest capacity win available." },
-  { q: "How can I increase my borrowing power?", a: "In rough order of speed: cut card limits, clear small personal loans, trim provable living expenses for three months, ensure all income is documented (and consistent), then consider the bigger levers: a longer term, a co-borrower or lenders whose policy suits your income type. Our article on increasing borrowing capacity covers the details." },
+  { q: "How can I increase my borrowing power?", a: "In rough order of speed: cut card limits, clear small personal loans, trim provable living expenses for three months, ensure all income is documented (and consistent), then consider the bigger levers: a longer term, a co-borrower or lenders whose policy suits your income type. The full list, in order of how fast each one works, is on our tiered lending page." },
   { q: "How much can I borrow on a $100,000 salary?", a: "On this model, a single applicant earning $100,000 with no dependants, no card limits and no other debts nets about $6,434 a month, is assessed against a benchmark living expense floor, and lands in the range of $467,000 to $570,000. Add a partner on the same income and the range roughly doubles. Add a $20,000 card limit and it drops by about $95,000. Your actual number turns on your expenses, debts and which lender reads your income best." },
   { q: "Does HECS or HELP debt reduce my borrowing power?", a: "Yes, while it is being repaid. Once your income passes the ATO's compulsory repayment threshold, the repayment is deducted from your pay and lenders count it as a commitment like any other. A high-income earner with a large HELP balance can lose a six-figure slice of capacity. Some lenders will disregard the debt where the balance is small enough to be cleared shortly, and policies differ enough to be worth shopping. Current thresholds and rates: ato.gov.au." },
   { q: "Is rental income counted in full?", a: "No. Most lenders shade gross rent to around 80% before counting it, to allow for vacancy, management fees, rates and maintenance, and some go lower for short-stay or student accommodation. They will also add the full new loan repayment to your commitments. That is why a positively geared property on paper can still reduce what a lender says you can borrow." },
@@ -138,15 +138,23 @@ export default function Page() {
 
       <section className="py-20">
         <div className="container-x max-w-3xl">
+          {/* Deliberately NOT titled "how to increase your borrowing capacity":
+              that term belongs to /second-tier-lenders, which answers it in
+              full. This section explains what moves the estimator above. */}
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
-            How to increase your borrowing capacity.
+            What moves the number above.
           </h2>
           <p className="mt-4 text-lg leading-[1.4] text-ink/80">
             Serviceability is arithmetic, so it moves when you move one of its inputs. The single
             most useful number to carry around is the conversion rate: at an {ASSESSMENT_RATE}%
             assessment rate over 30 years, every $100 a month of assessed commitment you remove
             gives back about {money000(per100)} of borrowing power. Everything below is that one
-            sum applied to different lines of your file.
+            sum applied to different lines of your file. For the full list of levers, including
+            the structural ones and what to do when you have run out,{" "}
+            <TextLink href="/second-tier-lenders#increase-borrowing-capacity">
+              how to increase your borrowing capacity
+            </TextLink>{" "}
+            takes it further.
           </p>
           <div className="mt-8">
             <DataTable
@@ -209,6 +217,15 @@ export default function Page() {
                 increasing borrowing capacity before you apply
               </TextLink>{" "}
               covers the preparation; matching the file to the right lender is the part we do.
+            </p>
+            <p>
+              <strong className="text-ink">And when tier one runs out.</strong> The estimator
+              above models a major bank&apos;s assessment. If you have pulled every lever and the
+              answer is still short, the next move is not a better application, it is a different
+              tier of lender:{" "}
+              <TextLink href="/second-tier-lenders">tiered lending</TextLink> explains what second
+              and third tier lenders do, and what borrowing across the tiers does to your blended
+              cost of capital.
             </p>
           </div>
         </div>
@@ -338,7 +355,8 @@ export default function Page() {
         faqs={FAQS}
         related={[
           { label: "Repayments calculator", href: "/home-loan-repayment-calculator" },
-          { label: "Increase your borrowing capacity (article)", href: "/blog/home-loans/increase-borrowing-capacity-ahead-of-a-loan-application" },
+          { label: "How to increase your borrowing capacity", href: "/second-tier-lenders#increase-borrowing-capacity" },
+          { label: "Second tier lenders and your cost of capital", href: "/second-tier-lenders" },
           { label: "First home buyer loans", href: "/first-home-buyers-loan" },
           { label: "All calculators and checks", href: "/calculators" },
         ]}

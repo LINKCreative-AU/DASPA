@@ -21,6 +21,7 @@ const CORE: { path: string; priority: number }[] = [
   { path: "/development-finance", priority: 0.8 },
   { path: "/business-borrowing-health-check", priority: 0.9 },
   { path: "/investment-home-loans", priority: 0.9 },
+  { path: "/second-tier-lenders", priority: 0.9 },
   { path: "/construction-loans-brisbane", priority: 0.8 },
   { path: "/smsf-mortgage-broker", priority: 0.8 },
   { path: "/business-loans", priority: 0.8 },

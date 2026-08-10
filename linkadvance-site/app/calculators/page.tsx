@@ -7,7 +7,7 @@ import { CtaBand } from "@/components/CtaBand";
 import { EyebrowPill, TextLink } from "@/components/v2";
 
 // The tools hub: every calculator and check in one place. Plays for the
-// "home loan calculators" long tail and, more importantly, gives the seven
+// "home loan calculators" long tail and, more importantly, gives the eight
 // engines one shareable front door with internal links to each.
 
 const PATH = "/calculators";
@@ -15,7 +15,7 @@ const PATH = "/calculators";
 export const metadata: Metadata = {
   title: { absolute: "Home Loan Calculators & Checks | Free, No Email Wall | LINK Advance" },
   description:
-    "Seven free tools from Brisbane mortgage brokers: borrowing power, repayments with the APRA stress test, LMI, QLD stamp duty, the $30,000 FHOG eligibility check, and health checks for your home loan and your business's borrowing position. All on screen, nothing stored, no email required.",
+    "Eight free tools from Brisbane mortgage brokers: borrowing power, repayments with the APRA stress test, LMI, QLD stamp duty, the $30,000 FHOG eligibility check, a portfolio cost of capital calculator, and health checks for your home loan and your business's borrowing position. All on screen, nothing stored, no email required.",
   alternates: { canonical: PATH },
 };
 
@@ -69,6 +69,14 @@ const TOOLS = [
     time: "2 minutes · questions",
   },
   {
+    href: "/second-tier-lenders#wacc-calculator",
+    icon: Icon.bolt,
+    title: "Cost of capital calculator",
+    answers: "What is my blended rate across every loan I hold?",
+    note: "For investors borrowing across the lending tiers: the debt-weighted average rate on the whole portfolio, and what the next purchase does to it.",
+    time: "1 minute · numbers",
+  },
+  {
     href: "/business-borrowing-health-check",
     icon: Icon.trendingUp,
     title: "Business borrowing check",
@@ -101,7 +109,7 @@ const FAQS = [
   },
   {
     q: "Do these calculators work outside Queensland?",
-    a: "Five of the seven do. Borrowing power, repayments, LMI and both health checks are national, because serviceability, amortisation and LMI pricing do not change at a state border. The stamp duty calculator is Queensland only, since every state writes its own duty rates and concessions, and the FHOG checker applies the Queensland grant rules. If you are buying interstate, use the national tools and check the duty and grant with that state's revenue office.",
+    a: "Six of the eight do. Borrowing power, repayments, LMI, the cost of capital calculator and both health checks are national, because serviceability, amortisation and LMI pricing do not change at a state border. The stamp duty calculator is Queensland only, since every state writes its own duty rates and concessions, and the FHOG checker applies the Queensland grant rules. If you are buying interstate, use the national tools and check the duty and grant with that state's revenue office.",
   },
   {
     q: "How current are the figures behind them?",
@@ -149,7 +157,7 @@ export default function Page() {
           Every number you need <span className="marker">before you borrow.</span>
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-[1.4] text-ink/80">
-          Seven tools, each built to answer one question properly: what you can borrow, what
+          Eight tools, each built to answer one question properly: what you can borrow, what
           it costs, what the government takes and gives back, and whether the loan or the
           business file you already have is in shape. Nothing is stored, nothing needs your
           email.
@@ -227,6 +235,25 @@ export default function Page() {
                 <TextLink href="/investment-home-loans">Investment lending</TextLink> and{" "}
                 <TextLink href="/bridging-loans">bridging</TextLink> are where the structure
                 questions get answered.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink">
+                You are building a portfolio and the bank has said no.
+              </h3>
+              <p className="mt-2">
+                Borrowing power tells you where one lender stops, not where you stop. The{" "}
+                <TextLink href="/second-tier-lenders#wacc-calculator">
+                  cost of capital calculator
+                </TextLink>{" "}
+                blends every loan you hold into the one rate that decides whether the next
+                purchase works, and{" "}
+                <TextLink href="/second-tier-lenders">tiered lending</TextLink> explains what
+                second and third tier lenders do, in what order to use them, and{" "}
+                <TextLink href="/second-tier-lenders#increase-borrowing-capacity">
+                  how to increase your borrowing capacity
+                </TextLink>{" "}
+                before you pay a premium for it.
               </p>
             </div>
             <div>
