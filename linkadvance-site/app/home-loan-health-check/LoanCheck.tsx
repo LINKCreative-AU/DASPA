@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
-// The Home Loan Health Check - the house wizard (intro band, one question
-// per screen, auto-advance, live radar, score ring, snapshot lead form),
-// applied to the six things that decide whether a loan is still working:
-// rate awareness, review recency, structure, fit, equity and attention.
-// Kit rules honoured: a checker is a wizard, not a form; tick-all where
-// several answers are true at once; the lead carries the profile.
+// The Home Loan Health Check, reworked as a standalone answer-anywhere tool:
+// every question on screen as a compact card (tap chips, tick-all where
+// several answers are true at once), with a sticky live results panel that
+// rescores on every answer. No splash, no start button. The six things that
+// decide whether a loan is still working: rate awareness, review recency,
+// structure, fit, equity and attention. The lead still carries the profile.
 
 type Option = { label: string; points: number; none?: boolean; tip?: string };
 type Question = {
@@ -192,237 +192,6 @@ function buildPathways(sel: Selections): Pathway[] {
   return out.slice(0, 3);
 }
 
-export function LoanCheck() {
-  const [stage, setStage] = useState<"intro" | "q" | "results">("intro");
-  const [sel, setSel] = useState<Selections>({});
-  const restart = () => {
-    setSel({});
-    setStage("intro");
-  };
-  return (
-    <div>
-      {stage === "intro" && <Intro onStart={() => setStage("q")} />}
-      {stage === "q" && <Flow sel={sel} setSel={setSel} onDone={() => setStage("results")} onExit={restart} />}
-      {stage === "results" && <Results sel={sel} onRestart={restart} />}
-    </div>
-  );
-}
-
-function Intro({ onStart }: { onStart: () => void }) {
-  return (
-    <div className="rounded-3xl bg-ink px-6 py-14 text-center text-white sm:px-16 sm:py-16">
-      <h2 className="mx-auto max-w-3xl font-display text-[40px] font-normal leading-[1.15] tracking-tight sm:text-[50px]">
-        The <strong className="font-bold">Home Loan Health Check.</strong>
-      </h2>
-      <p className="mt-5 text-xl font-semibold">2 minutes. 6 areas. One real score.</p>
-      <p className="mx-auto mt-3 max-w-2xl text-lg text-white/80">
-        One screen at a time: your rate, the last review, the structure, whether the loan still
-        fits your life, and the equity underneath it. Your score, the flags and the likely
-        next steps show up straight away.
-      </p>
-      <div className="mt-8 flex justify-center">
-        <button
-          onClick={onStart}
-          className="inline-flex h-11 items-center gap-2.5 rounded-full bg-white pl-5 pr-2.5 text-lg font-semibold text-ink transition hover:opacity-85"
-        >
-          Start the health check
-          <span className="inline-flex h-[23px] w-[23px] items-center justify-center rounded-full bg-ink">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-              <path d="M2.5 8h10M8.5 3.5 13 8l-4.5 4.5" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-        </button>
-      </div>
-      <p className="mt-4 text-base text-white/70">Free. No sign-up. No email wall.</p>
-    </div>
-  );
-}
-
-function Flow({
-  sel,
-  setSel,
-  onDone,
-  onExit,
-}: {
-  sel: Selections;
-  setSel: (f: (s: Selections) => Selections) => void;
-  onDone: () => void;
-  onExit: () => void;
-}) {
-  const [qi, setQi] = useState(0);
-  const [locked, setLocked] = useState(false);
-  const q = QUESTIONS[qi];
-  const done = QUESTIONS.filter((x) => (sel[x.key] ?? []).length > 0).length;
-  const picked = sel[q.key] ?? [];
-
-  const advance = useCallback(() => {
-    if (qi + 1 < QUESTIONS.length) setQi(qi + 1);
-    else onDone();
-  }, [qi, onDone]);
-
-  const pickSingle = useCallback(
-    (i: number) => {
-      if (locked) return;
-      setSel((s) => ({ ...s, [q.key]: [i] }));
-      setLocked(true);
-      setTimeout(() => {
-        setLocked(false);
-        advance();
-      }, 320);
-    },
-    [locked, q, setSel, advance]
-  );
-
-  const toggle = useCallback(
-    (i: number) => {
-      setSel((s) => {
-        const cur = s[q.key] ?? [];
-        if (cur.includes(i)) return { ...s, [q.key]: cur.filter((x) => x !== i) };
-        if (q.options[i].none) return { ...s, [q.key]: [i] };
-        return { ...s, [q.key]: [...cur.filter((x) => !q.options[x].none), i] };
-      });
-    },
-    [q, setSel]
-  );
-
-  useEffect(() => {
-    const h = (e: KeyboardEvent) => {
-      const n = Number(e.key);
-      if (n >= 1 && n <= q.options.length) {
-        if (q.type === "single") pickSingle(n - 1);
-        else toggle(n - 1);
-      } else if (e.key === "Enter" && q.type === "multi" && (sel[q.key] ?? []).length > 0) {
-        advance();
-      }
-    };
-    window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
-  }, [q, pickSingle, toggle, advance, sel]);
-
-  return (
-    <div className="grid items-start gap-6 lg:grid-cols-[1fr_300px]">
-      <style>{`
-        @keyframes lcRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-        .lc-rise { animation: lcRise .45s cubic-bezier(.2,.7,.2,1) both; }
-        @media (prefers-reduced-motion: reduce) { .lc-rise { animation: none; } }
-      `}</style>
-
-      <div className="overflow-hidden rounded-3xl border border-ink/10 bg-white">
-        <div className="h-1.5 bg-neutral-100">
-          <div className="h-full bg-advance transition-all duration-300" style={{ width: `${(done / QUESTIONS.length) * 100}%` }} />
-        </div>
-
-        <div key={q.key} className="lc-rise flex min-h-[380px] flex-col justify-center px-8 py-12 sm:px-14">
-          <div className="flex items-center justify-between gap-4">
-            <p className="eyebrow min-w-0">
-              <span className="truncate">
-                <span className="text-ink/40">{q.stage}</span>
-                <span className="mx-1.5 text-ink/25">·</span>
-                <span className="text-advance">{q.area}</span>
-              </span>
-            </p>
-            <span className="shrink-0 text-xs font-semibold text-ink/40">
-              {qi + 1} of {QUESTIONS.length}
-            </span>
-          </div>
-          <p className="mt-5 max-w-2xl font-display text-[26px] font-semibold leading-tight tracking-tight text-ink sm:text-[32px]">
-            {q.label}
-          </p>
-          {q.hint && <p className="mt-3 max-w-xl text-base text-ink/55">{q.hint}</p>}
-          <div className="mt-8 flex flex-col items-start gap-2.5">
-            {q.options.map((o, oi) => {
-              const active = picked.includes(oi);
-              return (
-                <button
-                  key={o.label}
-                  onClick={() => (q.type === "single" ? pickSingle(oi) : toggle(oi))}
-                  aria-pressed={active}
-                  className={`rounded-full border-2 px-5 py-2.5 text-left text-base font-semibold transition ${
-                    active ? "border-transparent bg-advance text-white" : "border-ink/15 bg-white text-ink/70 hover:border-ink"
-                  }`}
-                >
-                  <span className="mr-2 text-xs opacity-50">{q.type === "multi" ? (active ? "✓" : oi + 1) : oi + 1}</span>
-                  {o.label}
-                </button>
-              );
-            })}
-          </div>
-          {q.type === "multi" && (
-            <div className="mt-7">
-              <button
-                onClick={advance}
-                disabled={picked.length === 0}
-                className="btn btn-primary disabled:cursor-not-allowed disabled:opacity-30"
-              >
-                {picked.length === 0 ? "Tick what applies" : qi + 1 === QUESTIONS.length ? "See my score" : "Next"}
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className="flex items-center justify-between border-t border-ink/10 px-8 py-4">
-          <button onClick={() => (qi > 0 ? setQi(qi - 1) : onExit())} className="text-sm font-semibold text-ink/50 hover:text-ink">
-            ← Back
-          </button>
-          <span className="text-xs font-semibold text-ink/35">
-            {done}/{QUESTIONS.length} answered ·{" "}
-            {q.type === "multi" ? `keys 1-${q.options.length} tick, Enter next` : `keys 1-${q.options.length} work`}
-          </span>
-        </div>
-      </div>
-
-      <div className="rounded-3xl border border-ink/10 bg-white p-6 max-lg:hidden">
-        <p className="eyebrow">
-          <span>Your loan's shape, live</span>
-        </p>
-        <Radar sel={sel} size={250} />
-        <p className="mt-2 text-center text-xs text-ink/45">
-          Each scored answer pulls the shape outward. The dashed ring is the strong mark.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function Radar({ sel, size = 280 }: { sel: Selections; size?: number }) {
-  const c = size / 2;
-  const R = c - 34;
-  const pt = (i: number, r: number) => {
-    const a = (Math.PI * 2 * i) / SCORED.length - Math.PI / 2;
-    return [c + r * Math.cos(a), c + r * Math.sin(a)] as const;
-  };
-  const val = (q: Question) => (qScore(q, sel[q.key]) ?? 0) * 10;
-  const poly = (f: (q: Question) => number) =>
-    SCORED.map((q, i) => pt(i, (Math.max(0.4, f(q)) / 10) * R).join(",")).join(" ");
-
-  return (
-    <svg viewBox={`0 0 ${size} ${size}`} className="mx-auto mt-2 w-full max-w-[300px]" aria-hidden>
-      {[2.5, 5, 7.5, 10].map((ring) => (
-        <polygon key={ring} points={SCORED.map((_, i) => pt(i, (ring / 10) * R).join(",")).join(" ")} fill="none" stroke="#e7e9ec" strokeWidth="1" />
-      ))}
-      {SCORED.map((_, i) => {
-        const [x, y] = pt(i, R);
-        return <line key={i} x1={c} y1={c} x2={x} y2={y} stroke="#e7e9ec" strokeWidth="1" />;
-      })}
-      <polygon points={poly(() => 8)} fill="none" stroke="#000000" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.25" />
-      <polygon points={poly(val)} fill="#e0a500" fillOpacity="0.08" stroke="#e0a500" strokeWidth="2" strokeLinejoin="round" style={{ transition: "all .4s" }} />
-      {SCORED.map((q, i) => {
-        if (qScore(q, sel[q.key]) == null) return null;
-        const [x, y] = pt(i, (Math.max(0.4, val(q)) / 10) * R);
-        return <circle key={q.key} cx={x} cy={y} r="4.5" fill="#e0a500" style={{ transition: "all .4s" }} />;
-      })}
-      {SCORED.map((q, i) => {
-        const [x, y] = pt(i, R + 18);
-        return (
-          <text key={q.key} x={x} y={y} textAnchor="middle" dominantBaseline="middle" className="fill-ink/50" fontSize="10.5" fontWeight="600">
-            {q.area}
-          </text>
-        );
-      })}
-    </svg>
-  );
-}
-
 type Flag = { q: Question; score: number; sub: string; tip: string };
 
 function buildFlags(sel: Selections): Flag[] {
@@ -450,128 +219,314 @@ function profileSummary(sel: Selections): string {
   return `Context: ${ctx}`;
 }
 
-function Results({ sel, onRestart }: { sel: Selections; onRestart: () => void }) {
-  const score = (SCORED.reduce((a, q) => a + (qScore(q, sel[q.key]) ?? 0), 0) / SCORED.length) * 10;
-  const band = BANDS.find((b) => score >= b.min)!;
-  const flags = buildFlags(sel);
-  const pathways = buildPathways(sel);
+export function LoanCheck() {
+  const [sel, setSel] = useState<Selections>({});
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  const answeredCount = QUESTIONS.filter((x) => (sel[x.key] ?? []).length > 0).length;
+  const complete = answeredCount === QUESTIONS.length;
+
+  const scrollOn = (next: Selections) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const nextQ = QUESTIONS.find((x) => (next[x.key] ?? []).length === 0);
+    if (nextQ) cardRefs.current[nextQ.key]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    else panelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
+  const pickSingle = (q: Question, i: number) => {
+    const next = { ...sel, [q.key]: [i] };
+    setSel(next);
+    scrollOn(next);
+  };
+
+  const toggle = (q: Question, i: number) => {
+    setSel((s) => {
+      const cur = s[q.key] ?? [];
+      if (cur.includes(i)) return { ...s, [q.key]: cur.filter((x) => x !== i) };
+      if (q.options[i].none) return { ...s, [q.key]: [i] };
+      return { ...s, [q.key]: [...cur.filter((x) => !q.options[x].none), i] };
+    });
+  };
+
+  const restart = () => setSel({});
 
   return (
-    <div>
-      <div className="grid gap-8 rounded-3xl border border-ink/10 bg-white p-8 sm:grid-cols-2 sm:items-center sm:p-12">
-        <div>
-          <p className="eyebrow mb-4">
-            <span className="text-advance">Your health check</span>
-          </p>
-          <div className="flex items-center gap-6">
-            <ScoreRing value={score} />
-            <div>
-              <h3 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink">{band.name}.</h3>
-              <p className="mt-2 max-w-md text-ink/65">{band.blurb}</p>
+    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+      {/* LEFT: every question, ready to answer */}
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 px-1">
+          <p className="font-display text-lg font-bold tracking-tight text-ink">2 minutes. 6 areas. One real score.</p>
+          <p className="text-sm text-ink/50">Free. No sign-up. No email wall.</p>
+        </div>
+        {QUESTIONS.map((q, qi) => {
+          const picked = sel[q.key] ?? [];
+          const done = picked.length > 0;
+          return (
+            <div
+              key={q.key}
+              ref={(el) => {
+                cardRefs.current[q.key] = el;
+              }}
+              className="rounded-3xl border border-ink/10 bg-white p-5 sm:p-6"
+            >
+              <div className="flex items-center justify-between gap-4">
+                <p className="min-w-0 truncate text-[11px] font-semibold uppercase tracking-[0.14em]">
+                  <span className="text-ink/40">{q.stage}</span>
+                  <span className="mx-1.5 text-ink/25">·</span>
+                  <span className="text-advance">{q.area}</span>
+                </p>
+                <span
+                  className={`inline-flex h-6 shrink-0 items-center justify-center rounded-full px-2 text-[11px] font-bold ${
+                    done ? "bg-advance-light text-ink" : "bg-neutral-100 text-ink/45"
+                  }`}
+                  aria-hidden
+                >
+                  {done ? "✓" : `${qi + 1} of ${QUESTIONS.length}`}
+                </span>
+              </div>
+              <p className="mt-3 font-display text-lg font-semibold leading-snug tracking-tight text-ink sm:text-xl">
+                {q.label}
+              </p>
+              {q.hint && <p className="mt-1.5 text-sm text-ink/55">{q.hint}</p>}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {q.options.map((o, oi) => {
+                  const active = picked.includes(oi);
+                  return (
+                    <button
+                      key={o.label}
+                      onClick={() => (q.type === "single" ? pickSingle(q, oi) : toggle(q, oi))}
+                      aria-pressed={active}
+                      className={`rounded-full border px-4 py-2 text-left text-sm font-semibold transition ${
+                        active ? "border-ink bg-ink text-white" : "border-ink/15 bg-white text-ink/70 hover:border-ink"
+                      }`}
+                    >
+                      {q.type === "multi" && <span className="mr-1.5 text-xs opacity-60">{active ? "✓" : "+"}</span>}
+                      {o.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </div>
-        <div>
-          <Radar sel={sel} size={280} />
-          <p className="mt-1 text-center text-xs text-ink/45">
-            Your loan's shape: the dashed ring is the strong mark.
-          </p>
-        </div>
+          );
+        })}
       </div>
 
-      {pathways.length > 0 && (
-        <div className="mt-6 rounded-3xl bg-ink p-8 text-white sm:p-10">
-          <p className="eyebrow mb-5">
-            <span className="text-white/60">Where this usually leads</span>
-          </p>
-          <div className={`grid gap-6 ${pathways.length === 2 ? "sm:grid-cols-2" : pathways.length >= 3 ? "sm:grid-cols-3" : ""}`}>
-            {pathways.map((p) => (
-              <div key={p.title} className="flex flex-col">
-                <h4 className="font-display text-xl font-bold tracking-tight">{p.title}</h4>
-                <p className="mt-2 text-sm leading-relaxed text-white/70">{p.body}</p>
-                <a href={p.href} className="mt-auto pt-4 text-sm font-semibold text-advance-bright underline decoration-advance-bright/30 underline-offset-2 hover:decoration-advance-bright">
-                  {p.linkLabel} →
-                </a>
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 text-xs text-white/45">
-            General pathways people in similar positions often explore, not a recommendation.
-            Whether any fit you is what the free review works out.
-          </p>
-        </div>
-      )}
-
-      {flags.length > 0 && (
-        <div className="mt-6">
-          <p className="eyebrow mb-4">
-            <span className="text-advance">Your first moves</span>
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {flags.slice(0, 6).map(({ q, sub, tip }, i) => (
-              <div key={q.key} className="flex flex-col rounded-3xl border border-ink/10 border-t-4 border-t-advance bg-white p-5">
-                <p className="font-display text-3xl font-semibold text-ink/20">{i + 1}</p>
-                <p className="mt-1 text-lg font-bold text-ink">{q.area}</p>
-                <p className="text-sm font-semibold text-ink/45">{sub}</p>
-                <p className="mt-3 text-sm leading-snug text-ink/70">{tip}</p>
-                {q.tool && (
-                  <a href={q.tool.href} className="mt-auto pt-4 text-sm font-semibold text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
-                    {q.tool.label} →
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="mt-6 rounded-3xl border border-ink/10 bg-white p-6 sm:p-8">
-        <p className="eyebrow mb-5">
-          <span>The breakdown</span>
-        </p>
-        <div className="space-y-4">
-          {SCORED.map((q) => {
-            const v = (qScore(q, sel[q.key]) ?? 0) * 10;
-            return (
-              <div key={q.key} className="grid grid-cols-[6rem_1fr_2.5rem] items-center gap-3 sm:grid-cols-[8rem_1fr_3rem]">
-                <span className="truncate text-sm font-semibold text-ink">{q.area}</span>
-                <div className="h-2.5 w-full overflow-hidden rounded-full bg-neutral-100">
-                  <div className="h-full rounded-full bg-advance" style={{ width: `${v * 10}%` }} />
-                </div>
-                <span className="text-right font-display text-sm font-bold text-ink">{v.toFixed(0)}</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <SnapshotForm score={score} band={band.name} flags={flags} profile={profileSummary(sel)} />
-
-      <p className="mt-6 text-xs leading-relaxed text-ink/45">
-        The score weighs six general markers of loan health equally. It doesn&apos;t know your
-        rate, balance or circumstances, so treat it as a conversation starter, not a verdict.
-        General information only, not credit advice.
-      </p>
-      <button onClick={onRestart} className="mt-4 text-sm font-semibold text-ink/50 hover:text-ink">
-        ↺ Retake the health check
-      </button>
+      {/* RIGHT: the live score panel */}
+      <LivePanel sel={sel} answeredCount={answeredCount} complete={complete} panelRef={panelRef} onRestart={restart} />
     </div>
   );
 }
 
-function ScoreRing({ value }: { value: number }) {
+function LivePanel({
+  sel,
+  answeredCount,
+  complete,
+  panelRef,
+  onRestart,
+}: {
+  sel: Selections;
+  answeredCount: number;
+  complete: boolean;
+  panelRef: React.RefObject<HTMLDivElement | null>;
+  onRestart: () => void;
+}) {
+  const scoredAnswered = SCORED.filter((q) => qScore(q, sel[q.key]) != null);
+  const score =
+    scoredAnswered.length > 0
+      ? (scoredAnswered.reduce((a, q) => a + (qScore(q, sel[q.key]) ?? 0), 0) / scoredAnswered.length) * 10
+      : null;
+  const band = score != null ? BANDS.find((b) => score >= b.min)! : null;
+  const flags = complete ? buildFlags(sel) : [];
+  const pathways = complete ? buildPathways(sel) : [];
+
+  return (
+    <div
+      ref={panelRef}
+      className="rounded-3xl bg-ink p-6 text-white sm:p-8 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto"
+    >
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Your loan&apos;s shape, live</p>
+        <span className="shrink-0 text-xs font-semibold text-white/60">
+          {answeredCount} of {QUESTIONS.length} answered
+        </span>
+      </div>
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/15">
+        <div
+          className="h-full rounded-full bg-advance-bright transition-all duration-300"
+          style={{ width: `${(answeredCount / QUESTIONS.length) * 100}%` }}
+        />
+      </div>
+
+      <div className="mt-6 flex items-center gap-5">
+        <ScoreRing value={score} />
+        <div className="min-w-0">
+          {band ? (
+            <>
+              <h3 className="font-display text-2xl font-bold leading-[1.15] tracking-tight">{band.name}.</h3>
+              <p className="mt-1 text-xs font-semibold text-white/55">
+                {complete ? "Your score across all 6 areas." : `Based on ${scoredAnswered.length} of ${SCORED.length} scored areas so far.`}
+              </p>
+            </>
+          ) : (
+            <>
+              <h3 className="font-display text-2xl font-bold leading-[1.15] tracking-tight">Your score builds here.</h3>
+              <p className="mt-1 text-xs font-semibold text-white/55">Tap an answer on any question to begin.</p>
+            </>
+          )}
+        </div>
+      </div>
+
+      {complete && band && <p className="mt-4 text-sm leading-relaxed text-white/70">{band.blurb}</p>}
+
+      <Radar sel={sel} size={250} />
+      <p className="mt-1 text-center text-xs text-white/45">
+        Each scored answer pulls the shape outward. The dashed ring is the strong mark.
+      </p>
+
+      {complete && (
+        <>
+          {pathways.length > 0 && (
+            <div className="mt-7 border-t border-white/10 pt-6">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Where this usually leads</p>
+              <div className="mt-4 space-y-5">
+                {pathways.map((p) => (
+                  <div key={p.title}>
+                    <h4 className="font-display text-lg font-bold tracking-tight">{p.title}</h4>
+                    <p className="mt-1 text-sm leading-relaxed text-white/70">{p.body}</p>
+                    <a
+                      href={p.href}
+                      className="mt-2 inline-block text-sm font-semibold text-advance-bright underline decoration-advance-bright/30 underline-offset-2 hover:decoration-advance-bright"
+                    >
+                      {p.linkLabel} →
+                    </a>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-xs leading-relaxed text-white/45">
+                General pathways people in similar positions often explore, not a recommendation.
+                Whether any fit you is what the free review works out.
+              </p>
+            </div>
+          )}
+
+          {flags.length > 0 && (
+            <div className="mt-7 border-t border-white/10 pt-6">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-advance-bright">Your first moves</p>
+              <div className="mt-4 space-y-3">
+                {flags.slice(0, 6).map(({ q, sub, tip }, i) => (
+                  <div key={q.key} className="rounded-2xl bg-white/10 p-4">
+                    <p className="text-sm font-bold">
+                      <span className="mr-2 text-white/40">{i + 1}</span>
+                      {q.area}
+                    </p>
+                    <p className="mt-0.5 text-xs font-semibold text-white/50">{sub}</p>
+                    {tip && <p className="mt-2 text-sm leading-snug text-white/75">{tip}</p>}
+                    {q.tool && (
+                      <a
+                        href={q.tool.href}
+                        className="mt-2 inline-block text-sm font-semibold text-advance-bright underline decoration-advance-bright/30 underline-offset-2 hover:decoration-advance-bright"
+                      >
+                        {q.tool.label} →
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-7 border-t border-white/10 pt-6">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">The breakdown</p>
+            <div className="mt-4 space-y-3">
+              {SCORED.map((q) => {
+                const v = (qScore(q, sel[q.key]) ?? 0) * 10;
+                return (
+                  <div key={q.key} className="grid grid-cols-[5.5rem_1fr_2rem] items-center gap-3">
+                    <span className="truncate text-sm font-semibold text-white">{q.area}</span>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-white/15">
+                      <div className="h-full rounded-full bg-advance-bright" style={{ width: `${v * 10}%` }} />
+                    </div>
+                    <span className="text-right font-display text-sm font-bold text-white">{v.toFixed(0)}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {score != null && band && (
+            <SnapshotForm score={score} band={band.name} flags={flags} profile={profileSummary(sel)} />
+          )}
+
+          <p className="mt-6 text-xs leading-relaxed text-white/45">
+            The score weighs six general markers of loan health equally. It doesn&apos;t know your
+            rate, balance or circumstances, so treat it as a conversation starter, not a verdict.
+            General information only, not credit advice.
+          </p>
+        </>
+      )}
+
+      {answeredCount > 0 && (
+        <button onClick={onRestart} className="mt-4 text-sm font-semibold text-white/50 hover:text-white">
+          ↺ Retake the health check
+        </button>
+      )}
+    </div>
+  );
+}
+
+function Radar({ sel, size = 280 }: { sel: Selections; size?: number }) {
+  const c = size / 2;
+  const R = c - 34;
+  const pt = (i: number, r: number) => {
+    const a = (Math.PI * 2 * i) / SCORED.length - Math.PI / 2;
+    return [c + r * Math.cos(a), c + r * Math.sin(a)] as const;
+  };
+  const val = (q: Question) => (qScore(q, sel[q.key]) ?? 0) * 10;
+  const poly = (f: (q: Question) => number) =>
+    SCORED.map((q, i) => pt(i, (Math.max(0.4, f(q)) / 10) * R).join(",")).join(" ");
+
+  return (
+    <svg viewBox={`-16 0 ${size + 32} ${size}`} className="mx-auto mt-4 w-full max-w-[290px]" aria-hidden>
+      {[2.5, 5, 7.5, 10].map((ring) => (
+        <polygon key={ring} points={SCORED.map((_, i) => pt(i, (ring / 10) * R).join(",")).join(" ")} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="1" />
+      ))}
+      {SCORED.map((_, i) => {
+        const [x, y] = pt(i, R);
+        return <line key={i} x1={c} y1={c} x2={x} y2={y} stroke="rgba(255,255,255,0.16)" strokeWidth="1" />;
+      })}
+      <polygon points={poly(() => 8)} fill="none" stroke="#ffffff" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" />
+      <polygon points={poly(val)} fill="#f7dd57" fillOpacity="0.12" stroke="#f7dd57" strokeWidth="2" strokeLinejoin="round" style={{ transition: "all .4s" }} />
+      {SCORED.map((q, i) => {
+        if (qScore(q, sel[q.key]) == null) return null;
+        const [x, y] = pt(i, (Math.max(0.4, val(q)) / 10) * R);
+        return <circle key={q.key} cx={x} cy={y} r="4.5" fill="#f7dd57" style={{ transition: "all .4s" }} />;
+      })}
+      {SCORED.map((q, i) => {
+        const [x, y] = pt(i, R + 18);
+        return (
+          <text key={q.key} x={x} y={y} textAnchor="middle" dominantBaseline="middle" fill="rgba(255,255,255,0.6)" fontSize="10.5" fontWeight="600">
+            {q.area}
+          </text>
+        );
+      })}
+    </svg>
+  );
+}
+
+function ScoreRing({ value }: { value: number | null }) {
   const r = 52;
   const c = 2 * Math.PI * r;
-  const pct = Math.max(0, Math.min(1, value / 10));
+  const pct = value == null ? 0 : Math.max(0, Math.min(1, value / 10));
   return (
-    <div className="relative h-36 w-36 shrink-0">
+    <div className="relative h-32 w-32 shrink-0">
       <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden>
-        <circle cx="60" cy="60" r={r} fill="none" stroke="#e7e9ec" strokeWidth="10" />
-        <circle cx="60" cy="60" r={r} fill="none" stroke="#e0a500" strokeWidth="10" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - pct)} />
+        <circle cx="60" cy="60" r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="10" />
+        <circle cx="60" cy="60" r={r} fill="none" stroke="#f7dd57" strokeWidth="10" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - pct)} style={{ transition: "stroke-dashoffset .4s" }} />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-4xl font-semibold tracking-tight text-ink">{value.toFixed(1)}</span>
-        <span className="text-xs font-semibold text-ink/40">out of 10</span>
+        <span className="font-display text-3xl font-semibold tracking-tight text-white">{value == null ? "?" : value.toFixed(1)}</span>
+        <span className="text-xs font-semibold text-white/50">out of 10</span>
       </div>
     </div>
   );
@@ -606,9 +561,9 @@ function SnapshotForm({ score, band, flags, profile }: { score: number; band: st
 
   if (state === "done") {
     return (
-      <div className="mt-6 rounded-3xl bg-ink p-8 text-center text-white">
+      <div className="mt-7 border-t border-white/10 pt-6 text-center">
         <h3 className="font-display text-2xl font-bold tracking-tight">Speak soon.</h3>
-        <p className="mx-auto mt-2 max-w-md text-white/70">
+        <p className="mx-auto mt-2 max-w-md text-sm text-white/70">
           Your result is with the team. A broker will be in touch within a few business hours
           to talk it through. No cost, no obligation.
         </p>
@@ -617,22 +572,22 @@ function SnapshotForm({ score, band, flags, profile }: { score: number; band: st
   }
 
   return (
-    <form onSubmit={submit} className="mt-6 rounded-3xl bg-ink p-8 text-white sm:p-10">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">Talk the result through</p>
-      <h3 className="mt-2 max-w-2xl font-display text-2xl font-normal tracking-tight sm:text-3xl">
+    <form onSubmit={submit} className="mt-7 border-t border-white/10 pt-6">
+      <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/40">Talk the result through</p>
+      <h3 className="mt-2 font-display text-xl font-normal tracking-tight sm:text-2xl">
         Turn the flags into savings. Free, with a broker.
       </h3>
-      <p className="mt-2 max-w-xl text-white/65">
+      <p className="mt-2 text-sm text-white/65">
         Your score, flags and context travel with the enquiry, so the conversation starts at
         the answer. Either we find a sharper loan, or we make your lender price-match.
       </p>
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <DarkField label="First name" value={form.firstName} onChange={(v) => setForm({ ...form, firstName: v })} required autoComplete="given-name" />
         <DarkField label="Last name" value={form.lastName} onChange={(v) => setForm({ ...form, lastName: v })} required autoComplete="family-name" />
         <DarkField label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required autoComplete="email" />
         <DarkField label="Phone" type="tel" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} required autoComplete="tel" />
       </div>
-      <div className="mt-6 flex flex-wrap items-center gap-4">
+      <div className="mt-5 flex flex-wrap items-center gap-4">
         <button type="submit" disabled={state === "sending"} className="btn bg-white text-ink hover:bg-neutral-100 disabled:opacity-50">
           {state === "sending" ? "Sending…" : "Get my free loan review"}
         </button>

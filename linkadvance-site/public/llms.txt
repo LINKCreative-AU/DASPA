@@ -31,6 +31,7 @@ Credit: brokers are authorised credit representatives of Connective Credit Servi
 - [First Home Super Saver](https://linkadvance.com.au/first-home-super-saver): the deposit built inside super at 15% tax: mechanics, traps and how it stacks
 
 ## Tools (all free, on-screen, no email wall)
+- [All calculators & checks](https://linkadvance.com.au/calculators): the hub for all seven tools
 - [Home Loan Health Check](https://linkadvance.com.au/home-loan-health-check): score your loan out of 10 across rate, review, structure, fit, equity and attention
 - [Borrowing power calculator](https://linkadvance.com.au/borrowing-power-calculator): assessed the way lenders do: net income, expense floors, the 3% APRA buffer, the 3.8%/month card-limit rule
 - [Repayments calculator](https://linkadvance.com.au/home-loan-repayment-calculator): monthly/fortnightly/weekly, total interest, +3% stress test, extra-repayment savings

@@ -2,6 +2,7 @@ import { SITE } from "@/lib/site";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { SectionHead } from "./SectionHead";
 import { Icon } from "./Icons";
+import { Pill } from "./v2";
 
 // Auto-icon: when a FeatureGrid item has no explicit icon, pick a thin-line
 // icon from its title so every card carries one (keyword order matters).
@@ -40,6 +41,8 @@ export function PageHero({
   intro,
   image,
   imageAlt,
+  panelImage,
+  panelImageAlt,
   ctaLabel = "Book a call",
   ctaHref = "/contact",
   secondaryLabel,
@@ -54,6 +57,8 @@ export function PageHero({
   intro: string;
   image?: string;
   imageAlt?: string;
+  panelImage?: string; // white-bg cutout shown on the grey blend tile
+  panelImageAlt?: string;
   ctaLabel?: string;
   ctaHref?: string;
   secondaryLabel?: string;
@@ -68,17 +73,15 @@ export function PageHero({
         <div>
           <SectionHead as="h1" eyebrow={eyebrow} title={title} mark={mark} intro={intro} accent />
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href={ctaHref} className="btn btn-primary">
-              {ctaLabel}
-            </a>
+            <Pill href={ctaHref}>{ctaLabel}</Pill>
             {secondaryLabel && secondaryHref ? (
-              <a href={secondaryHref} className="btn btn-ghost">
+              <Pill href={secondaryHref} variant="ghost">
                 {secondaryLabel}
-              </a>
+              </Pill>
             ) : (
-              <a href={SITE.phoneHref} className="btn btn-ghost">
+              <Pill href={SITE.phoneHref} variant="ghost">
                 Call {SITE.phone}
-              </a>
+              </Pill>
             )}
           </div>
           {showStars && (
@@ -96,8 +99,18 @@ export function PageHero({
           <img
             src={image}
             alt={imageAlt ?? ""}
-            className="hidden aspect-[4/5] w-full rounded-3xl object-cover object-top lg:block"
+            className="hidden aspect-[4/5] w-full rounded-[25px] object-cover object-top lg:block"
           />
+        )}
+        {panelImage && (
+          <div className="hidden items-end justify-center rounded-[25px] bg-[#f1f1f1] px-6 pt-8 lg:flex lg:self-stretch">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={panelImage}
+              alt={panelImageAlt ?? ""}
+              className="max-h-[420px] w-auto mix-blend-multiply"
+            />
+          </div>
         )}
       </section>
     </>
@@ -155,14 +168,14 @@ export function FeatureGrid({
           className={
             cards
               ? dark
-                ? "rounded-3xl border border-white/10 bg-white/5 p-7"
-                : "rounded-3xl border border-ink/10 bg-white p-7"
+                ? "rounded-[25px] border border-white/10 bg-white/5 p-7"
+                : "rounded-[25px] bg-[#f1f1f1] p-7"
               : undefined
           }
         >
           <span
             className={`mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl ${
-              dark ? "bg-white/10 text-white" : "bg-advance/10 text-advance"
+              dark ? "bg-white/10 text-white" : "bg-advance-light text-ink"
             }`}
           >
             {f.icon ?? autoIcon(f.title)}

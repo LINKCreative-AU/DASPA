@@ -110,8 +110,9 @@ export const NAV: NavItem[] = [
   },
   {
     label: "Tools",
-    href: "/home-loan-health-check",
+    href: "/calculators",
     children: [
+      { label: "All calculators & checks", href: "/calculators" },
       { label: "Home loan health check", href: "/home-loan-health-check" },
       { label: "Business borrowing check", href: "/business-borrowing-health-check" },
       { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },

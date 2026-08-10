@@ -4,9 +4,10 @@ import { PageHero, Section, FeatureGrid, CheckList, FAQ, ProofBar } from "@/comp
 import { ReviewStrip } from "@/components/ReviewStrip";
 import { CtaBand } from "@/components/CtaBand";
 
-// The data-driven loan service page - Advance's equivalent of the Wealth
-// DiscoveryLanding. One head term per page; copy rewritten answer-first from
-// the old site's facts (one broker end-to-end, 35+ lenders, repricing).
+// The data-driven loan service page, on the V2 rhythm: hero with the page's
+// photo on a grey tile, prose sections that change treatment as they go
+// (bullet sections split two-column, worked examples sit on ink cards), the
+// broker band, the drifting review tiles. Copy lives in lib/loans.ts.
 
 export type LoanPageData = {
   path: string;
@@ -30,11 +31,71 @@ export type LoanPageData = {
   subject: string;
 };
 
+function BodySection({ s, flip }: { s: LoanPageData["sections"][number]; flip: boolean }) {
+  const isExample = /example/i.test(s.heading);
+
+  if (isExample) {
+    // Worked examples get the ink card: the numbers deserve a stage.
+    return (
+      <div className="rounded-[25px] bg-ink p-8 text-white sm:p-12">
+        <h2 className="max-w-2xl font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
+          {s.heading}
+        </h2>
+        {s.paragraphs.map((p) => (
+          <p key={p.slice(0, 40)} className="mt-5 max-w-3xl text-lg leading-[1.5] text-white/80">
+            {p}
+          </p>
+        ))}
+        {s.bullets && (
+          <div className="max-w-3xl [&_li]:!text-white/80 [&_svg]:!text-advance-bright">
+            <CheckList items={s.bullets} dark />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (s.bullets) {
+    // Bullet sections split: prose one side, the list on a grey tile.
+    return (
+      <div className={`grid items-start gap-8 lg:grid-cols-2 ${flip ? "" : ""}`}>
+        <div className={flip ? "lg:order-2" : ""}>
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            {s.heading}
+          </h2>
+          {s.paragraphs.map((p) => (
+            <p key={p.slice(0, 40)} className="mt-4 text-lg leading-[1.4] text-ink/80">
+              {p}
+            </p>
+          ))}
+        </div>
+        <div className={`rounded-[25px] bg-[#f1f1f1] p-7 sm:p-8 ${flip ? "lg:order-1" : ""}`}>
+          <CheckList items={s.bullets} />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-3xl">
+      <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+        {s.heading}
+      </h2>
+      {s.paragraphs.map((p) => (
+        <p key={p.slice(0, 40)} className="mt-4 text-lg leading-[1.4] text-ink/80">
+          {p}
+        </p>
+      ))}
+    </div>
+  );
+}
+
 export function LoanPage({ data }: { data: LoanPageData }) {
   const crumbs = [
     { name: "Home", path: "/" },
     { name: data.crumbName, path: data.path },
   ];
+  let bulletCount = 0;
   return (
     <main>
       <JsonLd
@@ -46,11 +107,14 @@ export function LoanPage({ data }: { data: LoanPageData }) {
       />
       <PageHero
         crumbs={crumbs}
+        eyebrow={data.eyebrow}
         title={data.h1}
         mark={data.h1Mark}
         intro={data.intro}
         ctaLabel="Talk to a broker for free"
         ctaHref="#contact"
+        panelImage={data.heroImage}
+        panelImageAlt={data.heroImageAlt}
       >
         <div className="mt-6 max-w-xl">
           <CheckList items={data.bullets} />
@@ -59,47 +123,26 @@ export function LoanPage({ data }: { data: LoanPageData }) {
 
       <ProofBar />
 
-      {data.heroImage && (
-        <div className="container-x pb-14 pt-10">
-          <img
-            src={data.heroImage}
-            alt={data.heroImageAlt ?? ""}
-            loading="lazy"
-            className="aspect-[21/8] w-full rounded-3xl object-cover object-bottom"
-          />
-        </div>
-      )}
-
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
-        <div className="container-x max-w-3xl space-y-12">
-          {data.sections.map((s) => (
-            <div key={s.heading}>
-              <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
-                {s.heading}
-              </h2>
-              {s.paragraphs.map((p) => (
-                <p key={p.slice(0, 40)} className="mt-4 text-lg leading-[1.4] text-ink/80">
-                  {p}
-                </p>
-              ))}
-              {s.bullets && <CheckList items={s.bullets} />}
-            </div>
-          ))}
+      <section className="py-20 sm:py-24">
+        <div className="container-x space-y-16 sm:space-y-20">
+          {data.sections.map((s) => {
+            const flip = s.bullets && !/example/i.test(s.heading) ? bulletCount++ % 2 === 1 : false;
+            return <BodySection key={s.heading} s={s} flip={flip} />;
+          })}
         </div>
       </section>
 
       {data.features && (
         <Section title={data.featuresHeading ?? "Why LINK Advance."}>
-          <FeatureGrid items={data.features} />
+          <FeatureGrid items={data.features} cards />
         </Section>
       )}
 
       {/* The people, on every lending page - the broker who meets you writes
-          the loan (cutout on the light panel, never a 21/8 crop) */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-16">
+          the loan (cutout on the grey tile, never a 21/8 crop) */}
+      <section className="py-16">
         <div className="container-x grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="flex items-end justify-center rounded-3xl bg-white px-8 pt-6">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+          <div className="flex items-end justify-center rounded-[25px] bg-[#f1f1f1] px-8 pt-6">
             <img
               src="/wp-content/uploads/2026/05/ADVANCE-the-boys-2025-web-scaled.jpg"
               alt="Jacob, Callum and Hugh, the LINK Advance brokers"

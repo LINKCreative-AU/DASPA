@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
+import { DataTable } from "@/components/DataTable";
 import { Calculator } from "./Calculator";
 
 // Existing slug carried 1:1. "lmi calculator" 4,739/mo at KD 10 - a DR-14
@@ -66,6 +67,42 @@ export default function Page() {
           <Calculator />
         </div>
       </section>
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            What LMI costs, by loan size and deposit.
+          </h2>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            Indicative premium ranges, modelled on published insurer tables (the exact figure
+            varies by lender and insurer). The pattern to notice: the premium doesn&apos;t
+            climb gently with your LVR, it jumps in bands, so a few thousand dollars more
+            deposit at a band edge can save five figures.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Indicative lenders mortgage insurance premium ranges by loan amount and loan-to-value ratio"
+              head={["Loan amount", "85% LVR", "90% LVR", "95% LVR"]}
+              rows={[
+                ["$300,000", "$1,800 to $2,700", "$3,600 to $5,100", "$6,600 to $9,600"],
+                ["$500,000", "$3,500 to $5,500", "$7,500 to $10,500", "$14,000 to $20,000"],
+                ["$750,000", "$6,750 to $10,500", "$14,250 to $19,500", "$25,500 to $34,500"],
+                ["$950,000", "$8,550 to $13,300", "$18,050 to $24,700", "$32,300 to $43,700"],
+              ]}
+              note="Same model the calculator above runs. At 80% LVR or below the premium is zero. Premiums are usually capitalised into the loan, so you pay interest on them too."
+            />
+          </div>
+          <p className="mt-6 text-lg leading-[1.4] text-ink/80">
+            Before accepting any figure in this table, check the escape routes: the{" "}
+            <a href="/first-home-guarantee" className="font-medium text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
+              First Home Guarantee
+            </a>{" "}
+            (5% deposit, no LMI, no longer income-capped), a family guarantor, or a
+            professional waiver if your occupation qualifies. For a $500,000 loan at 90% LVR,
+            any one of those is worth $7,500 to $10,500.
+          </p>
+        </div>
+      </section>
+
       <FAQ
         title="Frequently asked questions."
         faqs={FAQS}

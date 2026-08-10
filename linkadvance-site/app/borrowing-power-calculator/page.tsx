@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
+import { DataTable } from "@/components/DataTable";
 import { Calculator } from "./Calculator";
 
 // "borrowing power calculator" 42.8k/mo KD 55 + "how much can i borrow"
@@ -66,6 +67,42 @@ export default function Page() {
           <Calculator />
         </div>
       </section>
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            Indicative borrowing power by income.
+          </h2>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            The reference points, using the same serviceability model as the estimator above:
+            net income after tax, benchmark living expenses, no other debts, no credit cards,
+            no dependants, assessed at a typical rate plus the 3% APRA buffer over 30 years.
+            Your own debts, cards and expenses move these numbers a long way, in both
+            directions.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Indicative borrowing power ranges by gross household income"
+              head={["Household income (gross)", "Indicative borrowing power"]}
+              rows={[
+                ["$80,000 · single", "$339,000 to $414,000"],
+                ["$120,000 · single", "$595,000 to $727,000"],
+                ["$150,000 · couple", "$749,000 to $915,000"],
+                ["$200,000 · couple", "$1,069,000 to $1,306,000"],
+                ["$250,000 · couple", "$1,388,000 to $1,697,000"],
+              ]}
+              note="Indicative only, as at August 2026: not a quote or an offer of credit. Assumes benchmark minimum living expenses and zero commitments; real assessments use your declared expenses, debts and card limits, and every lender's policy reads income differently."
+            />
+          </div>
+          <p className="mt-6 text-lg leading-[1.4] text-ink/80">
+            The range on each row isn&apos;t hedging, it&apos;s the actual spread between
+            lenders on identical inputs: income shading, expense treatment and buffer policy
+            differ enough that the same couple can be offered six figures more at one lender
+            than another. Finding the right end of your range is the free part of what a
+            broker does.
+          </p>
+        </div>
+      </section>
+
       <FAQ
         title="Frequently asked questions."
         faqs={FAQS}

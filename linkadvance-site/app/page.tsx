@@ -8,6 +8,7 @@ import { TeamGrid } from "@/components/TeamGrid";
 import { CtaBand } from "@/components/CtaBand";
 import { LenderMarquee } from "@/components/LenderMarquee";
 import { SITE, TEAM, GROUP_TEAMS } from "@/lib/site";
+import { Pill, EyebrowPill } from "@/components/v2";
 
 // The homepage: "mortgage broker brisbane" (1,710/mo, KD 24) is the head
 // term; the map-pack lever is the 262-review base. Voice and facts carried
@@ -85,9 +86,7 @@ export default function Page() {
       <section className="container-x pb-16 pt-12 sm:pt-16">
         <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="max-w-3xl">
-          <p className="eyebrow">
-            <span className="text-advance">Brisbane finance brokers</span>
-          </p>
+          <EyebrowPill tint>Brisbane finance brokers</EyebrowPill>
           <h1 className="mt-5 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-[58px]">
             We make lending <span className="marker">easy.</span>
           </h1>
@@ -97,12 +96,10 @@ export default function Page() {
             settlement, and every repricing after. Your goals are priority number one.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#contact" className="btn btn-primary">
-              Talk to a broker for free
-            </a>
-            <a href="/home-loan-health-check" className="btn btn-ghost">
+            <Pill href="#contact">Talk to a broker for free</Pill>
+            <Pill href="/home-loan-health-check" variant="ghost">
               Check your current loan
-            </a>
+            </Pill>
           </div>
           <p className="mt-6 text-sm font-semibold text-ink/60">
             <span aria-hidden className="text-advance">★★★★★</span> {SITE.reviews.rating.toFixed(1)} from{" "}
@@ -123,7 +120,7 @@ export default function Page() {
             (premises, working capital, acquisitions): one desk covers all of it.
           </p>
         </div>
-        <div className="flex items-end justify-center rounded-3xl bg-neutral-50 px-6 pt-8 lg:self-stretch">
+        <div className="flex items-end justify-center rounded-[25px] bg-[#f1f1f1] px-6 pt-8 lg:self-stretch">
           <img
             src="/wp-content/uploads/2023/01/hugh.jpg"
             alt="Hugh, co-founder of LINK Advance"
@@ -237,7 +234,7 @@ export default function Page() {
                 Three government schemes stack for Queensland first home buyers right now, and
                 most people we meet are only using one of them.
               </p>
-              <div className="mt-6 flex items-center gap-4 rounded-3xl border border-ink/10 bg-white p-4">
+              <div className="mt-6 flex items-center gap-4 rounded-[25px] bg-[#f1f1f1] p-4">
                 <img
                   src="/wp-content/uploads/2026/05/Callum-Advance-1024x1024-LinkedIn-Grey-Square.png"
                   alt="Callum, mortgage broker at LINK Advance"
@@ -272,7 +269,7 @@ export default function Page() {
                   cta: "How the guarantee works",
                 },
               ].map((c) => (
-                <a key={c.href} href={c.href} className="group flex flex-col rounded-3xl bg-advance-light/60 p-6 transition hover:bg-advance-light">
+                <a key={c.href} href={c.href} className="group flex flex-col rounded-[25px] bg-advance-light/60 p-6 transition hover:bg-advance-light">
                   <p className="font-display text-3xl font-bold tracking-tight text-ink">{c.stat}</p>
                   <p className="mt-2 text-sm leading-relaxed text-ink/65">{c.label}</p>
                   <p className="mt-auto pt-4 text-sm font-semibold text-ink/50 transition group-hover:text-ink">
@@ -286,7 +283,7 @@ export default function Page() {
       </section>
 
       {/* The lanes */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20 sm:py-24">
         <div className="container-x">
           <SectionHead
             title="Whatever the loan, one broker owns it."
@@ -306,9 +303,9 @@ export default function Page() {
               <a
                 key={s.href}
                 href={s.href}
-                className="group rounded-3xl border border-ink/10 bg-white p-6 transition hover:border-ink"
+                className="group rounded-[25px] bg-[#f1f1f1] p-6 transition hover:bg-advance-light"
               >
-                <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-advance-light text-advance">
+                <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-ink">
                   {s.icon}
                 </span>
                 <p className="font-display text-lg font-bold tracking-tight text-ink">
@@ -392,7 +389,7 @@ export default function Page() {
       <ReviewStrip />
 
       {/* Three guides - freshness, blog equity, expertise beyond sales pages */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20 sm:py-24">
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionHead title="Worth reading before you borrow." mark="before you borrow." />
@@ -402,7 +399,7 @@ export default function Page() {
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {GUIDES.map((g) => (
-              <a key={g.href} href={g.href} className="group flex flex-col rounded-3xl border border-ink/10 bg-white p-7 transition hover:border-ink">
+              <a key={g.href} href={g.href} className="group flex flex-col rounded-[25px] bg-[#f1f1f1] p-7 transition hover:bg-advance-light">
                 <p className="font-display text-lg font-bold leading-snug tracking-tight text-ink">
                   {g.title}
                 </p>
@@ -430,7 +427,7 @@ export default function Page() {
               { label: "Repayments + LMI", href: "/home-loan-repayment-calculator", note: "What it costs per month, stress-tested" },
               { label: "Stamp duty QLD", href: "/stamp-duty-calculator-qld", note: "Duty + first-home concessions" },
             ].map((t) => (
-              <a key={t.href} href={t.href} className="group rounded-3xl border border-ink/10 border-t-4 border-t-advance bg-white p-6 transition hover:border-ink hover:border-t-advance">
+              <a key={t.href} href={t.href} className="group rounded-[25px] border-t-4 border-t-advance bg-[#f1f1f1] p-6 transition hover:bg-advance-light">
                 <p className="font-display text-lg font-bold tracking-tight text-ink">{t.label}</p>
                 <p className="mt-1.5 text-sm text-ink/55">{t.note}</p>
               </a>
@@ -440,7 +437,7 @@ export default function Page() {
       </section>
 
       {/* Group band */}
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section className="py-20 sm:py-24">
         <div className="container-x">
           <SectionHead
             title="The finance team at LINK."
@@ -449,7 +446,7 @@ export default function Page() {
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {GROUP_TEAMS.map((t) => (
-              <a key={t.name} href={t.url} target="_blank" rel="noopener noreferrer" className="rounded-3xl border border-ink/10 bg-white p-6 transition hover:border-ink">
+              <a key={t.name} href={t.url} target="_blank" rel="noopener noreferrer" className="rounded-[25px] bg-[#f1f1f1] p-6 transition hover:bg-advance-light">
                 <p className="font-display text-lg font-bold tracking-tight text-ink">
                   {t.name}
                   <span style={{ color: t.color }}>.</span>
@@ -457,6 +454,14 @@ export default function Page() {
                 <p className="mt-1 text-sm text-ink/55">{t.meaning}</p>
               </a>
             ))}
+          </div>
+          <div className="mt-10 overflow-hidden rounded-[25px]">
+            <img
+              src="/wp-content/uploads/2020/11/LINK-Heroshot-2025-1.jpg"
+              alt="The LINK group team"
+              loading="lazy"
+              className="aspect-[2400/860] w-full object-cover object-bottom"
+            />
           </div>
         </div>
       </section>

@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
+import { DataTable } from "@/components/DataTable";
 import { Calculator } from "./Calculator";
 
 // NEW page: "stamp duty qld" 3,497/mo at KD 0 (TP 13k). The SERP leans on
@@ -66,6 +67,40 @@ export default function Page() {
           <Calculator />
         </div>
       </section>
+      <section className="py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            QLD stamp duty at a glance.
+          </h2>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            Transfer duty on the same property, four ways, using QRO rates as at August 2026.
+            Who you are matters more than what you buy.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Queensland transfer duty by purchase price and buyer type"
+              head={["Price", "First home, new build", "First home, established", "Owner-occupier", "Investor"]}
+              rows={[
+                ["$500,000", "$0", "$0", "$8,750", "$15,925"],
+                ["$600,000", "$0", "$0", "$12,850", "$20,025"],
+                ["$700,000", "$0", "$0", "$17,350", "$24,525"],
+                ["$750,000", "$0", "~$9,800", "$19,600", "$26,775"],
+                ["$800,000", "$0", "$21,850", "$21,850", "$29,025"],
+                ["$1,000,000", "$0", "$30,850", "$30,850", "$38,025"],
+              ]}
+              note="Same maths the calculator above runs. First home established figures between $700,000 and $800,000 are an indicative straight-line phase-out (the QRO uses a stepped table). Foreign-buyer surcharges excluded. Indicative only, confirm at qld.gov.au."
+            />
+          </div>
+          <p className="mt-6 text-lg leading-[1.4] text-ink/80">
+            The table is the argument for getting classified correctly: at $750,000, the gap
+            between an investor and a first home buyer building new is the entire $26,775. If
+            any part of your situation is borderline (a spouse who owned property before, a
+            granny flat you&apos;ll rent out, a build contract signed after purchase), the
+            classification is worth a conversation before the contract, not after.
+          </p>
+        </div>
+      </section>
+
       {/* The first-home answer, in visible copy with its own anchor:
           "stamp duty first home buyer qld" is 337/mo at KD 1 */}
       <section id="first-home" className="border-y border-ink/10 bg-neutral-50 py-20">

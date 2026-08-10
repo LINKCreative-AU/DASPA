@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHead } from "@/components/SectionHead";
 import { FAQ } from "@/components/ServicePage";
 import { CtaBand } from "@/components/CtaBand";
+import { DataTable } from "@/components/DataTable";
 import { Calculator } from "./Calculator";
 
 // "mortgage repayment calculator" 78k/mo and "home loan repayment
@@ -66,6 +67,48 @@ export default function Page() {
           <Calculator />
         </div>
       </section>
+      {/* The pre-computed table: same formula the calculator runs, so the
+          page carries indexable answers, not just an interactive widget */}
+      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            Monthly repayments at a glance.
+          </h2>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            Principal and interest over 30 years, by loan size and rate. Run your exact
+            numbers in the calculator above; these are the reference points people ask about
+            most.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Monthly principal and interest repayments over 30 years by loan amount and interest rate"
+              head={["Loan amount", "5.0%", "5.5%", "5.9%", "6.5%", "7.0%"]}
+              rows={[
+                ["$400,000", "$2,147", "$2,271", "$2,373", "$2,528", "$2,661"],
+                ["$500,000", "$2,684", "$2,839", "$2,966", "$3,160", "$3,327"],
+                ["$600,000", "$3,221", "$3,407", "$3,559", "$3,792", "$3,992"],
+                ["$700,000", "$3,758", "$3,975", "$4,152", "$4,424", "$4,657"],
+                ["$800,000", "$4,295", "$4,542", "$4,745", "$5,057", "$5,322"],
+                ["$1,000,000", "$5,368", "$5,678", "$5,931", "$6,321", "$6,653"],
+              ]}
+              note="Principal and interest, 30-year term, standard amortisation. Indicative only: your rate, fees and structure change the figure, and lenders assess you at roughly 3 percentage points above the rate you pay."
+            />
+          </div>
+          <p className="mt-6 text-lg leading-[1.4] text-ink/80">
+            Two readings worth taking from the table: the difference between 5.5% and 6.5% on
+            a $600,000 loan is $385 a month ($4,620 a year), which is why the yearly repricing
+            call matters. And a lender assessing you at the 3% buffer reads your $600,000 loan
+            at roughly the 8.9% row that isn&apos;t on this table: about $4,790 a month. That
+            gap between what you&apos;d pay and what you must prove you could pay is the
+            borrowing power question, and the{" "}
+            <a href="/borrowing-power-calculator" className="font-medium text-advance underline decoration-advance/30 underline-offset-2 hover:decoration-advance">
+              borrowing power estimator
+            </a>{" "}
+            runs it.
+          </p>
+        </div>
+      </section>
+
       <FAQ
         title="Frequently asked questions."
         faqs={FAQS}

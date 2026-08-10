@@ -24,6 +24,7 @@ const CORE: { path: string; priority: number }[] = [
   { path: "/smsf-mortgage-broker", priority: 0.8 },
   { path: "/business-loans", priority: 0.8 },
   { path: "/business-car-and-equipment-loans", priority: 0.8 },
+  { path: "/calculators", priority: 0.8 },
   { path: "/home-loan-health-check", priority: 0.9 },
   { path: "/borrowing-power-calculator", priority: 0.9 },
   { path: "/home-loan-repayment-calculator", priority: 0.9 },
