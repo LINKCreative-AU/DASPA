@@ -1,8 +1,9 @@
 import { SITE } from "@/lib/site";
 
-// JSON-LD structured data. FinancialService (a LocalBusiness subtype) +
-// AggregateRating is the core win the old site never had: the Yoast defaults
-// carried no business entity, no rating, no FAQPage anywhere.
+// JSON-LD structured data. FinancialService (a LocalBusiness subtype) is the
+// core win the old site never had: the Yoast defaults carried no business
+// entity and no FAQPage anywhere. Ratings are deliberately not marked up here,
+// for the reason set out on the entity below.
 
 export function firmSchema() {
   return {
@@ -31,12 +32,14 @@ export function firmSchema() {
       { "@type": "City", name: "Brisbane" },
       { "@type": "Country", name: "Australia" },
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: SITE.reviews.rating,
-      reviewCount: SITE.reviews.count,
-      bestRating: 5,
-    },
+    // NO aggregateRating here, deliberately. Google's review snippet policy:
+    // "If the entity that's being reviewed controls the reviews about itself,
+    // their pages that use LocalBusiness or any other type of Organization
+    // structured data are ineligible for star review feature." A broker
+    // publishing its own Google reviews on its own site is exactly that case,
+    // so the markup could never earn stars and self-serving review markup is
+    // a manual-action risk. The rating still reaches Search the legitimate
+    // way: through the Google Business Profile, which sameAs points at.
     // Ties the entity to its profiles - the Google listing carries the 262
     // reviews, so the connection matters more here than usual.
     sameAs: [SITE.reviews.googleUrl, SITE.social.instagram, SITE.social.facebook],

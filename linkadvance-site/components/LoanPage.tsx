@@ -2,12 +2,15 @@
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/components/Schema";
 import { PageHero, Section, FeatureGrid, CheckList, FAQ, ProofBar } from "@/components/ServicePage";
 import { ReviewStrip } from "@/components/ReviewStrip";
+import { ReviewsFor } from "@/components/ReviewsFor";
 import { CtaBand } from "@/components/CtaBand";
+import type { Service } from "@/lib/reviews";
 
 // The data-driven loan service page, on the V2 rhythm: hero with the page's
 // photo on a grey tile, prose sections that change treatment as they go
 // (bullet sections split two-column, worked examples sit on ink cards), the
-// broker band, the drifting review tiles. Copy lives in lib/loans.ts.
+// broker band, then either topic-matched reviews or the drifting review
+// tiles. Copy lives in lib/loans.ts.
 
 export type LoanPageData = {
   path: string;
@@ -29,6 +32,11 @@ export type LoanPageData = {
   ctaHeading?: string;
   ctaIntro?: string;
   subject: string;
+  // When a page has reviews from clients who came in for exactly this, show
+  // those instead of the sitewide drifting strip: proof beside the claim.
+  reviewService?: Service;
+  reviewHeading?: string;
+  reviewIntro?: string;
 };
 
 function BodySection({ s, flip }: { s: LoanPageData["sections"][number]; flip: boolean }) {
@@ -170,7 +178,15 @@ export function LoanPage({ data }: { data: LoanPageData }) {
         </div>
       </section>
 
-      <ReviewStrip />
+      {data.reviewService ? (
+        <ReviewsFor
+          service={data.reviewService}
+          heading={data.reviewHeading ?? "What clients who came in for this say."}
+          intro={data.reviewIntro}
+        />
+      ) : (
+        <ReviewStrip />
+      )}
 
       <FAQ title="Frequently asked questions." faqs={data.faqs} related={data.related} />
 

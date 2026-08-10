@@ -1,54 +1,34 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { REVIEWS } from "@/components/Testimonials";
+import {
+  ALL_REVIEWS,
+  BROKERS,
+  PRAISES,
+  SERVICES,
+  type Broker,
+  type Praise,
+  type Review,
+  type Service,
+  brokersIn,
+} from "@/lib/reviews";
 
 // The review wall in the link.com.au treatment: grey tiles, tint avatars,
-// filterable two ways. Topic tags are read from what the review text itself
-// says the client came in for; broker tags are read from whose name appears
-// in the text. Nothing is paraphrased and no review is edited, only labelled,
-// so every count on this page can be checked against the words above it.
-
-type Tag = "First home" | "Refinance" | "Investing" | "Bought & sold" | "Home purchase";
-type Broker = "Hugh" | "Callum" | "Jacob";
+// every review on the page and reachable by at least one filter.
+//
+// Two filter families, both read from the review text and never inferred:
+// what the client came in for, and what they singled out. Reviews that name
+// no transaction (a few just praise the broker) are still reachable through
+// the second family, which is why it exists.
+//
+// Every review stays in the DOM at all times and the overflow is hidden with
+// CSS. If the "show more" button sliced the array instead, most of the
+// reviews would be missing from the prerendered HTML, which is the whole
+// reason this page exists.
 
 const TINT = "#fff6cc";
-const INITIAL = 9; // enough to prove the point; the rest sit behind the button
-
-const TAGS: Record<string, Tag> = {
-  "Alys Taylor": "First home",
-  "Brooke McHattie": "First home",
-  "Tom Howden": "First home",
-  "Genevieve Scanlan": "First home",
-  "Jack Purtill": "First home",
-  "Vicki Burton": "First home",
-  "Naguib Hardie": "First home",
-  "Jessica Dale": "First home",
-  "Janae Paton": "Refinance",
-  "Kate Tinta": "Refinance",
-  "Michelle Dehlen": "Refinance",
-  "Anthony Arthur": "Refinance",
-  "Madison Else": "Investing",
-  "Connor Mahoney": "Investing",
-  "Britta Webb": "Investing",
-  "Timothy Warren": "Bought & sold",
-  "Jodie Warren": "Bought & sold",
-  "Philip Kelly": "Bought & sold",
-  "Micky Parker": "Home purchase",
-  "Ye Lin": "Home purchase",
-  "Nicola Todhunter": "Home purchase",
-};
-
-const TOPICS: { label: string; tag: Tag | null }[] = [
-  { label: "All reviews", tag: null },
-  { label: "First home buyers", tag: "First home" },
-  { label: "Refinancing", tag: "Refinance" },
-  { label: "Investing", tag: "Investing" },
-  { label: "Bought & sold", tag: "Bought & sold" },
-];
-
-const BROKERS: Broker[] = ["Hugh", "Callum", "Jacob"];
-const namesIn = (text: string) => BROKERS.filter((b) => text.toLowerCase().includes(b.toLowerCase()));
+const INITIAL = 9;
+const BATCH = 9;
 
 const initials = (name: string) =>
   name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
@@ -91,7 +71,7 @@ export function CountUp({ target }: { target: number }) {
     requestAnimationFrame(tick);
   }, [run, target]);
 
-  return <span ref={ref}>{n || "262"}</span>;
+  return <span ref={ref}>{n || target}</span>;
 }
 
 function Chip({
@@ -105,14 +85,18 @@ function Chip({
   children: React.ReactNode;
   count: number;
 }) {
+  const dead = count === 0;
   return (
     <button
       onClick={onClick}
       aria-pressed={on}
+      disabled={dead}
       className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
         on
           ? "border-ink bg-ink text-white"
-          : "border-ink/15 bg-white text-ink/70 hover:border-ink/40 hover:text-ink"
+          : dead
+            ? "cursor-not-allowed border-ink/10 bg-white text-ink/25"
+            : "border-ink/15 bg-white text-ink/70 hover:border-ink/40 hover:text-ink"
       }`}
     >
       {children}
@@ -121,67 +105,156 @@ function Chip({
   );
 }
 
+function Tile({ r }: { r: Review }) {
+  return (
+    <figure className="mb-5 break-inside-avoid rounded-[25px] bg-[#f1f1f1] p-7">
+      <Stars />
+      <blockquote className="mt-4 text-[15px] leading-[1.45] text-ink">{r.text}</blockquote>
+      <figcaption className="mt-5 flex items-center gap-3">
+        <span
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-ink"
+          style={{ backgroundColor: TINT }}
+        >
+          {initials(r.name)}
+        </span>
+        <span>
+          <span className="block text-[15px] font-semibold text-ink">{r.name}</span>
+          <span className="block text-[13px] text-ink/60">
+            Google review{r.service ? ` · ${r.service}` : ""}
+          </span>
+        </span>
+      </figcaption>
+    </figure>
+  );
+}
+
 export function ReviewWall() {
-  const [topic, setTopic] = useState<Tag | null>(null);
+  const [service, setService] = useState<Service | null>(null);
+  const [praise, setPraise] = useState<Praise | null>(null);
   const [broker, setBroker] = useState<Broker | null>(null);
-  const [expanded, setExpanded] = useState(false);
+  const [shown, setShown] = useState(INITIAL);
 
   const filtered = useMemo(
     () =>
-      REVIEWS.filter(
+      ALL_REVIEWS.filter(
         (r) =>
-          (!topic || TAGS[r.name] === topic) &&
-          (!broker || namesIn(r.text).includes(broker))
+          (!service || r.service === service) &&
+          (!praise || r.praise.includes(praise)) &&
+          (!broker || brokersIn(r.text).includes(broker))
       ),
-    [topic, broker]
+    [service, praise, broker]
   );
 
-  // A filter is a deliberate narrowing, so show everything it returns.
-  const filtering = topic !== null || broker !== null;
-  // Every review stays in the DOM and the overflow is hidden with CSS. If the
-  // button sliced the array instead, 15 of the 24 reviews would be absent from
-  // the prerendered HTML, which is the whole reason this page exists.
-  const capped = !filtering && !expanded;
-  const hiddenCount = capped ? Math.max(filtered.length - INITIAL, 0) : 0;
+  const filtering = service !== null || praise !== null || broker !== null;
+
+  // Changing a filter resets the window, so you never land on "showing 9 of 4".
+  const applyFilter = (fn: () => void) => {
+    fn();
+    setShown(INITIAL);
+  };
+
+  const visible = Math.min(shown, filtered.length);
+  const remaining = filtered.length - visible;
+  const nextBatch = Math.min(BATCH, remaining);
+
+  // Counts on the chips are always counts within the OTHER active filters, so
+  // a chip never promises results it cannot deliver.
+  const withinOthers = (extra: (r: Review) => boolean) =>
+    ALL_REVIEWS.filter(
+      (r) =>
+        extra(r) &&
+        (!praise || r.praise.includes(praise)) &&
+        (!broker || brokersIn(r.text).includes(broker))
+    ).length;
+
+  const praiseWithinOthers = (p: Praise) =>
+    ALL_REVIEWS.filter(
+      (r) =>
+        r.praise.includes(p) &&
+        (!service || r.service === service) &&
+        (!broker || brokersIn(r.text).includes(broker))
+    ).length;
+
+  const brokerWithinOthers = (b: Broker) =>
+    ALL_REVIEWS.filter(
+      (r) =>
+        brokersIn(r.text).includes(b) &&
+        (!service || r.service === service) &&
+        (!praise || r.praise.includes(praise))
+    ).length;
 
   return (
     <div>
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Filter reviews by what the client came in for">
-        {TOPICS.map((f) => (
-          <Chip
-            key={f.label}
-            on={topic === f.tag}
-            onClick={() => setTopic(f.tag)}
-            count={f.tag ? REVIEWS.filter((r) => TAGS[r.name] === f.tag).length : REVIEWS.length}
-          >
-            {f.label}
+      <div className="space-y-3">
+        <div
+          className="flex flex-wrap gap-2"
+          role="group"
+          aria-label="Filter reviews by what the client came in for"
+        >
+          <Chip on={!service} onClick={() => applyFilter(() => setService(null))} count={withinOthers(() => true)}>
+            All reviews
           </Chip>
-        ))}
+          {SERVICES.map((s) => (
+            <Chip
+              key={s}
+              on={service === s}
+              onClick={() => applyFilter(() => setService(service === s ? null : s))}
+              count={withinOthers((r) => r.service === s)}
+            >
+              {s}
+            </Chip>
+          ))}
+        </div>
+
+        <div
+          className="flex flex-wrap items-center gap-2"
+          role="group"
+          aria-label="Filter reviews by what the client singled out"
+        >
+          <span className="mr-1 text-sm text-ink/50">What they singled out:</span>
+          {PRAISES.map((p) => (
+            <Chip
+              key={p}
+              on={praise === p}
+              onClick={() => applyFilter(() => setPraise(praise === p ? null : p))}
+              count={praiseWithinOthers(p)}
+            >
+              {p}
+            </Chip>
+          ))}
+        </div>
+
+        <div
+          className="flex flex-wrap items-center gap-2"
+          role="group"
+          aria-label="Filter reviews by the broker named in them"
+        >
+          <span className="mr-1 text-sm text-ink/50">Named in the review:</span>
+          {BROKERS.map((b) => (
+            <Chip
+              key={b}
+              on={broker === b}
+              onClick={() => applyFilter(() => setBroker(broker === b ? null : b))}
+              count={brokerWithinOthers(b)}
+            >
+              {b}
+            </Chip>
+          ))}
+        </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2" role="group" aria-label="Filter reviews by broker named">
-        <span className="mr-1 text-sm text-ink/50">Named in the review:</span>
-        {BROKERS.map((b) => (
-          <Chip
-            key={b}
-            on={broker === b}
-            onClick={() => setBroker(broker === b ? null : b)}
-            count={REVIEWS.filter((r) => namesIn(r.text).includes(b)).length}
-          >
-            {b}
-          </Chip>
-        ))}
-      </div>
-
-      <p className="mt-6 text-sm text-ink/55">
-        Showing {filtered.length - hiddenCount} of {filtered.length}
-        {filtering ? " matching" : ""} reviews.
+      <p aria-live="polite" className="mt-6 text-sm text-ink/55">
+        Showing <strong className="font-semibold text-ink">{visible}</strong> of {filtered.length}
+        {filtering ? " matching" : ""} {filtered.length === 1 ? "review" : "reviews"}.
         {filtering && (
           <button
-            onClick={() => {
-              setTopic(null);
-              setBroker(null);
-            }}
+            onClick={() =>
+              applyFilter(() => {
+                setService(null);
+                setPraise(null);
+                setBroker(null);
+              })
+            }
             className="ml-2 font-semibold text-ink underline underline-offset-4"
           >
             Clear filters
@@ -191,42 +264,37 @@ export function ReviewWall() {
 
       {filtered.length === 0 ? (
         <p className="mt-8 rounded-[25px] bg-[#f1f1f1] p-7 text-ink/70">
-          No review on this page matches both of those at once. Clear one and try again.
+          No review matches all of those at once. Clear one and try again.
         </p>
       ) : (
         <div className="mt-6 columns-1 gap-5 sm:columns-2 lg:columns-3">
           {filtered.map((r, idx) => (
-            <figure
-              key={r.name}
-              className={`mb-5 break-inside-avoid rounded-[25px] bg-[#f1f1f1] p-7 ${
-                capped && idx >= INITIAL ? "hidden" : ""
-              }`}
-            >
-              <Stars />
-              <blockquote className="mt-4 text-[15px] leading-[1.45] text-ink">{r.text}</blockquote>
-              <figcaption className="mt-5 flex items-center gap-3">
-                <span
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-ink"
-                  style={{ backgroundColor: TINT }}
-                >
-                  {initials(r.name)}
-                </span>
-                <span>
-                  <span className="block text-[15px] font-semibold text-ink">{r.name}</span>
-                  <span className="block text-[13px] text-ink/60">
-                    Google review{TAGS[r.name] ? ` · ${TAGS[r.name]}` : ""}
-                  </span>
-                </span>
-              </figcaption>
-            </figure>
+            // Hidden, not removed: the full set stays in the prerendered HTML.
+            <div key={r.name} className={idx >= visible ? "hidden" : ""}>
+              <Tile r={r} />
+            </div>
           ))}
         </div>
       )}
 
-      {hiddenCount > 0 && (
-        <button onClick={() => setExpanded(true)} className="btn btn-ghost mt-4">
-          Show {hiddenCount} more {hiddenCount === 1 ? "review" : "reviews"}
-        </button>
+      {(remaining > 0 || visible > INITIAL) && (
+        <div className="mt-4 flex flex-wrap gap-3">
+          {remaining > 0 && (
+            <button onClick={() => setShown(visible + nextBatch)} className="btn btn-ghost">
+              Show {nextBatch} more {nextBatch === 1 ? "review" : "reviews"}
+            </button>
+          )}
+          {remaining > 0 && remaining > nextBatch && (
+            <button onClick={() => setShown(filtered.length)} className="btn btn-ghost">
+              Show all {filtered.length}
+            </button>
+          )}
+          {visible > INITIAL && (
+            <button onClick={() => setShown(INITIAL)} className="btn btn-ghost">
+              Show fewer
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CtaBand } from "@/components/CtaBand";
 import { ReviewWall, CountUp } from "./ReviewWall";
 import { SITE, TEAM } from "@/lib/site";
+import { ALL_REVIEWS } from "@/lib/reviews";
 import { Icon } from "@/components/Icons";
 
 // The proof page, in the link.com.au treatment: the count-up number, the
@@ -89,7 +90,8 @@ export default function Reviews() {
       <section className="container-x pb-20">
         <ReviewWall />
         <p className="mt-10 max-w-2xl text-sm leading-relaxed text-ink/55">
-          These 24 are the reviews published in full on this site, reproduced word for word.
+          These {ALL_REVIEWS.length} are the reviews published in full on this site, reproduced word
+          for word.
           The full set of {SITE.reviews.count} sits on our Google listing, where you can also
           see who wrote them and when.{" "}
           <a

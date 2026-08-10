@@ -106,6 +106,10 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { label: "LMI calculator", href: "/lenders-mortgage-insurance-calculator" },
       { label: "Mortgage broker vs bank", href: "/blog/home-loans/mortgage-broker-vs-bank" },
     ],
+    reviewService: "Home purchase",
+    reviewHeading: "What people buying a home say about it.",
+    reviewIntro:
+      "Reviews from clients who came to us to buy, unedited and all on Google.",
     subject: "Home loans",
   },
 
@@ -213,6 +217,10 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     ],
     ctaHeading: "One free review. Two ways to win.",
     ctaIntro: "Either we find a sharper loan across 35+ lenders, or we make your current lender price-match. Both start with the same free review.",
+    reviewService: "Refinance",
+    reviewHeading: "What people who refinanced say about it.",
+    reviewIntro:
+      "Reviews from clients who came in to refinance, including the ones we repriced without switching lenders.",
     subject: "Refinancing",
   },
 
@@ -289,6 +297,10 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     ],
     ctaHeading: "Thinking of buying before you sell?",
     ctaIntro: "Bring the addresses and the loan balance. A broker will run the peak-debt and end-debt numbers with you, stress-tested, free.",
+    reviewService: "Bought & sold",
+    reviewHeading: "What people who bought and sold say about it.",
+    reviewIntro:
+      "Reviews from clients doing both ends at once, which is the situation bridging exists for.",
     subject: "Bridging loans",
   },
 
@@ -388,6 +400,10 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },
       { label: "Stamp duty calculator QLD", href: "/stamp-duty-calculator-qld" },
     ],
+    reviewService: "First home",
+    reviewHeading: "What first home buyers say about it.",
+    reviewIntro:
+      "Eight of the reviews below came from people buying their first home. They are unedited, and every one of them is on Google.",
     subject: "First home buyers",
   },
 
@@ -480,6 +496,10 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { label: "Refinancing for equity", href: "/refinancing-brisbane" },
       { label: "So you want to be a property investor", href: "/blog/investor-loans/so-you-want-to-be-a-property-investor" },
     ],
+    reviewService: "Investing",
+    reviewHeading: "What investors say about it.",
+    reviewIntro:
+      "Reviews from clients who came in to buy an investment property.",
     subject: "Investment loans",
   },
 
