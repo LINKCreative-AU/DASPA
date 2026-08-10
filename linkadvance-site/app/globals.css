@@ -63,7 +63,7 @@ body {
 /* Marker highlight on money phrases - division-colour underline, V1.5 signature */
 .marker {
   @apply font-bold;
-  background: linear-gradient(#997000, #997000) left bottom / 100% 4px no-repeat;
+  background: linear-gradient(#e0a500, #e0a500) left bottom / 100% 4px no-repeat;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -74,7 +74,7 @@ body {
 
 /* V1.5 signature gradient - Wealth green + its light tone (post placeholders) */
 .advance-gradient {
-  background: linear-gradient(135deg, #997000 0%, #c49b1f 55%, #f8efd2 100%);
+  background: linear-gradient(135deg, #e0a500 0%, #f7dd57 55%, #fff6cc 100%);
 }
 
 /* Migrated post body - the WP class soup is stripped in the pipeline,

@@ -17,11 +17,11 @@ const config: Config = {
         cloud: "#f4f5f6",
         line: "#e7e9ec",
         advance: {
-          DEFAULT: "#997000", // kit register: deepened from palette amber #e0a500 for legibility on white
-          bright: "#e0a500", // the V1.5 palette amber - accents on dark backgrounds, highlights
-          mid: "#c49b1f", // hover tint
-          light: "#f8efd2", // light tint panels
-          dark: "#3d3000", // dark tone
+          DEFAULT: "#e0a500", // kit brand register: the working gold, itself deepened once from palette yellow #f7dd57 - never deepen twice
+          bright: "#f7dd57", // the V1.5 palette yellow - accents on dark backgrounds, highlights
+          mid: "#c99200", // hover, one shade deeper
+          light: "#fff6cc", // kit register light tint
+          dark: "#4d451f", // kit register dark tone
         },
       },
       fontFamily: {

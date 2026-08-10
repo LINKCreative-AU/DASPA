@@ -1,8 +1,8 @@
 // LINK Advance - single source of truth for brand, contact, proof and legal
 // data. Built on LINK Brand Strategy & Style Guide V1.5: monochrome master
-// brand with one accent per division. Advance's accent is #997000 on white
-// (deepened from the palette amber #e0a500 in the linkhq kit brand register
-// for legibility); the amber carries accents on dark backgrounds.
+// brand with one accent per division. Advance's accent is the register's
+// working gold #e0a500 (deepened ONCE from palette yellow #f7dd57 - lib/brand.ts
+// in linkhq); the palette yellow carries accents on dark backgrounds.
 
 export const SITE = {
   name: "LINK Advance",
@@ -20,18 +20,17 @@ export const SITE = {
     state: "QLD",
     postcode: "4006",
   },
-  color: "#997000", // deepened from the kit register amber for text on white
-  colorBright: "#e0a500", // kit brand register (lib/brand.ts in linkhq)
-  colorDark: "#3d3000",
-  colorLight: "#f8efd2",
-  // The old site's footer review widget: 262 Google reviews, 5.0 average.
-  // placeId pending - supply LINK Advance's GBP place ID to link the count
-  // straight to the review panel (human item in README).
+  color: "#e0a500", // kit brand register working gold (deepened once from palette #f7dd57)
+  colorBright: "#f7dd57", // the V1.5 palette yellow
+  colorDark: "#4d451f",
+  colorLight: "#fff6cc",
+  // 262 Google reviews at 5.0 - counts and place ID from the kit brand
+  // register (reviewFallback, lib/brand.ts in linkhq).
   reviews: {
     rating: 5.0,
     count: 262,
-    placeId: "",
-    googleUrl: "https://www.google.com/search?q=LINK+Advance+Fortitude+Valley+reviews",
+    placeId: "ChIJgRsxOGpZkWsR-1Md1zgPFbE",
+    googleUrl: "https://search.google.com/local/reviews?placeid=ChIJgRsxOGpZkWsR-1Md1zgPFbE",
   },
   // Compliance identity, carried verbatim from the old site (credit licence
   // chain, NCCP) - every page must show LEGAL.publisher; do not reword
@@ -119,7 +118,7 @@ export const NAV: NavItem[] = [
 export const TEAM = [
   {
     name: "Hugh",
-    role: "Founder & Mortgage Broker",
+    role: "Co-Founder & Director",
     focus: "Every loan, fought for. Real estate and property brokerage background.",
     image: "/wp-content/uploads/2026/05/Hugh-1024x1024-LinkedIn-Square-Grey.png",
   },

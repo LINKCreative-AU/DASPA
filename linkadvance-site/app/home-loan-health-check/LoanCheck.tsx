@@ -405,11 +405,11 @@ function Radar({ sel, size = 280 }: { sel: Selections; size?: number }) {
         return <line key={i} x1={c} y1={c} x2={x} y2={y} stroke="#e7e9ec" strokeWidth="1" />;
       })}
       <polygon points={poly(() => 8)} fill="none" stroke="#000000" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.25" />
-      <polygon points={poly(val)} fill="#997000" fillOpacity="0.08" stroke="#997000" strokeWidth="2" strokeLinejoin="round" style={{ transition: "all .4s" }} />
+      <polygon points={poly(val)} fill="#e0a500" fillOpacity="0.08" stroke="#e0a500" strokeWidth="2" strokeLinejoin="round" style={{ transition: "all .4s" }} />
       {SCORED.map((q, i) => {
         if (qScore(q, sel[q.key]) == null) return null;
         const [x, y] = pt(i, (Math.max(0.4, val(q)) / 10) * R);
-        return <circle key={q.key} cx={x} cy={y} r="4.5" fill="#997000" style={{ transition: "all .4s" }} />;
+        return <circle key={q.key} cx={x} cy={y} r="4.5" fill="#e0a500" style={{ transition: "all .4s" }} />;
       })}
       {SCORED.map((q, i) => {
         const [x, y] = pt(i, R + 18);
@@ -567,7 +567,7 @@ function ScoreRing({ value }: { value: number }) {
     <div className="relative h-36 w-36 shrink-0">
       <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden>
         <circle cx="60" cy="60" r={r} fill="none" stroke="#e7e9ec" strokeWidth="10" />
-        <circle cx="60" cy="60" r={r} fill="none" stroke="#997000" strokeWidth="10" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - pct)} />
+        <circle cx="60" cy="60" r={r} fill="none" stroke="#e0a500" strokeWidth="10" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - pct)} />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="font-display text-4xl font-semibold tracking-tight text-ink">{value.toFixed(1)}</span>
