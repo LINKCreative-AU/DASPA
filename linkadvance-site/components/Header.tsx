@@ -81,8 +81,82 @@ function DesktopItem({ item }: { item: NavItem }) {
   return trigger;
 }
 
+// One mobile section open at a time. The old mobile menu did two things wrong:
+// it flattened item.columns with flatMap, throwing away the Personal /
+// Commercial / First home headings that are the only reason 19 lending links
+// are navigable on desktop, and it rendered every section expanded, so the
+// menu opened onto roughly 32 undifferentiated links and About was a long
+// scroll away. Closed accordions put the four top-level choices on one screen,
+// and opening one restores the headings the desktop panel has.
+//
+// Every hub page is already inside its own child list (Lending -> Home loans,
+// Tools -> All calculators, About -> Meet the brokers), so making the row a
+// toggle rather than a link loses no destination.
+function MobileSection({
+  item,
+  open,
+  onToggle,
+  onNavigate,
+}: {
+  item: NavItem;
+  open: boolean;
+  onToggle: () => void;
+  onNavigate: () => void;
+}) {
+  const id = `m-${item.label.toLowerCase().replace(/\W+/g, "-")}`;
+  const groups = item.columns ?? (item.children ? [{ heading: "", links: item.children }] : null);
+
+  if (!groups) {
+    return (
+      <a
+        href={item.href}
+        onClick={onNavigate}
+        className="block border-b border-ink/5 py-4 text-[15px] font-semibold text-ink"
+      >
+        {item.label}
+      </a>
+    );
+  }
+
+  return (
+    <div className="border-b border-ink/5">
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-controls={id}
+        className="flex w-full items-center justify-between py-4 text-left text-[15px] font-semibold text-ink"
+      >
+        {item.label}
+        <span className={`transition-transform ${open ? "rotate-180" : ""}`}>
+          <Chevron />
+        </span>
+      </button>
+      {open && (
+        <div id={id} className="pb-3">
+          {groups.map((col, gi) => (
+            <div key={col.heading || gi} className={gi > 0 ? "mt-4" : ""}>
+              {col.heading && <p className="eyebrow mb-1.5 !text-[10px]">{col.heading}</p>}
+              {col.links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={onNavigate}
+                  className="block py-2 text-[15px] font-medium text-ink/80"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [section, setSection] = useState<string | null>(null);
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-6">
@@ -126,35 +200,15 @@ export function Header() {
           className="max-h-[80vh] overflow-y-auto border-t border-line bg-white px-6 pb-6 pt-2 lg:hidden"
           aria-label="Main"
         >
-          {NAV.map((n) => {
-            const links = n.columns?.flatMap((c) => c.links) ?? n.children ?? null;
-            return links ? (
-              <div key={n.label} className="border-b border-ink/5 py-3">
-                <p className="eyebrow !text-[10px]">{n.label}</p>
-                <div className="mt-2">
-                  {links.map((c) => (
-                    <a
-                      key={c.href}
-                      href={c.href}
-                      onClick={() => setOpen(false)}
-                      className="block py-1.5 text-sm font-medium text-ink/80"
-                    >
-                      {c.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <a
-                key={n.label}
-                href={n.href}
-                onClick={() => setOpen(false)}
-                className="block border-b border-ink/5 py-3.5 text-sm font-semibold text-ink"
-              >
-                {n.label}
-              </a>
-            );
-          })}
+          {NAV.map((n) => (
+            <MobileSection
+              key={n.label}
+              item={n}
+              open={section === n.label}
+              onToggle={() => setSection((s) => (s === n.label ? null : n.label))}
+              onNavigate={() => setOpen(false)}
+            />
+          ))}
           <div className="mt-4 flex items-center gap-3">
             <a href="/contact-us" onClick={() => setOpen(false)} className="btn btn-primary flex-1">
               Book a call
