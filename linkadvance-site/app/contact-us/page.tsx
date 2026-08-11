@@ -10,7 +10,10 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact Us: Talk to a Brisbane Mortgage Broker",
   description:
-    "Book a free, no-obligation consultation with LINK Advance's Brisbane financial advisors. Call (07) 2101 4377 or send us a message. We reply within a few business hours.",
+    // Was "financial advisors" on (07) 2101 4377: both wrong. 4377 is LINK
+    // Wealth's number, and "financial adviser" is a restricted term tied to an
+    // AFSL. Advance holds a credit authorisation, not an AFSL.
+    "Book a free, no-obligation consultation with LINK Advance's Brisbane mortgage and finance brokers. Call (07) 2101 4374 or send us a message. We reply within a few business hours.",
   alternates: { canonical: "/contact-us" },
 };
 

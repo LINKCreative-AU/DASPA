@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { sendLeadEmail, sendGuideEmail } from "@/lib/email";
+import { sendLeadEmail } from "@/lib/email";
 
 // Receives all form variants (general contact, free discovery meeting, and
 // the SMSF-guide lead magnet). Subject line carries the page context so
@@ -42,11 +42,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "not-delivered" }, { status: 502 });
   }
 
-  // Lead magnet: deliver the guide to the visitor. The thank-you screen also
-  // shows the direct download, so a failed guide email never strands anyone.
-  if (data.variant === "guide") {
-    await sendGuideEmail(String(data.email), s(data.firstName));
-  }
-
+  // No lead-magnet send: the guide email this used to call belonged to LINK
+  // Wealth and carried Wealth's AFSL disclosure. See the note in lib/email.ts.
   return NextResponse.json({ ok: true });
 }

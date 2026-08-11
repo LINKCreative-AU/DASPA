@@ -49,6 +49,7 @@ const COMPANY = [
 
 const LEGAL = [
   { label: "Privacy policy", href: SITE.legal.privacyPath },
+  { label: "Compliments & concerns", href: SITE.legal.complaintsPath },
   { label: "E-mail disclaimer", href: SITE.legal.emailDisclaimerPath },
   { label: "Careers", href: SITE.group.careersUrl, external: true },
 ];
@@ -89,12 +90,18 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Credit licence text (NCCP) - the licence chain carried verbatim
-            from the old site. Every page must show it - do not trim or reword
-            without the licensee's sign-off. */}
+        {/* Credit licence text (NCCP). The licensing statement and the general
+            disclaimer are Connective's mandated wording, word for word - see
+            the note in lib/site.ts. Every page shows them; do not trim, merge
+            or reword either one. */}
         <div className="mt-10 space-y-3 border-t border-white/10 pt-6 text-xs leading-relaxed text-white/45">
-          <p>{SITE.legal.publisher}</p>
+          <p>
+            {SITE.legal.identity} {SITE.legal.licence}
+          </p>
           <p>{SITE.legal.disclaimer}</p>
+          <p>
+            {SITE.legal.eligibility} {SITE.legal.toolsDisclaimer}
+          </p>
         </div>
 
         <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/55 sm:flex-row sm:items-center">

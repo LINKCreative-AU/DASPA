@@ -1,11 +1,15 @@
 import { ImageResponse } from "next/og";
 import { SITE } from "@/lib/site";
 
-// Shared branded OG image: V1.5 editorial look - white field, LINK + Advisors wordmark,
-// big ink headline with a full stop, Advisors-blue guide line.
+// Shared branded OG image: V1.5 editorial look - white field, LINK + Advance
+// wordmark, big ink headline with a full stop, Advance-gold guide line.
 export const OG_SIZE = { width: 1200, height: 630 };
 
-export function ogImage(title: string, eyebrow = "Financial advisors Brisbane") {
+// The default eyebrow was "Financial advisors Brisbane", left over from the
+// Advisors scaffold this file was copied from. Advance holds a credit
+// authorisation, not an AFSL, so it cannot describe itself as a financial
+// adviser - and this string was stamped on every share image the site serves.
+export function ogImage(title: string, eyebrow = "Mortgage brokers Brisbane") {
   return new ImageResponse(
     (
       <div

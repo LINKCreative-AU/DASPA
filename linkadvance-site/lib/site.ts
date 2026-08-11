@@ -37,18 +37,45 @@ export const SITE = {
     placeId: "ChIJgRsxOGpZkWsR-1Md1zgPFbE",
     googleUrl: "https://search.google.com/local/reviews?placeid=ChIJgRsxOGpZkWsR-1Md1zgPFbE",
   },
-  // Compliance identity, carried verbatim from the old site (credit licence
-  // chain, NCCP) - every page must show LEGAL.publisher; do not reword
-  // without licensee sign-off.
+  // Compliance identity. The licensee (Connective) mandates two strings on a
+  // credit representative's website WORD FOR WORD - `licence` and `disclaimer`
+  // below are those strings, reproduced exactly from the Connective wiki
+  // (Advertising requirements: websites). DO NOT EDIT EITHER ONE. They are not
+  // ours to improve: paraphrasing them, however well, is the breach.
+  //
+  // Entity facts checked against the ABR record for ABN 12 612 337 587 (Aug
+  // 2026): entity name DELLIT & WEBB WEALTH SERVICES PTY LTD, ACN 612 337 587,
+  // registered business name "Link Advance" since 18 Oct 2018. Connective
+  // requires legal name AND trading name AND ABN/ACN, which is why all three
+  // are here rather than the trading name alone.
   legal: {
     entity: "LINK Advance",
+    legalName: "Dellit & Webb Wealth Services Pty Ltd",
+    acn: "612 337 587",
     abn: "12 612 337 587",
-    publisher:
-      "LINK Advance ABN 12 612 337 587. The Brokers are authorised as credit representatives of Connective Credit Services Pty Ltd ACN 143 651 496 (Australian Credit Licence 389328).",
+    identity:
+      "LINK Advance is a registered business name of Dellit & Webb Wealth Services Pty Ltd ACN 612 337 587, ABN 12 612 337 587.",
+    // Connective's mandated licensing statement, verbatim. CR 492039 is Hugh's,
+    // supplied by James 11 Aug 2026. If Callum and Jacob hold their own credit
+    // representative numbers under ACL 389328, each must be named here too -
+    // outstanding question with the licensee.
+    licence: "Credit Representative 492039 is authorised under Australian Credit Licence 389328.",
+    // Connective's mandated general disclaimer, verbatim.
     disclaimer:
-      "The information on this website is general in nature and does not take into account your objectives, financial situation or needs. All loan applications are subject to the credit provider's assessment and lending criteria. Terms, conditions, fees and charges apply. Comparison rates and calculator results are indicative only: they are not a quote, a loan offer or a suggestion of your borrowing capacity, and you should always confirm figures with your broker or lender before acting.",
+      "This page provides general information only and has been prepared without taking into account your objectives, financial situation or needs. We recommend that you consider whether it is appropriate for your circumstances and your full financial situation will need to be reviewed prior to acceptance of any offer or product. It does not constitute legal, tax or financial advice and you should always seek professional advice in relation to your individual circumstances.",
+    // Connective's recommended best-practice addition.
+    eligibility:
+      "Subject to lenders terms and conditions, fees and charges and eligibility criteria apply.",
+    // Ours, not the licensee's: the calculators need saying-so beyond the
+    // general disclaimer, because a number on screen reads as a promise in a
+    // way prose does not.
+    toolsDisclaimer:
+      "Calculator and check results are indicative only. They are not a quote, a loan offer or an assessment of your borrowing capacity, and every figure should be confirmed with your broker or lender before you act on it.",
+    publisher:
+      "LINK Advance is a registered business name of Dellit & Webb Wealth Services Pty Ltd ACN 612 337 587, ABN 12 612 337 587. Credit Representative 492039 is authorised under Australian Credit Licence 389328.",
     privacyPath: "/privacy-policy",
     emailDisclaimerPath: "/mail-disclaimer",
+    complaintsPath: "/compliments-and-concerns",
   },
   social: {
     instagram: "https://www.instagram.com/link.advance",

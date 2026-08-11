@@ -59,39 +59,14 @@ export async function sendLeadEmail(subject: string, lines: [string, string][]) 
   return { sent: true as const };
 }
 
-// Lead-magnet delivery: the SMSF Property Purchase Guide the /smsf page
-// promises "straight to your inbox". Sent to the visitor from the same
-// verified sender; without a Resend key the promise degrades to the
-// on-screen download link the thank-you page shows, so nothing is lost.
-export async function sendGuideEmail(to: string, firstName: string) {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) {
-    console.log(`[guide email skipped - no key] to=${to}`);
-    return { sent: false as const };
-  }
-  const url = "https://wealth.link.com.au/downloads/LINK-SMSF-Property-Guide.pdf";
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from: FROM,
-      to: [to],
-      subject: "Your SMSF Property Purchase Guide",
-      text: `Hi ${firstName},\n\nThanks for your interest - your copy of the LINK SMSF Property Purchase Guide is here:\n${url}\n\nWe'll be in touch shortly to arrange your free strategy call. Sooner is better? Call us on (07) 2101 4377.\n\nLINK Wealth\nLevel 1, 57 Berwick Street, Fortitude Valley QLD 4006\n\nGeneral information only, not personal advice. Richard Leal (AR 327265) and Link Wealth Pty Ltd (CAR 1312767) are authorised representatives of Millennium 3 Financial Services Pty Ltd (ABN 61 094 529 987), AFSL 244252.`,
-      html:
-        `<div style="font-family:sans-serif;font-size:15px;line-height:1.6;color:#111">` +
-        `<p>Hi ${firstName},</p>` +
-        `<p>Thanks for your interest - your copy of the <strong>LINK SMSF Property Purchase Guide</strong> is ready:</p>` +
-        `<p><a href="${url}" style="display:inline-block;background:#1f9e84;color:#fff;padding:10px 22px;border-radius:999px;text-decoration:none;font-weight:600">Download the guide</a></p>` +
-        `<p>We'll be in touch shortly to arrange your free strategy call. Sooner is better? Call us on (07) 2101 4377.</p>` +
-        `<p>LINK Wealth<br>Level 1, 57 Berwick Street, Fortitude Valley QLD 4006</p>` +
-        `<p style="font-size:12px;color:#777">General information only, not personal advice. Richard Leal (AR 327265) and Link Wealth Pty Ltd (CAR 1312767) are authorised representatives of Millennium 3 Financial Services Pty Ltd (ABN 61 094 529 987), AFSL 244252.</p>` +
-        `</div>`,
-    }),
-  });
-  if (!res.ok) {
-    console.error("[guide email failed]", res.status, await res.text().catch(() => ""));
-    return { sent: false as const };
-  }
-  return { sent: true as const };
-}
+// REMOVED Aug 2026: sendGuideEmail(). This file was copied from linkwealth-site
+// and the lead-magnet function came with it intact - it sent LINK Wealth's SMSF
+// Property Purchase Guide, LINK Wealth's phone number ((07) 2101 4377, not
+// Advance's 4374) and, at the foot of the message, LINK Wealth's AFSL
+// disclosure naming Richard Leal, Link Wealth Pty Ltd and Millennium 3's
+// AFSL 244252. All of it would have gone out over an Advance sender.
+//
+// No Advance page passes variant="guide", so it never fired in normal use, but
+// it was still reachable by POSTing that variant to /api/contact. Advance has
+// no lead magnet of its own; if one is ever added, write a new function with
+// Advance's identity rather than reviving this.
