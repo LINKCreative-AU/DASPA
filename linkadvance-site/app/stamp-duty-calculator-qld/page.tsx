@@ -37,7 +37,7 @@ const FAQS = [
   { q: "Does the stamp duty saving stack with the $30,000 grant?", a: "Yes. A first home buyer building a new home can combine zero stamp duty, the $30,000 First Home Owner Grant, the 5% deposit First Home Guarantee and the First Home Super Saver scheme. The full stack can be worth $50,000+." },
   { q: "How much is stamp duty on a $600,000 house in QLD?", a: "$20,025 at general (investor) rates, $12,850 with the owner-occupier home concession, and $0 for a first home buyer, whether the home is new or established, because $600,000 sits under the $700,000 full-concession threshold." },
   { q: "Do foreign buyers pay extra stamp duty in QLD?", a: "Yes. Additional foreign acquirer duty (AFAD) adds 8% of the dutiable value on residential land acquired by a foreign person, on top of ordinary transfer duty, for liabilities arising on or after 1 July 2024. On an $800,000 house that is $64,000 in surcharge alone. From 1 August 2026 you must also be an Australian citizen, permanent resident or specified foreign retiree to claim any transfer duty home or first home concession." },
-  { q: "Can stamp duty be added to my home loan?", a: "Not directly. Duty is cash due around settlement, and lenders size the loan against the property value, not the value plus your costs. What you can sometimes do is borrow at a higher LVR (accepting LMI) so more of your savings stay free for duty, or draw on equity in another property. Both change your deposit maths, which is worth modelling before you sign." },
+  { q: "Can stamp duty be added to my home loan?", a: "Not directly. Duty is cash due around settlement, and lenders size the loan against the property value, not the value plus your costs. What you can sometimes do is borrow at a higher LVR (accepting LMI) so more of your savings stay available for duty, or draw on equity in another property. Both change your deposit maths, which is worth modelling before you sign." },
   { q: "What happens if I don't live in the home after claiming the concession?", a: "The concession is reassessed and you pay the difference, plus possible unpaid tax interest and penalty tax. The QRO's rules are specific: move in within 1 year of settlement and live there daily, don't lease any part of it before you move in, and don't lease the whole home within the first year of occupying. Renting out part of the home while you still live there is allowed for leases starting on or after 10 September 2024. If plans change, tell the QRO rather than waiting to be found." },
 ];
 
@@ -75,7 +75,7 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="Free tool · QRO rates, mid-2026"
+            eyebrow="QRO rates, mid-2026"
             title="Stamp duty in QLD, and who pays none at all."
             mark="none at all."
             intro="Queensland rewrote its first-home stamp duty rules in May 2025: zero duty on new builds at any price, and relief on established homes to $800,000. Pick your buyer type, enter the price, and see the duty (and the saving) instantly."
@@ -362,7 +362,7 @@ export default function Page() {
       />
       <CtaBand
         heading="Duty, grants, deposit: sequenced properly."
-        intro="A broker lines up everything you're entitled to before you sign anything. Free, no obligation."
+        intro="A broker lines up everything you're entitled to before you sign anything. No obligation."
         subject="Stamp duty QLD"
       />
     </main>

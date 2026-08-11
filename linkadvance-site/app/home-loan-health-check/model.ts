@@ -56,7 +56,7 @@ export const QUESTIONS: Question[] = [
     label: "When was the loan last reviewed or repriced?",
     hint: "A review means someone compared it or pushed the lender for a sharper rate, not just a statement arriving.",
     options: [
-      { label: "Never, or 3+ years ago", points: 0, tip: "Loans drift. Three unreviewed years is typically thousands in loyalty tax. A repricing call to your lender is free and often works same-week." },
+      { label: "Never, or 3+ years ago", points: 0, tip: "Loans drift. Three unreviewed years is typically thousands in loyalty tax. A repricing call to your lender costs nothing and often works same-week." },
       { label: "A couple of years back", points: 0.4, tip: "The market has moved since. An annual review (not necessarily a refinance) keeps the rate honest." },
       { label: "Within the last 18 months", points: 0.7 },
       { label: "Within the last year", points: 1 },
@@ -70,7 +70,7 @@ export const QUESTIONS: Question[] = [
     label: "Which of these is your loan actually using?",
     hint: "Tick everything that applies.",
     lowTip:
-      "Structure is free money: an offset you actually use, extra or fortnightly repayments and deliberate splits can save more than a rate cut, and they're available without refinancing.",
+      "Structure is money you already have: an offset you actually use, extra or fortnightly repayments and deliberate splits can save more than a rate cut, and they're available without refinancing.",
     options: [
       { label: "An offset account with real money in it", points: 0.4 },
       { label: "Extra repayments (or fortnightly payments)", points: 0.3 },

@@ -54,7 +54,7 @@ const data: LoanPageData = {
     { label: "First home buyer loans", href: "/first-home-buyers-loan" },
   ],
   ctaHeading: "Find your waiver.",
-  ctaIntro: "Tell us your profession and the plan. A broker will map which lenders waive LMI for you and what they'll lend. Free, no obligation.",
+  ctaIntro: "Tell us your profession and the plan. A broker will map which lenders waive LMI for you and what they'll lend. No obligation.",
   subject: "Doctors & professionals",
 };
 

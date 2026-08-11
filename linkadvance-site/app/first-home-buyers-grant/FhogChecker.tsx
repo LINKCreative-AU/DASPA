@@ -173,7 +173,7 @@ export function FhogChecker() {
         {(complete || fails.length > 0) && (
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <a href="#contact" className="btn bg-white text-ink hover:bg-neutral-100">
-              Get it confirmed for free
+              Get it confirmed
             </a>
             <a
               href="/first-home-guarantee"

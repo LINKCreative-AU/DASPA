@@ -25,7 +25,7 @@ const PATH = "/home-loan-repayment-calculator";
 export const metadata: Metadata = {
   title: { absolute: "Home Loan Repayment Calculator | Weekly, Fortnightly, Monthly + Stress Test" },
   description:
-    "Calculate home loan repayments at any rate and term (monthly, fortnightly and weekly), plus the +3% stress test lenders actually apply and what extra repayments save. Free, on screen, no email wall.",
+    "Calculate home loan repayments at any rate and term (monthly, fortnightly and weekly), plus the +3% stress test lenders actually apply and what extra repayments save. On screen, no email wall.",
   alternates: { canonical: PATH },
 };
 
@@ -45,7 +45,7 @@ const FAQS = [
   { q: "Why do lenders assess me at a higher rate than I'll pay?", a: "APRA requires lenders to test that you could still afford repayments if rates rose: the serviceability buffer, currently around 3 percentage points above your actual rate. That stressed figure, not the advertised repayment, is what decides your borrowing power." },
   { q: "Do fortnightly repayments really save interest?", a: "Paying half your monthly amount fortnightly sneaks in one extra month's payment per year (26 halves = 13 months), which genuinely shortens the loan. The effect in this calculator's extra-repayment field: roughly one-twelfth of your monthly repayment as 'extra'. The trap is that some lenders calculate a 'true fortnightly' amount instead (the monthly figure times 12, divided by 26), which pays exactly the same total each year and saves nothing." },
   { q: "What difference do extra repayments make?", a: "On a typical 30-year loan, even a few hundred dollars extra per month removes years from the term and five figures from the interest. The calculator shows your exact numbers. An offset account achieves the same effect while keeping the cash accessible." },
-  { q: "How much are repayments on a $500,000 home loan?", a: `Over 30 years, principal and interest, a $500,000 loan costs ${money(pmt(500_000, 5.5, 30))} a month at 5.5%, ${money(pmt(500_000, 6.0, 30))} at 6.0% and ${money(pmt(500_000, 6.5, 30))} at 6.5%. Every half a percentage point is worth roughly $160 a month on a loan that size, which is the whole argument for reviewing the rate annually rather than the loan.` },
+  { q: "How much are repayments on a $500,000 home loan?", a: `Over 30 years, principal and interest, a $500,000 loan costs ${money(pmt(500_000, 5.5, 30))} a month at 5.5%, ${money(pmt(500_000, 6.0, 30))} at 6.0% and ${money(pmt(500_000, 6.5, 30))} at 6.5%. Every half a percentage point is worth roughly $160 a month on a loan that size, which is the whole argument for reviewing the rate every six months rather than the loan.` },
   { q: "Is an offset account better than making extra repayments?", a: "In interest terms they are close to identical: a dollar in a full offset account reduces the interest-bearing balance exactly like a dollar of extra repayment. The differences are practical. Offset money stays yours and can be withdrawn without asking; extra repayments have to be redrawn, and lenders can restrict redraw. For investors the tax treatment matters more: redrawing from a loan can change the purpose of the borrowing and affect deductibility, while drawing on your own offset savings does not. Offsets usually sit inside a package with an annual fee, so if the balance you keep is small the fee can outweigh the saving." },
   { q: "What is the difference between principal and interest and interest only?", a: `Principal and interest pays down the debt from day one. Interest only pays the lender's interest and nothing else, so the balance is unchanged when the term ends. On a ${money(EXAMPLE_LOAN)} loan at an illustrative ${EXAMPLE_RATE}%, interest only is ${money(ioPayment(EXAMPLE_LOAN, EXAMPLE_RATE))} a month against ${money(pmt(EXAMPLE_LOAN, EXAMPLE_RATE, EXAMPLE_TERM))} for principal and interest. The catch arrives later: after a 5-year interest-only period the same debt has to be repaid over the remaining 25 years, so the repayment jumps to ${money(pmt(EXAMPLE_LOAN, EXAMPLE_RATE, EXAMPLE_TERM - IO_YEARS))}, and total interest over the 30 years rises by about ${money(ioPayment(EXAMPLE_LOAN, EXAMPLE_RATE) * IO_YEARS * 12 + totalInterest(EXAMPLE_LOAN, EXAMPLE_RATE, EXAMPLE_TERM - IO_YEARS) - totalInterest(EXAMPLE_LOAN, EXAMPLE_RATE, EXAMPLE_TERM))}.` },
   { q: "Can I change my repayments from monthly to fortnightly?", a: "Usually yes, and it is a phone call or an app setting rather than a refinance. Ask the lender to confirm which method they use: half the monthly amount paid 26 times a year adds a thirteenth monthly payment and shortens the loan, while a recalculated 'true fortnightly' amount does not. Also check whether the loan caps extra repayments, which fixed-rate loans commonly do." },
@@ -86,7 +86,7 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="Free tool · no email wall"
+            eyebrow="No email wall"
             title="Home loan repayment calculator, with the stress test banks apply."
             mark="stress test banks apply."
             intro="Monthly, fortnightly and weekly repayments at your rate and term, the total interest over the loan, what the +3% assessment buffer does to the numbers, and what extra repayments actually save."
@@ -121,7 +121,7 @@ export default function Page() {
             Two readings worth taking from the table: the difference between 5.5% and 6.5% on
             a $600,000 loan is {money(pmt(600_000, 6.5, 30) - pmt(600_000, 5.5, 30))} a month
             ({money((pmt(600_000, 6.5, 30) - pmt(600_000, 5.5, 30)) * 12)} a year), which is why
-            the yearly repricing call matters. And a lender assessing you at the 3% buffer reads
+            the six-monthly repricing call matters. And a lender assessing you at the 3% buffer reads
             your $600,000 loan at roughly the 8.9% row that isn&apos;t on this table:{" "}
             {money(pmt(600_000, 8.9, 30))} a month. That gap between what you&apos;d pay and what
             you must prove you could pay is the borrowing power question, and the{" "}
@@ -361,7 +361,7 @@ export default function Page() {
       />
       <CtaBand
         heading="The repayment is maths. The rate is negotiation."
-        intro="A broker compares your numbers across 35+ lenders. It's free, and the lender pays us."
+        intro="A broker compares your numbers across 35+ lenders. The lender pays us, not you."
         subject="Repayments calculator"
       />
     </main>

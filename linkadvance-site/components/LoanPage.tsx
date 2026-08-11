@@ -197,7 +197,7 @@ export function LoanPage({ data }: { data: LoanPageData }) {
         heading={data.ctaHeading ?? "One broker, 35+ lenders, zero cost to you."}
         intro={
           data.ctaIntro ??
-          "Most home loan broking is paid by the lender, not you. Tell us what you're planning and a broker will call to map your options. Free, no obligation."
+          "Most home loan broking is paid by the lender, not you. Tell us what you're planning and a broker will call to map your options. No obligation."
         }
         subject={data.subject}
       />

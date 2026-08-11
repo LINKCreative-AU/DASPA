@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     absolute: "Second Tier Lenders Australia | Tiered Lending and Your Cost of Capital",
   },
   description:
-    "The three tiers of the Australian lending market explained: what a second tier lender is, what a third tier lender is, and why the order you borrow in decides how far a portfolio goes. Includes a free weighted average cost of capital calculator.",
+    "The three tiers of the Australian lending market explained: what a second tier lender is, what a third tier lender is, and why the order you borrow in decides how far a portfolio goes. Includes a weighted average cost of capital calculator.",
   alternates: { canonical: PATH },
 };
 
@@ -513,7 +513,7 @@ export default function Page() {
         related={[
           { label: "Investment home loans", href: "/investment-home-loans" },
           { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },
-          { label: "Refinancing: the free review", href: "/refinancing-brisbane" },
+          { label: "Refinancing: the review", href: "/refinancing-brisbane" },
           { label: "Commercial lending", href: "/commercial-lending" },
         ]}
       />
@@ -532,7 +532,7 @@ export default function Page() {
 
       <CtaBand
         heading="Ready to map your borrowing capacity across all three tiers?"
-        intro="Tell us what you're planning and a broker will call to work through the sequence: what sits where, what it costs blended, and what the next purchase does to it. Free, no obligation."
+        intro="Tell us what you're planning and a broker will call to work through the sequence: what sits where, what it costs blended, and what the next purchase does to it. No obligation."
         subject="Tiered lending enquiry"
         formTitle="Talk to a broker"
       />

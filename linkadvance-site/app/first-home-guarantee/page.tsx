@@ -119,7 +119,7 @@ export default function Page() {
               of the loan than a bigger-deposit loan; a thin equity buffer if prices dip; and
               a smaller pool of lenders, so the scheme rate may not be the market's sharpest.
               None of that makes it a bad deal (buying years earlier has real value, and rent
-              isn't free either), but the comparison deserves actual numbers. That's the free
+              carries its own cost too), but the comparison deserves actual numbers. That's the no-cost
               part of our job.
             </p>
           </div>
@@ -150,7 +150,7 @@ export default function Page() {
 
       <CtaBand
         heading="5% deposit, full picture."
-        intro="A broker will check your price cap, compare participating lenders and stack every grant you're entitled to. Free, no obligation."
+        intro="A broker will check your price cap, compare participating lenders and stack every grant you're entitled to. No obligation."
         subject="First Home Guarantee"
       />
     </main>

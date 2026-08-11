@@ -12,7 +12,7 @@ import { SendFailed } from "./SendFailed";
 // `reason` even goes into the lead subject for triage.
 export function CtaBand({
   heading = "One broker, 35+ lenders, zero cost to you.",
-  intro = "Tell us what you're planning and a broker will call to map your options. Free, no obligation. Most home loan broking is paid by the lender, not you.",
+  intro = "Tell us what you're planning and a broker will call to map your options. No obligation. Most home loan broking is paid by the lender, not you.",
   variant = "contact",
   subject,
   formTitle = "Talk to a broker",
@@ -148,7 +148,7 @@ function MiniForm({
         </div>
       </div>
       <button type="submit" disabled={state === "sending"} className="btn mt-6 w-full bg-white text-ink hover:bg-neutral-100 disabled:opacity-50 sm:w-auto">
-        {state === "sending" ? "Sending…" : "Book my free chat"}
+        {state === "sending" ? "Sending…" : "Book my chat"}
       </button>
       {state === "error" && <SendFailed dark />}
     </form>

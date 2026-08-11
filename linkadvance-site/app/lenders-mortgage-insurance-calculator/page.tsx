@@ -80,7 +80,7 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="Free tool · no email wall"
+            eyebrow="No email wall"
             title="LMI calculator, and the four ways to not pay it."
             mark="not pay it."
             intro="Enter your property value and deposit for an indicative lenders mortgage insurance estimate, then see whether the First Home Guarantee, a guarantor or a professional waiver makes the premium disappear entirely."
@@ -228,7 +228,7 @@ export default function Page() {
             said often enough.
           </p>
           <p className="mt-4 text-lg leading-[1.4] text-ink/80">
-            Before you accept the trade at all, exhaust the free options. Eligible first home
+            Before you accept the trade at all, exhaust the no-cost options. Eligible first home
             buyers can use the{" "}
             <TextLink href="/first-home-guarantee">First Home Guarantee</TextLink> for a 5%
             deposit with no LMI at all, which beats every version of this calculation. Some
@@ -286,7 +286,7 @@ export default function Page() {
       />
       <CtaBand
         heading="Before you pay LMI, spend five minutes not paying it."
-        intro="A broker checks the Guarantee, guarantor and waiver paths against your numbers, free."
+        intro="A broker checks the Guarantee, guarantor and waiver paths against your numbers."
         subject="LMI calculator"
       />
     </main>

@@ -33,7 +33,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       {
         heading: "The process, from first chat to settlement.",
         paragraphs: [
-          "It starts with a conversation about what you're trying to do: buy, upgrade, invest, or just find out where you stand. For plenty of clients that conversation happens a year or more before they buy, and that's fine; the plan is free. From there the path is predictable, and we drive every step of it:",
+          "It starts with a conversation about what you're trying to do: buy, upgrade, invest, or just find out where you stand. For plenty of clients that conversation happens a year or more before they buy, and that's fine; the plan costs you nothing. From there the path is predictable, and we drive every step of it:",
         ],
         bullets: [
           "First meeting: your situation, your goals and a plan, in our Fortitude Valley office, by video or by phone",
@@ -80,7 +80,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       {
         heading: "Start with your own numbers.",
         paragraphs: [
-          "Two minutes with the borrowing power estimator and the repayments calculator will frame the whole conversation: what a lender is likely to let you borrow, and what it costs per month at today's rates. Bring those numbers to a free chat and we'll tell you which lenders see your situation most favourably.",
+          "Two minutes with the borrowing power estimator and the repayments calculator will frame the whole conversation: what a lender is likely to let you borrow, and what it costs per month at today's rates. Bring those numbers to a chat and we'll tell you which lenders see your situation most favourably.",
         ],
       },
     ],
@@ -93,7 +93,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       // copy did not cash - and RG 234.34 requires the headline to stand up on
       // its own, qualified or not. This says the thing we actually do, and it
       // is the sharper line of the two.
-      { title: "We don't let your rate drift.", body: "After settlement we review your loan against the market every year and go back to your lender when it has moved. The rate you signed does not quietly become an average one." },
+      { title: "We don't let your rate drift.", body: "After settlement we review your loan against the market every six months and go back to your lender when it has moved. The rate you signed does not quietly become an average one." },
     ],
     faqs: [
       { q: "How much does a mortgage broker cost in Brisbane?", a: "For standard home loans, nothing. The lender pays the broker a commission on settlement, which we disclose to you in full. Some complex commercial or private lending work carries a fee, and it's agreed in writing before any work starts." },
@@ -133,7 +133,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     heroImage: "/wp-content/uploads/2023/01/hugh.jpg",
     heroImageAlt: "Hugh, co-founder of LINK Advance, Brisbane mortgage brokers",
     bullets: [
-      "Free loan review against 35+ lenders, including your own",
+      "Loan review against 35+ lenders, including your own",
       "Lower repayments, debt consolidation, or equity out for the next move",
       "Ongoing repricing after you switch, so the drift never restarts",
     ],
@@ -176,7 +176,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       {
         heading: "When refinancing isn't worth it.",
         paragraphs: [
-          "Honest answer: sometimes it isn't. Fixed-rate break costs, small balances, short remaining terms or LMI re-triggering (if your equity is under 20%) can eat the gain. Part of the review is telling you when to stay put, and then squeezing your current lender for a better deal instead. That repricing call is free and takes us minutes.",
+          "Honest answer: sometimes it isn't. Fixed-rate break costs, small balances, short remaining terms or LMI re-triggering (if your equity is under 20%) can eat the gain. Part of the review is telling you when to stay put, and then squeezing your current lender for a better deal instead. That repricing call takes us minutes.",
         ],
       },
       {
@@ -195,7 +195,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       {
         heading: "Start with the health check.",
         paragraphs: [
-          "The home loan health check takes two minutes and tells you whether your loan is worth reviewing: rate drift, structure, offset use and fit. If it flags a gap, the free broker review does the real comparison.",
+          "The home loan health check takes two minutes and tells you whether your loan is worth reviewing: rate drift, structure, offset use and fit. If it flags a gap, the broker review does the real comparison.",
         ],
       },
     ],
@@ -211,7 +211,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { q: "Can I refinance to consolidate debts?", a: "Usually, if you have the equity and the income to service the consolidated loan. It can cut your total interest dramatically, but stretching a car loan over 30 years costs more in the end unless you keep repayments up. We structure it so the win is real." },
       { q: "Can I get cash out for renovations or investing?", a: "If your equity supports it, yes. Lenders will typically lend up to 80% of your property's value without LMI. The refinancing review shows your usable equity and what accessing it does to repayments." },
       { q: "How long does refinancing take?", a: "Four to eight weeks end to end is typical: days for the comparison, about a week for the application, one to two weeks for approval, and the rest waiting on your old lender's discharge team. A repricing outcome with your existing lender takes days. If you're working to a deadline (a fixed rate expiring, a purchase settling), tell us and we pick lenders that are fast right now." },
-      { q: "Do I have to refinance to get a better rate?", a: "No, and often you shouldn't. Lenders hold their sharpest pricing for customers who ask, and a repricing request (which we make for you, free) frequently closes most of the gap without switching. Refinancing wins when your lender won't move, when the structure is wrong, or when you need equity out or debts consolidated." },
+      { q: "Do I have to refinance to get a better rate?", a: "No, and often you shouldn't. Lenders hold their sharpest pricing for customers who ask, and a repricing request (which we make for you) frequently closes most of the gap without switching. Refinancing wins when your lender won't move, when the structure is wrong, or when you need equity out or debts consolidated." },
       { q: "Can I refinance if my property has gone up in value?", a: "Rising value helps twice: it can push your equity past 20%, removing LMI from the equation and unlocking sharper pricing tiers, and it increases the equity you can access for renovations or investing. The new lender's valuation sets the number, and valuations vary between lenders; when a result looks light we test it elsewhere." },
       { q: "What documents do I need to refinance?", a: "Less than you'd think: identification, recent payslips or financials, statements for the loan you're refinancing and any other debts, and a council rates notice for the property. Most of it is digital now. We hand you a short checklist and do the assembly." },
     ],
@@ -221,8 +221,8 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { label: "Refinancing after separation or divorce", href: "/blog/home-loans/refinancing-your-home-loan-after-separation-or-divorce" },
       { label: "Home loans Brisbane", href: "/home-loans-brisbane" },
     ],
-    ctaHeading: "One free review. Two ways to win.",
-    ctaIntro: "Either we find a sharper loan across 35+ lenders, or we make your current lender price-match. Both start with the same free review.",
+    ctaHeading: "One review. Two ways to win.",
+    ctaIntro: "Either we find a sharper loan across 35+ lenders, or we make your current lender price-match. Both start with the same review.",
     reviewService: "Refinance",
     reviewHeading: "What people who refinanced say about it.",
     reviewIntro:
@@ -302,7 +302,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { label: "Home loans Brisbane", href: "/home-loans-brisbane" },
     ],
     ctaHeading: "Thinking of buying before you sell?",
-    ctaIntro: "Bring the addresses and the loan balance. A broker will run the peak-debt and end-debt numbers with you, stress-tested, free.",
+    ctaIntro: "Bring the addresses and the loan balance. A broker will run the peak-debt and end-debt numbers with you, stress-tested.",
     reviewService: "Bought & sold",
     reviewHeading: "What people who bought and sold say about it.",
     reviewIntro:
@@ -356,7 +356,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       {
         heading: "The path, start to finish.",
         paragraphs: [
-          "First a free chat about where you are: deposit, income, timeframe. Then the numbers: what you can borrow, what it costs monthly, which grants you qualify for. Then pre-approval with a lender chosen for your situation, so you can make offers with confidence. When a contract is signed we run the approval, liaise with your solicitor and the agent, and get you to settlement. After that, we reprice your loan every year, so you'll never pay the loyalty tax.",
+          "First a chat about where you are: deposit, income, timeframe. Then the numbers: what you can borrow, what it costs monthly, which grants you qualify for. Then pre-approval with a lender chosen for your situation, so you can make offers with confidence. When a contract is signed we run the approval, liaise with your solicitor and the agent, and get you to settlement. After that, we reprice your loan every year, so you'll never pay the loyalty tax.",
         ],
       },
       {
@@ -688,7 +688,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { label: "How can I use my super to buy a house?", href: "/blog/home-loans/how-can-i-use-my-super-to-buy-a-house" },
     ],
     ctaHeading: "The lending half of a good SMSF strategy.",
-    ctaIntro: "Tell us what you're weighing up. Jacob will map the lending side, and LINK Wealth's advisers cover the strategy. Free, no obligation.",
+    ctaIntro: "Tell us what you're weighing up. Jacob will map the lending side, and LINK Wealth's advisers cover the strategy. No obligation.",
     subject: "SMSF loans",
   },
 
@@ -787,7 +787,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { label: "Commercial lending overview", href: "/commercial-lending" },
     ],
     ctaHeading: "Bring the plan. We'll bring the lenders.",
-    ctaIntro: "Tell us what the business needs and when. A broker will map the realistic options and what they cost. Free, no obligation.",
+    ctaIntro: "Tell us what the business needs and when. A broker will map the realistic options and what they cost. No obligation.",
     subject: "Business loans",
   },
 
@@ -960,7 +960,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { label: "Commercial lending overview", href: "/commercial-lending" },
     ],
     ctaHeading: "Bring the premises plan.",
-    ctaIntro: "Jacob maps the lending: deposit, entity, lender shortlist. Free, no obligation.",
+    ctaIntro: "Jacob maps the lending: deposit, entity, lender shortlist. No obligation.",
     subject: "Commercial property",
   },
 

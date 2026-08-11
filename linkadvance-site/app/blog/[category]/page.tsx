@@ -116,7 +116,7 @@ export default async function Page({ params }: Params) {
 
       <CtaBand
         heading="One broker, 35+ lenders, zero cost to you."
-        intro="Tell us what you're planning and a broker will call to map your options. Free, no obligation."
+        intro="Tell us what you're planning and a broker will call to map your options. No obligation."
         subject={`Articles: ${label}`}
       />
     </main>

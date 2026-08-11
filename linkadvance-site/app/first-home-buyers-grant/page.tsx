@@ -303,7 +303,7 @@ export default function Page() {
 
       <CtaBand
         heading="Maximise every grant you're entitled to."
-        intro="Tell us where you're at and a broker will map the grant, the duty relief and the deposit path together. Free, no obligation."
+        intro="Tell us where you're at and a broker will map the grant, the duty relief and the deposit path together. No obligation."
         subject="FHOG QLD"
       />
     </main>

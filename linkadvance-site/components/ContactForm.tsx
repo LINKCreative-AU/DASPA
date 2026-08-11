@@ -121,7 +121,7 @@ export function ContactForm({
           <>
             <p className="mt-3 text-ink/65">
               Your SMSF Property Purchase Guide is on its way to your inbox, and we&apos;ll be
-              in touch shortly to arrange your free strategy call. Want it right now?
+              in touch shortly to arrange your strategy call. Want it right now?
             </p>
             <a
               href="/downloads/LINK-SMSF-Property-Guide.pdf"
@@ -226,9 +226,9 @@ export function ContactForm({
         {busy
           ? "Sending…"
           : guide
-            ? "Send me the free SMSF guide"
+            ? "Send me the SMSF guide"
             : discovery
-              ? "Book my free discovery meeting"
+              ? "Book my discovery meeting"
               : "Send message"}
       </button>
       {failed && <SendFailed />}

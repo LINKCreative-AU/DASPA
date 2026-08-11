@@ -48,7 +48,7 @@ const PRAISE_COUNT = PRAISES.map((p) => ({
 
 const PRAISE_GLOSS: Record<string, string> = {
   Communication:
-    "Being told where things are up to before you have to ask. It is the single most common thing in the pile, and it is also the cheapest thing for a broker to get right and the most common thing to get wrong.",
+    "Being told where things are up to before you have to ask. It is the single most common thing in the pile, and it is also the least demanding thing for a broker to get right and the most common thing to get wrong.",
   "Made it simple":
     "Someone taking a process with thirty moving parts and handing back three decisions. Clients use the words easy, smooth and painless, usually about something that was none of those things underneath.",
   "Knew their stuff":
@@ -339,7 +339,7 @@ export default function Page() {
 
       <CtaBand
         heading="Meet your broker."
-        intro="A free, no-obligation chat about what you're planning, and an honest read on what's achievable. You'll speak to Hugh, Callum or Jacob, and whoever you speak to is who you keep."
+        intro="A no-obligation chat about what you're planning, and an honest read on what's achievable. You'll speak to Hugh, Callum or Jacob, and whoever you speak to is who you keep."
         subject="About us"
       />
     </main>

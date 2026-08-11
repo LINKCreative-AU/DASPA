@@ -13,9 +13,9 @@ import { EyebrowPill, TextLink } from "@/components/v2";
 const PATH = "/calculators";
 
 export const metadata: Metadata = {
-  title: { absolute: "Home Loan Calculators & Checks | Free, No Email Wall | LINK Advance" },
+  title: { absolute: "Home Loan Calculators & Checks | No Email Wall | LINK Advance" },
   description:
-    "Eight free tools from Brisbane mortgage brokers: borrowing power, repayments with the APRA stress test, LMI, QLD stamp duty, the $30,000 FHOG eligibility check, a portfolio cost of capital calculator, and health checks for your home loan and your business's borrowing position. All on screen, nothing stored, no email required.",
+    "Eight tools from Brisbane mortgage brokers: borrowing power, repayments with the APRA stress test, LMI, QLD stamp duty, the $30,000 FHOG eligibility check, a portfolio cost of capital calculator, and health checks for your home loan and your business's borrowing position. All on screen, nothing stored, no email required.",
   alternates: { canonical: PATH },
 };
 
@@ -104,8 +104,8 @@ const FAQS = [
     a: "Bank calculators use that bank's own policy and often flatter the result to start a conversation. These tools use benchmark settings and show ranges where lenders genuinely differ: the borrowing power spread between lenders on identical inputs is routinely six figures, which is the point of using a broker.",
   },
   {
-    q: "Are the calculators free, and is there a catch?",
-    a: "Free, and the catch is stated openly: we build them because people who find their numbers useful sometimes call us, and when they do the lender pays us rather than the client on most home lending. Nothing is gated, nothing is stored, and no result changes if you never make contact.",
+    q: "Do the calculators cost anything, and is there a catch?",
+    a: "No cost and no email wall, and the catch is stated openly: we build them because people who find their numbers useful sometimes call us, and when they do the lender pays us rather than the client on most home lending. Nothing is gated, nothing is stored, and no result changes if you never make contact.",
   },
   {
     q: "Do these calculators work outside Queensland?",
@@ -134,7 +134,7 @@ export default function Page() {
             url: `https://linkadvance.com.au${PATH}`,
             mainEntity: {
               "@type": "ItemList",
-              name: "Free mortgage calculators and borrowing checks",
+              name: "Mortgage calculators and borrowing checks",
               numberOfItems: TOOLS.length,
               itemListElement: TOOLS.map((t, i) => ({
                 "@type": "ListItem",
@@ -152,7 +152,7 @@ export default function Page() {
       <Breadcrumbs crumbs={CRUMBS} />
 
       <section className="container-x pb-16 pt-10 sm:pt-14">
-        <EyebrowPill tint>Free · on screen · no email wall</EyebrowPill>
+        <EyebrowPill tint>On screen · no email wall</EyebrowPill>
         <h1 className="mt-6 max-w-3xl font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-[58px]">
           Every number you need <span className="marker">before you borrow.</span>
         </h1>
@@ -354,7 +354,7 @@ export default function Page() {
       />
 
       <CtaBand
-        heading="The numbers are free. So is the conversation."
+        heading="No email wall on the numbers, and none on the conversation."
         intro="Run your figures, then tell us what you're planning. A broker will tell you which lenders read your situation best, at no cost."
         subject="Calculators hub"
       />

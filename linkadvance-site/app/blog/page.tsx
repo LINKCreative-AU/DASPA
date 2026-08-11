@@ -149,7 +149,7 @@ export default function Page() {
 
       <CtaBand
         heading="Read enough. Get the actual number."
-        intro="Tell us what you're planning and a broker will map your options across 35+ lenders. Free, no obligation."
+        intro="Tell us what you're planning and a broker will map your options across 35+ lenders. No obligation."
         subject="Articles"
       />
     </main>

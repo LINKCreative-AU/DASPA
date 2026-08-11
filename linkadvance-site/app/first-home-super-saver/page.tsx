@@ -97,7 +97,7 @@ export default function Page() {
 
       <CtaBand
         heading="Stack all four legs before you save another dollar."
-        intro="FHSS, the Guarantee, the grant and the duty relief. A broker sequences them around your timeframe, free."
+        intro="FHSS, the Guarantee, the grant and the duty relief. A broker sequences them around your timeframe."
         subject="First Home Super Saver"
       />
     </main>

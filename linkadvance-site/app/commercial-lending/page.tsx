@@ -133,7 +133,7 @@ export default function Page() {
 
       <CtaBand
         heading="Bring the plan. Jacob brings the lenders."
-        intro="A straight read on what's fundable, at what price, from which lenders. Free, no obligation."
+        intro="A straight read on what's fundable, at what price, from which lenders. No obligation."
         subject="Commercial lending"
       />
     </main>

@@ -92,7 +92,7 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="Free tool · assessed like a lender would"
+            eyebrow="Assessed like a lender would"
             title="How much can you borrow? The honest version."
             mark="The honest version."
             intro="Most borrowing calculators flatter you. This one runs the numbers the way a lender's serviceability engine does: net income, benchmarked expenses, the APRA buffer, and the card-limit rule most people have never heard of."
@@ -130,7 +130,7 @@ export default function Page() {
             The range on each row isn&apos;t hedging, it&apos;s the actual spread between
             lenders on identical inputs: income shading, expense treatment and buffer policy
             differ enough that the same couple can be offered six figures more at one lender
-            than another. Finding the right end of your range is the free part of what a
+            than another. Finding the right end of your range is the part of the job a
             broker does.
           </p>
         </div>
@@ -363,7 +363,7 @@ export default function Page() {
       />
       <CtaBand
         heading="The range is the reason to call."
-        intro="Lenders differ by six figures on the same inputs. A broker finds which end of the range is yours, free."
+        intro="Lenders differ by six figures on the same inputs. A broker finds which end of the range is yours."
         subject="Borrowing power"
       />
     </main>

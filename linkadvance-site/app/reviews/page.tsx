@@ -160,7 +160,7 @@ export default function Reviews() {
             </h2>
             <p className="mt-4 max-w-xl text-lg leading-[1.4] text-ink/80">
               No call centres and no hand-offs: the broker who meets you writes the loan,
-              drives the approval and reprices it every year after. That&apos;s why the reviews
+              drives the approval and reprices it every six months after. That&apos;s why the reviews
               name names.
             </p>
             <div className="mt-8 space-y-4">
@@ -193,7 +193,7 @@ export default function Reviews() {
 
       <CtaBand
         heading="Ready to be review number 263?"
-        intro="The first step is a free, no-obligation chat about what you're trying to do. You'll know within twenty minutes whether we can help."
+        intro="The first step is a no-obligation chat about what you're trying to do. You'll know within twenty minutes whether we can help."
         subject="Reviews page"
       />
     </main>

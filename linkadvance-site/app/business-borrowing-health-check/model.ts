@@ -114,7 +114,7 @@ export const QUESTIONS: Question[] = [
     label: "The existing debt: which of these are true?",
     hint: "Tick everything that applies.",
     lowTip:
-      "Business debt drifts harder than home loans: facilities roll over at last year's margin, short-term loans stack, and nobody's comparing. An annual facility review is the commercial version of the repricing call, and it's free.",
+      "Business debt drifts harder than home loans: facilities roll over at last year's margin, short-term loans stack, and nobody's comparing. An annual facility review is the commercial version of the repricing call, and it costs you nothing.",
     options: [
       { label: "We know every facility's rate and fees", points: 0.3 },
       { label: "Facilities were reviewed or repriced in the last 18 months", points: 0.4 },

@@ -23,7 +23,7 @@ const FAQS = [
   },
   {
     q: "Is it worth paying a mortgage broker?",
-    a: "For a home loan you don't pay one, so the question is really whether the service is worth using: a comparison across 35+ lenders, an application prepared the way credit teams read it, negotiation with walk-away leverage, and a repricing call every year after settlement. For complex commercial work where a fee can apply, it's quoted in writing before anything starts.",
+    a: "For a home loan you don't pay one, so the question is really whether the service is worth using: a comparison across 35+ lenders, an application prepared the way credit teams read it, negotiation with walk-away leverage, and a repricing call every six months after settlement. For complex commercial work where a fee can apply, it's quoted in writing before anything starts.",
   },
   {
     q: "Is a broker better than going to my bank?",
@@ -31,7 +31,7 @@ const FAQS = [
   },
   {
     q: "What is the downside of using a mortgage broker?",
-    a: "Two honest ones. A handful of lenders only deal direct, so no broker panel covers absolutely everything. And a bad broker can chase the easiest commission rather than the best loan: the law counters this (brokers owe you a Best Interests Duty; banks owe you nothing of the kind) and so does disclosure, so ask any broker how many lenders they accredit with and exactly how they're paid. We'll answer both before you ask.",
+    a: "Two honest ones. A handful of lenders only deal direct, so no broker panel covers absolutely everything. And a bad broker can chase the least demanding commission rather than the right loan: the law counters this (brokers owe you a Best Interests Duty; banks owe you nothing of the kind) and so does disclosure, so ask any broker how many lenders they accredit with and exactly how they're paid. We'll answer both before you ask.",
   },
   {
     q: "Can you help if the bank said no?",
@@ -43,7 +43,7 @@ const FAQS = [
   },
   {
     q: "Do I have to come into the office?",
-    a: "No. Most clients run the whole process by phone, email and video, and loans settle Australia-wide. If you'd rather sit down over a coffee, the office is at Level 1, 57 Berwick Street, Fortitude Valley, with free parking.",
+    a: "No. Most clients run the whole process by phone, email and video, and loans settle Australia-wide. If you'd rather sit down over a coffee, the office is at Level 1, 57 Berwick Street, Fortitude Valley, with parking on site.",
   },
   {
     q: "Do you only do home loans?",
@@ -144,7 +144,7 @@ export default function Page() {
                 // Headline was "We keep you on the best rate" - see the note in
                 // lib/loans.ts on why it changed and why this version is better.
                 title: "We don't let your rate drift.",
-                body: "Settlement isn't the finish line. Every year we review your loan against the market and go back to your lender when it has moved, so the sharp rate you signed doesn't quietly become an average one. Most clients get repriced without ever having to ask.",
+                body: "Settlement isn't the finish line. Every six months we review your loan against the market and go back to your lender when it has moved, so the sharp rate you signed doesn't quietly become an average one. Most clients get repriced without ever having to ask.",
               },
             ]}
             cols={4}
@@ -259,10 +259,10 @@ export default function Page() {
           />
           <ProcessSteps
             steps={[
-              { title: "Chat", body: "A free conversation about what you're planning: deposit, income, timeframe, and what's realistic." },
+              { title: "Chat", body: "A conversation about what you're planning: deposit, income, timeframe, and what's realistic." },
               { title: "Numbers", body: "Borrowing power, repayments, grants and the lender shortlist: your options in real dollars." },
               { title: "Approval", body: "The application prepared the way credit teams read it, submitted to the right lender, chased daily." },
-              { title: "Settled + repriced", body: "We drive settlement with your solicitor and agent, then reprice your rate every year after." },
+              { title: "Settled + repriced", body: "We drive settlement with your solicitor and agent, then reprice your rate every six months after." },
             ]}
           />
         </div>
@@ -306,7 +306,7 @@ export default function Page() {
               Run your own numbers <span className="marker">first.</span>
             </h2>
             <p className="mt-5 text-lg leading-[1.4] text-ink/80">
-              Eight tools, free, on screen, no email wall. Work out what you can borrow, what
+              Eight tools, on screen, no email wall. Work out what you can borrow, what
               it costs, what the government takes and gives back, then bring the numbers to a
               broker who can move them.
             </p>
@@ -390,7 +390,7 @@ export default function Page() {
               For home loans: <strong className="text-ink">you pay nothing</strong>. The lender
               pays a commission when the loan settles, and we disclose exactly what it is before
               you sign anything. The comparison across 35+ lenders, the negotiation and the
-              yearly repricing call are all part of that.
+              six-monthly repricing call are all part of that.
             </p>
             <p className="mt-4 text-lg leading-[1.4] text-ink/80">
               For complex commercial work, where a fee can apply, it&apos;s quoted in writing
@@ -418,7 +418,7 @@ export default function Page() {
                   ["Legally serves", "Its shareholders", "You: Best Interests Duty"],
                   ["Your rate", "The advertised one", "Negotiated, with walk-away leverage"],
                   ["The paperwork", "You chase it", "Prepared and chased for you"],
-                  ["After settlement", "Nothing", "Repriced every year"],
+                  ["After settlement", "Nothing", "Repriced every six months"],
                   ["Cost to you", "$0", "$0 for home loans, disclosed commission"],
                 ].map((r) => (
                   <tr key={r[0]} className="border-b border-ink/10 align-top">
@@ -447,7 +447,7 @@ export default function Page() {
             </span>
             <p className="text-sm text-ink/65">
               <span className="block font-semibold text-ink">Fortitude Valley, Brisbane.</span>
-              Level 1, 57 Berwick Street, QLD 4006, with free parking.{" "}
+              Level 1, 57 Berwick Street, QLD 4006, with parking on site.{" "}
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=LINK+Advance+Fortitude+Valley&query_place_id=${SITE.reviews.placeId}`}
                 target="_blank"

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     // Was "financial advisors" on (07) 2101 4377: both wrong. 4377 is LINK
     // Wealth's number, and "financial adviser" is a restricted term tied to an
     // AFSL. Advance holds a credit authorisation, not an AFSL.
-    "Book a free, no-obligation consultation with LINK Advance's Brisbane mortgage and finance brokers. Call (07) 2101 4374 or send us a message. We reply within a few business hours.",
+    "Book a no-obligation consultation with LINK Advance's Brisbane mortgage and finance brokers. Call (07) 2101 4374 or send us a message. We reply within a few business hours.",
   alternates: { canonical: "/contact-us" },
 };
 
@@ -33,7 +33,7 @@ export default function Contact() {
             Your path to financial freedom <span className="marker">is waiting.</span>
           </h1>
           <p className="mt-6 text-lg text-ink/70">
-            The first step is a free, no-obligation consultation. We’ll get to know you and
+            The first step is a no-obligation consultation. We’ll get to know you and
             your goals. You’ll get moving in the right direction. Let’s get started.
           </p>
           <div className="mt-10 space-y-6 text-sm">
@@ -52,7 +52,7 @@ export default function Contact() {
                 {SITE.address.street}, {SITE.address.suburb}, Brisbane, Queensland{" "}
                 {SITE.address.postcode}
               </p>
-              <p className="mt-1 text-ink/55">Free parking and great coffee if you’d like to visit in person.</p>
+              <p className="mt-1 text-ink/55">Parking on site, and coffee if you’d like to visit in person.</p>
             </div>
             <div>
               <p className="font-bold uppercase tracking-wider text-ink/50">Google rating</p>

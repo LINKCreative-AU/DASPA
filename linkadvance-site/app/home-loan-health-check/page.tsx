@@ -16,7 +16,7 @@ import { BANDS, SCORED } from "./model";
 const PATH = "/home-loan-health-check";
 
 export const metadata: Metadata = {
-  title: { absolute: "Free Home Loan Health Check | Score Your Loan Out of 10" },
+  title: { absolute: "Home Loan Health Check | Score Your Loan Out of 10" },
   description:
     "Seven quick questions, a score out of 10: rate awareness, review recency, structure, fit, equity and attention. See what your loan's costing you in neglect, on screen, no email wall.",
   alternates: { canonical: PATH },
@@ -39,7 +39,7 @@ const BAND_ACTIONS: Record<string, string> = {
 const AREA_WHY: Record<string, string> = {
   Rate: "The price you pay for the same debt everyone else has. Loyalty is priced, and the gap between your rate and a new customer's rate is pure margin.",
   Review: "Whether anyone has tested the rate against the market in the last year. Loans drift because nobody makes the call, not because lenders raise rates on you deliberately.",
-  Structure: "Offset, splits, extra and fortnightly repayments. Free levers that save money without refinancing, and the ones most commonly paid for and never used.",
+  Structure: "Offset, splits, extra and fortnightly repayments. Levers that save money without refinancing, and the ones most commonly paid for and never used.",
   Fit: "Whether the loan still matches the life it was built for. Income, family and plans move; loans do not move by themselves.",
   Equity: "Your share of the property. It sets your LVR band, decides whether LMI ever applies again, and determines what the next move can be funded with.",
   Attention: "Whether anyone is actually managing the loan: a repricing call, a market comparison and a feature check-up each year.",
@@ -47,13 +47,13 @@ const AREA_WHY: Record<string, string> = {
 
 const FAQS = [
   { q: "What is a home loan health check?", a: "A structured review of whether your loan is still working: is the rate sharp, is the structure (offset, splits, repayments) being used, does the loan still fit your life, and is anyone paying attention to it. This tool scores those markers in two minutes; a broker review then does the real comparison across 35+ lenders." },
-  { q: "How often should I review my home loan?", a: "Annually. That doesn't mean refinancing annually. Most annual reviews end in a free repricing call to your existing lender rather than a switch. What matters is that someone makes that call; loans drift precisely because nobody does." },
-  { q: "Is the check personal or credit advice?", a: "No. It weighs six general markers of loan health and returns general observations. It doesn't know your rate, balance or circumstances. It's built to start the right conversation; the free review with a broker is where your actual loan gets assessed." },
+  { q: "How often should I review my home loan?", a: "Annually. That doesn't mean refinancing annually. Most reviews end in a repricing call to your existing lender rather than a switch. What matters is that someone makes that call; loans drift precisely because nobody does." },
+  { q: "Is the check personal or credit advice?", a: "No. It weighs six general markers of loan health and returns general observations. It doesn't know your rate, balance or circumstances. It's built to start the right conversation; the review with a broker is where your actual loan gets assessed." },
   { q: "What happens if my loan scores badly?", a: "Usually good news, oddly: a low score means idle levers, and idle levers mean recoverable money. The most common fixes (a repricing call, activating an offset, cutting unused card limits) don't even require refinancing." },
   { q: "What is a good home loan health check score?", a: "Anything at 8.5 or above is dialled in: the rate has been tested recently, the structure is being used, and someone is managing the loan. Between 6.5 and 8.5 the bones are good and one lever is idle. Between 4 and 6.5 is where most loans sit. Below 4 the loan is running on autopilot. The score is a prompt, not a verdict, because it deliberately knows nothing about your actual rate or balance." },
   { q: "Does a home loan health check affect my credit score?", a: "No. Nothing here touches your credit file: there is no credit enquiry, no identity check and no data leaves your browser. A credit enquiry is only recorded when a lender formally assesses an application, which is a later and separate step, and part of a broker's job is making sure you do not scatter enquiries across several lenders while shopping." },
   { q: "Should I refinance or just ask my lender for a better rate?", a: "Ask first, in most cases. A repricing request to your existing lender costs nothing, takes days rather than weeks, and often lands within striking distance of the market. It works best when you can name a specific competing offer, which is the part a broker supplies. Refinancing wins when the gap survives the repricing call, when you need a feature or a structure your lender does not offer, or when your equity has moved you into a better LVR band that your lender will not honour." },
-  { q: "What does refinancing cost?", a: "Less than most people expect on a standard loan, but it is not free. Expect a discharge fee from the outgoing lender, mortgage registration and release fees payable to the state titles office, possible application or valuation fees at the new lender, and break costs if you are exiting a fixed rate, which can be substantial and are the one item worth pricing before you decide anything. Many lenders waive or absorb parts of this to win the loan. The rule of thumb we use: if the switch does not pay for itself well inside a year, it is not a switch, it is a repricing conversation." },
+  { q: "What does refinancing cost?", a: "Less than most people expect on a standard loan, but it is not nothing. Realistically $800 to $1,300 all in. Expect a discharge fee from the outgoing lender, mortgage registration and release fees payable to the state titles office, possible application or valuation fees at the new lender, and break costs if you are exiting a fixed rate, which can be substantial and are the one item worth pricing before you decide anything. Many lenders waive or absorb parts of this to win the loan. The rule of thumb we use: if the switch does not pay for itself well inside a year, it is not a switch, it is a repricing conversation." },
 ];
 
 const CRUMBS = [
@@ -85,7 +85,7 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="Free tool · 2 minutes · no email needed"
+            eyebrow="2 minutes · no email needed"
             title="The Home Loan Health Check: score your loan out of 10."
             mark="out of 10."
             intro="Loans are built to be forgotten, and lenders price that forgetting. Seven quick questions across the things that decide whether your loan is still working, with your score, flags and next steps on screen immediately."
@@ -289,7 +289,7 @@ export default function Page() {
         title="Frequently asked questions."
         faqs={FAQS}
         related={[
-          { label: "Refinancing: the free review", href: "/refinancing-brisbane" },
+          { label: "Refinancing: the review", href: "/refinancing-brisbane" },
           { label: "Repayments calculator", href: "/home-loan-repayment-calculator" },
           { label: "Borrowing power estimator", href: "/borrowing-power-calculator" },
           { label: "All calculators and checks", href: "/calculators" },
@@ -297,7 +297,7 @@ export default function Page() {
       />
       <CtaBand
         heading="A score is a start. Savings are the point."
-        intro="Bring your result to a free review. Either we find a sharper loan across 35+ lenders, or we make your lender price-match."
+        intro="Bring your result to a review. Either we find a sharper loan across 35+ lenders, or we make your lender price-match."
         subject="Home Loan Health Check"
       />
     </main>

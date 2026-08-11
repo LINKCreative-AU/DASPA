@@ -45,7 +45,7 @@ const FAQS = [
   { q: "What makes a business 'fundable'?", a: "Commercial lenders read the same file every time: current financials, a clear profit story (including add-backs), a clean or managed ATO position, sensible structure, and security they can understand. The check scores those markers because they're fixable, and fixing them changes both approval odds and pricing." },
   { q: "What are add-backs?", a: "Adjustments that show a business's true earning power: directors' wages above or below market, one-off costs, personal expenses run through the business. Lenders assess 'maintainable earnings' (profit after the story is understood), and documented add-backs can substantially lift what a file supports." },
   { q: "Will an ATO debt stop us borrowing?", a: "Not by itself. An ATO debt on a payment plan, disclosed up front, is routinely fundable. The deal-killer is the undisclosed version a lender finds in the bank statements. If there's tax debt, the move is a plan plus honesty, both of which we help arrange." },
-  { q: "Is this credit advice?", a: "No. It weighs seven general markers of borrowing readiness and returns general observations. It doesn't know your revenue, industry or circumstances. The free review with Jacob is where the real assessment happens; structure and tax questions belong with your accountant (LINK Advisors, if you'd like ours)." },
+  { q: "Is this credit advice?", a: "No. It weighs seven general markers of borrowing readiness and returns general observations. It doesn't know your revenue, industry or circumstances. The review with Jacob is where the real assessment happens; structure and tax questions belong with your accountant (LINK Advisors, if you'd like ours)." },
   { q: "How much can a business borrow?", a: "There is no income multiple the way there is in home lending. Commercial capacity is set by what the security supports and what the earnings service. Against commercial property, lenders typically go to 65% to 80% of value depending on the asset and the tenant, and an SMSF buying its own premises typically sits at 60% to 80%. Buying a business rather than a building, funding is commonly 50% to 70% of maintainable earnings. Development finance is usually sized at 65% to 80% of total development cost. Which of those applies to you is the first question worth answering." },
   { q: "What deposit do I need to buy commercial property?", a: "Plan on 20% to 35% of value in cash or other security, since commercial LVRs typically run 65% to 80% and the stronger end usually requires a strong tenant, a standard asset type and a strong borrower. Duty, legal costs and any GST treatment sit on top of that, and lenders will often want to see working capital left in the business afterwards rather than every spare dollar in the deposit. Buying premises through an SMSF is a separate structure with its own rules and typically a similar or larger deposit." },
   { q: "How long does commercial finance take?", a: "The honest answer is that the timeline is mostly set by your paperwork, not the lender. With current financials, tax lodgements up to date, an ATO position that is either clean or on a documented plan, and clear security, a straightforward commercial deal moves in weeks. Missing financials or a surprise in the statements turns the same deal into months, because every question restarts the credit queue. That is exactly what this check is scoring." },
@@ -81,7 +81,7 @@ export default function Page() {
         <div className="max-w-3xl">
           <SectionHead
             as="h1"
-            eyebrow="Free tool · 3 minutes · no email needed"
+            eyebrow="3 minutes · no email needed"
             title="Is your business fundable? Score the file out of 10."
             mark="out of 10."
             intro="Commercial lenders don't price businesses; they price files. Seven quick questions across the markers a credit desk actually reads: structure, numbers, profit, add-backs, the ATO, facilities and security. Your score and the groundwork show up immediately."
@@ -321,7 +321,7 @@ export default function Page() {
       />
       <CtaBand
         heading="A score is a start. A funded deal is the point."
-        intro="Bring your result to a free review. Jacob turns the flags into a fundable file and takes it to the lenders who want it."
+        intro="Bring your result to a review. Jacob turns the flags into a fundable file and takes it to the lenders who want it."
         subject="Business Borrowing Health Check"
       />
     </main>

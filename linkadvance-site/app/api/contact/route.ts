@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { sendLeadEmail } from "@/lib/email";
 
-// Receives all form variants (general contact, free discovery meeting, and
+// Receives all form variants (general contact, discovery meeting, and
 // the SMSF-guide lead magnet). Subject line carries the page context so
 // triage can prioritise from the inbox list view alone.
 

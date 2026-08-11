@@ -25,12 +25,12 @@ function buildPathways(sel: Selections): Pathway[] {
   const out: Pathway[] = [];
   if (reviewScore < 0.7 || tight) {
     out.push({
-      title: "A free review, or a repricing call.",
+      title: "A review, or a repricing call.",
       body: tight
         ? "When money's tighter, the loan is the biggest single lever: a review finds whether a sharper rate, consolidation or a structure change frees the most cash."
-        : "An unreviewed loan is almost always paying loyalty tax. Either we find a sharper deal across 35+ lenders, or we make your lender price-match, both free.",
+        : "An unreviewed loan is almost always paying loyalty tax. Either we find a sharper deal across 35+ lenders, or we make your lender price-match. Either way the lender pays us, not you.",
       href: "/refinancing-brisbane",
-      linkLabel: "How the free review works",
+      linkLabel: "How the review works",
     });
   }
   if (fixed) {
@@ -117,7 +117,7 @@ export function LoanCheck() {
       <div className="space-y-4">
         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 px-1">
           <p className="font-display text-lg font-bold tracking-tight text-ink">2 minutes. 6 areas. One real score.</p>
-          <p className="text-sm text-ink/50">Free. No sign-up. No email wall.</p>
+          <p className="text-sm text-ink/50">No sign-up. No email wall.</p>
         </div>
         {QUESTIONS.map((q, qi) => {
           const picked = sel[q.key] ?? [];
@@ -265,7 +265,7 @@ function LivePanel({
               </div>
               <p className="mt-4 text-xs leading-relaxed text-white/45">
                 General pathways people in similar positions often explore, not a recommendation.
-                Whether any fit you is what the free review works out.
+                Whether any fit you is what the review works out.
               </p>
             </div>
           )}
@@ -435,7 +435,7 @@ function SnapshotForm({ score, band, flags, profile }: { score: number; band: st
     <form onSubmit={submit} className="mt-7 border-t border-white/10 pt-6">
       <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/40">Talk the result through</p>
       <h3 className="mt-2 font-display text-xl font-normal tracking-tight sm:text-2xl">
-        Turn the flags into savings. Free, with a broker.
+        Turn the flags into savings, with a broker.
       </h3>
       <p className="mt-2 text-sm text-white/65">
         Your score, flags and context travel with the enquiry, so the conversation starts at
@@ -449,7 +449,7 @@ function SnapshotForm({ score, band, flags, profile }: { score: number; band: st
       </div>
       <div className="mt-5 flex flex-wrap items-center gap-4">
         <button type="submit" disabled={state === "sending"} className="btn bg-white text-ink hover:bg-neutral-100 disabled:opacity-50">
-          {state === "sending" ? "Sending…" : "Get my free loan review"}
+          {state === "sending" ? "Sending…" : "Get my loan review"}
         </button>
         <span className="text-sm text-white/50">
           Your score: <strong className="text-white">{score.toFixed(1)}/10</strong>
