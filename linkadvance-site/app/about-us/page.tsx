@@ -26,7 +26,7 @@ const PATH = "/about-us";
 export const metadata: Metadata = {
   title: { absolute: "About LINK Advance | Brisbane Mortgage & Commercial Finance Brokers" },
   description:
-    "A decade of writing loans for Australians, from first homes to commercial and SMSF. One broker per client, end to end, 262 Google reviews at 5.0. Meet Hugh, Callum and Jacob.",
+    "A decade of writing loans for Australians, from first homes to commercial and SMSF. One broker per client with a team of five behind them, 262 Google reviews at 5.0. Meet Hugh, Callum and Jacob.",
   alternates: { canonical: PATH },
 };
 
@@ -70,7 +70,7 @@ export default function Page() {
             eyebrow="About LINK Advance"
             title="Ten years of getting loans done, one client at a time."
             mark="one client at a time."
-            intro="Brisbane brokers for first home buyers, investors and businesses. Whatever you are borrowing for, one broker takes it from the first phone call to settlement and stays your broker afterwards: not a call centre, not a handover, not a new name every time you ring. That model is the whole reason the firm exists, and after a decade and 262 five-star reviews it is still the thing clients write about most."
+            intro="Brisbane brokers for first home buyers, investors and businesses. Whatever you are borrowing for, one broker takes it from the first phone call to settlement and stays your broker afterwards: not a call centre, not a handover, not a new name every time you ring. There are five of us doing that: three brokers and two loan processors, which is small enough that your file is never a stranger to anyone here, and enough hands that it never waits on one diary. That model is the whole reason the firm exists, and after a decade and 262 five-star reviews it is still the thing clients write about most."
             accent
           />
           <div className="flex items-end justify-center rounded-3xl bg-neutral-50 px-8 pt-8">
@@ -166,7 +166,7 @@ export default function Page() {
               },
               {
                 h: "We keep working after settlement",
-                p: "Rates drift the moment the ink dries. Every year we review your loan and, where the market has moved, go back to the lender for you. Clients get repricing conversations they never had to ask for.",
+                p: "Rates drift the moment the ink dries. Every six months we review your loan and, where the market has moved, go back to the lender for you. Clients get repricing conversations they never had to ask for.",
               },
               {
                 h: "The lender pays us, not you",

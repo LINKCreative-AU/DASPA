@@ -28,7 +28,7 @@ const data: LoanPageData = {
       heading: "What makes a good Brisbane broker.",
       paragraphs: [
         "Any broker can quote a rate. The work that actually changes your outcome is upstream: knowing which lender's credit policy suits your income type, preparing the application the way that credit team reads it, and clearing the questions before they're asked. That's why our files tend not to come back with questions: they go to the right lender the first time, with the answers already in them.",
-        "And because your broker doesn't change, neither does the accountability: the person who met you for the first coffee is the one chasing the lender at 4:55pm on settlement day, and the one repricing your rate next year.",
+        "And because your broker doesn't change, neither does the accountability: the person who met you for the first coffee is the one chasing the lender at 4:55pm on settlement day, and the one repricing your rate six months later.",
       ],
     },
     {

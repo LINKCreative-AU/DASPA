@@ -40,7 +40,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
           "Lender shortlist: your income, deposit and property type matched against real credit policies, not a comparison-site table",
           "Pre-approval: typically a few days to two weeks depending on the lender, so your offers carry weight",
           "Contract signed: we run formal approval, usually one to three weeks, and keep the agent and your solicitor in the loop",
-          "Settlement and beyond: we check the loan is set up properly, then reprice it with your lender every year after",
+          "Settlement and beyond: we check the loan is set up properly, then reprice it with your lender every six months after",
         ],
       },
       {
@@ -86,7 +86,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     ],
     features: [
       { title: "Know what the banks want.", body: "Credit policies, assessment buffers and the way applications are read, matched to your situation before anything is submitted." },
-      { title: "One broker, the whole way.", body: "The person who meets you is the person who settles your loan and reprices it every year after." },
+      { title: "One broker, the whole way.", body: "The person who meets you is the person who settles your loan and reprices it every six months after. Two more brokers and two loan processors sit behind them, so nothing stalls the week someone is out." },
       { title: "Cost front of mind.", body: "Rate matters, but so do offsets, fees and structure. We compare the whole loan, not the headline number." },
       // Was "We keep you on the best rate." The body under it only ever
       // promised an annual review, so the headline was writing a cheque the
@@ -356,7 +356,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       {
         heading: "The path, start to finish.",
         paragraphs: [
-          "First a chat about where you are: deposit, income, timeframe. Then the numbers: what you can borrow, what it costs monthly, which grants you qualify for. Then pre-approval with a lender chosen for your situation, so you can make offers with confidence. When a contract is signed we run the approval, liaise with your solicitor and the agent, and get you to settlement. After that, we reprice your loan every year, so you'll never pay the loyalty tax.",
+          "First a chat about where you are: deposit, income, timeframe. Then the numbers: what you can borrow, what it costs monthly, which grants you qualify for. Then pre-approval with a lender chosen for your situation, so you can make offers with confidence. When a contract is signed we run the approval, liaise with your solicitor and the agent, and get you to settlement. After that, we reprice your loan every six months, so you'll never pay the loyalty tax.",
         ],
       },
       {
@@ -485,7 +485,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { title: "Portfolio thinking.", body: "Every loan is set up with the next purchase in mind: serviceability, equity and lender spread." },
       { title: "Investor policy knowledge.", body: "Rental shading, interest-only appetite, trust and company lending. We know which lender wants your deal." },
       { title: "The group behind it.", body: "Accounting (Advisors), strategy (Wealth) and property management (Living) under the same roof when you want them." },
-      { title: "Repriced every year, on every loan.", body: "Rate drift compounds across a portfolio: half a percent on four loans is real money annually. We review the whole book each year and go back to the lenders that have moved." },
+      { title: "Repriced every six months, on every loan.", body: "Rate drift compounds across a portfolio: half a percent on four loans is real money annually. We review the whole book each year and go back to the lenders that have moved." },
     ],
     faqs: [
       { q: "Interest-only or principal and interest for an investment loan?", a: "Interest-only maximises cash flow and keeps repayments deductible-heavy, but costs more over the loan's life and reverts to higher P&I repayments later. P&I builds equity and usually prices lower. The right answer depends on your cash flow, tax position and strategy. It's a numbers conversation, not a default." },

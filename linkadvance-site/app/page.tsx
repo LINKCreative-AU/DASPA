@@ -92,9 +92,9 @@ export default function Page() {
             Your broker for <span className="marker">life.</span>
           </h1>
           <p className="mt-6 max-w-xl text-xl leading-[1.4] text-ink sm:text-[22px] sm:leading-[31px]">
-            The same person from your first call to settlement, and a look at your loan every
-            year after it, without you having to ask. We put 35+ lenders in competition for your
-            loan, and on almost all home lending it costs you nothing.
+            One broker from your first call to settlement, with a team of five behind them so
+            your file never waits on one person&apos;s diary. We put 35+ lenders in competition
+            for your loan, and look at your rate every six months after.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Pill href="#contact">Talk to a broker</Pill>
@@ -104,7 +104,7 @@ export default function Page() {
           </div>
           <p className="mt-6 text-sm font-semibold text-ink/60">
             <span aria-hidden className="text-advance">★★★★★</span> {SITE.reviews.rating.toFixed(1)} from{" "}
-            {SITE.reviews.count} Google reviews · 35+ lenders · one broker end to end
+            {SITE.reviews.count} Google reviews · 35+ lenders · one broker, five of us behind it
           </p>
         </div>
         <div className="flex items-end justify-center rounded-[25px] bg-[#f1f1f1] px-6 pt-8 lg:self-stretch">
@@ -254,8 +254,8 @@ export default function Page() {
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x">
           <SectionHead
-            title="From first coffee to settled, with one person."
-            mark="with one person."
+            title="From first coffee to settled, with one broker accountable."
+            mark="with one broker accountable."
           />
           <ProcessSteps
             steps={[

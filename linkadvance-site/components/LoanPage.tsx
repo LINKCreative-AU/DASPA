@@ -168,7 +168,7 @@ export function LoanPage({ data }: { data: LoanPageData }) {
             <p className="mt-4 max-w-xl text-lg leading-[1.4] text-ink/80">
               Hugh, Callum and Jacob write every loan themselves: the person who meets you is
               the person who structures the deal, drives the approval and reprices your rate
-              every year after settlement. That&apos;s why 262 Google reviews name them
+              every six months after settlement. That&apos;s why 262 Google reviews name them
               personally.
             </p>
             <a

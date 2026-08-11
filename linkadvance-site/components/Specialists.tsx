@@ -37,7 +37,7 @@ const SPECIALISTS: Spec[] = [
       "A background in real estate and property brokerage means he reads a deal from both sides, which is why the negotiation tends to go our way.",
     ],
     does: [
-      "Refinancing and the yearly repricing call",
+      "Refinancing and the six-monthly repricing call",
       "Complex applications the banks pushed back on",
       "Buying and selling in the same window",
     ],

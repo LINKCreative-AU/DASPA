@@ -222,7 +222,7 @@ export const TEAM = [
     // the broking industry since 2016." Ten years to 2026.
     credential: "Broking since 2016 · Licensed real estate agent",
     bio:
-      "Hugh has been writing loans since 2016 and came to broking from real estate, where he still holds his licence. That order matters: he learned what a contract does to a buyer before he learned what a lender does to an application, which is why his advice tends to start with the purchase rather than the product. He founded LINK Advance to run lending the way he wanted it run for himself: one broker per client, the same person from the first call to settlement and every year after it.",
+      "Hugh has been writing loans since 2016 and came to broking from real estate, where he still holds his licence. That order matters: he learned what a contract does to a buyer before he learned what a lender does to an application, which is why his advice tends to start with the purchase rather than the product. He founded LINK Advance to run lending the way he wanted it run for himself: one broker per client, the same person from the first call to settlement and every six months after it, with enough of a team behind them that the file never stops moving.",
   },
   {
     name: "Callum",

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | LINK Advance",
   },
   description:
-    "Brisbane mortgage and commercial finance brokers. One broker from your first call to settlement, then a look at your loan every year after it. Home loans, refinancing, first home buyers, investment, construction, SMSF and business finance across 35+ lenders. 5.0 from 262 Google reviews.",
+    "Brisbane mortgage and commercial finance brokers. One broker from your first call to settlement with a team of five behind them, then a look at your loan every six months after it. Home loans, refinancing, first home buyers, investment, construction, SMSF and business finance across 35+ lenders. 5.0 from 262 Google reviews.",
   icons: { icon: "/favicon.png", apple: "/favicon.png" },
   openGraph: {
     siteName: "LINK Advance",
