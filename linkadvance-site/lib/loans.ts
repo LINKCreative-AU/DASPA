@@ -88,6 +88,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { title: "Know what the banks want.", body: "Credit policies, assessment buffers and the way applications are read, matched to your situation before anything is submitted." },
       { title: "One broker, the whole way.", body: "The person who meets you is the person who settles your loan and reprices it every year after." },
       { title: "Cost front of mind.", body: "Rate matters, but so do offsets, fees and structure. We compare the whole loan, not the headline number." },
+      { title: "We keep you on the best rate.", body: "After settlement we review your loan against the market every year and go back to your lender when it moves. The rate you signed does not quietly become an average one." },
     ],
     faqs: [
       { q: "How much does a mortgage broker cost in Brisbane?", a: "For standard home loans, nothing. The lender pays the broker a commission on settlement, which we disclose to you in full. Some complex commercial or private lending work carries a fee, and it's agreed in writing before any work starts." },
@@ -479,6 +480,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { title: "Portfolio thinking.", body: "Every loan is set up with the next purchase in mind: serviceability, equity and lender spread." },
       { title: "Investor policy knowledge.", body: "Rental shading, interest-only appetite, trust and company lending. We know which lender wants your deal." },
       { title: "The group behind it.", body: "Accounting (Advisors), strategy (Wealth) and property management (Living) under the same roof when you want them." },
+      { title: "Repriced every year, on every loan.", body: "Rate drift compounds across a portfolio: half a percent on four loans is real money annually. We review the whole book each year and go back to the lenders that have moved." },
     ],
     faqs: [
       { q: "Interest-only or principal and interest for an investment loan?", a: "Interest-only maximises cash flow and keeps repayments deductible-heavy, but costs more over the loan's life and reverts to higher P&I repayments later. P&I builds equity and usually prices lower. The right answer depends on your cash flow, tax position and strategy. It's a numbers conversation, not a default." },
