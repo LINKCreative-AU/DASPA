@@ -26,7 +26,6 @@ Key facts (current as of July 2026):
   others), departed, and the visa has expired or been cancelled
 
 ## Key pages
-- [Start a claim](https://daspa.com.au/claim): the 5-minute form
 - [DASP tax calculator](https://daspa.com.au/dasp-calculator): payout estimate by visa type
 - [DASP online application guide](https://daspa.com.au/dasp-online-application)
 - [Claiming super when leaving Australia — full guide](https://daspa.com.au/claim-super-leaving-australia)

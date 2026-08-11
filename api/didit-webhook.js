@@ -33,10 +33,16 @@ module.exports = async (req, res) => {
 
   const payload = await rawBody(req);
 
-  // --- signature: constant-time compare of the hex HMAC
+  // --- signature: constant-time compare of the hex HMAC.
+  // Fail closed if the secret is missing — an empty HMAC key is one anyone
+  // can compute, which would let outsiders forge verification results.
+  if (!process.env.DIDIT_WEBHOOK_SECRET) {
+    console.error('DIDIT_WEBHOOK_SECRET is not set — rejecting webhook');
+    return res.status(500).json({ error: 'webhook not configured' });
+  }
   const given = String(req.headers['x-signature-v2'] || req.headers['x-signature'] || '');
   const expected = crypto
-    .createHmac('sha256', process.env.DIDIT_WEBHOOK_SECRET || '')
+    .createHmac('sha256', process.env.DIDIT_WEBHOOK_SECRET)
     .update(payload)
     .digest('hex');
   const a = Buffer.from(given, 'utf8');
@@ -97,6 +103,7 @@ module.exports = async (req, res) => {
       await db.updateClaim(claimId, {
         verification_status: 'pending',
         claim_status: 'verification_pending',
+        nudge_email_sent_at: new Date().toISOString(),
       });
       await db.insertAudit(claimId, 'didit_abandoned', event.session_id || null);
       await email.verificationNudge(claim);

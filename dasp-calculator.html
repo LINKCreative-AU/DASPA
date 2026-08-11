@@ -18,60 +18,84 @@
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@graph": [
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebApplication",
+   "name": "DASP Tax Calculator",
+   "url": "https://daspa.com.au/dasp-calculator",
+   "applicationCategory": "FinanceApplication",
+   "operatingSystem": "Any",
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "AUD"
+   },
+   "description": "Calculates the Departing Australia Superannuation Payment (DASP) tax and net payout for every temporary visa type, estimates super balances from wages, and checks the six-month unclaimed-super deadline."
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
     {
-      "@type": "WebApplication",
-      "name": "DASP Tax Calculator",
-      "url": "https://daspa.com.au/dasp-calculator",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Any",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "AUD" },
-      "description": "Calculates the Departing Australia Superannuation Payment (DASP) tax and net payout for every temporary visa type, estimates super balances from wages, and checks the six-month unclaimed-super deadline."
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
     },
     {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "DASPA", "item": "https://daspa.com.au/" },
-        { "@type": "ListItem", "position": 2, "name": "DASP Calculator", "item": "https://daspa.com.au/dasp-calculator" }
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How much tax is taken out of a DASP?",
-          "acceptedAnswer": { "@type": "Answer", "text": "DASP tax is set by legislation: 65% for working holiday makers (subclass 417 and 462), 35% on the taxed element for other temporary visas (such as 482 and student 500), 45% on any untaxed element, and 65% on super already transferred to the ATO as unclaimed money — regardless of visa. The calculator applies these rates automatically." }
-        },
-        {
-          "@type": "Question",
-          "name": "Why is the working holiday DASP tax 65%?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Parliament set a special 65% DASP rate for working holiday makers from 1 July 2017, alongside the working holiday income tax rules. No agent can reduce it — anyone suggesting otherwise should be avoided. What you control is timing and making sure every account is found." }
-        },
-        {
-          "@type": "Question",
-          "name": "How accurate is this DASP calculator?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It applies the current legislated withholding rates to the balance you enter, treating it as a taxed element — which is what almost all employer-paid super is. Your fund calculates the exact components when it pays, so treat the result as a close estimate, not a quote." }
-        },
-        {
-          "@type": "Question",
-          "name": "I don't know my super balance. How do I find it?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Use the balance estimator on this page — enter roughly what you earned and when, and it applies the super guarantee rate your employers had to pay. For the real figure, check your fund's app or statement, or let us find every account in your name (including ATO-held money) as part of a claim." }
-        },
-        {
-          "@type": "Question",
-          "name": "What happens to my super 6 months after I leave Australia?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Once you've departed and your visa has ended, your fund must transfer your balance to the ATO as unclaimed super money — usually within about six months. ATO-held super is taxed at 65% when paid as a DASP regardless of visa, so non-working-holiday visa holders nearly double their tax by waiting." }
-        },
-        {
-          "@type": "Question",
-          "name": "Does the calculator include the DASPA fee?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes — you can toggle it. The flat fee is $149 + GST ($163.90), refunded in full if no super is recovered. You can also use the ATO's free DASP system yourself; the tax outcome is identical either way." }
-        }
-      ]
+     "@type": "ListItem",
+     "position": 2,
+     "name": "DASP Calculator",
+     "item": "https://daspa.com.au/dasp-calculator"
     }
-  ]
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "How much tax is taken out of a DASP?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "65% for working holiday makers (417/462), 35% on the taxed element for other temporary visas, 45% on any untaxed element, and 65% on ATO-held unclaimed super regardless of visa. The calculator applies these automatically."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Why is the working holiday rate 65%?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Parliament set a special 65% DASP rate for working holiday makers from 1 July 2017. No agent can reduce it — anyone implying otherwise should be avoided. What you control is timing, and making sure every account is found."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How accurate is this?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "It applies the current legislated rates to the balance you enter, treated as a taxed element — which is what nearly all employer-paid super is. Your fund calculates the exact components at payment time, so treat results as a close estimate, not a quote."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How do I find my real balance?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Your fund's app or last statement is the quickest way. Multiple jobs usually mean multiple funds, and money may already be at the ATO — finding every account in your name is part of every DASPA claim, included in the flat fee."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does the calculator include your fee?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes, as a toggle — $149 + GST ($163.90), flat, refunded in full if we can't recover any super. Untick it to see the DIY numbers; the ATO's free system produces the same tax outcome."
+     }
+    }
+   ]
+  }
+ ]
 }
 </script>
 <style>

@@ -10,6 +10,7 @@
 <meta property="og:title" content="DASP Claims — Departing Australia Superannuation Payment, Done For You | DASPA">
 <meta property="og:description" content="Flat fee $149 + GST. All super funds plus ATO-held money. Lodged by Registered Tax Agent 26076969, paid to your bank worldwide in about 28 days.">
 <meta property="og:url" content="https://daspa.com.au/">
+  <meta property="og:locale" content="en_AU">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2250'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' fill='%23fae541' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,85 +18,124 @@
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@graph": [
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://daspa.com.au/#org",
+   "name": "DASPA",
+   "legalName": "Australian Registration Office Pty Ltd",
+   "url": "https://daspa.com.au/",
+   "identifier": [
     {
-      "@type": "Organization",
-      "@id": "https://daspa.com.au/#org",
-      "name": "DASPA",
-      "legalName": "Australian Registration Office Pty Ltd",
-      "url": "https://daspa.com.au/",
-      "identifier": [
-        { "@type": "PropertyValue", "propertyID": "ABN", "value": "58 645 964 156" },
-        { "@type": "PropertyValue", "propertyID": "Tax Agent Number", "value": "26076969" }
-      ],
-      "sameAs": ["https://www.abnassist.com.au/"]
+     "@type": "PropertyValue",
+     "propertyID": "ABN",
+     "value": "58 645 964 156"
     },
     {
-      "@type": "Service",
-      "@id": "https://daspa.com.au/#service",
-      "name": "Departing Australia Superannuation Payment (DASP) claim service",
-      "serviceType": "Superannuation refund lodgement",
-      "provider": { "@id": "https://daspa.com.au/#org" },
-      "areaServed": "Worldwide",
-      "offers": {
-        "@type": "Offer",
-        "price": "163.90",
-        "priceCurrency": "AUD",
-        "description": "Flat fee $149 + GST, all super funds and ATO-held super included — no win, no fee: refunded in full if no super is recovered"
-      }
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Can I claim my super back myself for free?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The ATO runs a free DASP online application system at ato.gov.au and you are welcome to use it. People hire us because we are a Registered Tax Agent (26076969) who finds every account including ATO-held super, handles funds that ask for certified documents, fixes rejected applications, and answers on WhatsApp — all for a flat $149 + GST, never a percentage of your money." }
-        },
-        {
-          "@type": "Question",
-          "name": "What if you can't find any super in my name?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Then you pay nothing: no super, no fee — the $149 + GST is refunded in full. We only keep the fee when we actually recover super for you." }
-        },
-        {
-          "@type": "Question",
-          "name": "How much tax is taken out of a DASP?",
-          "acceptedAnswer": { "@type": "Answer", "text": "DASP tax rates are set by legislation: 65% if you held a working holiday visa (417 or 462), and 35% on the taxed element for other temporary visas. Super that has already been transferred to the ATO as unclaimed money is taxed at 65% regardless of visa when paid as a DASP." }
-        },
-        {
-          "@type": "Question",
-          "name": "How long does a DASP claim take?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The ATO and super funds typically process DASP claims within 28 days of a complete application. Our form takes about 5 minutes, identity verification a couple more, and we usually lodge within one business day." }
-        },
-        {
-          "@type": "Question",
-          "name": "What happens to my super if I don't claim it?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Roughly six months after you leave and your visa ends, your fund must transfer your balance to the ATO as unclaimed super money. It doesn't disappear — but when eventually claimed as a DASP it is taxed at 65% regardless of your visa type, and it earns only interest in line with CPI in the meantime." }
-        },
-        {
-          "@type": "Question",
-          "name": "Do I need my TFN or super fund details to claim?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Your Tax File Number is optional but helps us find every account held in your name, including ATO-held money. If you don't know your fund — or never knew — we search for it as part of the service." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can my super be paid to an overseas bank account?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your DASP can be paid to an Australian account or an international account using your bank's SWIFT/BIC code. We collect either in the claim form — the money is paid by the fund or the ATO directly to you; we never hold it." }
-        },
-        {
-          "@type": "Question",
-          "name": "Is the DASPA fee tax deductible?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Fees paid to a registered tax agent for managing your tax affairs are generally tax deductible in Australia. If you lodge a final Australian tax return, you can usually claim our fee in it." }
-        },
-        {
-          "@type": "Question",
-          "name": "Is DASPA a registered tax agent?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. DASPA is operated by Australian Registration Office Pty Ltd, Registered Tax Agent 26076969 — you can verify the registration on the Tax Practitioners Board public register. Only registered agents may lawfully charge to prepare and lodge DASP applications." }
-        }
-      ]
+     "@type": "PropertyValue",
+     "propertyID": "Tax Agent Number",
+     "value": "26076969"
     }
-  ]
+   ],
+   "sameAs": [
+    "https://www.abnassist.com.au/"
+   ]
+  },
+  {
+   "@type": "Service",
+   "@id": "https://daspa.com.au/#service",
+   "name": "Departing Australia Superannuation Payment (DASP) claim service",
+   "serviceType": "Superannuation refund lodgement",
+   "provider": {
+    "@id": "https://daspa.com.au/#org"
+   },
+   "areaServed": "Worldwide",
+   "offers": {
+    "@type": "Offer",
+    "price": "163.90",
+    "priceCurrency": "AUD",
+    "description": "Flat fee $149 + GST, all super funds and ATO-held super included — no win, no fee: refunded in full if no super is recovered"
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Can I do this myself for free?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. The ATO provides a free DASP online application system at ato.gov.au, and if your affairs are simple it works well. People hire us because we're a Registered Tax Agent who finds every account (including ATO-held money you may not know about), deals with funds that demand certified documents, fixes rejected applications, and answers on WhatsApp — for a flat $149 + GST, never a percentage. Full honest comparison here."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if you can't find any super in my name?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Then you pay nothing: no super, no fee — the $149 + GST is refunded in full. We only keep the fee when we actually recover super for you. (And if your balance turns out to be so small the fee doesn't make sense, we'll tell you before lodging rather than take the job.)"
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How much tax will be taken out?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "DASP tax rates are set by legislation, not by us: 65% if you held a working holiday visa (417/462), 35% on the taxed element for other temporary visas, and 65% on any super already transferred to the ATO as unclaimed money. The estimator above shows what typically lands in your bank."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How long until the money is in my account?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The ATO and funds typically process complete DASP applications within 28 days. Our form takes about 5 minutes, identity verification a couple more, and we usually lodge within one business day of your ID clearing."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I don't know my super fund. Or my TFN. Can you still help?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes — that's most of our clients. Your TFN is optional (it helps us find every account, including ATO-held money), and \"I don't know my fund\" is a standard option on our form. We search for every account held in your name as part of the flat fee."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can the money go to my bank at home?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. We collect either Australian account details or your international account with its SWIFT/BIC code. The fund or the ATO pays you directly — we never touch or hold your money."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if my visa hasn't expired yet?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "A DASP can only be paid once your visa has ended and you've left. If you've left for good, you can ask the Department of Home Affairs to cancel your visa rather than waiting it out — we can guide you through that as part of your claim."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is my identity information safe?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Identity verification is powered by Didit, a dedicated identity platform — passport, selfie and biometric checks happen in their secure environment, not in our inbox. See our privacy policy for how data is handled."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Who is actually behind DASPA?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "DASPA is operated by Australian Registration Office Pty Ltd (ABN 58 645 964 156), Registered Tax Agent 26076969 — the team behind ABN Assist. You can verify the registration on the Tax Practitioners Board public register any time."
+     }
+    }
+   ]
+  }
+ ]
 }
 </script>
 </head>

@@ -1,9 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /claim
-Disallow: /verify
-Disallow: /confirmation
-Disallow: /upload-form
+# The claim-flow pages (/claim, /verify, /confirmation, /upload-form) carry
+# meta noindex — they must stay crawlable so Google can see it.
 Disallow: /api/
 
 Sitemap: https://daspa.com.au/sitemap.xml

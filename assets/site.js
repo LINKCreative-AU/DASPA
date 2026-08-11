@@ -24,8 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function wireWhatsApp() {
+  var els = document.querySelectorAll('[data-wa]');
+  // Until the real number is configured, dead wa.me links are worse than no
+  // button — hide them rather than send customers to a broken chat.
+  if (WHATSAPP_NUMBER.indexOf('PLACEHOLDER') !== -1) {
+    els.forEach(function (a) { a.style.display = 'none'; });
+    return;
+  }
   var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(WHATSAPP_MESSAGE);
-  document.querySelectorAll('[data-wa]').forEach(function (a) {
+  els.forEach(function (a) {
     a.href = url;
     a.target = '_blank';
     a.rel = 'noopener';
