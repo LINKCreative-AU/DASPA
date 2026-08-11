@@ -33,6 +33,36 @@ export const REDIRECTS = [
   { source: "/contact", destination: "/contact-us", permanent: true },
   { source: "/team", destination: "/about-us" , permanent: true },
 
+  // Everything below came out of Ahrefs' crawled-URL index for the domain,
+  // which is the only source that sees pages the sitemap omits and nothing
+  // links to. The sitemap audit passed all 52 of its URLs while these were
+  // still broken, because they are not in the sitemap and not linked.
+  //
+  // The old /services/* tree, retired in favour of one page per head term.
+  { source: "/services", destination: "/home-loans-brisbane", permanent: true },
+  { source: "/services/home-loans", destination: "/home-loans-brisbane", permanent: true },
+  { source: "/services/home-loans/guarantor-loans", destination: "/blog/home-loans/guarantor-loans-whats-the-go", permanent: true },
+  { source: "/services/investor-loans", destination: "/investment-home-loans", permanent: true },
+  { source: "/services/asset-and-vehicle-finance/personal-vehicle-finance", destination: "/business-car-and-equipment-loans", permanent: true },
+  { source: "/services/:path*", destination: "/home-loans-brisbane", permanent: true },
+  // The old team page. /team was already covered; the real URL was /our-team.
+  { source: "/our-team", destination: "/about-us", permanent: true },
+  // WP author archives sat under /blog/author/*, not /author/*, so the rule
+  // further up never matched them.
+  { source: "/blog/author/:slug*", destination: "/about-us", permanent: true },
+  // Two posts moved category during the rebuild; these are their old homes.
+  { source: "/blog/articles/:slug*", destination: "/blog", permanent: true },
+  { source: "/blog/uncategorized/first-time-homebuyers-guide-which-australian-states-offer-the-most-affordable-options", destination: "/blog/home-loans/first-time-homebuyers-guide-which-australian-states-offer-the-most-affordable-options", permanent: true },
+  { source: "/blog/uncategorized/:slug*", destination: "/blog", permanent: true },
+  { source: "/blog/commercial-lending/10-lessons-about-financing-and-money-management", destination: "/blog/commercial-lending/10-lessons-about-financing-and-money-management-that-we-can-learn-from-superheroes", permanent: true },
+  // Four posts WordPress itself had already deleted: the old site returns 410
+  // Gone for each. Nothing was lost in the migration, but Google still has
+  // them indexed and a 404 wastes the link equity, so they go to the hub.
+  { source: "/5-common-mortgage-broker-myths", destination: "/blog", permanent: true },
+  { source: "/8-reasons-youre-better-going-with-a-broker-than-direct-to-a-bank", destination: "/mortgage-brokers-brisbane", permanent: true },
+  { source: "/why-you-lose-when-youre-loyal", destination: "/refinancing-brisbane", permanent: true },
+  { source: "/your-credit-cards-handy-tool-or-evil-vice", destination: "/borrowing-power-calculator", permanent: true },
+
   // NOTE: no uppercase-path redirect rules here - Next matches redirect
   // sources case-insensitively, so /Contact-Us -> /contact-us matches its
   // own destination and loops forever (the removed middleware existed for

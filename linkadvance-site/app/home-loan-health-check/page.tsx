@@ -95,6 +95,37 @@ export default function Page() {
         <div className="mt-10">
           <LoanCheck />
         </div>
+
+        {/* Callum's health-check video. It had its own page on the old site at
+            /callum-talks-home-loan-health-checks, which was an orphan: absent
+            from the sitemap and linked from nowhere, so neither a sitemap audit
+            nor a link crawl could find it. The rebuild redirected that URL here
+            but never carried the video across, which is the gap Juan spotted.
+            It belongs on this page rather than back on its own - the old page
+            held nothing but the video, and this is where someone who has just
+            scored their loan is standing. The old URL still points here, so the
+            video is what they arrive at. */}
+        <div className="mt-16 max-w-3xl">
+          <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+            Callum on what a health check actually finds.
+          </h2>
+          <p className="mt-3 text-lg leading-[1.4] text-ink/80">
+            Why loans drift, what we look at when we review one, and what usually turns out to
+            be costing the most.
+          </p>
+          <div className="mt-6 overflow-hidden rounded-[25px] bg-[#f1f1f1]">
+            <div className="relative aspect-video">
+              <iframe
+                src="https://player.vimeo.com/video/1212176046?h=b392c58a9d&title=0&byline=0&portrait=0"
+                title="Callum talks Home Loan Health Checks"
+                loading="lazy"
+                allow="fullscreen; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 h-full w-full"
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
