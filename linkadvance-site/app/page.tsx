@@ -89,11 +89,12 @@ export default function Page() {
         <div className="max-w-3xl">
           <EyebrowPill tint>Brisbane finance brokers</EyebrowPill>
           <h1 className="mt-5 font-display text-[40px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[50px] lg:text-[58px]">
-            We make lending <span className="marker">easy.</span>
+            Your broker for <span className="marker">life.</span>
           </h1>
           <p className="mt-6 max-w-xl text-xl leading-[1.4] text-ink sm:text-[22px] sm:leading-[31px]">
-            One broker from the first coffee to settlement, and every repricing after. We put
-            35+ lenders in competition for your loan, and it costs you nothing.
+            The same person from your first call to settlement, and a look at your loan every
+            year after it, without you having to ask. We put 35+ lenders in competition for your
+            loan, and on almost all home lending it costs you nothing.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Pill href="#contact">Talk to a broker</Pill>

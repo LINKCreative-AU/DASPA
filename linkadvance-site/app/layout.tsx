@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | LINK Advance",
   },
   description:
-    "LINK Advance's Brisbane mortgage brokers make lending easy: home loans, refinancing, first home buyers, investment, construction, SMSF and business finance across 35+ lenders. 5.0 Google rating, 262 reviews.",
+    "Brisbane mortgage and commercial finance brokers. One broker from your first call to settlement, then a look at your loan every year after it. Home loans, refinancing, first home buyers, investment, construction, SMSF and business finance across 35+ lenders. 5.0 from 262 Google reviews.",
   icons: { icon: "/favicon.png", apple: "/favicon.png" },
   openGraph: {
     siteName: "LINK Advance",

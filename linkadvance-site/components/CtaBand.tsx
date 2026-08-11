@@ -28,7 +28,7 @@ export function CtaBand({
       <div className="grid gap-10 rounded-3xl bg-ink p-8 text-white sm:p-12 lg:grid-cols-[1.15fr_1fr]">
         <div>
           <p className="eyebrow guide-line-inline mb-4">
-            <span className="text-white/60">We make lending easy.</span>
+            <span className="text-white/60">Your broker for life.</span>
           </p>
           <h2 className="max-w-2xl font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
             {heading}

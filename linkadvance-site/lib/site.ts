@@ -7,7 +7,12 @@
 export const SITE = {
   name: "LINK Advance",
   descriptor: "Advance",
-  tagline: "We make lending easy.",
+  // Replaced Aug 2026: credit compliance rejected "We make lending easy."
+  // "Easy" risks implying the credit assessment is a formality, and it also
+  // sat in the most crowded space in the category (Lendi "simple", Time Home
+  // Loans "uncomplicate", Yellow Brick Road "hassle-free"). This claims the
+  // relationship rather than the outcome, which is conduct we can substantiate.
+  tagline: "Your broker for life.",
   url: "https://linkadvance.com.au",
   phone: "07 2101 4374",
   phoneHref: "tel:0721014374",

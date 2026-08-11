@@ -62,7 +62,7 @@ export function Footer() {
             <Logo onDark height={22} />
             <p className="mt-5 max-w-xs text-sm text-white/70">
               Brisbane mortgage and finance brokers with direct access to over 35
-              lenders. We make lending easy. {SITE.group.line}
+              lenders. Your broker for life. {SITE.group.line}
             </p>
             <p className="mt-5 text-sm text-white/70">
               {SITE.address.street}

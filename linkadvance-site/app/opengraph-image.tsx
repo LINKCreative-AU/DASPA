@@ -5,5 +5,5 @@ export const contentType = "image/png";
 export const alt = "LINK Advance - mortgage brokers Brisbane";
 
 export default function OpengraphImage() {
-  return ogImage("We make lending easy.");
+  return ogImage("Your broker for life.");
 }
