@@ -317,6 +317,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       "You've never done this before. We do it every week. One broker walks you from \"can we even buy?\" through deposit strategy, grants, pre-approval, the contract and settlement, answering the questions you didn't know to ask.",
     heroImage: "/wp-content/uploads/2026/05/Callum-Advance-1024x1024-LinkedIn-Grey-Square.png",
     heroImageAlt: "Callum, first home and investment broker at LINK Advance in Brisbane",
+    heroPhoto: true,
     bullets: [
       "Deposit strategy: 5% with the First Home Guarantee, guarantor options, or LMI, with the trade-offs in real dollars",
       "Every grant and concession claimed: FHOG QLD, stamp duty concessions, the Guarantee",
@@ -604,6 +605,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       "Buying property inside a self-managed super fund uses a special loan (a limited recourse borrowing arrangement) with its own lenders, deposits and compliance rules. It's Jacob's specialty, and the strategy side is handled with the advisers at LINK Wealth.",
     heroImage: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
     heroImageAlt: "Jacob, commercial and SMSF broker at LINK Advance in Brisbane",
+    heroPhoto: true,
     bullets: [
       "Residential and commercial SMSF lending across the specialist lender panel",
       "Business owners: buy your premises through your SMSF and pay rent to your own fund",
@@ -696,6 +698,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       "Business lending is where the right broker earns real money for you: the spread between lenders is wider, the structures matter more, and the bank's first offer is rarely its best. One broker, your numbers, and a panel that includes the lenders who actually want your industry.",
     heroImage: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
     heroImageAlt: "Jacob, commercial and SMSF broker at LINK Advance in Brisbane",
+    heroPhoto: true,
     bullets: [
       "Growth funding, cash-flow and working capital, commercial property, franchise and acquisition lending",
       "One broker who learns your business once, not a new banker every eighteen months",
@@ -877,6 +880,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       "Buying the building your business runs from is the classic owner's move: rent stops leaving, equity starts building. We finance premises purchases, commercial investment property and the SMSF version, with the deal structured the way commercial credit teams want to see it.",
     heroImage: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
     heroImageAlt: "Jacob, commercial and SMSF broker at LINK Advance in Brisbane",
+    heroPhoto: true,
     bullets: [
       "Owner-occupied premises, commercial investment and SMSF commercial (LRBA) lending",
       "Typical LVRs 65-80% depending on property type and lease profile",
@@ -1146,6 +1150,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       "Development funding is its own discipline: land, construction drawdowns and the exit all financed against a project that doesn't exist yet. Banks fund the conservative end; private and non-bank lenders fund the rest, at prices that make lender choice the biggest number in your feasibility.",
     heroImage: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
     heroImageAlt: "Jacob, commercial and SMSF broker at LINK Advance in Brisbane",
+    heroPhoto: true,
     bullets: [
       "Site acquisition, construction facilities, residual stock and bridging",
       "Bank, non-bank and private funding compared: the rate spread is enormous",

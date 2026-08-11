@@ -144,18 +144,29 @@ export const TEAM = [
     role: "Co-Founder & Director",
     focus: "Every loan, fought for. Real estate and property brokerage background.",
     image: "/wp-content/uploads/2026/05/Hugh-1024x1024-LinkedIn-Square-Grey.png",
+    // Sourced from LINK Advance's own published article: "Hugh has worked in
+    // the broking industry since 2016." Ten years to 2026.
+    credential: "Broking since 2016 · Licensed real estate agent",
+    bio:
+      "Hugh has been writing loans since 2016 and came to broking from real estate, where he still holds his licence. That order matters: he learned what a contract does to a buyer before he learned what a lender does to an application, which is why his advice tends to start with the purchase rather than the product. He founded LINK Advance to run lending the way he wanted it run for himself: one broker per client, the same person from the first call to settlement and every year after it.",
   },
   {
     name: "Callum",
     role: "Mortgage Broker",
     focus: "First home buyers and investors. Bachelor of Business (Economics and Finance), five years both sides of the desk.",
     image: "/wp-content/uploads/2026/05/Callum-Advance-1024x1024-LinkedIn-Grey-Square.png",
+    credential: "Bachelor of Business, Economics and Finance · 5 years",
+    bio:
+      "Callum works with first home buyers stepping into the market and investors building portfolios, and he has spent five years on both sides of the desk: first assessing and processing loan applications, now writing them. Knowing how a file is read from the inside is why his applications tend not to come back with questions. First home buyers say the same thing about him in review after review: he answers the questions they did not know to ask.",
   },
   {
     name: "Jacob",
     role: "Mortgage Broker",
     focus: "The lending other brokers find difficult: complex commercial, SMSF, small business finance.",
     image: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",
+    credential: "Commercial, SMSF and business lending · 5 years",
+    bio:
+      "Jacob takes the lending other brokers pass on: complex commercial deals, SMSF purchases, business and equipment finance, and the residential files that do not fit a template. He is the reason the firm can now do the commercial end at all, and he is studying computational mathematics with a minor in finance and economics, which tells you roughly how he approaches a hard structure. Clients describe the same thing each time, which is that a complicated transaction stopped feeling complicated.",
   },
 ] as const;
 

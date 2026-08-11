@@ -43,6 +43,7 @@ export function PageHero({
   imageAlt,
   panelImage,
   panelImageAlt,
+  panelPhoto = false,
   ctaLabel = "Book a call",
   ctaHref = "/contact",
   secondaryLabel,
@@ -58,6 +59,11 @@ export function PageHero({
   image?: string;
   imageAlt?: string;
   panelImage?: string; // white-bg cutout shown on the grey blend tile
+  // Set when panelImage is a photograph on its own backdrop rather than a
+  // white cutout. Cutouts stand on the floor of the tile and are multiplied
+  // into it; a square studio headshot must not be, or it bottom-aligns,
+  // crops at the tile edge and shows its own grey as a box inside the tile.
+  panelPhoto?: boolean;
   panelImageAlt?: string;
   ctaLabel?: string;
   ctaHref?: string;
@@ -103,12 +109,16 @@ export function PageHero({
           />
         )}
         {panelImage && (
-          <div className="hidden items-end justify-center rounded-[25px] bg-[#f1f1f1] px-6 pt-8 lg:flex lg:self-stretch">
+          <div className={`hidden justify-center rounded-[25px] bg-[#f1f1f1] lg:flex lg:self-stretch ${panelPhoto ? "items-center p-8" : "items-end px-6 pt-8"}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={panelImage}
               alt={panelImageAlt ?? ""}
-              className="max-h-[420px] w-auto mix-blend-multiply"
+              className={
+                panelPhoto
+                  ? "aspect-square w-full max-w-[360px] rounded-full object-cover"
+                  : "max-h-[420px] w-auto mix-blend-multiply"
+              }
             />
           </div>
         )}

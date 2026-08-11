@@ -24,6 +24,8 @@ export type LoanPageData = {
   bullets: string[];
   heroImage?: string;
   heroImageAlt?: string;
+  // true when heroImage is a studio headshot, not a white cutout
+  heroPhoto?: boolean;
   sections: { heading: string; paragraphs: string[]; bullets?: string[] }[];
   features?: { title: string; body: string }[];
   featuresHeading?: string;
@@ -123,6 +125,7 @@ export function LoanPage({ data }: { data: LoanPageData }) {
         ctaHref="#contact"
         panelImage={data.heroImage}
         panelImageAlt={data.heroImageAlt}
+        panelPhoto={data.heroPhoto}
       >
         <div className="mt-6 max-w-xl">
           <CheckList items={data.bullets} />

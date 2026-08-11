@@ -149,7 +149,7 @@ function GroupSection({ g }: { g: Group }) {
   return (
     <section aria-labelledby={`group-${g.key}`} className="border-t border-ink/10 pt-8">
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-        <h3
+        <h2
           id={`group-${g.key}`}
           className="font-display text-2xl font-bold tracking-tight text-ink"
         >
@@ -157,7 +157,7 @@ function GroupSection({ g }: { g: Group }) {
           <span className="ml-2 text-lg font-normal tabular-nums text-ink/40">
             {g.reviews.length}
           </span>
-        </h3>
+        </h2>
         {hidden > 0 && (
           <button
             onClick={() => setOpen(true)}

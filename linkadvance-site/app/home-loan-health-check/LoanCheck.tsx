@@ -230,7 +230,7 @@ function LivePanel({
             </>
           ) : (
             <>
-              <h3 className="font-display text-2xl font-bold leading-[1.15] tracking-tight">Your score builds here.</h3>
+              <h2 className="font-display text-2xl font-bold leading-[1.15] tracking-tight">Your score builds here.</h2>
               <p className="mt-1 text-xs font-semibold text-white/55">Tap an answer on any question to begin.</p>
             </>
           )}
