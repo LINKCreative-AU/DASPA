@@ -141,7 +141,9 @@ export default function Page() {
               {
                 // James, 11 Aug: the one nobody else claims. Getting the loan
                 // is the transaction; keeping it sharp is the relationship.
-                title: "We keep you on the best rate.",
+                // Headline was "We keep you on the best rate" - see the note in
+                // lib/loans.ts on why it changed and why this version is better.
+                title: "We don't let your rate drift.",
                 body: "Settlement isn't the finish line. Every year we review your loan against the market and go back to your lender when it has moved, so the sharp rate you signed doesn't quietly become an average one. Most clients get repriced without ever having to ask.",
               },
             ]}

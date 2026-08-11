@@ -25,7 +25,7 @@ const LANES = [
   { label: "Acquisition & franchise", href: "/business-acquisition-loans", note: "Buy the business, funded properly" },
   { label: "Development finance", href: "/development-finance", note: "Site to settlement, in stages" },
   { label: "Business loans", href: "/business-loans", note: "Growth and cash-flow lending" },
-  { label: "Equipment & vehicles", href: "/business-car-and-equipment-loans", note: "Often approved in days" },
+  { label: "Equipment & vehicles", href: "/business-car-and-equipment-loans", note: "Often decided in days" },
 ];
 
 const FAQS = [
@@ -63,7 +63,12 @@ export default function Page() {
             accent
           />
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#contact" className="btn btn-primary">Talk to Jacob for free</a>
+            {/* Was "Talk to Jacob for free". On home lending the lender pays
+                and it costs the client nothing, which is why that phrasing is
+                fine elsewhere on the site. Commercial work can carry a fee,
+                agreed in writing up front, so "free" cannot head a commercial
+                page. The conversation genuinely is free, so say exactly that. */}
+            <a href="#contact" className="btn btn-primary">Talk to Jacob, no charge for the conversation</a>
             <a href="/business-borrowing-health-check" className="btn btn-ghost">Check your business's borrowing position</a>
           </div>
         </div>

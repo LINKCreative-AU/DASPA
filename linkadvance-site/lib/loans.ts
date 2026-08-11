@@ -88,7 +88,12 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
       { title: "Know what the banks want.", body: "Credit policies, assessment buffers and the way applications are read, matched to your situation before anything is submitted." },
       { title: "One broker, the whole way.", body: "The person who meets you is the person who settles your loan and reprices it every year after." },
       { title: "Cost front of mind.", body: "Rate matters, but so do offsets, fees and structure. We compare the whole loan, not the headline number." },
-      { title: "We keep you on the best rate.", body: "After settlement we review your loan against the market every year and go back to your lender when it moves. The rate you signed does not quietly become an average one." },
+      // Was "We keep you on the best rate." The body under it only ever
+      // promised an annual review, so the headline was writing a cheque the
+      // copy did not cash - and RG 234.34 requires the headline to stand up on
+      // its own, qualified or not. This says the thing we actually do, and it
+      // is the sharper line of the two.
+      { title: "We don't let your rate drift.", body: "After settlement we review your loan against the market every year and go back to your lender when it has moved. The rate you signed does not quietly become an average one." },
     ],
     faqs: [
       { q: "How much does a mortgage broker cost in Brisbane?", a: "For standard home loans, nothing. The lender pays the broker a commission on settlement, which we disclose to you in full. Some complex commercial or private lending work carries a fee, and it's agreed in writing before any work starts." },
@@ -796,7 +801,7 @@ export const LOAN_PAGES: Record<string, LoanPageData> = {
     h1: "Car and equipment finance, sorted before the weekend.",
     h1Mark: "sorted before the weekend.",
     intro:
-      "Asset finance moves fast when the file is right, often approved in days. Cars, utes, trucks, trailers, machinery and business equipment, financed against the asset itself, for business or personal use.",
+      "Asset finance moves fast when the file is right, with decisions often back in days. Cars, utes, trucks, trailers, machinery and business equipment, financed against the asset itself, for business or personal use.",
     heroImage: "/wp-content/uploads/2026/05/ADVANCE-the-boys-2025-web-scaled.jpg",
     heroImageAlt: "Jacob, Callum and Hugh, the LINK Advance brokers in Brisbane",
     bullets: [

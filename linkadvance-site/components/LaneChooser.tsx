@@ -29,7 +29,7 @@ const COMMERCIAL: Lane[] = [
   { label: "Business acquisition", href: "/business-acquisition-loans", note: "Buy the business, funded properly", icon: <Icon.trophy /> },
   { label: "Development finance", href: "/development-finance", note: "Site to settlement, in stages", icon: <Icon.wrench /> },
   { label: "Business loans", href: "/business-loans", note: "Growth and cash-flow lending", icon: <Icon.trendingUp /> },
-  { label: "Equipment & vehicles", href: "/business-car-and-equipment-loans", note: "Often approved in days", icon: <Icon.rocket /> },
+  { label: "Equipment & vehicles", href: "/business-car-and-equipment-loans", note: "Often decided in days", icon: <Icon.rocket /> },
 ];
 
 function Grid({ lanes, hidden }: { lanes: Lane[]; hidden: boolean }) {
