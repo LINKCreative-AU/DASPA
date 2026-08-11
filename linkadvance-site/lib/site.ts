@@ -4,6 +4,19 @@
 // working gold #e0a500 (deepened ONCE from palette yellow #f7dd57 - lib/brand.ts
 // in linkhq); the palette yellow carries accents on dark backgrounds.
 
+// Connective's mandated licensing sentence. One number goes in it, and which
+// number depends on whether the advertising is under a company banner - see the
+// note on SITE.legal.corporateCreditRep below. Set CORPORATE_CREDIT_REP the
+// moment Connective supplies LINK Advance's corporate number and both the
+// footer and the schema publisher correct themselves.
+const CORPORATE_CREDIT_REP: string | null = null;
+const INDIVIDUAL_CREDIT_REPS = ["492039", "573582", "574906"];
+const licenceSentence = (n: string) =>
+  `Credit Representative ${n} is authorised under Australian Credit Licence 389328.`;
+const LICENCE_STATEMENT = CORPORATE_CREDIT_REP
+  ? licenceSentence(CORPORATE_CREDIT_REP)
+  : INDIVIDUAL_CREDIT_REPS.map(licenceSentence).join(" ");
+
 export const SITE = {
   name: "LINK Advance",
   descriptor: "Advance",
@@ -55,26 +68,33 @@ export const SITE = {
     abn: "12 612 337 587",
     identity:
       "LINK Advance is a registered business name of Dellit & Webb Wealth Services Pty Ltd ACN 612 337 587, ABN 12 612 337 587.",
-    // Connective's mandated licensing statement, verbatim, once per credit
-    // representative. All three numbers supplied by James 11 Aug 2026; all
-    // three brokers operate under Connective's ACL 389328.
+    // Connective's mandated licensing statement. Their wiki carries a note that
+    // decides which number belongs in it:
     //
-    // The repetition is deliberate. Connective specifies the singular sentence
-    // "Credit Representative (insert number) is authorised under Australian
-    // Credit Licence 389328." and folding three numbers into one pluralised
-    // sentence would be a paraphrase of a string we were told to reproduce
-    // exactly - the same mistake the old wording made. If Connective would
-    // rather see the combined form, that is their call to give, not ours.
+    //   "If you are advertising under a company banner, then the Corporate
+    //    Credit Representative number is to be used in your Licensing
+    //    Statement, not your individual credit representative number."
+    //
+    // This site is a company banner - one firm, three brokers - so the footer
+    // statement should carry LINK Advance's CORPORATE credit representative
+    // number, not Hugh's, Callum's or Jacob's. We do not have it yet: it is
+    // requested from Hugh, and it is the last blank in the compliance set.
+    //
+    // Until it lands, `licence` falls back to one mandated sentence per broker.
+    // Each of those sentences is individually true and each uses Connective's
+    // exact wording, so nothing published is false - it is just not the form
+    // Connective prefers for a firm site. Fill corporateCreditRep in and the
+    // footer collapses to the single correct sentence with no other edit.
+    corporateCreditRep: null as string | null,
+    // The individual numbers stay regardless: they are what appears on each
+    // broker's own profile on /about-us, which is a different requirement and
+    // the version a client can check against ASIC's register.
     creditReps: [
       { name: "Hugh", number: "492039" },
       { name: "Callum", number: "573582" },
       { name: "Jacob", number: "574906" },
     ],
-    licence: [
-      "Credit Representative 492039 is authorised under Australian Credit Licence 389328.",
-      "Credit Representative 573582 is authorised under Australian Credit Licence 389328.",
-      "Credit Representative 574906 is authorised under Australian Credit Licence 389328.",
-    ].join(" "),
+    licence: LICENCE_STATEMENT,
     // Connective's mandated general disclaimer, verbatim.
     disclaimer:
       "This page provides general information only and has been prepared without taking into account your objectives, financial situation or needs. We recommend that you consider whether it is appropriate for your circumstances and your full financial situation will need to be reviewed prior to acceptance of any offer or product. It does not constitute legal, tax or financial advice and you should always seek professional advice in relation to your individual circumstances.",
@@ -87,10 +107,9 @@ export const SITE = {
     toolsDisclaimer:
       "Calculator and check results are indicative only. They are not a quote, a loan offer or an assessment of your borrowing capacity, and every figure should be confirmed with your broker or lender before you act on it.",
     // Composed for the places that want the whole compliance identity in one
-    // string (schema publisher, article footers). Keep in step with `identity`
-    // and `licence` above.
-    publisher:
-      "LINK Advance is a registered business name of Dellit & Webb Wealth Services Pty Ltd ACN 612 337 587, ABN 12 612 337 587. Credit Representative 492039 is authorised under Australian Credit Licence 389328. Credit Representative 573582 is authorised under Australian Credit Licence 389328. Credit Representative 574906 is authorised under Australian Credit Licence 389328.",
+    // string (schema publisher, article footers). Built from the same two parts
+    // the footer renders, so it cannot drift out of step with them.
+    publisher: `LINK Advance is a registered business name of Dellit & Webb Wealth Services Pty Ltd ACN 612 337 587, ABN 12 612 337 587. ${LICENCE_STATEMENT}`,
     privacyPath: "/privacy-policy",
     emailDisclaimerPath: "/mail-disclaimer",
     complaintsPath: "/compliments-and-concerns",
