@@ -10,9 +10,12 @@ import { SITE } from "@/lib/site";
 // below are AFCA's own published details. The internal timeframes are the
 // NCCP/RG 165 standard ones (acknowledge promptly, respond within 30 days).
 //
-// TODO (human, needs the licensee): Connective's AFCA membership number, and
-// confirmation of who at LINK Advance is the named complaints contact. Neither
-// is guessable and neither is on the licensee wiki.
+// On the AFCA membership number: there is nothing to add. Connective's own
+// published Compliments and Concerns page does not quote one either, and AFCA's
+// consumer path is a firm-name search (my.afca.org.au/ff-search), not a member
+// number. The AFCA contact block below matches Connective's page field for
+// field, including the time-limits warning, which is a real consumer point and
+// not boilerplate: leave it in.
 
 export const metadata: Metadata = {
   title: "Compliments & Concerns | LINK Advance",
@@ -70,10 +73,10 @@ const STEPS = [
     body: (
       <>
         You can escalate to our credit licensee, Connective Credit Services Pty Ltd (Australian
-        Credit Licence 389328), and beyond that to the Australian Financial Complaints Authority.
-        AFCA is free to consumers and its determinations bind us. You can go to AFCA if we have
-        not resolved your complaint within 30 days, or sooner if you are unhappy with our
-        response.
+        Credit Licence 389328), on 1300 65 66 37, and beyond that to the Australian Financial
+        Complaints Authority. AFCA is free to consumers and its determinations bind us. You can
+        go to AFCA if we have not resolved your complaint within 30 days, or sooner if you are
+        unhappy with our response.
       </>
     ),
   },
@@ -130,7 +133,8 @@ export default function Page() {
         <p className="mt-4 leading-[1.5] text-ink/80">
           The Australian Financial Complaints Authority is the external dispute resolution scheme
           for credit. It is independent of us and of our licensee, and it costs you nothing to
-          use.
+          use. Time limits apply to complaints made to AFCA, so act promptly rather than waiting,
+          and check the AFCA website for the limits that apply to your situation.
         </p>
         <div className="mt-6 rounded-[25px] bg-[#f1f1f1] p-7">
           <dl className="space-y-3 text-ink/80">

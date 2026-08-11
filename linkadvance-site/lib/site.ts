@@ -55,11 +55,26 @@ export const SITE = {
     abn: "12 612 337 587",
     identity:
       "LINK Advance is a registered business name of Dellit & Webb Wealth Services Pty Ltd ACN 612 337 587, ABN 12 612 337 587.",
-    // Connective's mandated licensing statement, verbatim. CR 492039 is Hugh's,
-    // supplied by James 11 Aug 2026. If Callum and Jacob hold their own credit
-    // representative numbers under ACL 389328, each must be named here too -
-    // outstanding question with the licensee.
-    licence: "Credit Representative 492039 is authorised under Australian Credit Licence 389328.",
+    // Connective's mandated licensing statement, verbatim, once per credit
+    // representative. All three numbers supplied by James 11 Aug 2026; all
+    // three brokers operate under Connective's ACL 389328.
+    //
+    // The repetition is deliberate. Connective specifies the singular sentence
+    // "Credit Representative (insert number) is authorised under Australian
+    // Credit Licence 389328." and folding three numbers into one pluralised
+    // sentence would be a paraphrase of a string we were told to reproduce
+    // exactly - the same mistake the old wording made. If Connective would
+    // rather see the combined form, that is their call to give, not ours.
+    creditReps: [
+      { name: "Hugh", number: "492039" },
+      { name: "Callum", number: "573582" },
+      { name: "Jacob", number: "574906" },
+    ],
+    licence: [
+      "Credit Representative 492039 is authorised under Australian Credit Licence 389328.",
+      "Credit Representative 573582 is authorised under Australian Credit Licence 389328.",
+      "Credit Representative 574906 is authorised under Australian Credit Licence 389328.",
+    ].join(" "),
     // Connective's mandated general disclaimer, verbatim.
     disclaimer:
       "This page provides general information only and has been prepared without taking into account your objectives, financial situation or needs. We recommend that you consider whether it is appropriate for your circumstances and your full financial situation will need to be reviewed prior to acceptance of any offer or product. It does not constitute legal, tax or financial advice and you should always seek professional advice in relation to your individual circumstances.",
@@ -71,8 +86,11 @@ export const SITE = {
     // way prose does not.
     toolsDisclaimer:
       "Calculator and check results are indicative only. They are not a quote, a loan offer or an assessment of your borrowing capacity, and every figure should be confirmed with your broker or lender before you act on it.",
+    // Composed for the places that want the whole compliance identity in one
+    // string (schema publisher, article footers). Keep in step with `identity`
+    // and `licence` above.
     publisher:
-      "LINK Advance is a registered business name of Dellit & Webb Wealth Services Pty Ltd ACN 612 337 587, ABN 12 612 337 587. Credit Representative 492039 is authorised under Australian Credit Licence 389328.",
+      "LINK Advance is a registered business name of Dellit & Webb Wealth Services Pty Ltd ACN 612 337 587, ABN 12 612 337 587. Credit Representative 492039 is authorised under Australian Credit Licence 389328. Credit Representative 573582 is authorised under Australian Credit Licence 389328. Credit Representative 574906 is authorised under Australian Credit Licence 389328.",
     privacyPath: "/privacy-policy",
     emailDisclaimerPath: "/mail-disclaimer",
     complaintsPath: "/compliments-and-concerns",
@@ -170,9 +188,14 @@ export const NAV: NavItem[] = [
 
 // The brokers, exactly as the live about page names them (the site publishes
 // first names; Jacob's surname appears in review responses).
+//
+// creditRep is each broker's own credit representative number under Connective's
+// ACL 389328, so the number sits next to the person it belongs to rather than
+// only in a footer block of three near-identical sentences.
 export const TEAM = [
   {
     name: "Hugh",
+    creditRep: "492039",
     role: "Co-Founder & Director",
     focus: "Every loan, fought for. Real estate and property brokerage background.",
     image: "/wp-content/uploads/2026/05/Hugh-1024x1024-LinkedIn-Square-Grey.png",
@@ -184,6 +207,7 @@ export const TEAM = [
   },
   {
     name: "Callum",
+    creditRep: "573582",
     role: "Mortgage Broker",
     focus: "First home buyers and investors. Bachelor of Business (Economics and Finance), five years both sides of the desk.",
     image: "/wp-content/uploads/2026/05/Callum-Advance-1024x1024-LinkedIn-Grey-Square.png",
@@ -193,6 +217,7 @@ export const TEAM = [
   },
   {
     name: "Jacob",
+    creditRep: "574906",
     role: "Mortgage Broker",
     focus: "The lending other brokers find difficult: complex commercial, SMSF, small business finance.",
     image: "/wp-content/uploads/2026/05/Jacob-1024x1024-LinkedIn-Square-Grey.png",

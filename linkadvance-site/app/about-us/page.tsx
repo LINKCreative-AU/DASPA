@@ -117,6 +117,14 @@ export default function Page() {
                     {m.role}
                   </p>
                   <p className="mt-1 text-sm text-ink/55">{m.credential}</p>
+                  {/* Each broker's own credit representative number under
+                      Connective's ACL 389328. The footer carries the licensee's
+                      mandated sentence for all three; here the number sits with
+                      the person it actually belongs to, which is the version a
+                      client can check. */}
+                  <p className="mt-1 text-sm text-ink/45">
+                    Credit Representative {m.creditRep} · ACL 389328
+                  </p>
                   <p className="mt-4 text-lg leading-[1.4] text-ink/80">{m.bio}</p>
                   <p className="mt-4 text-sm text-ink/60">
                     Named in{" "}
