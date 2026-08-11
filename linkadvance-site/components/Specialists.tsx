@@ -103,56 +103,71 @@ export function Specialists() {
   return (
     <section className="bg-ink py-20 text-white sm:py-24">
       <div className="container-x">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <h2 className="max-w-2xl font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
-            Three brokers, three specialities<span className="text-advance-bright">.</span>
-          </h2>
-          <div className="flex gap-2">
-            <button
-              onClick={() => go(i - 1)}
-              aria-label="Previous broker"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 transition hover:border-white"
-            >
-              <span aria-hidden>←</span>
-            </button>
-            <button
-              onClick={() => go(i + 1)}
-              aria-label="Next broker"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 transition hover:border-white"
-            >
-              <span aria-hidden>→</span>
-            </button>
-          </div>
-        </div>
+        <h2 className="max-w-2xl font-display text-[34px] font-normal leading-[1.15] tracking-tight sm:text-[44px]">
+          Three brokers, three specialities<span className="text-advance-bright">.</span>
+        </h2>
 
-        {/* Name tabs, each with the face: the "scroll through the guys" control */}
-        <div className="mt-10 flex flex-wrap gap-3">
-          {SPECIALISTS.map((s, n) => {
-            const on = n === i;
-            return (
-              <button
-                key={s.id}
-                onClick={() => setI(n)}
-                aria-pressed={on}
-                className={`flex items-center gap-3 rounded-full py-2 pl-2 pr-5 transition ${
-                  on ? "bg-white text-ink" : "bg-white/5 text-white/70 hover:bg-white/10"
-                }`}
-              >
-                <img
-                  src={s.photo}
-                  alt=""
-                  className={`h-10 w-10 rounded-full object-cover ${on ? "" : "opacity-70 grayscale"}`}
-                  loading="lazy"
-                />
-                <span className="text-left">
-                  <span className="block text-[15px] font-semibold leading-tight">{s.name}</span>
-                  <span className={`block text-[12px] ${on ? "text-ink/55" : "text-white/45"}`}>
-                    {s.role}
+        {/* Name tabs, each with the face: the "scroll through the guys" control.
+            James, 11 Aug: the arrows used to sit in the top right corner of the
+            section, level with the heading and a long way from the thing they
+            move. Nothing about that position said what they did. They now flank
+            the faces, so the control and what it controls read as one object.
+            The chips are still the primary way in; the arrows are the shortcut.
+
+            No flex-1 on the chip group: it would stretch to fill the container
+            and fling the right arrow back out to the page edge, which is the
+            problem being fixed. Natural width keeps both arrows on the faces.
+
+            Arrows are sm-and-up only. On a phone all three chips are stacked
+            and visible at once, so the arrows carry no information the faces
+            do not - and at 390px the row cannot fit them, so they wrapped onto
+            their own lines and read as stray buttons. Tapping a face is the
+            better mobile control anyway. */}
+        <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+          <button
+            onClick={() => go(i - 1)}
+            aria-label="Previous broker"
+            className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 transition hover:border-white hover:bg-white/10 sm:flex"
+          >
+            <span aria-hidden>←</span>
+          </button>
+
+          <div className="flex flex-wrap gap-3">
+            {SPECIALISTS.map((s, n) => {
+              const on = n === i;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setI(n)}
+                  aria-pressed={on}
+                  className={`flex items-center gap-3 rounded-full py-2 pl-2 pr-5 transition ${
+                    on ? "bg-white text-ink" : "bg-white/5 text-white/70 hover:bg-white/10"
+                  }`}
+                >
+                  <img
+                    src={s.photo}
+                    alt=""
+                    className={`h-10 w-10 rounded-full object-cover ${on ? "" : "opacity-70 grayscale"}`}
+                    loading="lazy"
+                  />
+                  <span className="text-left">
+                    <span className="block text-[15px] font-semibold leading-tight">{s.name}</span>
+                    <span className={`block text-[12px] ${on ? "text-ink/55" : "text-white/45"}`}>
+                      {s.role}
+                    </span>
                   </span>
-                </span>
-              </button>
-            );
-          })}
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={() => go(i + 1)}
+            aria-label="Next broker"
+            className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 transition hover:border-white hover:bg-white/10 sm:flex"
+          >
+            <span aria-hidden>→</span>
+          </button>
         </div>
 
         {SPECIALISTS.map((s, n) => (
