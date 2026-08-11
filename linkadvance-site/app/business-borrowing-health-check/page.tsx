@@ -174,22 +174,22 @@ export default function Page() {
               rows={[
                 [
                   "Commercial property",
-                  "65% to 80% of value",
+                  "65-80% of value",
                   "Asset type, lease term and tenant quality, location, and whether you occupy it yourself",
                 ],
                 [
                   "Premises bought through an SMSF",
-                  "Typically 60% to 80%",
+                  "Typically 60-80%",
                   "Fund balance and contributions, the limited recourse structure, and lender appetite",
                 ],
                 [
                   "Buying a business or a franchise",
-                  "50% to 70% of maintainable earnings",
+                  "50-70% of maintainable earnings",
                   "Evidence quality of the add-backs, franchise system, and whether property security backs it",
                 ],
                 [
                   "Property development",
-                  "65% to 80% of total development cost",
+                  "65-80% of total development cost",
                   "Presales, builder and contract type, planning risk, and the developer's track record",
                 ],
               ]}

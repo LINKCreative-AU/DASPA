@@ -82,10 +82,10 @@ const SPECIALISTS: Spec[] = [
       "Then it goes to the banks, non-banks and private lenders whose appetite fits your deal, and the pricing comes from competition rather than hope. The spread between lenders on the same commercial deal is routinely whole percentage points.",
     ],
     does: [
-      "Premises purchases, including through your SMSF, at LVRs to 80%",
+      "Premises purchases, including through your SMSF, at LVRs up to 80%",
       "Working capital against invoices, equipment and trade",
-      "Acquisitions funded at 50 to 70% of maintainable earnings",
-      "Development finance to 65 to 80% of total development cost",
+      "Acquisitions funded at 50-70% of maintainable earnings",
+      "Development finance at 65-80% of total development cost",
     ],
     links: [
       { label: "Commercial lending", href: "/commercial-lending" },
