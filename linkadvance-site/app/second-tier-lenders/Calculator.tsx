@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Weighted average cost of capital across a tiered portfolio. Built from
 // Chris Tinta's brief (10 Aug 2026): rates prefill with per-tier defaults but
@@ -57,6 +57,11 @@ function TierPicker({
           }`}
         >
           {t.short}
+          {/* The default rate on the chip, so it is obvious where 6/7/8 came
+              from and that the field beside it is yours to change. */}
+          <span className={`ml-1.5 font-normal ${value === t.tier ? "text-white/60" : "text-ink/35"}`}>
+            {t.defaultRate}%
+          </span>
         </button>
       ))}
     </div>
@@ -142,6 +147,25 @@ export function Calculator() {
   const [nextTier, setNextTier] = useState<Tier>(3);
   const [nextDebt, setNextDebt] = useState("800,000");
   const [nextRate, setNextRate] = useState("8.00");
+  // The example is loaded on arrival so the page opens on a live number
+  // rather than an empty form. Once someone clears it, we stop calling it
+  // the example and never load it back over the top of their figures.
+  const [onExample, setOnExample] = useState(true);
+
+  // On a phone the results panel stacks 600px below the first input, so the
+  // number you came to watch is off-screen while you type. This tracks
+  // whether the tool is on screen and pins a compact readout to the bottom.
+  const shell = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = shell.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      rootMargin: "-72px 0px -96px 0px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const loans: Loan[] = rows.map((r) => ({
     id: r.id,
@@ -158,24 +182,40 @@ export function Calculator() {
     rate: num(nextRate),
   });
 
-  const update = (id: string, patch: Partial<Row>) =>
+  const update = (id: string, patch: Partial<Row>) => {
+    setOnExample(false);
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+  };
 
   const add = () => {
     const n = seq + 1;
     setSeq(n);
+    setOnExample(false);
     setRows((rs) => [
       ...rs,
       { id: `l${n}`, name: `Property ${n}`, tier: 1, debt: "", rate: tierMeta(1).defaultRate.toFixed(2) },
     ]);
   };
 
-  const remove = (id: string) => setRows((rs) => rs.filter((r) => r.id !== id));
+  const remove = (id: string) => {
+    setOnExample(false);
+    setRows((rs) => rs.filter((r) => r.id !== id));
+  };
+
+  // One click from someone else's portfolio to your own.
+  const startFresh = () => {
+    setOnExample(false);
+    setSeq(1);
+    setRows([
+      { id: "l1", name: "Property 1", tier: 1, debt: "", rate: tierMeta(1).defaultRate.toFixed(2) },
+    ]);
+  };
 
   // Changing a loan's tier moves the rate to that tier's default, but only
   // while the rate is still whatever the previous default was. Once someone
   // types their real rate, we leave it alone.
-  const setTier = (id: string, tier: Tier) =>
+  const setTier = (id: string, tier: Tier) => {
+    setOnExample(false);
     setRows((rs) =>
       rs.map((r) => {
         if (r.id !== id) return r;
@@ -183,15 +223,35 @@ export function Calculator() {
         return { ...r, tier, rate: wasDefault ? tierMeta(tier).defaultRate.toFixed(2) : r.rate };
       })
     );
+  };
 
   const showing = result.totalDebt > 0;
   const nextDebtValue = num(nextDebt);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
+    <div ref={shell} className="grid gap-8 lg:grid-cols-[1fr_1fr]">
       {/* Inputs */}
       <div className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-wider text-ink/55">Your loans</p>
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <p className="text-xs font-bold uppercase tracking-wider text-ink/55">
+            {onExample ? "Worked example" : "Your loans"}
+          </p>
+          {onExample && (
+            <button
+              type="button"
+              onClick={startFresh}
+              className="text-sm font-semibold text-ink underline underline-offset-4 hover:text-advance-mid"
+            >
+              Start with my numbers
+            </button>
+          )}
+        </div>
+        {onExample && (
+          <p className="text-sm leading-relaxed text-ink/60">
+            Loaded with a three-tier portfolio so you can see how the blend works. Type over any
+            figure, or clear it and enter your own.
+          </p>
+        )}
         {rows.map((r, i) => (
           <div key={r.id} className="rounded-2xl border border-ink/10 bg-white p-5">
             <div className="flex items-start justify-between gap-3">
@@ -370,6 +430,31 @@ export function Calculator() {
           borrowing capacity and loan suitability depend on your circumstances.
         </p>
       </div>
+
+      {/* Phone only: the answer follows you up the form. Without this the
+          blended rate sits ~600px below the first input, so on a phone you
+          type your numbers and never see the thing you came for move. */}
+      {showing && inView && (
+        <div
+          aria-hidden
+          className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-white/10 bg-ink px-5 py-3 text-white shadow-[0_-8px_24px_rgba(0,0,0,.18)] lg:hidden"
+        >
+          <span className="text-[11px] font-bold uppercase tracking-wider text-white/55">
+            Blended
+            <br />
+            rate
+          </span>
+          <span className="font-display text-3xl font-semibold leading-none text-advance-bright">
+            {result.wacc!.toFixed(2)}
+            <span className="ml-0.5 text-base font-normal text-white/60">%</span>
+          </span>
+          <span className="ml-auto text-right text-[11px] leading-tight text-white/55">
+            {money(result.totalDebt)}
+            <br />
+            total debt
+          </span>
+        </div>
+      )}
     </div>
   );
 }

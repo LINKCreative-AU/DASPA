@@ -90,11 +90,18 @@ const CRUMBS = [
 const EXAMPLE = wacc(WORKED_EXAMPLE);
 const SINGLE = wacc(TIER_ONE_ONLY);
 
-// "Tier one · Major banks" reads as "Tier one (major banks)" in a table cell.
-const tierLabel = (t: (typeof TIERS)[number]["tier"]) => {
-  const [tier, who] = tierMeta(t).label.split(" · ");
-  return `${tier} (${who.toLowerCase()})`;
-};
+// Tier mixes for the "how far does the blend actually move" table: shares of
+// one total debt across tier one, two and three. The point of the last rows
+// is that heavy use of the expensive tiers still lands close to the cheap one.
+const MIXES: [number, number, number][] = [
+  [1, 0, 0],
+  [0.8, 0.2, 0],
+  [0.6, 0.4, 0],
+  [0.5, 1 / 3, 1 / 6],
+  [0.4, 0.4, 0.2],
+  [1 / 3, 1 / 3, 1 / 3],
+  [0, 0.5, 0.5],
+];
 
 export default function Page() {
   return (
@@ -126,15 +133,152 @@ export default function Page() {
           accent
         />
         <p className="mt-6 max-w-3xl text-lg leading-[1.4] text-ink/80">
-          This page explains the tiers, what a second tier lender actually is, and the one number
-          that decides whether the next purchase works: your weighted average cost of capital.
-          There is a{" "}
-          <TextLink href="#wacc-calculator">free calculator</TextLink> further down to work out
-          yours.
+          <strong className="text-ink">A second tier lender</strong> is a smaller bank or non-bank
+          lender that funds loans outside the big four: regulated, licensed, a modest rate premium,
+          and credit policy of its own. That policy is where the capacity your bank says you do not
+          have usually comes from. Below is the calculator that tells you what borrowing across the
+          tiers actually costs you, and under it, how the whole thing works.
         </p>
       </section>
 
-      <section className="border-y border-ink/10 bg-neutral-50 py-20">
+      {/* The tool leads. Every other Advance tool page does the same, and the
+          measurement that prompted this rebuild was blunt: at 4.3 screens down
+          on desktop and 8.2 on a phone, the calculator may as well not have
+          been on the page. The prose that used to sit above it all survives
+          below, in the order someone actually needs it. */}
+      <section id="wacc-calculator" className="container-x scroll-mt-24 pb-4">
+        <Calculator />
+      </section>
+
+      <section className="container-x pb-16 pt-10">
+        <div className="flex flex-col items-start gap-4 rounded-2xl border border-ink/10 bg-neutral-50 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <p className="max-w-xl text-lg leading-[1.4] text-ink/80">
+            Seen a number you want a second opinion on? A broker will map your capacity across all
+            three tiers and tell you what sequence keeps the blend down.
+          </p>
+          <div className="flex shrink-0 flex-wrap items-center gap-4">
+            <a href="/contact-us" className="btn btn-advance whitespace-nowrap">
+              Book a call
+            </a>
+            <a
+              href={SITE.phoneHref}
+              className="font-display text-lg font-bold tracking-tight text-ink hover:text-advance"
+            >
+              {SITE.phone}
+            </a>
+          </div>
+        </div>
+        {/* A 10-screen page needs a map. */}
+        <nav aria-label="On this page" className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+          <span className="font-bold uppercase tracking-wider text-ink/45">On this page</span>
+          {[
+            { label: "What your number means", href: "#what-it-means" },
+            { label: "The three tiers", href: "#tiers" },
+            { label: "Second tier lenders", href: "#second-tier" },
+            { label: "Third tier lenders", href: "#third-tier" },
+            { label: "Increasing your capacity", href: "#increase-borrowing-capacity" },
+            { label: "FAQ", href: "#faq" },
+          ].map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="font-semibold text-ink/70 underline decoration-ink/20 underline-offset-4 hover:text-ink hover:decoration-ink"
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+      </section>
+
+
+
+
+
+
+      {/* ACT 2 - make sense of the number they just generated. This used to
+          sit above the calculator as an argument for using it; now it reads
+          as an explanation of a figure already on their screen. */}
+      <section id="what-it-means" className="scroll-mt-24 border-y border-ink/10 bg-neutral-50 py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            What your weighted average cost of capital is telling you.
+          </h2>
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
+            Investors fixate on the rate of their next loan. What drives your portfolio is the
+            blended rate across all of it. In the example the calculator opens with, the weighted
+            average is {pct(EXAMPLE.wacc!)}, not 8%, because most of the debt sits in tier one. The
+            question is never &ldquo;is 8% too expensive?&rdquo; It is &ldquo;does adding this loan
+            at 8% still leave my whole portfolio profitable at a {pct(EXAMPLE.wacc!)} blended
+            rate?&rdquo; That reframe is how sophisticated investors keep moving while everyone
+            else waits for rate cuts.
+          </p>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            Stop at tier one and the portfolio stops at roughly half the size:{" "}
+            {money(SINGLE.totalDebt)} of debt at {pct(SINGLE.wacc!)}, one property, and a cheaper
+            blended rate that is cheaper for the worst possible reason. The investor who accepted{" "}
+            {pct(EXAMPLE.wacc!)} owns three assets. The one who held out for {pct(SINGLE.wacc!)}{" "}
+            owns one.
+          </p>
+
+          <h3 className="mt-12 font-display text-xl font-bold tracking-tight text-ink">
+            How far the blend actually moves.
+          </h3>
+          <p className="mt-3 text-lg leading-[1.4] text-ink/80">
+            The fear is that touching tier two or tier three wrecks your cost of capital. On the
+            same {money(EXAMPLE.totalDebt)} of debt, it does not. Even a third of the book at tier
+            three rates only lifts the blend by a point.
+          </p>
+          <div className="mt-8">
+            <DataTable
+              caption="Blended rate by tier mix, on the same total debt"
+              head={["Tier one", "Tier two", "Tier three", "Blended rate", "Interest a year"]}
+              rows={MIXES.map((m) => {
+                const r = wacc(
+                  m.map((share, i) => ({
+                    id: String(i),
+                    name: "",
+                    tier: TIERS[i].tier,
+                    debt: EXAMPLE.totalDebt * share,
+                    rate: TIERS[i].defaultRate,
+                  }))
+                );
+                return [
+                  `${Math.round(m[0] * 100)}%`,
+                  `${Math.round(m[1] * 100)}%`,
+                  `${Math.round(m[2] * 100)}%`,
+                  pct(r.wacc!),
+                  money(r.annualInterest),
+                ];
+              })}
+              note={`Illustrative tier rates of ${TIERS.map((x) => `${x.defaultRate}%`).join(", ")} on ${money(EXAMPLE.totalDebt)} of debt, generated by the same model the calculator runs. Not lender quotes: the calculator above uses the rates you enter.`}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="container-x max-w-3xl">
+          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
+            Why the order matters.
+          </h2>
+          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
+            Exhaust the cheapest money first. Every dollar of tier one debt you lock in early is a
+            dollar you never pay tier two or tier three rates on. Start at the expensive end and
+            you burn your cheapest capacity on your most expensive debt.
+          </p>
+          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
+            It sounds obvious written down, and it is routinely done backwards, because each
+            purchase gets decided on its own. Someone takes the fast private loan for property
+            three because it settles quickly, then finds their tier one capacity is gone by
+            property four, spent on the loan that could have sat anywhere. The sequence is a
+            portfolio decision, and it has to be made before the first loan, not the fourth.
+          </p>
+        </div>
+      </section>
+
+      {/* ACT 3 - the explanation, in the order someone reads it once the
+          number has made them care. */}
+      <section id="tiers" className="scroll-mt-24 border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             What are the three tiers of lenders in Australia?
@@ -186,8 +330,7 @@ export default function Page() {
           </div>
         </div>
       </section>
-
-      <section id="second-tier" className="py-20">
+      <section id="second-tier" className="scroll-mt-24 py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             What is a second tier lender?
@@ -217,8 +360,7 @@ export default function Page() {
           </p>
         </div>
       </section>
-
-      <section id="third-tier" className="border-y border-ink/10 bg-neutral-50 py-20">
+      <section id="third-tier" className="scroll-mt-24 border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             What is a third tier lender?
@@ -246,109 +388,6 @@ export default function Page() {
           </p>
         </div>
       </section>
-
-      <section className="py-20">
-        <div className="container-x max-w-3xl">
-          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
-            Why the order matters.
-          </h2>
-          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
-            Exhaust the cheapest money first. Every dollar of tier one debt you lock in early is a
-            dollar you never pay tier two or tier three rates on. Start at the expensive end and
-            you burn your cheapest capacity on your most expensive debt.
-          </p>
-          <p className="mt-4 text-lg leading-[1.4] text-ink/80">
-            It sounds obvious written down, and it is routinely done backwards, because each
-            purchase gets decided on its own. Someone takes the fast private loan for property
-            three because it settles quickly, then finds their tier one capacity is gone by
-            property four, spent on the loan that could have sat anywhere. The sequence is a
-            portfolio decision, and it has to be made before the first loan, not the fourth.
-          </p>
-        </div>
-      </section>
-
-      <section id="worked-example" className="border-y border-ink/10 bg-neutral-50 py-20">
-        <div className="container-x max-w-3xl">
-          <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
-            A worked example.
-          </h2>
-          <p className="mt-5 text-lg leading-[1.4] text-ink/80">
-            Three properties, three tiers, {money(EXAMPLE.totalDebt)} of debt supporting roughly
-            an $8,000,000 portfolio.
-          </p>
-          <div className="mt-8">
-            <DataTable
-              caption="A three-tier portfolio and its blended rate"
-              head={["Tier", "Debt", "Rate", "Share of debt"]}
-              rows={[
-                ...WORKED_EXAMPLE.map((l) => [
-                  tierLabel(l.tier),
-                  money(l.debt),
-                  pct(l.rate),
-                  `${Math.round((l.debt / EXAMPLE.totalDebt) * 100)}%`,
-                ]),
-                ["Total", money(EXAMPLE.totalDebt), `Blended ${pct(EXAMPLE.wacc!)}`, "100%"],
-              ]}
-              note="Generated by the same model the calculator on this page runs. Rates shown are illustrative only, not lender quotes."
-            />
-          </div>
-          <p className="mt-6 text-lg leading-[1.4] text-ink/80">
-            Stop at tier one and the portfolio stops at roughly half that size:{" "}
-            {money(SINGLE.totalDebt)} of debt at {pct(SINGLE.wacc!)}, one property, and a cheaper
-            blended rate that is cheaper for the worst possible reason. The investor who accepted{" "}
-            {pct(EXAMPLE.wacc!)} owns three assets. The one who held out for{" "}
-            {pct(SINGLE.wacc!)} owns one.
-          </p>
-        </div>
-      </section>
-
-      <section id="wacc" className="py-20">
-        <div className="container-x">
-          <div className="max-w-3xl">
-            <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
-              Weighted average cost of capital: the number that actually matters.
-            </h2>
-            <p className="mt-5 text-lg leading-[1.4] text-ink/80">
-              Investors fixate on the rate of their next loan. What drives your portfolio is the
-              blended rate across all of it. In the example above, the weighted average is{" "}
-              {pct(EXAMPLE.wacc!)}, not 8%, because most of the debt sits in tier one. The
-              question is never &ldquo;is 8% too expensive?&rdquo; It is &ldquo;does adding this
-              loan at 8% still leave my whole portfolio profitable at a {pct(EXAMPLE.wacc!)}{" "}
-              blended rate?&rdquo; That reframe is how sophisticated investors keep moving while
-              everyone else waits for rate cuts.
-            </p>
-            <p className="mt-4 text-lg leading-[1.4] text-ink/80">
-              Work out your own blended rate below. Enter your loans, set your actual rates, and
-              test what your next purchase does to your cost of capital. Nothing is stored and
-              nothing is sent anywhere.
-            </p>
-          </div>
-          <div id="wacc-calculator" className="mt-10 scroll-mt-24">
-            <Calculator />
-          </div>
-          {/* Per the brief: the call to action sits directly beneath the
-              "test your next loan" panel, because that is the moment someone
-              sees what their next purchase actually costs them. */}
-          <div className="mt-10 flex flex-col items-start gap-4 rounded-2xl border border-ink/10 bg-neutral-50 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-            <p className="max-w-xl text-lg leading-[1.4] text-ink/80">
-              Seen a number you want a second opinion on? A broker will map your capacity across
-              all three tiers and tell you what sequence keeps the blend down.
-            </p>
-            <div className="flex shrink-0 flex-wrap items-center gap-4">
-              <a href="/contact-us" className="btn btn-advance whitespace-nowrap">
-                Book a call
-              </a>
-              <a
-                href={SITE.phoneHref}
-                className="font-display text-lg font-bold tracking-tight text-ink hover:text-advance"
-              >
-                {SITE.phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="border-y border-ink/10 bg-neutral-50 py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
@@ -373,10 +412,11 @@ export default function Page() {
         </div>
       </section>
 
+
       {/* This section owns "how to increase borrowing capacity" (220/mo, KD 0)
           for the site. The borrowing power estimator links here rather than
           competing for the term. */}
-      <section id="increase-borrowing-capacity" className="py-20">
+      <section id="increase-borrowing-capacity" className="scroll-mt-24 py-20">
         <div className="container-x max-w-3xl">
           <h2 className="font-display text-[34px] font-normal leading-[1.15] tracking-tight text-ink sm:text-[44px]">
             How to increase your borrowing capacity.
@@ -466,6 +506,7 @@ export default function Page() {
         </div>
       </section>
 
+      <div id="faq" className="scroll-mt-24" />
       <FAQ
         title="Frequently asked questions."
         faqs={FAQS}
