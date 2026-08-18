@@ -2,6 +2,15 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "crons": [
-    { "path": "/api/cron-nudge", "schedule": "0 */6 * * *" }
+    {
+      "path": "/api/cron-nudge",
+      "schedule": "0 */6 * * *"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/googlec958a1798c20283a.html",
+      "destination": "/google-gsc-verification.txt"
+    }
   ]
 }
