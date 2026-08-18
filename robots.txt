@@ -1,13 +1,19 @@
 User-agent: *
 Allow: /
-Allow: /claim-super-leaving-australia
-Disallow: /claim
-Disallow: /verify
-Disallow: /confirmation
-Disallow: /upload-form
 Disallow: /api/
 
 Sitemap: https://daspa.com.au/sitemap.xml
+
+# The claim flow (/claim, /verify, /confirmation, /upload-form) is kept out of
+# the index by "noindex" in each page's <head>, NOT by Disallow. A robots.txt
+# Disallow would stop crawlers fetching those pages at all, so they could never
+# read the noindex — and Google can still list a blocked URL it finds via links.
+# Blocking and noindexing the same page works against itself; noindex alone is
+# what actually removes them. Do not re-add Disallow lines for those paths.
+#
+# Also note robots.txt rules are PREFIX matches: "Disallow: /claim" would match
+# /claim-super-leaving-australia too. That trap is why the paths above are
+# handled with noindex instead.
 
 # AI/answer engines: welcome under the same rules as everyone else
 # (default Allow above). Site summary for LLMs: https://daspa.com.au/llms.txt

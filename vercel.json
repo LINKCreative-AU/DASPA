@@ -7,9 +7,17 @@
       "schedule": "0 */6 * * *"
     }
   ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.daspa.com.au" }],
+      "destination": "https://daspa.com.au/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
-      "source": "/googlec958a1798c20283a.html",
+      "source": "/googlec958a1798c20283a",
       "destination": "/google-gsc-verification.txt"
     }
   ]
