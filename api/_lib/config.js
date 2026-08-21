@@ -1,7 +1,7 @@
 // Shared server-side config. Files under api/_lib are not deployed as functions.
 
 // ---------------------------------------------------------------------------
-// FEE — charged via Stripe Checkout, in cents.
+// FEE, charged via Stripe Checkout, in cents.
 // $149 + GST = $163.90 advertised across the site (keep assets/site.js in sync).
 //
 // GST NOTE / FOR ACCOUNTING REVIEW: sales to non-residents who are outside
@@ -9,7 +9,7 @@
 // (GST Act s38-190). If/when that treatment is confirmed, switch the charged
 // amount to FEE_EX_GST_CENTS for those clients (or point Stripe at a tax-aware
 // price). The invoice line description is built here so it can flex with the
-// treatment — do not hardcode amounts elsewhere.
+// treatment. Do not hardcode amounts elsewhere.
 // ---------------------------------------------------------------------------
 const FEE_INC_GST_CENTS = 16390;
 const FEE_EX_GST_CENTS = 14900;
@@ -18,8 +18,8 @@ module.exports = {
   FEE_CENTS: FEE_INC_GST_CENTS,
   FEE_EX_GST_CENTS,
   CURRENCY: 'aud',
-  FEE_DESCRIPTION: 'DASP claim — flat service fee (incl. GST)',
-  PRODUCT_NAME: 'DASPA — Departing Australia super claim',
+  FEE_DESCRIPTION: 'DASP claim · flat service fee (incl. GST)',
+  PRODUCT_NAME: 'DASPA · Departing Australia super claim',
 
   SITE_URL: process.env.SITE_URL || 'https://daspa.com.au',
 
@@ -28,9 +28,10 @@ module.exports = {
   // to flip the site and emails to live-lodgement copy.
   LODGEMENT_LIVE: process.env.LODGEMENT_LIVE === 'true',
 
-  // Digits only, with country code — used in status emails.
-  WHATSAPP_NUMBER: process.env.WHATSAPP_NUMBER || 'WHATSAPP_NUMBER_PLACEHOLDER',
+  // Client emails link to our own /wa endpoint rather than building a wa.me URL
+  // here, so there is exactly one place the number is resolved and an unset
+  // number degrades to the FAQ instead of a dead link in someone's inbox.
   whatsappLink() {
-    return `https://wa.me/${this.WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I have a question about claiming my super')}`;
+    return `${this.SITE_URL}/wa`;
   },
 };

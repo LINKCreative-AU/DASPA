@@ -1,4 +1,4 @@
-// POST — receives one file of a paper-form submission (the page loops for
+// POST, receives one file of a paper-form submission (the page loops for
 // multiple files, grouped by a client-generated submissionId). Files land in
 // the private 'paper-forms' Supabase Storage bucket (created on first use);
 // the team picks them up from the dashboard via the claim_audit_log trail.
@@ -67,16 +67,17 @@ module.exports = async (req, res) => {
     );
 
     if (finalize) {
-      // Receipt ack — mirrors the tone of the online-flow emails. Never let a
+      await email.opsPaperForm(String(name).trim(), from, phone, note && String(note).slice(0, 300));
+      // Receipt ack, mirrors the tone of the online-flow emails. Never let a
       // mail failure fail the upload; the file is already safe in storage.
       await email.send(
         from,
         'Your paper form arrived safely ✓',
         `Hi ${String(name).trim().split(/\s+/)[0]},
 
-Your completed DASPA application form just arrived — thanks for sending it back to us.
+Your completed DASPA application form just arrived, thanks for sending it back to us.
 
-What happens next: a registered tax agent reviews your form, we email you a secure payment link ($149 + GST flat — refunded in full if we can't recover any super), and you verify your identity from your phone with your passport and a selfie. Then we find every super account in your name, including ATO-held money, and lodge your claim.
+What happens next: a registered tax agent reviews your form, we email you a secure payment link ($149 + GST flat, refunded in full if we can't recover any super), and you verify your identity from your phone with your passport and a selfie. Then we find every super account in your name, including ATO-held money, and lodge your claim.
 
 If anything on the form needs clarifying, we'll be in touch by email${phone ? ' or phone/WhatsApp' : ''}.
 

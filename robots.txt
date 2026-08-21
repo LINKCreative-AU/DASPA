@@ -6,6 +6,7 @@ Disallow: /verify
 Disallow: /confirmation
 Disallow: /upload-form
 Disallow: /api/
+Disallow: /wa
 
 Sitemap: https://daspa.com.au/sitemap.xml
 

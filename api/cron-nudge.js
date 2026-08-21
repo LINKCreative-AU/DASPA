@@ -1,4 +1,4 @@
-// Scheduled email dispatcher (vercel.json crons — every 6 hours).
+// Scheduled email dispatcher (vercel.json crons, every 6 hours).
 //   1. Verification abandoned >24h after payment → one nudge email.
 //   2. claim_status moved to 'lodged' in the Supabase dashboard → "lodged with
 //      the ATO" email (the team works the queue in the dashboard; this is how

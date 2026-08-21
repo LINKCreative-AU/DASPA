@@ -1,5 +1,5 @@
 // POST { claimId } → creates a Didit verification session (v3 Sessions API,
-// per docs.didit.me) and returns { url } for a full-page redirect — the most
+// per docs.didit.me) and returns { url } for a full-page redirect, the most
 // reliable route to the phone camera for a mobile-first audience.
 // Env: DIDIT_API_KEY, DIDIT_WORKFLOW_ID.
 
@@ -28,8 +28,7 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         workflow_id: process.env.DIDIT_WORKFLOW_ID,
-        // vendor_data ties the Didit session back to our Supabase record —
-        // the webhook uses it to find the claim.
+        // vendor_data ties the Didit session back to our Supabase record, // the webhook uses it to find the claim.
         vendor_data: claim.id,
         callback: `${config.SITE_URL}/confirmation?cid=${claim.id}`,
       }),

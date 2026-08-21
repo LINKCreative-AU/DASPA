@@ -1,5 +1,4 @@
-// Thin Supabase PostgREST client using the service-role key (server only —
-// bypasses RLS; never expose this key to a page). Env: SUPABASE_URL,
+// Thin Supabase PostgREST client using the service-role key (server only, // bypasses RLS; never expose this key to a page). Env: SUPABASE_URL,
 // SUPABASE_SERVICE_ROLE_KEY.
 
 const BASE = process.env.SUPABASE_URL;

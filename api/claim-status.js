@@ -1,6 +1,6 @@
 // GET ?cid=<uuid> → minimal status flags for the sequence-aware confirmation
 // page. The claim id is a client-side generated UUID acting as a bearer
-// reference, so we expose status flags only — never personal details.
+// reference, so we expose status flags only. Never personal details.
 
 const config = require('./_lib/config');
 const db = require('./_lib/supabase');

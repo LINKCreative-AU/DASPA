@@ -1,4 +1,4 @@
-// Didit webhook — updates the claim as verification decisions arrive.
+// Didit webhook, updates the claim as verification decisions arrive.
 // Verifies the X-Signature-V2 HMAC (SHA-256 of the raw body with
 // DIDIT_WEBHOOK_SECRET) with a constant-time compare, and rejects events
 // whose timestamp is older than five minutes (replay protection).
@@ -9,8 +9,8 @@
 //   Abandoned           → verification_status pending, claim_status verification_pending,
 //                         reminder email sent
 //
-// NOTE: the decision payload uses PLURAL arrays — id_verifications,
-// liveness_checks, face_matches — one entry per attempt. Read the latest.
+// NOTE: the decision payload uses PLURAL arrays, id_verifications,
+// liveness_checks, face_matches, one entry per attempt. Read the latest.
 // Env: DIDIT_WEBHOOK_SECRET.
 
 const crypto = require('crypto');
@@ -62,14 +62,14 @@ module.exports = async (req, res) => {
     const claimId = event.vendor_data;
     const status = event.status || (event.decision && event.decision.status);
     if (!claimId || !/^[0-9a-f-]{36}$/i.test(claimId)) {
-      return res.status(200).json({ received: true }); // not ours — ack so Didit stops retrying
+      return res.status(200).json({ received: true }); // not ours, ack so Didit stops retrying
     }
 
     const claim = await db.getClaim(claimId);
     if (!claim) return res.status(200).json({ received: true });
 
     // Latest attempt from the plural decision arrays (id_verifications,
-    // liveness_checks, face_matches) — stored for the team's review queue.
+    // liveness_checks, face_matches), stored for the team's review queue.
     const d = event.decision || {};
     const last = (arr) => (Array.isArray(arr) && arr.length ? arr[arr.length - 1] : null);
     const summary = {
@@ -87,12 +87,14 @@ module.exports = async (req, res) => {
       await db.insertAudit(claimId, 'didit_approved', JSON.stringify(summary));
       await email.verified(claim);
       await db.insertAudit(claimId, 'email_verified', claim.email);
+      await email.opsVerified(claim);
     } else if (status === 'Declined' || status === 'In Review') {
       await db.updateClaim(claimId, {
         verification_status: 'needs_review',
         claim_status: 'needs_review',
       });
       await db.insertAudit(claimId, `didit_${status.toLowerCase().replace(' ', '_')}`, JSON.stringify(summary));
+      await email.opsNeedsReview(claim, status);
     } else if (status === 'Abandoned') {
       await db.updateClaim(claimId, {
         verification_status: 'pending',

@@ -1,12 +1,5 @@
-/* DASPA, shared front-end behaviour: WhatsApp links, refund estimator, eligibility quiz. */
-
-/* ============================================================
-   PLACEHOLDER, WhatsApp number, digits only with country code
-   (e.g. "61400000000"). Replace before launch; every WhatsApp
-   button on the site is built from this one constant.
-   ============================================================ */
-var WHATSAPP_NUMBER = 'WHATSAPP_NUMBER_PLACEHOLDER';
-var WHATSAPP_MESSAGE = 'Hi, I have a question about claiming my super';
+/* DASPA, shared front-end behaviour: refund estimator, eligibility quiz.
+   WhatsApp links are plain hrefs to /wa, resolved server-side in api/wa.js. */
 
 /* Fee shown across the site. Charged amount lives server-side in api/_lib/config.js. Keep the two in sync. $149 + GST = $163.90 (GST treatment may change for non-resident
    export sales, see the server config comment). */
@@ -17,19 +10,9 @@ var aud = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', m
 var aud2 = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  wireWhatsApp();
   initEstimator();
   initQuiz();
 });
-
-function wireWhatsApp() {
-  var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(WHATSAPP_MESSAGE);
-  document.querySelectorAll('[data-wa]').forEach(function (a) {
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener';
-  });
-}
 
 /* ---------- refund estimator ----------
    DASP withholding rates (ATO, current at the last-updated date shown on the page):
@@ -179,7 +162,6 @@ function initQuiz() {
     html += '<a class="btn ghost" href="#" data-wa>Ask us on WhatsApp</a>' +
       '<p style="margin-top:14px"><button type="button" class="q-back">← Start the check again</button></p></div>';
     host.innerHTML = html;
-    wireWhatsApp();
     host.querySelector('.q-back').addEventListener('click', restart);
   }
 
@@ -191,7 +173,6 @@ function initQuiz() {
       '<a class="btn" href="/claim">Start my claim</a> <a class="btn ghost" href="#" data-wa>Question first? WhatsApp us</a>' +
       '<p style="margin-top:14px"><button type="button" class="q-back">← Start the check again</button></p></div>';
     host.innerHTML = html;
-    wireWhatsApp();
     host.querySelector('.q-back').addEventListener('click', restart);
   }
 

@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
 
     const firstAttempt = !claim.stripe_session_id;
 
-    // Stripe REST API, form-encoded — no SDK dependency needed.
+    // Stripe REST API, form-encoded, no SDK dependency needed.
     const params = new URLSearchParams({
       mode: 'payment',
       'line_items[0][quantity]': '1',
@@ -57,6 +57,8 @@ module.exports = async (req, res) => {
     if (firstAttempt) {
       await email.formReceived(claim);
       await db.insertAudit(claim.id, 'email_form_received', claim.email);
+      // tell our side too, so a claim never sits in the table unseen
+      await email.opsNewClaim(claim);
     }
 
     return res.status(200).json({ url: session.url });

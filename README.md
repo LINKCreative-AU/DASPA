@@ -13,8 +13,13 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
 1. **Supabase**, run `supabase/schema.sql` in the SQL editor. RLS: the anon key can
    **insert** claims and nothing else; the audit log is service-role only.
 2. **Placeholders in pages** (search for `PLACEHOLDER`):
-   - `assets/site.js` → `WHATSAPP_NUMBER` (digits with country code)
    - `claim.html` → `SUPABASE_URL`, `SUPABASE_ANON_KEY`
+
+   The WhatsApp number is no longer one of these. It resolves server-side in
+   `api/wa.js` from the `WHATSAPP_NUMBER` env var, and every call to action on the
+   site is a plain link to `/wa`. If the var is unset the redirect falls back to
+   `/faq` and logs a warning, so a missing number can never ship as a dead link
+   again. `scripts/check.py` fails if a placeholder reappears in shipped code.
 3. **Vercel env vars** (never in pages):
 
    | Var | Purpose |
@@ -23,7 +28,8 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout + webhook (endpoint: `/api/stripe-webhook`, event `checkout.session.completed`) |
    | `DIDIT_API_KEY` / `DIDIT_WORKFLOW_ID` / `DIDIT_WEBHOOK_SECRET` | Didit v3 sessions + webhook (endpoint: `/api/didit-webhook`) |
    | `RESEND_API_KEY` / `EMAIL_FROM` | transactional email (skipped gracefully if unset) |
-   | `WHATSAPP_NUMBER` | used in status emails |
+   | `WHATSAPP_NUMBER` | digits with country code. Resolves `/wa`, used by every WhatsApp CTA and the status emails. Unset → `/wa` redirects to `/faq` |
+   | `OPS_EMAIL` | where new claims, payments, verifications and paper forms are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
    | `SITE_URL` | defaults to `https://daspa.com.au` |
    | `CRON_SECRET` | protects `/api/cron-nudge` (Vercel sends it automatically) |
    | `LODGEMENT_LIVE` | **keep unset/false until the ATO DASP Agreement is executed**, holds all confirmations and emails at "in review" wording; set `true` to go live |
@@ -32,6 +38,24 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    **Didit webhook**: `https://daspa.com.au/api/didit-webhook` (X-Signature-V2 HMAC verified,
    5-minute timestamp window; decision payload uses plural arrays: `id_verifications`,
    `liveness_checks`, `face_matches`).
+
+## Checks and generators
+
+`python scripts/check.py` before you push. It is the only thing standing in for a
+build step: SERP budgets (title 60, description 158), descriptions that give the
+answer away, em dashes, missing canonical / og:image / sitemap entries, JSON-LD
+that does not parse, placeholders in shipped code, and `node --check` over the
+functions. It also lists, in its own docstring, what it CANNOT see. The same
+script runs on every push via `.github/workflows/check.yml`.
+
+Generators, rerun when their inputs change:
+
+| Script | What it produces |
+|---|---|
+| `scripts/build-og.py` | the 1200x630 social cards in `assets/og/` and the og/twitter tags |
+| `scripts/build-fonts.py` | the self-hosted Plus Jakarta Sans subsets and their `@font-face` rules |
+| `scripts/build-calculator-matrix.py` | the crawlable payout matrix on `/dasp-calculator` (asserts itself against the page's published worked examples) |
+| `scripts/build-language-pages.py` | `/ko` and `/zh-tw`, both **noindex until a native speaker signs off the copy** |
 
 ## Claim flow
 

@@ -1,0 +1,25 @@
+# Runs the pre-flight checks on every push and pull request.
+#
+# Deliberately NOT wired into Vercel's buildCommand: this repo deploys as a plain
+# static site with functions, and giving it a build step risks the deploy path on
+# a live revenue site to gain nothing a red check here does not already give.
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Pre-flight checks
+        run: python scripts/check.py

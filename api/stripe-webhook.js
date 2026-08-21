@@ -1,4 +1,4 @@
-// Stripe webhook — marks the claim paid on checkout.session.completed.
+// Stripe webhook. Marks the claim paid on checkout.session.completed.
 // Signature is verified against the raw body (HMAC SHA-256, Stripe-Signature
 // header, v1 scheme) with a constant-time compare; no Stripe SDK needed.
 // Env: STRIPE_WEBHOOK_SECRET.
@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const db = require('./_lib/supabase');
 const email = require('./_lib/email');
 
-// Raw body is required for signature verification — disable the body parser.
+// Raw body is required for signature verification, disable the body parser.
 module.exports.config = { api: { bodyParser: false } };
 
 function rawBody(req) {
@@ -66,6 +66,7 @@ module.exports = async (req, res) => {
           await db.insertAudit(claimId, 'stripe_payment_completed', session.id);
           await email.paymentConfirmed(claim);
           await db.insertAudit(claimId, 'email_payment_confirmed', claim.email);
+          await email.opsPaid(claim, session.amount_total);
           // tax invoice via the portal (idempotent there; never fails the webhook)
           if (process.env.INVOICE_SECRET) {
             await fetch('https://registrationoffice.com.au/api/invoice', {
