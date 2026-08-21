@@ -24,56 +24,122 @@
 {
  "@context": "https://schema.org",
  "@graph": [
- {
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-   { "@type": "ListItem", "position": 1, "name": "DASPA", "item": "https://daspa.com.au/" },
-   { "@type": "ListItem", "position": 2, "name": "Claiming from overseas", "item": "https://daspa.com.au/claim-super-from" }
-  ]
- },
- {
-  "@type": "ItemList",
-  "name": "Claiming Australian super by country",
-  "itemListElement": [
-   { "@type": "ListItem", "position": 1, "name": "United Kingdom", "url": "https://daspa.com.au/uk" },
-   { "@type": "ListItem", "position": 2, "name": "Ireland", "url": "https://daspa.com.au/ireland" },
-   { "@type": "ListItem", "position": 3, "name": "Germany", "url": "https://daspa.com.au/germany" },
-   { "@type": "ListItem", "position": 4, "name": "France", "url": "https://daspa.com.au/france" },
-   { "@type": "ListItem", "position": 5, "name": "Italy", "url": "https://daspa.com.au/italy" },
-   { "@type": "ListItem", "position": 6, "name": "Spain", "url": "https://daspa.com.au/spain" },
-   { "@type": "ListItem", "position": 7, "name": "Philippines", "url": "https://daspa.com.au/philippines" }
-  ]
- },
- {
-  "@type": "FAQPage",
-  "mainEntity": [
   {
-   "@type": "Question",
-   "name": "Do I have to fly back to Australia to claim my super?",
-   "acceptedAnswer": { "@type": "Answer", "text": "No, and you must not still be in Australia when you claim. A DASP is only payable once you have actually departed and your temporary visa has expired or been cancelled. The whole process is designed to be done from outside the country." }
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Claiming from overseas",
+     "item": "https://daspa.com.au/claim-super-from"
+    }
+   ]
   },
   {
-   "@type": "Question",
-   "name": "Does my current country change how much tax I pay?",
-   "acceptedAnswer": { "@type": "Answer", "text": "No. The rate is fixed by Australian law and follows the visa you held while you were working. Someone who held a 417 pays the working holiday rate whether they are now in Dublin, Manila or Melbourne. Where you live can affect how your own country treats the money once it arrives, which is a question for a local accountant." }
+   "@type": "ItemList",
+   "name": "Claiming Australian super by country",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Brazil",
+     "url": "https://daspa.com.au/brazil"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "United Kingdom",
+     "url": "https://daspa.com.au/uk"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Ireland",
+     "url": "https://daspa.com.au/ireland"
+    },
+    {
+     "@type": "ListItem",
+     "position": 4,
+     "name": "Germany",
+     "url": "https://daspa.com.au/germany"
+    },
+    {
+     "@type": "ListItem",
+     "position": 5,
+     "name": "France",
+     "url": "https://daspa.com.au/france"
+    },
+    {
+     "@type": "ListItem",
+     "position": 6,
+     "name": "Italy",
+     "url": "https://daspa.com.au/italy"
+    },
+    {
+     "@type": "ListItem",
+     "position": 7,
+     "name": "Spain",
+     "url": "https://daspa.com.au/spain"
+    },
+    {
+     "@type": "ListItem",
+     "position": 8,
+     "name": "Philippines",
+     "url": "https://daspa.com.au/philippines"
+    }
+   ]
   },
   {
-   "@type": "Question",
-   "name": "Can the money be paid into a non-Australian bank account?",
-   "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your fund or the ATO sends the payment internationally using your bank's SWIFT/BIC details. It arrives in Australian dollars and your own bank converts it. Some people use a multi-currency account so they control the conversion rate themselves." }
-  },
-  {
-   "@type": "Question",
-   "name": "I closed my Australian bank account when I left. Is that a problem?",
-   "acceptedAnswer": { "@type": "Answer", "text": "Not at all, and it is very common. Give us your current account overseas and the payment goes there instead. What matters is that the account name matches the name on your passport and super records." }
-  },
-  {
-   "@type": "Question",
-   "name": "I left years ago. Is it too late?",
-   "acceptedAnswer": { "@type": "Answer", "text": "There is no deadline for claiming a DASP, so the money is still yours. What the delay usually changes is where it sits: after six months it moves to the ATO as unclaimed super, and ATO-held super is taxed at 65% regardless of which visa you held. Late claims are a large part of what we do." }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Do I have to fly back to Australia to claim my super?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No, and you must not still be in Australia when you claim. A DASP is only payable once you have actually departed and your temporary visa has expired or been cancelled. The whole process is designed to be done from outside the country."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does my current country change how much tax I pay?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. The rate is fixed by Australian law and follows the visa you held while you were working. Someone who held a 417 pays the working holiday rate whether they are now in Dublin, Manila or Melbourne. Where you live can affect how your own country treats the money once it arrives, which is a question for a local accountant."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can the money be paid into a non-Australian bank account?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Your fund or the ATO sends the payment internationally using your bank's SWIFT/BIC details. It arrives in Australian dollars and your own bank converts it. Some people use a multi-currency account so they control the conversion rate themselves."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I closed my Australian bank account when I left. Is that a problem?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Not at all, and it is very common. Give us your current account overseas and the payment goes there instead. What matters is that the account name matches the name on your passport and super records."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I left years ago. Is it too late?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "There is no deadline for claiming a DASP, so the money is still yours. What the delay usually changes is where it sits: after six months it moves to the ATO as unclaimed super, and ATO-held super is taxed at 65% regardless of which visa you held. Late claims are a large part of what we do."
+     }
+    }
+   ]
   }
- ]
- }
  ]
 }
 </script>
@@ -110,6 +176,7 @@
 <table>
 <thead><tr><th>Where you are now</th><th>Usual visa</th><th>Usual DASP rate</th><th>What the page covers</th></tr></thead>
 <tbody>
+<tr><td><a href="/brazil"><b>Brazil</b></a></td><td>500 student or 482 skilled</td><td>35%</td><td>The exception: most Brazilians studied here, so the lower rate usually applies.</td></tr>
 <tr><td><a href="/uk"><b>United Kingdom</b></a></td><td>417 working holiday</td><td>65%</td><td>Biggest working-holiday group in Australia, and the biggest leavers of unclaimed super.</td></tr>
 <tr><td><a href="/ireland"><b>Ireland</b></a></td><td>417 working holiday</td><td>65%</td><td>Two or three years of Australian jobs usually means several funds, not one.</td></tr>
 <tr><td><a href="/germany"><b>Germany</b></a></td><td>417 or 462</td><td>65%</td><td>Paid to a German account by SWIFT, with the paperwork handled in English.</td></tr>

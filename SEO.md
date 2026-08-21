@@ -102,8 +102,17 @@ contexts (per James's positioning call). Honesty is the differentiator against p
 
    **All nine ship `noindex`.** A native reader signs off the copy AND validates the target
    queries before the tag comes off, one page at a time. They also need a visible language
-   switcher, which is not built. Brazil is worth a look at some point: 250/mo on "dasp",
-   ahead of the UK, and there is no Portuguese anywhere.
+   switcher, which is not built.
+
+9. **Brazil is done, and it is an ENGLISH page, not a Portuguese one.** 250/mo on "dasp" at
+   KD 0, ahead of the UK, but every Portuguese phrasing tested returns zero, so Brazilians
+   search the English term like Koreans do. `/brazil` therefore joins the country set rather
+   than the language set, and carries no translation risk. It is the one country page that
+   leads with **35%, not 65%**: Home Affairs caps the Work and Holiday (462) arrangement with
+   Brazil at 500 grants a year, so most Brazilians who worked here were on a student 500 or a
+   skilled 482. That also makes the six-month ATO transfer cost them far more than it costs a
+   European backpacker, because it takes them from 35% to 65% rather than 65% to 65%.
+   Still unexplored: India 150/mo and Indonesia 90/mo, both with no page.
 8. **Question posts** feeding the guide: "how much is super taxed when leaving Australia",
    "can I claim tax back on super withdrawal", "DASP processing time 2026", one page per
    question cluster, answer-first, interlinked.

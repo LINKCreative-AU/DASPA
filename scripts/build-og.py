@@ -119,6 +119,7 @@ CARDS = {
  "pricing": ("One flat fee. Never a percentage.", "$149 + GST covers every fund. No super recovered, no fee."),
  "visas": ("Which visa were you on?", "417, 462, 482, 500 and the rest. Your subclass sets your tax rate."),
  "claim-super-from": ("Claiming your Australian super from overseas", "You do not need to go back, and you do not need an Australian bank."),
+ "brazil": ("Claim your Australian super from Brazil", "Studied here on a 500? You pay the lower rate, not the backpacker one."),
  "uk": ("Claim your Australian super from the UK", "Paid to a UK account. Flat fee $149 + GST, every fund included."),
  "ireland": ("Claim your Australian super from Ireland", "Several jobs usually means several funds. We find all of them."),
  "germany": ("Claim your Australian super from Germany", "Paid to a German account, paperwork handled in English."),
