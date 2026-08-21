@@ -19,39 +19,89 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
+ "@graph": [
   {
-   "@type": "Question",
-   "name": "I did my rural work for the second year. Does that complicate the claim?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Only in the sense that farm employers love obscure default funds. It’s the classic multi-account scenario and exactly what our all-funds search is built for. One application still covers the lot."
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Claiming from overseas",
+     "item": "https://daspa.com.au/claim-super-from"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Claiming from Ireland",
+     "item": "https://daspa.com.au/ireland"
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://daspa.com.au/#org",
+   "name": "DASPA",
+   "legalName": "Australian Registration Office Pty Ltd",
+   "url": "https://daspa.com.au/"
+  },
+  {
+   "@type": "Service",
+   "@id": "https://daspa.com.au/ireland#service",
+   "name": "DASP claim service: Ireland",
+   "serviceType": "Departing Australia Superannuation Payment lodgement",
+   "provider": {
+    "@id": "https://daspa.com.au/#org"
+   },
+   "areaServed": "Worldwide",
+   "offers": {
+    "@type": "Offer",
+    "price": "163.90",
+    "priceCurrency": "AUD",
+    "description": "Flat fee $149 + GST covering every super fund and ATO-held super. No super, no fee: refunded in full if no super is recovered."
    }
   },
   {
-   "@type": "Question",
-   "name": "Is the DASP taxed again in Ireland?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "It’s taxed in Australia at the legislated rate before payment. Irish treatment of the receipt is a question for Revenue or an Irish accountant, we’re Australian-registered and won’t pretend otherwise. We give you the payment summary either way."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "My mate used a percentage agent and lost a fortune. How are you different?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Percentage agents commonly take 15–20% of the balance, on €6,000-worth of super that’s €900–€1,200. We charge a flat $149 + GST (about €90) whatever the balance, and we’re verifiable on the TPB public register as Registered Tax Agent 26076969."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Can I claim if I’m planning to go back to Australia one day?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "You can claim any time your visa has ended and you’ve left. If you return and work again later, you’ll simply accrue a fresh super balance. A DASP now doesn’t affect future visas."
-   }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "I did my rural work for the second year. Does that complicate the claim?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Only in the sense that farm employers love obscure default funds. It’s the classic multi-account scenario and exactly what our all-funds search is built for. One application still covers the lot."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is the DASP taxed again in Ireland?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "It’s taxed in Australia at the legislated rate before payment. Irish treatment of the receipt is a question for Revenue or an Irish accountant, we’re Australian-registered and won’t pretend otherwise. We give you the payment summary either way."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "My mate used a percentage agent and lost a fortune. How are you different?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Percentage agents commonly take 15–20% of the balance, on €6,000-worth of super that’s €900–€1,200. We charge a flat $149 + GST (about €90) whatever the balance, and we’re verifiable on the TPB public register as Registered Tax Agent 26076969."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I claim if I’m planning to go back to Australia one day?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "You can claim any time your visa has ended and you’ve left. If you return and work again later, you’ll simply accrue a fresh super balance. A DASP now doesn’t affect future visas."
+     }
+    }
+   ]
   }
  ]
 }
@@ -70,7 +120,7 @@
 </header>
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs"><a href="/">DASPA</a> › Guides › Claiming from Ireland</div>
+    <div class="crumbs"><a href="/">DASPA</a> · <a href="/claim-super-from">Claiming from overseas</a> · Claiming from Ireland</div>
     <h1>Home in Ireland? <em>Don’t leave your super in Sydney.</em></h1>
     <p class="sub">The Irish do Australia properly, two or three years, half a dozen jobs, and super scattered across funds they’ve never heard of. Let’s round it up.</p>
   </div>
@@ -118,19 +168,40 @@
         </div>
       </div>
       <div class="foot-links">
-        <a href="/dasp-calculator">DASP tax calculator</a>
-        <a href="/dasp-online-application">DASP online application</a>
-        <a href="/dasp-nat-7204-application-form">DASP application form (PDF)</a>
-        <a href="/claim-super-leaving-australia">Claiming super when leaving Australia</a>
-        <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
-        <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
-        <a href="/dasp-processing-time">DASP processing time</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/faq">FAQ</a>
-        <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="#" data-wa>WhatsApp us</a>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Claim your super</h4>
+            <a href="/claim">Start my claim</a>
+            <a href="/dasp-calculator">DASP tax calculator</a>
+            <a href="/dasp-online-application">DASP online application</a>
+            <a href="/dasp-nat-7204-application-form">Application form (PDF)</a>
+            <a href="/pricing">Pricing</a>
+          </div>
+          <div class="foot-col">
+            <h4>Guides</h4>
+            <a href="/claim-super-leaving-australia">Claiming super after leaving</a>
+            <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
+            <a href="/dasp-processing-time">How long a DASP takes</a>
+            <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
+            <a href="/can-i-claim-my-super-myself-for-free">Doing it yourself for free</a>
+            <a href="/faq">FAQ</a>
+          </div>
+          <div class="foot-col">
+            <h4>By visa and country</h4>
+            <a href="/visas">DASP by visa</a>
+            <a href="/visa-417">Working holiday 417</a>
+            <a href="/visa-482">Skilled 482</a>
+            <a href="/claim-super-from">Claiming from overseas</a>
+            <a href="/uk">From the UK</a>
+            <a href="/ireland">From Ireland</a>
+          </div>
+        </div>
+        <div class="foot-legal">
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/tpb">Important Information for Clients</a>
+          <a href="#" data-wa>WhatsApp us</a>
+        </div>
       </div>
       <div>
         <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-badge-white-26076969.svg" alt="Tax Practitioners Board, Registered Tax Practitioner 26076969" loading="lazy"></a>

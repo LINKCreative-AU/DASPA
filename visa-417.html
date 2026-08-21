@@ -19,39 +19,89 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
+ "@graph": [
   {
-   "@type": "Question",
-   "name": "I did my second and third year on the 417. Does that change anything?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "No. However long you held working holiday visas, the same rules apply: claim once you have left and the visa has ended, with 65% DASP tax withheld. Longer stays usually just mean a bigger balance, often across more funds."
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "DASP by visa",
+     "item": "https://daspa.com.au/visas"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Subclass 417",
+     "item": "https://daspa.com.au/visa-417"
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://daspa.com.au/#org",
+   "name": "DASPA",
+   "legalName": "Australian Registration Office Pty Ltd",
+   "url": "https://daspa.com.au/"
+  },
+  {
+   "@type": "Service",
+   "@id": "https://daspa.com.au/visa-417#service",
+   "name": "DASP claim service: Working Holiday 417",
+   "serviceType": "Departing Australia Superannuation Payment lodgement",
+   "provider": {
+    "@id": "https://daspa.com.au/#org"
+   },
+   "areaServed": "Worldwide",
+   "offers": {
+    "@type": "Offer",
+    "price": "163.90",
+    "priceCurrency": "AUD",
+    "description": "Flat fee $149 + GST covering every super fund and ATO-held super. No super, no fee: refunded in full if no super is recovered."
    }
   },
   {
-   "@type": "Question",
-   "name": "I moved from a 417 to another visa. Which rate applies?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "If your super includes amounts earned while you held a working holiday visa, the 65% rate generally applies to the payment. If your history is mixed, note it in the form. Checking how your funds will treat it is part of what we do before lodging."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "My employer never paid my super. Can you chase it?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Unpaid super is an ATO enforcement matter rather than part of a DASP, but we will tell you honestly what is showing in your name and point you to the ATO unpaid-super process. Message us on WhatsApp if you suspect an employer skipped payments."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "I left Australia years ago. Is my super gone?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "No. It will almost certainly be sitting with the ATO as unclaimed super money. It is still 100% claimable; ATO-held amounts are taxed at 65% when paid as a DASP. We search ATO-held money on every claim."
-   }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "I did my second and third year on the 417. Does that change anything?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. However long you held working holiday visas, the same rules apply: claim once you have left and the visa has ended, with 65% DASP tax withheld. Longer stays usually just mean a bigger balance, often across more funds."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I moved from a 417 to another visa. Which rate applies?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "If your super includes amounts earned while you held a working holiday visa, the 65% rate generally applies to the payment. If your history is mixed, note it in the form. Checking how your funds will treat it is part of what we do before lodging."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "My employer never paid my super. Can you chase it?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Unpaid super is an ATO enforcement matter rather than part of a DASP, but we will tell you honestly what is showing in your name and point you to the ATO unpaid-super process. Message us on WhatsApp if you suspect an employer skipped payments."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I left Australia years ago. Is my super gone?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. It will almost certainly be sitting with the ATO as unclaimed super money. It is still 100% claimable; ATO-held amounts are taxed at 65% when paid as a DASP. We search ATO-held money on every claim."
+     }
+    }
+   ]
   }
  ]
 }
@@ -70,7 +120,7 @@
 </header>
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs"><a href="/">DASPA</a> › Visa guides › Subclass 417</div>
+    <div class="crumbs"><a href="/">DASPA</a> · <a href="/visas">DASP by visa</a> · Subclass 417</div>
     <h1>Claiming your super after a <em>Working Holiday visa (417)</em></h1>
     <p class="sub">Farm work, hospitality, that job you barely remember. Every legal hour you worked earned super. Here is how to get it back.</p>
   </div>
@@ -123,19 +173,40 @@
         </div>
       </div>
       <div class="foot-links">
-        <a href="/dasp-calculator">DASP tax calculator</a>
-        <a href="/dasp-online-application">DASP online application</a>
-        <a href="/dasp-nat-7204-application-form">DASP application form (PDF)</a>
-        <a href="/claim-super-leaving-australia">Claiming super when leaving Australia</a>
-        <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
-        <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
-        <a href="/dasp-processing-time">DASP processing time</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/faq">FAQ</a>
-        <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="#" data-wa>WhatsApp us</a>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Claim your super</h4>
+            <a href="/claim">Start my claim</a>
+            <a href="/dasp-calculator">DASP tax calculator</a>
+            <a href="/dasp-online-application">DASP online application</a>
+            <a href="/dasp-nat-7204-application-form">Application form (PDF)</a>
+            <a href="/pricing">Pricing</a>
+          </div>
+          <div class="foot-col">
+            <h4>Guides</h4>
+            <a href="/claim-super-leaving-australia">Claiming super after leaving</a>
+            <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
+            <a href="/dasp-processing-time">How long a DASP takes</a>
+            <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
+            <a href="/can-i-claim-my-super-myself-for-free">Doing it yourself for free</a>
+            <a href="/faq">FAQ</a>
+          </div>
+          <div class="foot-col">
+            <h4>By visa and country</h4>
+            <a href="/visas">DASP by visa</a>
+            <a href="/visa-417">Working holiday 417</a>
+            <a href="/visa-482">Skilled 482</a>
+            <a href="/claim-super-from">Claiming from overseas</a>
+            <a href="/uk">From the UK</a>
+            <a href="/ireland">From Ireland</a>
+          </div>
+        </div>
+        <div class="foot-legal">
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/tpb">Important Information for Clients</a>
+          <a href="#" data-wa>WhatsApp us</a>
+        </div>
       </div>
       <div>
         <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-badge-white-26076969.svg" alt="Tax Practitioners Board, Registered Tax Practitioner 26076969" loading="lazy"></a>

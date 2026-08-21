@@ -19,39 +19,89 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
+ "@graph": [
   {
-   "@type": "Question",
-   "name": "I only worked a few months. Is it worth claiming?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Run the numbers: 12% of your gross wages went to super. Six months of 20-hour weeks at typical casual rates is roughly $1,500–$2,500, after 35% tax and our fee you would still clear around $800–$1,400. Under a few hundred dollars total, we will honestly suggest the ATO’s free system instead."
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "DASP by visa",
+     "item": "https://daspa.com.au/visas"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Subclass 500",
+     "item": "https://daspa.com.au/visa-500"
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://daspa.com.au/#org",
+   "name": "DASPA",
+   "legalName": "Australian Registration Office Pty Ltd",
+   "url": "https://daspa.com.au/"
+  },
+  {
+   "@type": "Service",
+   "@id": "https://daspa.com.au/visa-500#service",
+   "name": "DASP claim service: Student 500",
+   "serviceType": "Departing Australia Superannuation Payment lodgement",
+   "provider": {
+    "@id": "https://daspa.com.au/#org"
+   },
+   "areaServed": "Worldwide",
+   "offers": {
+    "@type": "Offer",
+    "price": "163.90",
+    "priceCurrency": "AUD",
+    "description": "Flat fee $149 + GST covering every super fund and ATO-held super. No super, no fee: refunded in full if no super is recovered."
    }
   },
   {
-   "@type": "Question",
-   "name": "I never gave my employer a TFN or chose a fund. Do I still have super?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Almost certainly yes. Employers must pay it into a default fund even if you never filled in a form. Money without a TFN attached is more likely to have been shuffled around, which is exactly what our search untangles."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Does claiming my super affect a future Australian visa application?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "No. A DASP is a normal entitlement of former temporary residents and has no bearing on future visa applications. If you later return and work again, you simply start a new super balance."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "My visa was cancelled when I left early. Can I still claim?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes, a cancelled visa satisfies the requirement just like an expired one. You need to have departed Australia; the reason the visa ended doesn’t matter for the DASP."
-   }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "I only worked a few months. Is it worth claiming?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Run the numbers: 12% of your gross wages went to super. Six months of 20-hour weeks at typical casual rates is roughly $1,500–$2,500, after 35% tax and our fee you would still clear around $800–$1,400. Under a few hundred dollars total, we will honestly suggest the ATO’s free system instead."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I never gave my employer a TFN or chose a fund. Do I still have super?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Almost certainly yes. Employers must pay it into a default fund even if you never filled in a form. Money without a TFN attached is more likely to have been shuffled around, which is exactly what our search untangles."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does claiming my super affect a future Australian visa application?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. A DASP is a normal entitlement of former temporary residents and has no bearing on future visa applications. If you later return and work again, you simply start a new super balance."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "My visa was cancelled when I left early. Can I still claim?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes, a cancelled visa satisfies the requirement just like an expired one. You need to have departed Australia; the reason the visa ended doesn’t matter for the DASP."
+     }
+    }
+   ]
   }
  ]
 }
@@ -70,7 +120,7 @@
 </header>
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs"><a href="/">DASPA</a> › Visa guides › Subclass 500</div>
+    <div class="crumbs"><a href="/">DASPA</a> · <a href="/visas">DASP by visa</a> · Subclass 500</div>
     <h1>Claiming your super after a <em>Student visa (500)</em></h1>
     <p class="sub">Those café shifts and delivery runs between lectures were quietly building a super balance. When you leave for good, you can take it with you.</p>
   </div>
@@ -118,19 +168,40 @@
         </div>
       </div>
       <div class="foot-links">
-        <a href="/dasp-calculator">DASP tax calculator</a>
-        <a href="/dasp-online-application">DASP online application</a>
-        <a href="/dasp-nat-7204-application-form">DASP application form (PDF)</a>
-        <a href="/claim-super-leaving-australia">Claiming super when leaving Australia</a>
-        <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
-        <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
-        <a href="/dasp-processing-time">DASP processing time</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/faq">FAQ</a>
-        <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="#" data-wa>WhatsApp us</a>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Claim your super</h4>
+            <a href="/claim">Start my claim</a>
+            <a href="/dasp-calculator">DASP tax calculator</a>
+            <a href="/dasp-online-application">DASP online application</a>
+            <a href="/dasp-nat-7204-application-form">Application form (PDF)</a>
+            <a href="/pricing">Pricing</a>
+          </div>
+          <div class="foot-col">
+            <h4>Guides</h4>
+            <a href="/claim-super-leaving-australia">Claiming super after leaving</a>
+            <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
+            <a href="/dasp-processing-time">How long a DASP takes</a>
+            <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
+            <a href="/can-i-claim-my-super-myself-for-free">Doing it yourself for free</a>
+            <a href="/faq">FAQ</a>
+          </div>
+          <div class="foot-col">
+            <h4>By visa and country</h4>
+            <a href="/visas">DASP by visa</a>
+            <a href="/visa-417">Working holiday 417</a>
+            <a href="/visa-482">Skilled 482</a>
+            <a href="/claim-super-from">Claiming from overseas</a>
+            <a href="/uk">From the UK</a>
+            <a href="/ireland">From Ireland</a>
+          </div>
+        </div>
+        <div class="foot-legal">
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/tpb">Important Information for Clients</a>
+          <a href="#" data-wa>WhatsApp us</a>
+        </div>
       </div>
       <div>
         <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-badge-white-26076969.svg" alt="Tax Practitioners Board, Registered Tax Practitioner 26076969" loading="lazy"></a>

@@ -19,39 +19,89 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
+ "@graph": [
   {
-   "@type": "Question",
-   "name": "Which visa did I probably have?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Most Brits work in Australia on the 417 Working Holiday visa (65% DASP tax). Sponsored professionals typically held a 482 (35% on the taxed element) and students a 500 (35%). Your visa subclass is on your grant email, and if you can’t find it, we can work it out from your passport details."
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Claiming from overseas",
+     "item": "https://daspa.com.au/claim-super-from"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Claiming from the UK",
+     "item": "https://daspa.com.au/uk"
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://daspa.com.au/#org",
+   "name": "DASPA",
+   "legalName": "Australian Registration Office Pty Ltd",
+   "url": "https://daspa.com.au/"
+  },
+  {
+   "@type": "Service",
+   "@id": "https://daspa.com.au/uk#service",
+   "name": "DASP claim service: United Kingdom",
+   "serviceType": "Departing Australia Superannuation Payment lodgement",
+   "provider": {
+    "@id": "https://daspa.com.au/#org"
+   },
+   "areaServed": "Worldwide",
+   "offers": {
+    "@type": "Offer",
+    "price": "163.90",
+    "priceCurrency": "AUD",
+    "description": "Flat fee $149 + GST covering every super fund and ATO-held super. No super, no fee: refunded in full if no super is recovered."
    }
   },
   {
-   "@type": "Question",
-   "name": "Will HMRC tax my DASP when it arrives?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "The DASP has already been taxed in Australia at the legislated rate. UK treatment of the receipt is a UK question we’re not licensed to advise on, most people confirm with HMRC or an accountant. We provide the payment summary you’d need for that conversation."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Can you pay it in pounds?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "The fund or ATO sends Australian dollars to your UK account via SWIFT; your bank converts to GBP at its own rate. Some clients use a multi-currency account (e.g. Wise or Revolut) to control the conversion themselves."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "I’ve lost my old Australian paperwork. Can you still find my super?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes. With your passport details, and ideally your TFN, though it’s optional, we search every fund plus ATO-held money. “I have no idea where my super is” is the single most common thing UK clients tell us."
-   }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Which visa did I probably have?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Most Brits work in Australia on the 417 Working Holiday visa (65% DASP tax). Sponsored professionals typically held a 482 (35% on the taxed element) and students a 500 (35%). Your visa subclass is on your grant email, and if you can’t find it, we can work it out from your passport details."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Will HMRC tax my DASP when it arrives?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The DASP has already been taxed in Australia at the legislated rate. UK treatment of the receipt is a UK question we’re not licensed to advise on, most people confirm with HMRC or an accountant. We provide the payment summary you’d need for that conversation."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can you pay it in pounds?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The fund or ATO sends Australian dollars to your UK account via SWIFT; your bank converts to GBP at its own rate. Some clients use a multi-currency account (e.g. Wise or Revolut) to control the conversion themselves."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I’ve lost my old Australian paperwork. Can you still find my super?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. With your passport details, and ideally your TFN, though it’s optional, we search every fund plus ATO-held money. “I have no idea where my super is” is the single most common thing UK clients tell us."
+     }
+    }
+   ]
   }
  ]
 }
@@ -70,7 +120,7 @@
 </header>
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs"><a href="/">DASPA</a> › Guides › Claiming from the UK</div>
+    <div class="crumbs"><a href="/">DASPA</a> · <a href="/claim-super-from">Claiming from overseas</a> · Claiming from the UK</div>
     <h1>Back in the UK? <em>Your Australian super can follow you home.</em></h1>
     <p class="sub">Brits are the biggest working-holiday group in Australia, and the biggest leavers of unclaimed super. Here is how to get yours to a UK account.</p>
   </div>
@@ -118,19 +168,40 @@
         </div>
       </div>
       <div class="foot-links">
-        <a href="/dasp-calculator">DASP tax calculator</a>
-        <a href="/dasp-online-application">DASP online application</a>
-        <a href="/dasp-nat-7204-application-form">DASP application form (PDF)</a>
-        <a href="/claim-super-leaving-australia">Claiming super when leaving Australia</a>
-        <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
-        <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
-        <a href="/dasp-processing-time">DASP processing time</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/faq">FAQ</a>
-        <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="#" data-wa>WhatsApp us</a>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Claim your super</h4>
+            <a href="/claim">Start my claim</a>
+            <a href="/dasp-calculator">DASP tax calculator</a>
+            <a href="/dasp-online-application">DASP online application</a>
+            <a href="/dasp-nat-7204-application-form">Application form (PDF)</a>
+            <a href="/pricing">Pricing</a>
+          </div>
+          <div class="foot-col">
+            <h4>Guides</h4>
+            <a href="/claim-super-leaving-australia">Claiming super after leaving</a>
+            <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
+            <a href="/dasp-processing-time">How long a DASP takes</a>
+            <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
+            <a href="/can-i-claim-my-super-myself-for-free">Doing it yourself for free</a>
+            <a href="/faq">FAQ</a>
+          </div>
+          <div class="foot-col">
+            <h4>By visa and country</h4>
+            <a href="/visas">DASP by visa</a>
+            <a href="/visa-417">Working holiday 417</a>
+            <a href="/visa-482">Skilled 482</a>
+            <a href="/claim-super-from">Claiming from overseas</a>
+            <a href="/uk">From the UK</a>
+            <a href="/ireland">From Ireland</a>
+          </div>
+        </div>
+        <div class="foot-legal">
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/tpb">Important Information for Clients</a>
+          <a href="#" data-wa>WhatsApp us</a>
+        </div>
       </div>
       <div>
         <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-badge-white-26076969.svg" alt="Tax Practitioners Board, Registered Tax Practitioner 26076969" loading="lazy"></a>

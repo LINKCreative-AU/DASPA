@@ -19,39 +19,89 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
+ "@graph": [
   {
-   "@type": "Question",
-   "name": "Muss ich auf die DASP in Deutschland Steuern zahlen?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "The DASP is taxed in Australia at the legislated rate before it is paid. How Germany treats the receipt is a question for your Finanzamt or a German Steuerberater, as an Australian tax agent we can’t advise on German tax, but we provide the payment summary you would show them."
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Claiming from overseas",
+     "item": "https://daspa.com.au/claim-super-from"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Claiming from Germany",
+     "item": "https://daspa.com.au/germany"
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://daspa.com.au/#org",
+   "name": "DASPA",
+   "legalName": "Australian Registration Office Pty Ltd",
+   "url": "https://daspa.com.au/"
+  },
+  {
+   "@type": "Service",
+   "@id": "https://daspa.com.au/germany#service",
+   "name": "DASP claim service: Germany",
+   "serviceType": "Departing Australia Superannuation Payment lodgement",
+   "provider": {
+    "@id": "https://daspa.com.au/#org"
+   },
+   "areaServed": "Worldwide",
+   "offers": {
+    "@type": "Offer",
+    "price": "163.90",
+    "priceCurrency": "AUD",
+    "description": "Flat fee $149 + GST covering every super fund and ATO-held super. No super, no fee: refunded in full if no super is recovered."
    }
   },
   {
-   "@type": "Question",
-   "name": "My German passport was renewed since I left Australia. A problem?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "No, the claim form asks for the passport you travelled on and your current one. The Didit identity check runs on your current passport, and we reconcile the rest with the ATO."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "I worked cash-in-hand for part of my trip. Does that reduce my claim?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Super only accrued on legally paid wages, so cash jobs added nothing, but every payslipped job did. We search all funds plus the ATO, so whatever was actually paid in your name gets found."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "How do I know DASPA is legitimate?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "DASPA is operated by Australian Registration Office Pty Ltd, Registered Tax Agent 26076969. You can verify that independently on the Australian Tax Practitioners Board public register (linked in our footer). Only registered agents may lawfully charge for DASP lodgement."
-   }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Muss ich auf die DASP in Deutschland Steuern zahlen?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The DASP is taxed in Australia at the legislated rate before it is paid. How Germany treats the receipt is a question for your Finanzamt or a German Steuerberater, as an Australian tax agent we can’t advise on German tax, but we provide the payment summary you would show them."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "My German passport was renewed since I left Australia. A problem?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No, the claim form asks for the passport you travelled on and your current one. The Didit identity check runs on your current passport, and we reconcile the rest with the ATO."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I worked cash-in-hand for part of my trip. Does that reduce my claim?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Super only accrued on legally paid wages, so cash jobs added nothing, but every payslipped job did. We search all funds plus the ATO, so whatever was actually paid in your name gets found."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How do I know DASPA is legitimate?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "DASPA is operated by Australian Registration Office Pty Ltd, Registered Tax Agent 26076969. You can verify that independently on the Australian Tax Practitioners Board public register (linked in our footer). Only registered agents may lawfully charge for DASP lodgement."
+     }
+    }
+   ]
   }
  ]
 }
@@ -70,7 +120,7 @@
 </header>
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs"><a href="/">DASPA</a> › Guides › Claiming from Germany</div>
+    <div class="crumbs"><a href="/">DASPA</a> · <a href="/claim-super-from">Claiming from overseas</a> · Claiming from Germany</div>
     <h1>Back in Germany? <em>Your Australian super is still yours.</em></h1>
     <p class="sub">Work and Holiday, farm stays, a van and a few thousand dollars of superannuation you never asked for, here’s how to bring the money part home.</p>
   </div>
@@ -118,19 +168,40 @@
         </div>
       </div>
       <div class="foot-links">
-        <a href="/dasp-calculator">DASP tax calculator</a>
-        <a href="/dasp-online-application">DASP online application</a>
-        <a href="/dasp-nat-7204-application-form">DASP application form (PDF)</a>
-        <a href="/claim-super-leaving-australia">Claiming super when leaving Australia</a>
-        <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
-        <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
-        <a href="/dasp-processing-time">DASP processing time</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/faq">FAQ</a>
-        <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="#" data-wa>WhatsApp us</a>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Claim your super</h4>
+            <a href="/claim">Start my claim</a>
+            <a href="/dasp-calculator">DASP tax calculator</a>
+            <a href="/dasp-online-application">DASP online application</a>
+            <a href="/dasp-nat-7204-application-form">Application form (PDF)</a>
+            <a href="/pricing">Pricing</a>
+          </div>
+          <div class="foot-col">
+            <h4>Guides</h4>
+            <a href="/claim-super-leaving-australia">Claiming super after leaving</a>
+            <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
+            <a href="/dasp-processing-time">How long a DASP takes</a>
+            <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
+            <a href="/can-i-claim-my-super-myself-for-free">Doing it yourself for free</a>
+            <a href="/faq">FAQ</a>
+          </div>
+          <div class="foot-col">
+            <h4>By visa and country</h4>
+            <a href="/visas">DASP by visa</a>
+            <a href="/visa-417">Working holiday 417</a>
+            <a href="/visa-482">Skilled 482</a>
+            <a href="/claim-super-from">Claiming from overseas</a>
+            <a href="/uk">From the UK</a>
+            <a href="/ireland">From Ireland</a>
+          </div>
+        </div>
+        <div class="foot-legal">
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/tpb">Important Information for Clients</a>
+          <a href="#" data-wa>WhatsApp us</a>
+        </div>
       </div>
       <div>
         <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-badge-white-26076969.svg" alt="Tax Practitioners Board, Registered Tax Practitioner 26076969" loading="lazy"></a>

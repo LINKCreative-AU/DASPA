@@ -19,39 +19,89 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
+ "@graph": [
   {
-   "@type": "Question",
-   "name": "My 482 became a Skills in Demand visa. Do the same rules apply?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes. The subclass 482 was renamed Skills in Demand in December 2024; for DASP purposes it remains a temporary visa taxed at 35% on the taxed element."
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "DASP by visa",
+     "item": "https://daspa.com.au/visas"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Subclass 482",
+     "item": "https://daspa.com.au/visa-482"
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://daspa.com.au/#org",
+   "name": "DASPA",
+   "legalName": "Australian Registration Office Pty Ltd",
+   "url": "https://daspa.com.au/"
+  },
+  {
+   "@type": "Service",
+   "@id": "https://daspa.com.au/visa-482#service",
+   "name": "DASP claim service: Skilled 482",
+   "serviceType": "Departing Australia Superannuation Payment lodgement",
+   "provider": {
+    "@id": "https://daspa.com.au/#org"
+   },
+   "areaServed": "Worldwide",
+   "offers": {
+    "@type": "Offer",
+    "price": "163.90",
+    "priceCurrency": "AUD",
+    "description": "Flat fee $149 + GST covering every super fund and ATO-held super. No super, no fee: refunded in full if no super is recovered."
    }
   },
   {
-   "@type": "Question",
-   "name": "What is the “untaxed element” taxed at 45%?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Most people’s super is entirely a taxed element (35% rate). Untaxed elements mainly arise from certain public-sector schemes; your fund calculates the components and withholds accordingly. The estimator uses the common 35% case."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "I had a 482 after a working holiday visa. Which rate applies?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "If any of the super was earned while you held a working holiday visa, the 65% rate generally applies to the payment. Tell us your visa history in the form and we will confirm how your fund will treat it before lodging."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "My employer is still listed as my sponsor. Can I claim?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Sponsorship doesn’t matter; what matters is that you have left Australia and the visa has expired or been cancelled. If it is still active, you can ask Home Affairs to cancel it. We can guide you through that."
-   }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "My 482 became a Skills in Demand visa. Do the same rules apply?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. The subclass 482 was renamed Skills in Demand in December 2024; for DASP purposes it remains a temporary visa taxed at 35% on the taxed element."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What is the “untaxed element” taxed at 45%?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Most people’s super is entirely a taxed element (35% rate). Untaxed elements mainly arise from certain public-sector schemes; your fund calculates the components and withholds accordingly. The estimator uses the common 35% case."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I had a 482 after a working holiday visa. Which rate applies?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "If any of the super was earned while you held a working holiday visa, the 65% rate generally applies to the payment. Tell us your visa history in the form and we will confirm how your fund will treat it before lodging."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "My employer is still listed as my sponsor. Can I claim?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Sponsorship doesn’t matter; what matters is that you have left Australia and the visa has expired or been cancelled. If it is still active, you can ask Home Affairs to cancel it. We can guide you through that."
+     }
+    }
+   ]
   }
  ]
 }
@@ -70,7 +120,7 @@
 </header>
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumbs"><a href="/">DASPA</a> › Visa guides › Subclass 482</div>
+    <div class="crumbs"><a href="/">DASPA</a> · <a href="/visas">DASP by visa</a> · Subclass 482</div>
     <h1>Claiming your super after a <em>482 skilled visa</em></h1>
     <p class="sub">Sponsored workers usually have the biggest balances, and the most to lose by waiting. On a 482, timing genuinely changes the tax.</p>
   </div>
@@ -121,19 +171,40 @@
         </div>
       </div>
       <div class="foot-links">
-        <a href="/dasp-calculator">DASP tax calculator</a>
-        <a href="/dasp-online-application">DASP online application</a>
-        <a href="/dasp-nat-7204-application-form">DASP application form (PDF)</a>
-        <a href="/claim-super-leaving-australia">Claiming super when leaving Australia</a>
-        <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
-        <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
-        <a href="/dasp-processing-time">DASP processing time</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/faq">FAQ</a>
-        <a href="/can-i-claim-my-super-myself-for-free">Can I do this myself for free?</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="#" data-wa>WhatsApp us</a>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Claim your super</h4>
+            <a href="/claim">Start my claim</a>
+            <a href="/dasp-calculator">DASP tax calculator</a>
+            <a href="/dasp-online-application">DASP online application</a>
+            <a href="/dasp-nat-7204-application-form">Application form (PDF)</a>
+            <a href="/pricing">Pricing</a>
+          </div>
+          <div class="foot-col">
+            <h4>Guides</h4>
+            <a href="/claim-super-leaving-australia">Claiming super after leaving</a>
+            <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
+            <a href="/dasp-processing-time">How long a DASP takes</a>
+            <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
+            <a href="/can-i-claim-my-super-myself-for-free">Doing it yourself for free</a>
+            <a href="/faq">FAQ</a>
+          </div>
+          <div class="foot-col">
+            <h4>By visa and country</h4>
+            <a href="/visas">DASP by visa</a>
+            <a href="/visa-417">Working holiday 417</a>
+            <a href="/visa-482">Skilled 482</a>
+            <a href="/claim-super-from">Claiming from overseas</a>
+            <a href="/uk">From the UK</a>
+            <a href="/ireland">From Ireland</a>
+          </div>
+        </div>
+        <div class="foot-legal">
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/tpb">Important Information for Clients</a>
+          <a href="#" data-wa>WhatsApp us</a>
+        </div>
       </div>
       <div>
         <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-badge-white-26076969.svg" alt="Tax Practitioners Board, Registered Tax Practitioner 26076969" loading="lazy"></a>
