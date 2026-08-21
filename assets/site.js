@@ -1,16 +1,15 @@
-/* DASPA — shared front-end behaviour: WhatsApp links, refund estimator, eligibility quiz. */
+/* DASPA, shared front-end behaviour: WhatsApp links, refund estimator, eligibility quiz. */
 
 /* ============================================================
-   PLACEHOLDER — WhatsApp number, digits only with country code
+   PLACEHOLDER, WhatsApp number, digits only with country code
    (e.g. "61400000000"). Replace before launch; every WhatsApp
    button on the site is built from this one constant.
    ============================================================ */
 var WHATSAPP_NUMBER = 'WHATSAPP_NUMBER_PLACEHOLDER';
 var WHATSAPP_MESSAGE = 'Hi, I have a question about claiming my super';
 
-/* Fee shown across the site. Charged amount lives server-side in api/_lib/config.js —
-   keep the two in sync. $149 + GST = $163.90 (GST treatment may change for non-resident
-   export sales — see the server config comment). */
+/* Fee shown across the site. Charged amount lives server-side in api/_lib/config.js. Keep the two in sync. $149 + GST = $163.90 (GST treatment may change for non-resident
+   export sales, see the server config comment). */
 var FEE_EX_GST = 149;
 var FEE_INC_GST = 163.90;
 
@@ -35,7 +34,7 @@ function wireWhatsApp() {
 /* ---------- refund estimator ----------
    DASP withholding rates (ATO, current at the last-updated date shown on the page):
    65% for working holiday makers (subclass 417/462, incl. associated bridging visas),
-   35% on the taxed element for other temporary visas. Estimates only — the exact tax
+   35% on the taxed element for other temporary visas. Estimates only, the exact tax
    depends on the components of the payment as calculated by the fund. */
 function initEstimator() {
   var card = document.getElementById('estimator');
@@ -98,8 +97,8 @@ function initQuiz() {
         { label: 'Working holiday visa (417 or 462)', next: 1, tag: 'whm' },
         { label: 'Student, skilled or another temporary visa', next: 1, tag: 'other' },
         { label: 'I’m an Australian or NZ citizen, or a permanent resident', fail: {
-          title: 'A DASP isn’t available on your visa history — but your super is still yours.',
-          body: 'Departing Australia Superannuation Payments are only for former temporary visa holders. Citizens, permanent residents and most NZ citizens keep their super in the system until retirement — though NZ citizens moving home permanently can usually transfer it to a KiwiSaver scheme under the Trans-Tasman scheme. If that’s you, message us on WhatsApp and we’ll point you in the right direction (no charge).'
+          title: 'A DASP isn’t available on your visa history, but your super is still yours.',
+          body: 'Departing Australia Superannuation Payments are only for former temporary visa holders. Citizens, permanent residents and most NZ citizens keep their super in the system until retirement, though NZ citizens moving home permanently can usually transfer it to a KiwiSaver scheme under the Trans-Tasman scheme. If that’s you, message us on WhatsApp and we’ll point you in the right direction (no charge).'
         } }
       ]
     },
@@ -107,9 +106,9 @@ function initQuiz() {
       q: 'Have you left Australia?',
       opts: [
         { label: 'Yes, I’ve departed', next: 2 },
-        { label: 'Not yet — I’m still in Australia', fail: {
-          title: 'Almost — a DASP can only be paid after you leave.',
-          body: 'You can’t claim while you’re still in Australia, but you can get everything ready now: complete our form before you fly and we’ll lodge the moment you’ve departed and your visa has ended. That way your money follows you home instead of sitting here. Start the form now or come back once you’ve left — either works.',
+        { label: 'Not yet, I’m still in Australia', fail: {
+          title: 'Almost. A DASP can only be paid after you leave.',
+          body: 'You can’t claim while you’re still in Australia, but you can get everything ready now: complete our form before you fly and we’ll lodge the moment you’ve departed and your visa has ended. That way your money follows you home instead of sitting here. Start the form now or come back once you’ve left. Either works.',
           cta: { href: '/claim', label: 'Get my claim ready' }
         } }
       ]
@@ -117,23 +116,23 @@ function initQuiz() {
     {
       q: 'Has your visa expired or been cancelled?',
       opts: [
-        { label: 'Yes — it’s expired or cancelled', next: 3 },
-        { label: 'No — it’s still active', fail: {
+        { label: 'Yes, it’s expired or cancelled', next: 3 },
+        { label: 'No, it’s still active', fail: {
           title: 'Your visa needs to end before the ATO will pay a DASP.',
-          body: 'If you’ve left Australia for good but your visa is still running, you can ask the Department of Home Affairs to cancel it — that makes you eligible straight away instead of waiting for the expiry date. We can walk you through the cancellation request as part of your claim. Message us on WhatsApp or start the form and note it in the visa section.',
+          body: 'If you’ve left Australia for good but your visa is still running, you can ask the Department of Home Affairs to cancel it. That makes you eligible straight away instead of waiting for the expiry date. We can walk you through the cancellation request as part of your claim. Message us on WhatsApp or start the form and note it in the visa section.',
           cta: { href: '/claim', label: 'Start my claim anyway' }
         } },
-        { label: 'Not sure', next: 3, note: 'No problem — checking your visa status with Home Affairs is part of what we do on every claim.' }
+        { label: 'Not sure', next: 3, note: 'No problem, checking your visa status with Home Affairs is part of what we do on every claim.' }
       ]
     },
     {
       q: 'Did you work and earn super while you were here?',
       opts: [
-        { label: 'Yes — I know my fund', pass: true },
+        { label: 'Yes, I know my fund', pass: true },
         { label: 'I worked, but I don’t know where my super is', pass: true, note: 'That’s most of our clients. With your TFN we search every fund plus ATO-held money, so nothing gets left behind.' },
-        { label: 'No — I never worked in Australia', fail: {
-          title: 'No super means nothing to claim — sorry!',
-          body: 'Super is only paid when you work for an employer in Australia (they must pay it on top of your wage if you earn over the threshold). If you never worked here, there’s no DASP to recover. If you think an employer should have paid super and didn’t, message us on WhatsApp — unpaid super can sometimes be chased through the ATO.'
+        { label: 'No, I never worked in Australia', fail: {
+          title: 'No super means nothing to claim, sorry!',
+          body: 'Super is only paid when you work for an employer in Australia (they must pay it on top of your wage if you earn over the threshold). If you never worked here, there’s no DASP to recover. If you think an employer should have paid super and didn’t, message us on WhatsApp. Unpaid super can sometimes be chased through the ATO.'
         } }
       ]
     }
@@ -188,7 +187,7 @@ function initQuiz() {
     var html = '<div class="result ok"><div class="qnum">Good news</div>' +
       '<h3>You look eligible to claim your super back. 🎉</h3>' +
       (note ? '<p>' + note + '</p>' : '') +
-      '<p>Complete the 5-minute form, verify your identity with your passport and a selfie, and our registered tax agents handle the rest. Flat fee ' + aud2.format(FEE_INC_GST) + ' — no percentage taken from your super, paid to any bank account worldwide.</p>' +
+      '<p>Complete the 5-minute form, verify your identity with your passport and a selfie, and our registered tax agents handle the rest. Flat fee ' + aud2.format(FEE_INC_GST) + ', no percentage taken from your super, paid to any bank account worldwide.</p>' +
       '<a class="btn" href="/claim">Start my claim</a> <a class="btn ghost" href="#" data-wa>Question first? WhatsApp us</a>' +
       '<p style="margin-top:14px"><button type="button" class="q-back">← Start the check again</button></p></div>';
     host.innerHTML = html;

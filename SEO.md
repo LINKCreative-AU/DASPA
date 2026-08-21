@@ -1,23 +1,22 @@
-# daspa.com.au — SEO documentation
+# daspa.com.au, SEO documentation
 
 For the team. Two parts: **what's implemented** (and why), and **what to do next**.
 Keyword targets come from the Ahrefs research of 13 July 2026 (full DASP cluster ≈ 5,000–5,500
-AU searches/month, ~10,000+ global, keyword difficulty 0–3 across almost the whole cluster —
-organic is the play; no backlink campaign required to start ranking).
+AU searches/month, ~10,000+ global, keyword difficulty 0–3 across almost the whole cluster. Organic is the play; no backlink campaign required to start ranking).
 
 ---
 
-## Part 1 — What's implemented
+## Part 1, What's implemented
 
 ### Keyword → page map
 
 | Sub-cluster (AU vol/mo) | Head terms | Page that owns it |
 |---|---|---|
-| DASP acronym (~3,200) | `dasp` 450 · `departing australia superannuation payment` 200 | **/** (homepage) — title "DASP Claims — Departing Australia Superannuation Payment, Done For You" |
-| Application terms (~450+) | `dasp online application` 250 · `dasp application` 90 · `…login` 20 | **/dasp-online-application** — answer-first "it's online-only, two ways to apply"; honest ATO-option comparison; catches the login long-tail in FAQs |
-| Form / PDF terms (~90+) | `dasp form` 40 · `dasp application form (pdf)` 50 · `nat 7204` long-tail | **/dasp-nat-7204-application-form** — the only downloadable DASP form PDF in the niche: DASPA-branded fillable 2-page form (our version of ATO NAT 7204, `/assets/DASPA-DASP-Application-Form.pdf`). Steers to online first; completed forms come back via **/upload-form** (noindexed) — never to the ATO/fund. Breadcrumb + FAQPage schema |
-| Natural language (~1,600) | `withdraw super leaving australia` 300 · `claim superannuation leaving australia` 200 · `how to claim/withdraw…` ~200 · `how much super do I get back` 60 · `permanent resident leaving australia superannuation` 50 | **/claim-super-leaving-australia** — the 2026 guide; step-by-step, rates table, six-month rule, PR/NZ section, Article + FAQ schema |
-| Tax & calculator (~500) | `dasp tax calculator` 60 · `dasp tax rate` 50 · `dasp calculator` 30 · `superannuation refund calculator` 150 (natural cluster) | **/dasp-calculator** — title leads "DASP Tax Calculator", copy carries "superannuation refund calculator"; 3 tools (payout calc, balance-from-wages estimator, 6-month deadline checker) |
+| DASP acronym (~3,200) | `dasp` 450 · `departing australia superannuation payment` 200 | **/** (homepage), title "DASP Claims, Departing Australia Superannuation Payment, Done For You" |
+| Application terms (~450+) | `dasp online application` 250 · `dasp application` 90 · `…login` 20 | **/dasp-online-application**, answer-first "it's online-only, two ways to apply"; honest ATO-option comparison; catches the login long-tail in FAQs |
+| Form / PDF terms (~90+) | `dasp form` 40 · `dasp application form (pdf)` 50 · `nat 7204` long-tail | **/dasp-nat-7204-application-form**, the only downloadable DASP form PDF in the niche: DASPA-branded fillable 2-page form (our version of ATO NAT 7204, `/assets/DASPA-DASP-Application-Form.pdf`). Steers to online first; completed forms come back via **/upload-form** (noindexed). Never to the ATO/fund. Breadcrumb + FAQPage schema |
+| Natural language (~1,600) | `withdraw super leaving australia` 300 · `claim superannuation leaving australia` 200 · `how to claim/withdraw…` ~200 · `how much super do I get back` 60 · `permanent resident leaving australia superannuation` 50 | **/claim-super-leaving-australia**, the 2026 guide; step-by-step, rates table, six-month rule, PR/NZ section, Article + FAQ schema |
+| Tax & calculator (~500) | `dasp tax calculator` 60 · `dasp tax rate` 50 · `dasp calculator` 30 · `superannuation refund calculator` 150 (natural cluster) | **/dasp-calculator**, title leads "DASP Tax Calculator", copy carries "superannuation refund calculator"; 3 tools (payout calc, balance-from-wages estimator, 6-month deadline checker) |
 | Visa long-tail | `dasp 417`, per-visa questions | **/visa-417, /visa-462, /visa-482, /visa-500** |
 | Country long-tail (offshore volume: UK 250, IE 60, DE, PH 90) | "claim super from the UK" etc. | **/uk, /ireland, /germany, /philippines** |
 | Transparency / trust | "can I do it myself free" | **/can-i-claim-my-super-myself-for-free** |
@@ -25,15 +24,14 @@ organic is the play; no backlink campaign required to start ranking).
 ### Technical implementation
 
 - **Schema (JSON-LD)** on every page: FAQPage everywhere Q&As exist (visible text and schema kept
-  in sync — never let them drift); Organization + Service on the homepage; WebApplication +
+  in sync. Never let them drift); Organization + Service on the homepage; WebApplication +
   BreadcrumbList on the calculator; Article + BreadcrumbList on the guide.
 - **Canonical tag** on every page; **Open Graph + locale** on every indexable page.
 - **Sitemap.xml** lists all indexable pages; **robots.txt** allows everything except the claim flow.
-- **Deliberately noindexed:** `/claim`, `/verify`, `/confirmation`, `/upload-form` — transactional steps with
+- **Deliberately noindexed:** `/claim`, `/verify`, `/confirmation`, `/upload-form`, transactional steps with
   personal context; indexing them adds nothing and risks thin-content dilution. Everything else
   is indexable.
-- **Clean URLs** (Vercel), fast static pages, no JS frameworks, images pre-sized. Mobile-first CSS —
-  the research shows ~half the clean volume is departed travellers on phones overseas.
+- **Clean URLs** (Vercel), fast static pages, no JS frameworks, images pre-sized. Mobile-first CSS, the research shows ~half the clean volume is departed travellers on phones overseas.
 - **Answer-first pattern** on every content page: bolded direct answer with current rates up top,
   "Source: ATO" attribution, last-updated date. This is written for featured snippets and AI
   overviews as much as for blue links.
@@ -47,49 +45,48 @@ organic is the play; no backlink campaign required to start ranking).
 Registered Tax Agent number 26076969 linked to the live TPB register in header, footer and body
 copy; ABN linked to ABN Lookup; official white TPB badge in the footer; "no super, no fee"
 guarantee stated consistently; the honest "you can do this free at the ATO" answer kept in FAQ
-contexts (per James's positioning call) — honesty is the differentiator against percentage agents.
+contexts (per James's positioning call). Honesty is the differentiator against percentage agents.
 
 ---
 
-## Part 2 — What to do next (team actions)
+## Part 2. What to do next (team actions)
 
 **Immediate (this week)**
 1. **Google Search Console**: verify daspa.com.au (DNS record via Vercel), submit
    `https://daspa.com.au/sitemap.xml`, then use URL Inspection → *Request indexing* on:
    `/`, `/dasp-online-application`, `/claim-super-leaving-australia`, `/dasp-calculator`.
-2. **Bing Webmaster Tools**: import from GSC (one click) — Bing feeds ChatGPT and other AI search.
+2. **Bing Webmaster Tools**: import from GSC (one click), Bing feeds ChatGPT and other AI search.
 3. Confirm rich results: test the calculator, guide and application pages in
    https://search.google.com/test/rich-results (should show FAQ eligibility).
 
 **Ongoing habits**
-4. **Refresh "last updated" honestly** — whenever rates/process are re-checked, update the date
+4. **Refresh "last updated" honestly**, whenever rates/process are re-checked, update the date
    stamps (they're in the answer-first blocks). Stale dates erode snippet trust.
-5. **Rank tracking**: watch these in Ahrefs/GSC — `dasp`, `dasp online application`,
+5. **Rank tracking**: watch these in Ahrefs/GSC, `dasp`, `dasp online application`,
    `dasp tax calculator`, `withdraw super leaving australia`, `claim superannuation leaving australia`,
    `superannuation refund calculator`. KD is 0–3; expect movement within weeks of indexing.
 6. **Reviews**: start capturing Google/Trustpilot reviews from paid-out clients (the email at
    "claim lodged" stage is the natural ask). Review snippets are the next trust unlock.
 
 **Content roadmap (in priority order)**
-7. **Korean and Taiwanese landing pages** — the surprise in the data: South Korea 700/mo and
+7. **Korean and Taiwanese landing pages**, the surprise in the data: South Korea 700/mo and
    Taiwan 450/mo for `dasp` (some noise, but the core is real departed workers). A `/ko` page
    (Korean-language, hreflang tagged) would face near-zero competition. Japan (100/mo) next.
 8. **Question posts** feeding the guide: "how much is super taxed when leaving Australia",
-   "can I claim tax back on super withdrawal", "DASP processing time 2026" — one page per
+   "can I claim tax back on super withdrawal", "DASP processing time 2026", one page per
    question cluster, answer-first, interlinked.
 9. **More nationality pages** as claim data shows demand (Italy, France, Spain all show volume).
 10. **SERP check** (from the research's next-step note): confirm who ranks for
-    `dasp online application` and `withdraw super leaving australia` — if ALITAX/Y&S hold them,
+    `dasp online application` and `withdraw super leaving australia`, if ALITAX/Y&S hold them,
     study their gaps (neither has a no-win-no-fee guarantee or a flat fee).
 
 **Paid (when ready)**
 11. Google Ads geo-targeting per the research: Australia + South Korea, Taiwan, UK, Japan,
     Ireland, Indonesia, Philippines, Thailand, Malaysia. `dasp tax` carries the cluster's top
-    CPC ($6 USD) — commercial intent is proven.
+    CPC ($6 USD). Commercial intent is proven.
 
 **Rules to keep**
-- The ATO-free-option honesty lives in FAQ contexts and the DIY page only — not in hero/selling
+- The ATO-free-option honesty lives in FAQ contexts and the DIY page only, not in hero/selling
   sections (James's call, 9 July 2026).
 - Never state a DASP tax rate without the ATO source line next to it.
-- Every new page: answer-first block + FAQPage schema + canonical + OG + sitemap entry —
-  copy the pattern from /dasp-online-application.
+- Every new page: answer-first block + FAQPage schema + canonical + OG + sitemap entry, copy the pattern from /dasp-online-application.

@@ -1,7 +1,6 @@
 # daspa.com.au
 
-DASP (Departing Australia Superannuation Payment) lodgement service under the ARO group —
-same entity as abnassist.com.au: **Australian Registration Office Pty Ltd, ABN 58 645 964 156,
+DASP (Departing Australia Superannuation Payment) lodgement service under the ARO group, same entity as abnassist.com.au: **Australian Registration Office Pty Ltd, ABN 58 645 964 156,
 Registered Tax Agent 26076969**. Flat fee $149 + GST, all funds included.
 
 Static HTML + Vercel serverless functions (zero npm dependencies), Supabase for claims,
@@ -11,7 +10,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
 
 ## Deploy
 
-1. **Supabase** — run `supabase/schema.sql` in the SQL editor. RLS: the anon key can
+1. **Supabase**, run `supabase/schema.sql` in the SQL editor. RLS: the anon key can
    **insert** claims and nothing else; the audit log is service-role only.
 2. **Placeholders in pages** (search for `PLACEHOLDER`):
    - `assets/site.js` → `WHATSAPP_NUMBER` (digits with country code)
@@ -27,7 +26,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `WHATSAPP_NUMBER` | used in status emails |
    | `SITE_URL` | defaults to `https://daspa.com.au` |
    | `CRON_SECRET` | protects `/api/cron-nudge` (Vercel sends it automatically) |
-   | `LODGEMENT_LIVE` | **keep unset/false until the ATO DASP Agreement is executed** — holds all confirmations and emails at "in review" wording; set `true` to go live |
+   | `LODGEMENT_LIVE` | **keep unset/false until the ATO DASP Agreement is executed**, holds all confirmations and emails at "in review" wording; set `true` to go live |
 
 4. **Stripe webhook**: add endpoint `https://daspa.com.au/api/stripe-webhook`.
    **Didit webhook**: `https://daspa.com.au/api/didit-webhook` (X-Signature-V2 HMAC verified,
@@ -47,7 +46,7 @@ verification nudges + "lodged" emails when the team sets `claim_status=lodged` i
 
 - Authority declaration wording in `claim.html`
 - `terms.html`, `privacy.html`, `tpb.html` draft copy (banner on each)
-- GST treatment of non-resident sales — see comment in `api/_lib/config.js`
+- GST treatment of non-resident sales, see comment in `api/_lib/config.js`
 - Lodgement cannot commence until the ATO DASP Agreement is executed (`LODGEMENT_LIVE` flag)
 
 Content pages were generated from a scratchpad script; edit the HTML directly (the pages are

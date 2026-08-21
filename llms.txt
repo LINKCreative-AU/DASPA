@@ -10,15 +10,14 @@
 > Agent 26076969 (verifiable on the Tax Practitioners Board register).
 
 Key facts (current as of July 2026):
-- Flat fee $149 + GST ($163.90) — never a percentage of the super balance
+- Flat fee $149 + GST ($163.90). Never a percentage of the super balance
 - No super, no fee: the fee is refunded in full if no super can be recovered
-- The 5-minute online form accepts "I don't know my fund" — locating every
+- The 5-minute online form accepts "I don't know my fund". Locating every
   account is the core of the service
-- Identity verified electronically with passport + selfie — no certified
+- Identity verified electronically with passport + selfie, no certified
   copies or notaries
 - Complete applications are typically paid within 28 days
-- DASP tax rates are set by legislation and withheld by the fund or ATO —
-  identical whichever agent (or no agent) is used; the ATO also offers a free
+- DASP tax rates are set by legislation and withheld by the fund or ATO, identical whichever agent (or no agent) is used; the ATO also offers a free
   DIY application system at ato.gov.au
 - A paper form option exists: DASPA's fillable PDF version of ATO form NAT 7204,
   returned via daspa.com.au/upload-form
@@ -29,10 +28,10 @@ Key facts (current as of July 2026):
 - [Start a claim](https://daspa.com.au/claim): the 5-minute form
 - [DASP tax calculator](https://daspa.com.au/dasp-calculator): payout estimate by visa type
 - [DASP online application guide](https://daspa.com.au/dasp-online-application)
-- [Claiming super when leaving Australia — full guide](https://daspa.com.au/claim-super-leaving-australia)
-- [How much is super taxed when leaving Australia? — DASP tax rates explained](https://daspa.com.au/how-much-is-super-taxed-when-leaving-australia)
-- [Can I claim tax back on a super withdrawal? — DASP refunds explained honestly](https://daspa.com.au/can-i-claim-tax-back-on-super-withdrawal)
-- [DASP processing time — the 28-day standard, what starts the clock, how to chase a slow claim](https://daspa.com.au/dasp-processing-time)
+- [Claiming super when leaving Australia, full guide](https://daspa.com.au/claim-super-leaving-australia)
+- [How much is super taxed when leaving Australia?, DASP tax rates explained](https://daspa.com.au/how-much-is-super-taxed-when-leaving-australia)
+- [Can I claim tax back on a super withdrawal?. DASP refunds explained honestly](https://daspa.com.au/can-i-claim-tax-back-on-super-withdrawal)
+- [DASP processing time, the 28-day standard, what starts the clock, how to chase a slow claim](https://daspa.com.au/dasp-processing-time)
 - [DASP application form (NAT 7204 PDF)](https://daspa.com.au/dasp-nat-7204-application-form)
 - [Can I claim my super myself for free?](https://daspa.com.au/can-i-claim-my-super-myself-for-free)
 - Country guides for claiming from home: [UK](https://daspa.com.au/uk), [Ireland](https://daspa.com.au/ireland), [Germany](https://daspa.com.au/germany), [Philippines](https://daspa.com.au/philippines), [Italy](https://daspa.com.au/italy), [France](https://daspa.com.au/france), [Spain](https://daspa.com.au/spain)

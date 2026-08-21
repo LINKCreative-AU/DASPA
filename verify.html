@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Verify Your Identity | DASPA</title>
-<meta name="description" content="Payment received — verify your identity with your passport and a selfie to complete your DASP claim.">
+<meta name="description" content="Payment received, verify your identity with your passport and a selfie to complete your DASP claim.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://daspa.com.au/verify">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2250'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' fill='%23fae541' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
@@ -30,24 +30,24 @@
   <div class="wrap">
     <div class="crumbs">Claim progress</div>
     <h1>Payment received. <em>One last step.</em></h1>
-    <p class="sub">Verify your identity with your passport and a quick selfie — it takes about two minutes on your phone.</p>
+    <p class="sub">Verify your identity with your passport and a quick selfie. It takes about two minutes on your phone.</p>
   </div>
 </section>
 
 <main class="page">
   <div class="wrap-narrow">
     <div class="form-card">
-      <div class="form-head"><h2>Identity verification</h2><span class="stepnum">STEP 3 OF 3 — VERIFY</span></div>
+      <div class="form-head"><h2>Identity verification</h2><span class="stepnum">STEP 3 OF 3, VERIFY</span></div>
       <div class="form-body">
         <ul class="checklist" style="grid-template-columns:1fr;margin-bottom:16px">
           <li>Claim form received</li>
-          <li>Payment confirmed — $163.90 flat fee</li>
+          <li>Payment confirmed: $163.90 flat fee</li>
         </ul>
-        <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Didit</b> and happens in their secure environment — have your <b>passport</b> ready and allow <b>camera access</b> when asked.</p>
+        <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Didit</b> and happens in their secure environment, have your <b>passport</b> ready and allow <b>camera access</b> when asked.</p>
         <div class="note">Tip: use your phone, find decent light, and take the selfie without a hat or sunglasses. Most people are done in under two minutes.</div>
-        <div class="stop hidden" id="verify-error">We couldn't start the verification session. Please try again in a moment — your payment is safe and your claim is saved. Stuck? Message us on <a href="#" data-wa>WhatsApp</a>.</div>
+        <div class="stop hidden" id="verify-error">We couldn't start the verification session. Please try again in a moment. Your payment is safe and your claim is saved. Stuck? Message us on <a href="#" data-wa>WhatsApp</a>.</div>
         <button class="btn block" id="verify-btn" type="button">Verify my identity now</button>
-        <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Prefer to do it later? We'll email you this link — but claims can't be lodged until it's done.</p>
+        <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Prefer to do it later? We'll email you this link, but claims can't be lodged until it's done.</p>
       </div>
     </div>
   </div>
@@ -57,7 +57,7 @@
   <div class="wrap">
     <div class="disclaimer" style="border-top:none;margin-top:0;padding-top:0">
       Operated by Australian Registration Office Pty Ltd · ABN <a href="https://abr.business.gov.au/ABN/View?abn=58645964156" target="_blank" rel="noopener">58 645 964 156</a> · Registered Tax Agent <a href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener">26076969</a> · <a href="/tpb">Important Information for Clients</a> · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a><br>
-      Identity verification is powered by <a href="https://didit.me" target="_blank" rel="noopener">Didit</a>. Your super is paid by your fund or the ATO directly to you — we never hold client money.
+      Identity verification is powered by <a href="https://didit.me" target="_blank" rel="noopener">Didit</a>. Your super is paid by your fund or the ATO directly to you. We never hold client money.
     </div>
   </div>
 </footer>
@@ -77,7 +77,7 @@
     return;
   }
 
-  // Full-page redirect to Didit's hosted flow — the most reliable route to the
+  // Full-page redirect to Didit's hosted flow, the most reliable route to the
   // phone camera (in-context iframes can lose getUserMedia permissions inside
   // in-app browsers like Instagram/WhatsApp webviews).
   btn.addEventListener('click', async function () {
