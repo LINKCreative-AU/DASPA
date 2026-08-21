@@ -314,3 +314,9 @@ footer.site .foot-cols{display:grid;grid-template-columns:1fr;gap:20px}
 footer.site .foot-col h4{color:#fff;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;margin:0 0 10px;font-weight:700}
 footer.site .foot-col a{display:block;margin-bottom:7px}
 footer.site .foot-legal{margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;gap:8px 18px}
+
+/* The self-hosted subsets are latin and latin-ext only, so the Korean and
+   Taiwanese pages need real CJK fallbacks rather than the browser default.
+   Latin runs (DASP, ATO, dollar amounts) still render in Plus Jakarta Sans. */
+html[lang="ko"] body{font-family:'Plus Jakarta Sans','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic','Nanum Gothic',sans-serif}
+html[lang="zh-Hant-TW"] body{font-family:'Plus Jakarta Sans','PingFang TC','Noto Sans TC','Microsoft JhengHei','Heiti TC',sans-serif}
