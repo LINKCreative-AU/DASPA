@@ -16,25 +16,67 @@ never obvious from inside the guard:
     OPS_EMAIL or RESEND_API_KEY are set in production. It only proves the code
     stopped hardcoding them.
   * the /api functions at runtime. Syntax only, via `node --check`, if node exists.
-  * the Korean and Taiwanese pages' language quality, which needs a native reader.
+  * the language pages' TRANSLATION QUALITY. It can prove /ja contains only
+    Japanese scripts; it cannot prove the Japanese is correct, idiomatic, or
+    says what the English says. That needs a native reader, which is why those
+    pages ship noindex.
 """
 import json
 import os
 import re
 import subprocess
 import sys
+import unicodedata
 from glob import glob
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
+# Failure messages can quote Chinese, Japanese or Korean text. The Windows console
+# defaults to cp1252 and raises on those, so the guard would crash instead of
+# telling you what was wrong, which is the one moment it has to work.
+for stream in (sys.stdout, sys.stderr):
+    try:
+        stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 TITLE_MAX = 60      # Google truncates around here on desktop
 DESC_MAX = 158
 EM_DASH = "—"
 
-# Pages deliberately kept out of the index: transactional steps and the two
-# language pages that are built but awaiting a native review.
-NOINDEX = {"claim", "verify", "confirmation", "upload-form", "ko", "zh-tw"}
+# Transactional steps, kept out of the index. The language pages are NOT listed
+# here: they each carry their own noindex meta tag, and reading that is more
+# reliable than a list somebody has to remember to append to.
+NOINDEX = {"claim", "verify", "confirmation", "upload-form"}
+
+# Scripts a page may contain, keyed on its own <html lang>. A stray Cyrillic
+# character once reached a Japanese call to action and nothing would have caught
+# it, because nobody here reads the output. Latin is allowed everywhere: DASP,
+# ATO and the dollar figures stay in Latin on purpose.
+LANG_SCRIPTS = {
+    "zh-Hant-TW": {"Han", "Latin", "Common"},
+    "ja": {"Han", "Hiragana", "Katakana", "Latin", "Common"},
+    "ko": {"Hangul", "Han", "Latin", "Common"},
+}
+SCRIPT_NAMES = {"CJK": "Han", "HIRAGANA": "Hiragana", "KATAKANA": "Katakana",
+                "HANGUL": "Hangul", "LATIN": "Latin"}
+
+
+def script_of(ch):
+    name = unicodedata.name(ch, "")
+    for key in ("CJK", "HIRAGANA", "KATAKANA", "HANGUL", "CYRILLIC", "GREEK",
+                "ARABIC", "HEBREW", "THAI", "DEVANAGARI", "LATIN"):
+        if key in name:
+            return SCRIPT_NAMES.get(key, key.title())
+    return "Common"
+
+
+def serp_width(text):
+    """Rough SERP pixel budget in half-widths. A CJK glyph takes about twice the
+    width of a Latin one, so counting characters would let a Chinese or Japanese
+    title run to double the length Google actually shows."""
+    return sum(2 if unicodedata.east_asian_width(c) in ("W", "F") else 1 for c in text)
 
 # A description must not resolve the question its page answers. See the kit
 # standard: at position 6 to 9 a complete answer in the SERP is read and skipped.
@@ -94,15 +136,16 @@ for path in pages:
     desc = meta(html, name="description")
     if not title:
         err("%s: no <title>" % name)
-    elif indexable and len(title.group(1)) > TITLE_MAX:
-        err("%s: title is %d chars, budget is %d. It will be truncated."
-            % (name, len(title.group(1)), TITLE_MAX))
+    elif indexable and serp_width(title.group(1)) > TITLE_MAX:
+        err("%s: title is %d wide, budget is %d. It will be truncated."
+            % (name, serp_width(title.group(1)), TITLE_MAX))
     if not desc:
         err("%s: no meta description" % name)
     elif indexable:
-        if len(desc) > DESC_MAX:
-            err("%s: description is %d chars, budget is %d. The closing promise, "
-                "which is the reason to click, gets cut." % (name, len(desc), DESC_MAX))
+        if serp_width(desc) > DESC_MAX:
+            err("%s: description is %d wide, budget is %d. The closing promise, "
+                "which is the reason to click, gets cut."
+                % (name, serp_width(desc), DESC_MAX))
         for pattern, why in LEAKS:
             if re.search(pattern, desc, re.I):
                 err("%s: description %s. Name the question, promise what the SERP "
@@ -128,7 +171,29 @@ for path in pages:
     if not indexable and slug in sitemap_slugs:
         err("%s: noindex but listed in sitemap.xml" % name)
 
-    # --- 5. schema parses ------------------------------------------------
+    # --- 5. language pages carry only their own scripts -------------------
+    page_lang = re.search(r'<html lang="([^"]+)"', html)
+    page_lang = page_lang.group(1) if page_lang else "en"
+    if page_lang in LANG_SCRIPTS:
+        allowed = LANG_SCRIPTS[page_lang]
+        visible = re.sub(r"<script.*?</script>", "", html, flags=re.S)
+        stray = {}
+        for ch in visible:
+            if ord(ch) < 128:
+                continue
+            sc = script_of(ch)
+            if sc not in allowed:
+                stray.setdefault(sc, set()).add(ch)
+        for sc, chars in stray.items():
+            err("%s: contains %s characters (%s). Nobody here reads this page, "
+                "so a stray glyph would ship unnoticed."
+                % (name, sc, "".join(sorted(chars))[:20]))
+
+        if "lang-governs" not in html:
+            err("%s: translated page with no 'English version governs' line. "
+                "A translation is a convenience, the English is the instrument." % name)
+
+    # --- 6. schema parses ------------------------------------------------
     for block in re.findall(
             r'<script type="application/ld\+json">(.*?)</script>', html, re.S):
         try:
@@ -136,12 +201,12 @@ for path in pages:
         except json.JSONDecodeError as e:
             err("%s: JSON-LD does not parse (%s)" % (name, e))
 
-# --- 6. sitemap points at real pages -------------------------------------
+# --- 7. sitemap points at real pages -------------------------------------
 for s in sorted(sitemap_slugs):
     if not os.path.exists((s or "index") + ".html"):
         err("sitemap.xml lists /%s which has no page" % s)
 
-# --- 7. no placeholders in anything we ship ------------------------------
+# --- 8. no placeholders in anything we ship ------------------------------
 shipped = pages + glob("assets/*.js") + glob("api/*.js") + glob("api/_lib/*.js")
 for path in shipped:
     body = open(path, encoding="utf-8").read()
@@ -150,7 +215,7 @@ for path in shipped:
             err("%s: ships the placeholder %s. Resolve it from env instead."
                 % (path, token))
 
-# --- 8. server functions at least parse ----------------------------------
+# --- 9. server functions at least parse ----------------------------------
 node = None
 for candidate in ("node", "node.exe"):
     try:

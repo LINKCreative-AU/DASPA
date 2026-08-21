@@ -320,3 +320,14 @@ footer.site .foot-legal{margin-top:22px;padding-top:16px;border-top:1px solid rg
    Latin runs (DASP, ATO, dollar amounts) still render in Plus Jakarta Sans. */
 html[lang="ko"] body{font-family:'Plus Jakarta Sans','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic','Nanum Gothic',sans-serif}
 html[lang="zh-Hant-TW"] body{font-family:'Plus Jakarta Sans','PingFang TC','Noto Sans TC','Microsoft JhengHei','Heiti TC',sans-serif}
+
+/* The "English version governs" line on translated pages. Quiet, but present on
+   every one of them: a translation is a convenience, the English is the instrument. */
+.lang-governs{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);line-height:1.7}
+html[lang="ja"] body{font-family:'Plus Jakarta Sans','Hiragino Sans','Yu Gothic','Noto Sans JP','Meiryo',sans-serif}
+
+/* In-language nav under the hero on translated pages. */
+.lang-nav{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;font-weight:600}
+.lang-nav a{color:var(--blue2)}
+.lang-nav a:hover{text-decoration:underline}
+.lang-nav .here{color:var(--muted)}
