@@ -6,6 +6,7 @@
 const crypto = require('crypto');
 const db = require('./_lib/supabase');
 const email = require('./_lib/email');
+const leads = require('./_lib/leads');
 
 // Raw body is required for signature verification, disable the body parser.
 module.exports.config = { api: { bodyParser: false } };
@@ -67,6 +68,10 @@ module.exports = async (req, res) => {
           await email.paymentConfirmed(claim);
           await db.insertAudit(claimId, 'email_payment_confirmed', claim.email);
           await email.opsPaid(claim, session.amount_total);
+          // the group lead desk: updates the lead the submission created
+          // rather than adding a second one (LINK Leads folds on external_id,
+          // which is what makes a replayed webhook harmless here). Never throws.
+          await leads.claimPaid(claim, session.amount_total);
           // tax invoice via the portal (idempotent there; never fails the webhook)
           if (process.env.INVOICE_SECRET) {
             await fetch('https://registrationoffice.com.au/api/invoice', {

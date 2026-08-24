@@ -390,6 +390,34 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     return !bad;
   }
 
+  /* Where this claim came from, read at the moment of submit.
+
+     It has to happen here and nowhere else: the query string is stripped from
+     the URL on the way to Stripe and the referrer is gone the moment the page
+     changes, so anything not captured now is not recoverable later. It is sent
+     to /api/create-checkout, which forwards it to the LINK Leads desk. Nothing
+     about it is stored in `claims`: this is marketing attribution, not part of
+     the application.
+
+     ro_sid is the Online Services tracker's session (registrationoffice.com.au
+     /t.js), which is what this site carries. LinkLeadsSid is left in for the
+     day it carries the lead desk's own tracker as well. */
+  function attribution() {
+    var out = {};
+    try {
+      var q = new URLSearchParams(location.search);
+      ['source', 'medium', 'campaign', 'term', 'content'].forEach(function (k) {
+        var val = q.get('utm_' + k);
+        if (val) out['utm_' + k] = val;
+      });
+      out.page_url = location.href;
+      if (document.referrer) out.referrer = document.referrer;
+      try { out.ro_session_id = sessionStorage.getItem('ro_sid') || undefined; } catch (e) {}
+      if (window.LinkLeadsSid) out.session_id = window.LinkLeadsSid;
+    } catch (e) { /* attribution is never worth failing a claim over */ }
+    return out;
+  }
+
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     document.getElementById('submit-error').classList.add('hidden');
@@ -455,7 +483,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       var co = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ claimId: id })
+        body: JSON.stringify({ claimId: id, context: attribution() })
       });
       var data = await co.json();
       if (!co.ok || !data.url) throw new Error(data.error || 'checkout failed');
