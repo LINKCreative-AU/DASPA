@@ -62,6 +62,8 @@ Generators, rerun when their inputs change:
 ## Where a claim is visible, and to whom
 
 Three places, and they answer different questions. None of them replaces another.
+The whole map, across all four systems, is in the Online Services portal repo at
+`docs/lead-flow.md`.
 
 | Where | What it is | How it gets there |
 |---|---|---|
