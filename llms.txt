@@ -34,5 +34,5 @@ Key facts (current as of July 2026):
 - [DASP processing time, the 28-day standard, what starts the clock, how to chase a slow claim](https://daspa.com.au/dasp-processing-time)
 - [DASP application form (NAT 7204 PDF)](https://daspa.com.au/dasp-nat-7204-application-form)
 - [Can I claim my super myself for free?](https://daspa.com.au/can-i-claim-my-super-myself-for-free)
-- Country guides for claiming from home: [UK](https://daspa.com.au/uk), [Ireland](https://daspa.com.au/ireland), [Germany](https://daspa.com.au/germany), [Philippines](https://daspa.com.au/philippines), [Italy](https://daspa.com.au/italy), [France](https://daspa.com.au/france), [Spain](https://daspa.com.au/spain)
+- Country guides for claiming from home: [UK](https://daspa.com.au/uk), [Ireland](https://daspa.com.au/ireland), [Germany](https://daspa.com.au/germany), [Philippines](https://daspa.com.au/philippines), [Italy](https://daspa.com.au/italy), [France](https://daspa.com.au/france), [Spain](https://daspa.com.au/spain), [Brazil](https://daspa.com.au/brazil), [India](https://daspa.com.au/india)
 - [Pricing](https://daspa.com.au/pricing)
