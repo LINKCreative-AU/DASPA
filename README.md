@@ -33,7 +33,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `SITE_URL` | defaults to `https://daspa.com.au` |
    | `CRON_SECRET` | protects `/api/cron-nudge` (Vercel sends it automatically) |
    | `LEADS_INGEST_KEY` | the `daspa` half of LINK Leads' `LEADS_INGEST_KEYS`. Unset -> the lead-desk push is skipped with a log line and nothing else changes |
-   | `LEADS_INGEST_URL` | optional, defaults to `https://leads.link.com.au/api/ingest` |
+   | `LEADS_INGEST_URL` | optional, defaults to `https://leads.link.com.au/api/ingest`. **That host was NXDOMAIN as at 25 August 2026** and the LINK Leads Vercel project has deployment protection on, so nothing is reachable yet. The push fails closed with a log line until one of those is fixed. See the portal repo's `docs/lead-flow.md` |
    | `LODGEMENT_LIVE` | **keep unset/false until the ATO DASP Agreement is executed**, holds all confirmations and emails at "in review" wording; set `true` to go live |
 
 4. **Stripe webhook**: add endpoint `https://daspa.com.au/api/stripe-webhook`.
