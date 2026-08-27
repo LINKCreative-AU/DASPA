@@ -32,7 +32,63 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `OPS_EMAIL` | where new claims, payments, verifications and paper forms are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
    | `SITE_URL` | defaults to `https://daspa.com.au` |
    | `CRON_SECRET` | protects `/api/cron-nudge` (Vercel sends it automatically) |
-   | `LODGEMENT_LIVE` | **keep unset/false until the ATO DASP Agreement is executed**, holds all confirmations and emails at "in review" wording; set `true` to go live |
+   | `INVOICE_SECRET` | tax invoices. The Stripe webhook asks `registrationoffice.com.au/api/invoice` for an ATO-compliant invoice when a claim is paid. **Unset = paid clients get no tax invoice and nothing complains.** (Note: abnassist-site generates its own invoice now and keeps this OFF; DASPA still uses the portal, so here it must be ON) |
+   | `HEALTH_KEY` | unlocks `/api/health` on the production domain. Unset → production 404s the endpoint, which is the intended default; preview and development answer without it |
+   | `LODGEMENT_LIVE` | **keep unset/false until the ATO accepts the DASP intermediary agreement in writing**, holds all confirmations and emails at "in review" wording; set `true` to go live. See "The launch gate" below |
+
+   Not wired into the site yet, set ahead of the ActiveCampaign work so the
+   credentials can be verified before the integration depends on them.
+   `abnassist-site` accepts either spelling per credential and `/api/health`
+   watches both, because Vercel carries the long ones:
+
+   | Var | Purpose |
+   |---|---|
+   | `AC_API_URL` / `ACTIVECAMPAIGN_API_URL` | `https://<account>.api-us1.com` |
+   | `AC_API_KEY` / `ACTIVECAMPAIGN_API_KEY` | ActiveCampaign API token |
+   | `AC_FIELD_MAP` | JSON, `{"<field key>": <AC custom field id>}`. Absent → custom fields skipped |
+   | `AC_LIST_MAP` | JSON, which AC list a paid claim joins. Automations in this account trigger on **list membership**, not tags |
+
+## Readiness check
+
+`/api/health` reports which variables are set in the scope serving that URL,
+never their values. `?deep=1` also calls Resend, Stripe and Supabase to prove
+the keys work rather than merely exist: whether the `EMAIL_FROM` domain is
+verified for sending, whether the Stripe key is **live or test** and has charges
+enabled, and whether the service-role key can reach the `claims` table.
+
+Preview and development answer openly (they sit behind Vercel Authentication).
+Production answers only with `?key=<HEALTH_KEY>` and 404s otherwise.
+
+Vercel resolves env vars when a deployment is **created**, so set the variable,
+redeploy, then read this. A variable set for Production only reads as missing on
+a preview URL, which is exactly the mistake this exists to catch.
+
+## The launch gate
+
+`LODGEMENT_LIVE` is not gated on ARO's tax agent registration. It is gated on a
+separate instrument: the **DASP online application, Agreement for intermediaries**
+(ATO form NAT 15478). Holding tax agent registration 26076969 makes ARO
+*eligible* to enter that agreement (clause 2.1, which requires a full or
+DASP-conditional TPB registration); it is not the agreement itself.
+
+Under clause 5.1 the agreement is made on the date the ATO accepts the
+application, and the ATO notifies the applicant **in writing** whether it has
+been accepted. That written acceptance is the artefact to sight before this flag
+is flipped.
+
+Two obligations from the same agreement land on the order process, not on the
+site, and neither exists in the build today:
+
+- **clause 2.3**, the client must be notified to the ATO as ARO's client before
+  a DASP application is submitted for them;
+- **clause 2.4**, signed client authority must be retained for a set period.
+  The site records `authority_accepted_at` against a ticked declaration. Whether
+  a timestamped tick satisfies "signed authority", and for how long it must be
+  kept, is a question for the legal review below.
+
+Clauses cited from NAT 15478 (07.2026). The ATO blocks automated retrieval of
+its site, so these were read from the published form, not from the guidance
+pages, and should be confirmed against ARO's executed copy.
 
 4. **Stripe webhook**: add endpoint `https://daspa.com.au/api/stripe-webhook`.
    **Didit webhook**: `https://daspa.com.au/api/didit-webhook` (X-Signature-V2 HMAC verified,
