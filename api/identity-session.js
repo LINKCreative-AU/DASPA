@@ -1,75 +1,38 @@
-// POST { claimId } → creates a Stripe Identity VerificationSession and returns
-// { url } for a full-page redirect. Replaces the Didit integration.
+// POST { claimId } -> starts a Stripe Identity check for a paid claim and
+// returns { clientSecret, url, pk }.
 //
-// WHY STRIPE IDENTITY. DASPA already runs payments through Stripe, and this
-// incident was caused by credentials spread across vendors where three of the
-// eleven were never set. Identity rides the same secret key, the same webhook
-// endpoint and the same signing secret as the payment flow, so it adds no new
-// credential that can silently be missing. One optional variable instead of
-// three mandatory ones.
+// Modelled on abnassist-site/api/identity.js, which is the working reference.
+// The status half of that endpoint lives in /api/claim-status here, because
+// /verify and /confirmation were already reading it.
+//
+// BOTH HALVES ARE RETURNED ON PURPOSE. clientSecret drives the embedded Stripe
+// modal, url is Stripe's hosted page. /verify tries the modal and falls back to
+// the redirect if Stripe.js is blocked or the modal errors. ABN Assist needs
+// only the modal: its customers are Australian and mostly on desktop. DASPA's
+// arrive from overseas on phones, often inside the Instagram or WhatsApp in-app
+// browser, where an embedded modal can lose getUserMedia permission and a
+// full-page redirect still works.
 //
 // KNOWN LIMIT, DELIBERATELY ACCEPTED. The Stripe Identity Agreement prohibits
 // verifying anyone "linked directly or indirectly" with China or the Russian
 // Federation. That is a policy restriction, not a coverage gap: both countries
-// appear in Stripe's supported-document list. Claimants holding those passports
-// must go through /upload-form and be verified by hand instead. Confirmed with
-// Juan, 7 September 2026. The agreement sits on the same Stripe account that
-// processes every payment, so this is not something to leave to chance: the
-// manualOnly() gate below refuses those claims with a 403 before any session is
-// created, and /verify explains the manual route rather than showing an error.
+// appear in Stripe's supported-document list. The agreement sits on the same
+// Stripe account that processes every payment, so manualOnly() below refuses
+// those claims with a 403 before any session is created, and /verify explains
+// the manual route rather than showing an error. Confirmed with Juan,
+// 7 September 2026. ABN Assist has no equivalent because its claimants are
+// Australian.
 //
-// CHECKS RUN: passport only, captured live with the device camera
-// (require_live_capture), plus a matching selfie (require_matching_selfie).
-// Both confirmed verbatim against Stripe's API reference for
-// POST /v1/identity/verification_sessions.
-//
-// Env: STRIPE_SECRET_KEY (already required for checkout),
-//      STRIPE_VERIFICATION_FLOW_ID (optional, and it OVERRIDES the checks above,
-//      see checkParams).
+// Env: STRIPE_SECRET_KEY (Identity write), STRIPE_PUBLISHABLE_KEY (browser).
+
+'use strict';
 
 const config = require('./_lib/config');
 const db = require('./_lib/supabase');
 const email = require('./_lib/email');
-
-// Which checks to run. A verification flow is configured in the Stripe
-// dashboard and referenced by id, so the team can change what is collected
-// without a deploy. That is the same shape as the DIDIT_WORKFLOW_ID it
-// replaces. With no flow id set we fall back to explicit options so the
-// endpoint still works out of the box.
-function checkParams() {
-  const flow = String(process.env.STRIPE_VERIFICATION_FLOW_ID || '').trim();
-  if (flow) {
-    // A flow carries its own check configuration and the API accepts nothing
-    // but metadata, provided_details and client_reference_id alongside it. So
-    // setting this variable silently replaces every check set below, and the
-    // site's copy would then be describing checks that are not running.
-    // Loud, because that is the exact class of fault that caused the incident.
-    console.warn('identity: STRIPE_VERIFICATION_FLOW_ID is set (' + flow + '), so live capture '
-      + 'and the selfie check come from the dashboard flow, NOT from this code. Confirm both are '
-      + 'enabled on that flow or /verify is promising checks that are not happening.');
-    return { verification_flow: flow };
-  }
-
-  return {
-    type: 'document',
-    // The page promises "your passport and a quick selfie", and the claim form
-    // collects a passport number and issuing country, so passport is the only
-    // document we should be asking for.
-    'options[document][allowed_types][0]': 'passport',
-    // Capture the passport with the device camera. Stripe: "Disable image
-    // uploads, identity document images have to be captured using the device's
-    // camera." This is what stops the obvious attack on a lodgement service,
-    // a saved image or scan of somebody else's passport, since a stored file
-    // cannot be presented at all. The cost is that a desktop without a working
-    // camera cannot finish, which is why the page now says to use a phone and
-    // /upload-form plus a manual check remains the fallback.
-    'options[document][require_live_capture]': 'true',
-    // The selfie check is the other half: it ties the person holding the
-    // passport to the passport. Live capture alone proves a real document is
-    // present, not that it belongs to whoever is claiming the super.
-    'options[document][require_matching_selfie]': 'true',
-  };
-}
+const identity = require('./_lib/identity');
+const verified = require('./_lib/identity-verified');
+const { guard } = require('./_lib/guard');
 
 // Countries the Stripe Identity Agreement puts out of reach (see the header).
 // The claim form takes country of issue as free text, so this has to absorb
@@ -105,6 +68,17 @@ function manualOnly(country) {
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'method not allowed' });
 
+  /* Off means off, and it answers rather than 404s so /verify can render its
+     "nothing to do here" state instead of looking broken. */
+  if (!identity.ENABLED) return res.status(200).json({ enabled: false, verified: false });
+
+  /* Rate limited: this creates a Stripe object, so it should not be free to
+     hammer. form:false because this is not a form post, there is no honeypot
+     and no elapsed_ms, and demanding them would break a link opened from an
+     email. Everything in the guard fails open, so a broken guard cannot stop a
+     paying client verifying. */
+  if (await guard(req, res, { bucket: 'identity-create', limit: 10, windowMs: 60000 })) return;
+
   try {
     const { claimId } = req.body || {};
     if (!claimId || !/^[0-9a-f-]{36}$/i.test(claimId)) {
@@ -114,15 +88,31 @@ module.exports = async (req, res) => {
     const claim = await db.getClaim(claimId);
     if (!claim) return res.status(404).json({ error: 'claim not found' });
 
-    // These two statuses are what /verify reads to decide what to show before
-    // it offers the button, so keep the codes stable if you touch them.
+    // These codes are what /verify reads to decide what to show, so keep them
+    // stable if you touch them.
     if (claim.payment_status !== 'paid') return res.status(402).json({ error: 'payment required' });
+
+    /* Already done, so creating a second session would work and be pointless,
+       and would ask someone to photograph their passport again for nothing.
+       Stripe is asked as well as our row, because a missed webhook must not
+       send a verified client round the loop again, and the repair is recorded
+       here rather than only on the status read. */
     if (claim.verification_status === 'verified') return res.status(409).json({ error: 'already verified' });
+    if (claim.stripe_customer_id && await identity.isVerified(claim.stripe_customer_id)) {
+      const r = await verified.markVerified({
+        claimId: claim.id, customerId: claim.stripe_customer_id,
+      });
+      if (r.claimed) {
+        console.warn(`identity: repaired ${claim.id} from the verification page; ` +
+          'the webhook for it never arrived');
+      }
+      return res.status(409).json({ error: 'already verified' });
+    }
 
     /* A claimant Stripe will not verify must never be sent into a flow that
-       refuses them. This is the same failure the August 2026 incident produced,
+       refuses them. That is the same failure the August 2026 incident produced,
        paid and then stuck, so it is caught here rather than at Stripe's error
-       page. 403 is distinct from every other code /verify already handles. */
+       page. 403 is distinct from every other code /verify handles. */
     if (manualOnly(claim.passport_country)) {
       await db.insertAudit(claim.id, 'identity_manual_required', String(claim.passport_country || ''))
         .catch(() => {});
@@ -132,55 +122,40 @@ module.exports = async (req, res) => {
       return res.status(403).json({ error: 'manual verification required' });
     }
 
-    const params = new URLSearchParams({
-      ...checkParams(),
-      // Both, so the webhook can find the claim from either field. Mirrors how
-      // api/create-checkout.js stamps the checkout session.
-      'metadata[claim_id]': claim.id,
-      client_reference_id: claim.id,
-      // Shown to the person mid-flow so they can see whose verification this is.
-      'provided_details[email]': claim.email || '',
-      return_url: `${config.SITE_URL}/confirmation?cid=${claim.id}`,
+    const s = await identity.createSession({
+      customerId: claim.stripe_customer_id || null,
+      claimId: claim.id,
+      email: claim.email || '',
+      returnUrl: `${config.SITE_URL}/confirmation?cid=${encodeURIComponent(claim.id)}`,
     });
 
-    const r = await fetch('https://api.stripe.com/v1/identity/verification_sessions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: params.toString(),
-    });
-
-    if (!r.ok) {
-      // Stripe's message names the actual problem (an ineligible account, a
-      // missing Identity application, a bad flow id), so keep it in the log.
-      // It is never returned to the client.
-      console.error('identity session create failed:', r.status, await r.text());
-      return res.status(502).json({ error: 'could not start verification' });
-    }
-
-    const session = await r.json();
-    if (!session.url) {
-      console.error('identity session had no url:', session.id, session.status);
-      return res.status(502).json({ error: 'could not start verification' });
-    }
-
-    // Record the session id so a webhook can be reconciled by hand later, and
-    // so a second click does not silently open an unrelated session.
+    /* Record the session id so a verification can be reconciled by hand later.
+       verification_status goes to pending, which is what /verify and the cron
+       nudge read. */
     await db.updateClaim(claim.id, {
-      identity_session_id: session.id,
+      identity_session_id: s.id,
       verification_status: 'pending',
     });
-    await db.insertAudit(claim.id, 'identity_session_created', session.id);
+    await db.insertAudit(claim.id, 'identity_session_created', s.id);
 
-    // The session URL is single-use and expires after 48 hours. Stripe's
-    // guidance is explicit: do not store it, log it, or embed it anywhere. So
-    // it is handed straight to the one browser that asked for it and nowhere
-    // else. The session ID above is the durable reference.
-    return res.status(200).json({ url: session.url });
+    /* The hosted URL is single-use and expires after 48 hours, and Stripe's
+       guidance is explicit: do not store it, log it or embed it anywhere. So it
+       is handed straight to the one browser that asked for it and nowhere else.
+       The session id above is the durable reference. */
+    return res.status(200).json({
+      enabled: true,
+      verified: false,
+      clientSecret: s.clientSecret || '',
+      url: s.url || '',
+      pk: identity.publishableKey(),
+    });
   } catch (e) {
-    console.error(e);
-    return res.status(500).json({ error: 'internal error' });
+    if (e.permissions) {
+      console.error('identity: the restricted key is missing Identity write. ' +
+        'Stripe, Developers, API keys: set Identity Verification Results to Write.');
+    } else {
+      console.error('identity failed:', e.message);
+    }
+    return res.status(502).json({ error: 'verification is unavailable right now' });
   }
 };

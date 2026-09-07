@@ -259,13 +259,44 @@ INLINE_CODE = re.compile(r"<script(?![^>]*\ssrc=)(?![^>]*\stype=)[^>]*>(.*?)</sc
 
 
 def _strip_js(js):
-    """Remove comments and string bodies so prose cannot look like a call."""
-    js = re.sub(r"/\*.*?\*/", " ", js, flags=re.S)
-    js = re.sub(r"(?m)//.*$", " ", js)
-    js = re.sub(r'"(?:\\.|[^"\\])*"', '""', js)
-    js = re.sub(r"'(?:\\.|[^'\\])*'", "''", js)
-    js = re.sub(r"`(?:\\.|[^`\\])*`", "``", js)
-    return js
+    """Remove comments and string bodies so prose cannot look like a call.
+
+    A single pass, not a stack of regexes, because the regex version had a real
+    bug: it stripped // comments before string bodies, so the // inside
+    'https://js.stripe.com/v3/' ate the rest of that line and left a dangling
+    quote. The next quote anywhere in the file then paired with it and every
+    function definition in between vanished, which made the guard report five
+    functions as undefined when all five were defined right there. A guard that
+    cries wolf gets switched off, so it walks the source once instead.
+
+    Regex literals are not tracked. A regex containing a quote or a // would
+    still confuse this; no page has one, and the failure mode is a false
+    positive that a human reads, not a silent pass.
+    """
+    out = []
+    i, n = 0, len(js)
+    while i < n:
+        c = js[i]
+        nxt = js[i + 1] if i + 1 < n else ""
+        if c == "/" and nxt == "*":                 # block comment
+            end = js.find("*/", i + 2)
+            i = n if end == -1 else end + 2
+            out.append(" ")
+        elif c == "/" and nxt == "/":               # line comment
+            end = js.find("\n", i)
+            i = n if end == -1 else end
+            out.append(" ")
+        elif c in "\"'`":                           # string or template body
+            quote = c
+            i += 1
+            while i < n and js[i] != quote:
+                i += 2 if js[i] == "\\" else 1
+            i += 1
+            out.append(quote * 2)
+        else:
+            out.append(c)
+            i += 1
+    return "".join(out)
 
 
 def _declared(js):

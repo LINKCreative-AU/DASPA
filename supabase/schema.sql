@@ -61,8 +61,10 @@ create table public.claims (
   payment_status text not null default 'unpaid' check (payment_status in ('unpaid','paid','refunded')),
   paid_at timestamptz,
   stripe_session_id text,
+  stripe_customer_id text,            -- Customer object from customer_creation:'always'; what Stripe Identity verifies against (related_customer)
   verification_status text not null default 'not_started' check (verification_status in ('not_started','pending','verified','needs_review')),
   identity_session_id text,           -- Stripe Identity VerificationSession (vs_...); the session URL is single-use and never stored
+  identity_verified_at timestamptz,   -- when the check passed; set by whichever of the webhook, a page visit or the cron got there first
   claim_status claim_status not null default 'new',
 
   -- email bookkeeping (cron dispatcher)

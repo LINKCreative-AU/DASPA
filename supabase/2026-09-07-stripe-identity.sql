@@ -64,3 +64,35 @@ select count(*) as claims,
        count(didit_consent_at) as with_didit_consent,
        count(identity_consent_at) as with_identity_consent
 from public.claims;
+
+-- ------------------------- step 1c: the ABN Assist identity pattern
+-- Added 7 September 2026, when DASPA's identity flow was rebuilt on the shape
+-- abnassist-site already runs. Both are additive and safe to re-run.
+--
+-- stripe_customer_id is the load-bearing one. Stripe Identity attaches a
+-- verification to a customer (related_customer), and that is what lets the
+-- server ask Stripe "is this person verified?" long after the fact, instead of
+-- trusting a webhook that may never have arrived. api/create-checkout.js now
+-- sets customer_creation:'always' so a Customer object exists to record here;
+-- the three claims already paid have none, so the repair path skips them and
+-- they are reconciled by hand.
+alter table public.claims add column if not exists stripe_customer_id text;
+alter table public.claims add column if not exists identity_verified_at timestamptz;
+
+comment on column public.claims.stripe_customer_id is
+  'Stripe Customer (cus_...) created by Checkout. Used as related_customer on the Identity session, which is what makes a missed webhook recoverable.';
+comment on column public.claims.identity_verified_at is
+  'When the identity check passed. Written by whichever of the webhook, a status read or the cron claimed the row first.';
+
+-- Looked up by customer on the repair path and by the reconcile sweep.
+create index if not exists claims_stripe_customer_id
+  on public.claims (stripe_customer_id)
+  where stripe_customer_id is not null;
+
+-- Expect four rows.
+select column_name, data_type
+from information_schema.columns
+where table_schema = 'public' and table_name = 'claims'
+  and column_name in ('identity_session_id', 'identity_consent_at',
+                      'stripe_customer_id', 'identity_verified_at')
+order by column_name;

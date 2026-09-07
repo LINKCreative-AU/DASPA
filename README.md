@@ -25,6 +25,10 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
       has `identity_consent_at` set.
    3. `supabase/2026-09-07-stripe-identity-step2-drop-didit.sql` to drop the old
       pair. Not before step 2, or the live form starts failing silently for clients.
+
+   Also apply `supabase/2026-09-07-rate-limits.sql` whenever convenient. It is an
+   upgrade rather than a prerequisite: without it `api/_lib/guard.js` logs one
+   warning and rate limits per warm instance only.
 2. **Placeholders in pages** (search for `PLACEHOLDER`):
    - `claim.html` → `SUPABASE_URL`, `SUPABASE_ANON_KEY`
 
@@ -39,7 +43,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    |---|---|
    | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | server-side DB access |
    | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout, identity verification, and the one webhook that serves both (endpoint: `/api/stripe-webhook`, three events, see step 4) |
-   | `STRIPE_VERIFICATION_FLOW_ID` | **optional, and it overrides the checks set in code.** A verification flow configured in the Stripe dashboard. Unset → `/api/identity-session` requires a passport, captured live with the device camera, plus a matching selfie. Set → those three come from the flow instead, live capture included, so **enable both on the flow or `/verify` is promising checks that are not running.** `/api/health` reports which mode is live and the endpoint logs a warning |
+   | `STRIPE_PUBLISHABLE_KEY` | the embedded verification modal on `/verify`. Unset is not a fault: `/verify` falls back to Stripe's hosted page, which is also the fallback whenever the modal cannot run |
    | `RESEND_API_KEY` / `EMAIL_FROM` | transactional email (skipped gracefully if unset) |
    | `WHATSAPP_NUMBER` | digits with country code. Resolves `/wa`, used by every WhatsApp CTA and the status emails. Unset → `/wa` redirects to `/faq` |
    | `OPS_EMAIL` | where new claims, payments, verifications and paper forms are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
@@ -117,13 +121,30 @@ pages, and should be confirmed against ARO's executed copy.
    300-second tolerance, constant-time compare. No SDK.
 
    **Checks that run** (`options[document][...]`, names verified against Stripe's API
-   reference): `allowed_types=passport`, `require_live_capture=true`,
-   `require_matching_selfie=true`. Live capture disables image uploads, so the
-   passport must be photographed with the device camera and a saved photo or scan of
-   somebody else's passport cannot be presented at all. The selfie ties the person
-   holding the passport to it. The cost is that a computer with no working camera
-   cannot finish; `/verify` says so and offers the phone or the manual route, and
-   every page already frames the check as "from your phone".
+   reference): `allowed_types=passport` and `require_matching_selfie=true`.
+
+   Passport only, unlike ABN Assist, which also accepts a licence or ID card: DASPA's
+   claimants have left Australia, the claim form and the ATO's DASP application are
+   both built around the passport, and an expired Australian licence proves nothing
+   about the person now living in Lyon. `require_live_capture` is deliberately NOT
+   set, matching ABN Assist; it disables image uploads entirely and the selfie match
+   already covers the attack it would prevent.
+
+   **The key needs Identity permission.** `STRIPE_SECRET_KEY` must carry
+   *Identity Verification Results = Write*. A key scoped to Checkout works for every
+   payment and fails only when a verification session is created, so the symptom is
+   a 502 from `/api/identity-session` and nothing else. Set both **Detailed
+   Verification Results** rows to **None**: `api/_lib/identity.js` never reads the
+   name, date of birth, document number or address Stripe extracts, and that is what
+   makes the arrangement defensible under APP 11 — Stripe holds the document and the
+   biometrics, we hold the outcome. Widening it later is a privacy decision and a
+   policy update, not a permission tweak.
+
+   **The API version is pinned** in `api/_lib/stripe.js` (`2026-05-27.dahlia`, the
+   version `abnassist-site` already runs in production). A webhook destination's
+   version is fixed when it is created and cannot be edited afterwards, so **create
+   the destination on that version**. Changing it later means a new destination and
+   moving `STRIPE_WEBHOOK_SECRET` with it.
 
    **Identity is not available to every claimant.** The Stripe Identity Agreement
    prohibits verifying anyone linked directly or indirectly with China or the
@@ -158,14 +179,45 @@ Generators, rerun when their inputs change:
 
 ## Claim flow
 
-`/claim` (Supabase anon insert, client-generated UUID) → `/api/create-checkout` (Stripe, sends
-"form received" email) → Stripe webhook marks paid → `/verify` (reads `/api/claim-status` and
-answers each status separately **before** offering the button; a not-paid answer is retried twice
-to absorb the redirect-beats-webhook race) → `/api/identity-session` (Stripe Identity, full-page
-redirect for mobile camera reliability) → the same Stripe webhook maps
-`verified`→`ready_for_lodgement` and `requires_input`→`needs_review` → `/confirmation`
-(sequence-aware via `/api/claim-status`, and it now stops on a claim with no payment against it).
-Abandoned verifications are picked up by the cron nudge below. Cron (`/api/cron-nudge`, 6-hourly): 24h abandoned-
+`/claim` (Supabase anon insert, client-generated UUID) → `/api/create-checkout` (Stripe,
+`customer_creation:'always'`, sends "form received" email) → Stripe webhook marks paid and records
+`stripe_customer_id` → `/verify` (reads `/api/claim-status` and answers each status separately
+**before** offering the button; a not-paid answer is retried twice to absorb the
+redirect-beats-webhook race) → `/api/identity-session` → the embedded Stripe modal, or the hosted
+page if the modal cannot run → the same Stripe webhook maps `verified`→`ready_for_lodgement` →
+`/confirmation` (sequence-aware via `/api/claim-status`, and it stops on a claim with no payment
+against it). Abandoned verifications are picked up by the cron nudge below.
+
+### Three writers, not one
+
+This is the part ported from `abnassist-site` and the reason to bother. "Verified" is defined once,
+in `api/_lib/identity-verified.js`, and three things can call it:
+
+1. the **Stripe webhook**, the normal path;
+2. **`/api/claim-status`**, which on every read of an unverified paid claim asks Stripe directly
+   (`related_customer` + `status=verified`) and records the answer if Stripe knows something we
+   do not, so any visit to `/verify` or `/confirmation` repairs a missed webhook;
+3. **`/api/identity-session`**, which does the same check before creating a second session, so a
+   verified client is never asked to photograph their passport twice.
+
+The write is a conditional PATCH (`verification_status=neq.verified`) that returns the rows it
+changed, so whichever of the three arrives first does the work and the other two send no email.
+DASPA's previous design had exactly one writer, a webhook that had never been created in Stripe,
+and three clients paid in August and September 2026 without a single record being written.
+
+`stripe_customer_id` is load-bearing for all of that: Stripe Identity attaches a verification to a
+customer, so without a Customer object there is nothing to ask about. Checkout only creates one
+because `customer_creation:'always'` is set; the default (`if_required`) records a guest customer
+with no Customer object, and `customer_email` does not change that. The three claims already paid
+have no customer id, so the repair path skips them and they are reconciled by hand.
+
+### Rate limiting
+
+`api/_lib/guard.js` is ported from `abnassist-site/lib/guard.js` (only the host allowlist differs,
+so keep fixes in step). `/api/identity-session` runs it at 10 requests per minute per IP. Every
+layer fails open, so a broken guard can never stop a paying client verifying. The shared counter
+needs `supabase/2026-09-07-rate-limits.sql`; until that is applied it logs one warning and the
+in-memory layer carries it alone. Cron (`/api/cron-nudge`, 6-hourly): 24h abandoned-
 verification nudges + "lodged" emails when the team sets `claim_status=lodged` in the dashboard.
 
 ## FOR LEGAL REVIEW (before launch)

@@ -33,6 +33,27 @@ async function updateClaim(id, patch) {
   return rows[0] || null;
 }
 
+/* Conditional update: patches every claim matching an arbitrary PostgREST
+   filter and returns the rows it actually changed.
+
+   This is how a race is settled without a lock. Put the precondition in the
+   filter (`verification_status=neq.verified`) rather than reading first and
+   writing second, and PostgREST tells you how many rows you claimed. Zero rows
+   means somebody else got there first, so the caller knows not to send the
+   email twice. Ported from the pattern in abnassist-site.
+
+   updateClaim above is the unconditional version and stays for callers that
+   genuinely just want to write. */
+async function patchClaims(query, patch) {
+  const r = await fetch(`${BASE}/rest/v1/claims?${query}`, {
+    method: 'PATCH',
+    headers: headers({ Prefer: 'return=representation' }),
+    body: JSON.stringify(patch),
+  });
+  if (!r.ok) throw new Error(`supabase conditional update failed: ${r.status} ${await r.text()}`);
+  return r.json();
+}
+
 async function selectClaims(query) {
   const r = await fetch(`${BASE}/rest/v1/claims?${query}`, { headers: headers() });
   if (!r.ok) throw new Error(`supabase select failed: ${r.status}`);
@@ -49,4 +70,4 @@ async function insertAudit(claimId, event, detail) {
   }).catch(() => {});
 }
 
-module.exports = { getClaim, updateClaim, selectClaims, insertAudit };
+module.exports = { getClaim, updateClaim, patchClaims, selectClaims, insertAudit };

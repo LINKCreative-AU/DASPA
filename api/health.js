@@ -41,7 +41,7 @@ function malformed() {
   const watched = [
     'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY',
     'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET',
-    'STRIPE_VERIFICATION_FLOW_ID',
+    'STRIPE_PUBLISHABLE_KEY',
     'RESEND_API_KEY', 'EMAIL_FROM', 'OPS_EMAIL',
     'AC_API_URL', 'AC_API_KEY', 'ACTIVECAMPAIGN_API_URL', 'ACTIVECAMPAIGN_API_KEY',
     'WHATSAPP_NUMBER', 'INVOICE_SECRET', 'SITE_URL', 'CRON_SECRET', 'HEALTH_KEY',
@@ -183,17 +183,20 @@ module.exports = async (req, res) => {
     // reported above, so there is no credential of its own to be missing. The
     // flow id is optional: unset means /api/identity-session falls back to
     // passport + matching selfie in code.
+    // Stripe Identity rides STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET, both
+    // reported above, so there is no credential of its own to be missing.
+    // STRIPE_PUBLISHABLE_KEY is only needed for the embedded modal: without it
+    // /verify falls back to Stripe's hosted page, which still works, so it is
+    // reported rather than treated as a fault.
     identity: {
       provider: 'stripe',
-      STRIPE_VERIFICATION_FLOW_ID: set('STRIPE_VERIFICATION_FLOW_ID'),
-      // Which checks actually run. A flow id replaces the code defaults
-      // entirely, live capture included, and the site's copy promises live
-      // capture, so this has to be readable without a deploy.
-      checks: process.env.STRIPE_VERIFICATION_FLOW_ID
-        ? 'per the dashboard verification flow, NOT this code. Confirm live capture and selfie are enabled on that flow'
-        : 'passport, live camera capture, matching selfie (code default)',
-      live_capture: process.env.STRIPE_VERIFICATION_FLOW_ID ? 'unknown, set by the flow' : true,
-      matching_selfie: process.env.STRIPE_VERIFICATION_FLOW_ID ? 'unknown, set by the flow' : true,
+      checks: 'passport document + matching selfie',
+      live_capture: false,          // deliberate, see api/_lib/identity.js
+      modal: process.env.STRIPE_PUBLISHABLE_KEY ? 'available' : 'unavailable, /verify will redirect instead',
+      STRIPE_PUBLISHABLE_KEY: set('STRIPE_PUBLISHABLE_KEY'),
+      // The restricted key needs Identity Verification Results = Write. A key
+      // scoped to Checkout only fails when a session is created and nowhere
+      // else, so ?deep=1 exercises it rather than guessing from the prefix.
     },
 
     // Addresses, not booleans. EMAIL_FROM falls back to a working default in

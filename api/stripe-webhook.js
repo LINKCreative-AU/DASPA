@@ -6,6 +6,7 @@
 const crypto = require('crypto');
 const db = require('./_lib/supabase');
 const email = require('./_lib/email');
+const verified = require('./_lib/identity-verified');
 
 // Raw body is required for signature verification, disable the body parser.
 module.exports.config = { api: { bodyParser: false } };
@@ -61,6 +62,14 @@ module.exports = async (req, res) => {
             payment_status: 'paid',
             paid_at: new Date().toISOString(),
             stripe_session_id: session.id,
+            /* From customer_creation: 'always' in api/create-checkout.js.
+               Recorded here because it is the handle Stripe Identity verifies
+               against, and therefore what lets a missed identity webhook be
+               repaired later from a page visit or the cron. A guest checkout
+               leaves this null and the repair simply does not run. */
+            stripe_customer_id: typeof session.customer === 'string'
+              ? session.customer
+              : (session.customer && session.customer.id) || null,
             claim_status: 'paid',
           });
           await db.insertAudit(claimId, 'stripe_payment_completed', session.id);
@@ -83,9 +92,9 @@ module.exports = async (req, res) => {
       }
     }
     /* ---------- Stripe Identity ----------
-       Verification now runs through Stripe Identity rather than Didit, so its
-       events arrive on this same endpoint under this same signing secret. That
-       is the main reason for the switch: no extra credential to leave unset.
+       Verification runs through Stripe Identity, so its events arrive on this
+       same endpoint under this same signing secret. That is the main reason for
+       the switch away from Didit: no extra credential to leave unset.
 
        Stripe sends exactly two events worth acting on. `processing` is not one
        of them, because a document check usually resolves before the client is
@@ -94,45 +103,61 @@ module.exports = async (req, res) => {
          identity.verification_session.verified        every check passed
          identity.verification_session.requires_input  at least one check failed
 
-       requires_input covers both "blurry photo, would pass on a retry" and
-       "genuinely declined", and the API does not distinguish them. So it goes
-       to a human with last_error attached rather than being auto-declined. */
-    if (event.type === 'identity.verification_session.verified'
-        || event.type === 'identity.verification_session.requires_input') {
+       Both branches are deliberately thin. `verified` hands off to
+       _lib/identity-verified.js, which is the same code /api/claim-status runs
+       when it finds a missed webhook, so there is one definition of what
+       "verified" does rather than two that drift. Ported from
+       abnassist-site/api/stripe-webhook.js.
+
+       related_customer is read as a fallback for finding the claim, because a
+       session created by hand from the Stripe dashboard carries neither
+       metadata nor client_reference_id, and related_customer still resolves it. */
+    if (event.type === 'identity.verification_session.verified') {
       const vs = event.data.object;
-      const claimId = (vs.metadata && vs.metadata.claim_id) || vs.client_reference_id;
-
-      if (claimId) {
-        const claim = await db.getClaim(claimId);
-        if (claim) {
-          const passed = event.type === 'identity.verification_session.verified';
-
-          // Idempotent: a replayed or duplicated event must not re-send email.
-          const already = passed
-            ? claim.verification_status === 'verified'
-            : claim.verification_status === 'needs_review';
-
-          if (!already) {
-            await db.updateClaim(claimId, {
-              identity_session_id: vs.id,
-              verification_status: passed ? 'verified' : 'needs_review',
-              claim_status: passed ? 'ready_for_lodgement' : 'needs_review',
-            });
-            await db.insertAudit(claimId, 'identity_' + (passed ? 'verified' : 'requires_input'), vs.id);
-
-            if (passed) {
-              await email.verified(claim);
-              await db.insertAudit(claimId, 'email_verified', claim.email);
-              await email.opsVerified(claim);
-            } else {
-              // last_error is the difference between "ask them to retake it"
-              // and "this one needs a real look", so the alert carries it.
-              const why = (vs.last_error && (vs.last_error.reason || vs.last_error.code)) || 'no reason given';
-              await email.opsNeedsReview(claim, 'requires_input: ' + why);
-            }
-          }
+      const claimId = (vs.metadata && vs.metadata.claim_id) || vs.client_reference_id || null;
+      const customerId = vs.related_customer || null;
+      if (!claimId && !customerId) {
+        console.warn('identity verified with no claim id and no related_customer:', vs.id);
+      } else {
+        const r = await verified.markVerified({
+          claimId, customerId, sessionId: vs.id, at: new Date(event.created * 1000),
+        });
+        if (!r.claimed) {
+          console.log(`identity: ${claimId || customerId} was already recorded, nothing sent`);
         }
       }
+      return res.status(200).json({ received: true });
+    }
+
+    /* requires_input covers both "blurry photo, would pass on a retry" and
+       "genuinely declined", and the API does not distinguish them. ABN Assist
+       only logs it, because its customer can simply retry from the same link
+       and its team is not waiting on anything.
+
+       DASPA alerts a human as well, and that difference is deliberate: a DASP
+       claim is money already taken for a lodgement that cannot proceed, the
+       client is overseas and in a different timezone, and the 6-hourly nudge
+       cron would otherwise be the only thing that ever notices. last_error is
+       attached so whoever reads it can tell "ask them to retake it" from "this
+       one needs a real look".
+
+       The claim is NOT moved to needs_review. The client can retry from the
+       same link, and marking it stops the retry path and would need a human to
+       undo. The alert is the signal; the status stays as it was. */
+    if (event.type === 'identity.verification_session.requires_input') {
+      const vs = event.data.object;
+      const claimId = (vs.metadata && vs.metadata.claim_id) || vs.client_reference_id || null;
+      const why = (vs.last_error && (vs.last_error.code || vs.last_error.reason)) || 'unknown';
+      console.warn(`identity needs input again for ${claimId || vs.id}: ${why}`);
+      if (claimId) {
+        const claim = await db.getClaim(claimId).catch(() => null);
+        if (claim) {
+          await db.insertAudit(claimId, 'identity_requires_input', why).catch(() => {});
+          await email.opsNeedsReview(claim, 'identity check came back requires_input: ' + why)
+            .catch((e) => console.error('identity: ops alert failed for', claimId, e.message));
+        }
+      }
+      return res.status(200).json({ received: true });
     }
 
     // Always 200 for verified events we don't act on, so Stripe stops retrying.

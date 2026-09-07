@@ -41,8 +41,8 @@
           <li>Claim form received</li>
           <li id="paid-line">Payment confirmed: $163.90 flat fee</li>
         </ul>
-        <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Stripe Identity</b>, the same provider that took your payment, and happens in Stripe's secure environment. You'll photograph your <b>passport</b> and take a <b>selfie</b> with your device camera, so allow <b>camera access</b> when asked.</p>
-        <div class="note"><b>You'll need a working camera.</b> Saved photos and scans aren't accepted, the passport has to be photographed on the spot, which is what stops anyone else claiming your super. On a computer without a camera, open this page on your phone instead. Good light helps, and no hat or sunglasses for the selfie. Most people are done in under two minutes.</div>
+        <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Stripe Identity</b>, the same provider that took your payment. Your <b>passport</b> and selfie go to Stripe, not to us, and we only ever see whether the check succeeded. Allow <b>camera access</b> when asked.</p>
+        <div class="note">Tip: use your phone, find decent light, and take the selfie without a hat or sunglasses. Most people are done in under two minutes.</div>
         <div class="stop hidden" id="verify-error">We couldn't start the verification session. Please try again in a moment. Your payment is safe and your claim is saved. Stuck? Message us on <a href="/wa" data-wa target="_blank" rel="noopener">WhatsApp</a>.</div>
         <button class="btn block" id="verify-btn" type="button">Verify my identity now</button>
         <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Prefer to do it later? We'll email you this link, but claims can't be lodged until it's done.<br>No camera on this device? Open this page on your phone, or <a href="/wa" target="_blank" rel="noopener">message us</a> and we'll verify you by hand at no extra cost.</p>
@@ -70,6 +70,7 @@
   var paidLine = document.getElementById('paid-line');
 
   var IDLE_LABEL = 'Verify my identity now';
+  var STRIPE_JS = 'https://js.stripe.com/v3/';
   // Two casings because these appear both mid-sentence and sentence-initial,
   // and uppercasing the first character of a string that starts with "<a" does
   // nothing useful.
@@ -111,7 +112,11 @@
      There is also a legitimate race: Stripe redirects the client here as soon
      as the card clears, which can beat the checkout.session.completed webhook
      by a second or two. So a not-yet-paid answer is retried a couple of times
-     before we tell anyone anything is wrong. */
+     before we tell anyone anything is wrong.
+
+     /api/claim-status also repairs a missed identity webhook when it answers,
+     by asking Stripe directly, so a client who verified and was never recorded
+     is sent to the confirmation page here rather than asked to verify twice. */
   var attempt = 0;
   var DELAYS = [1500, 4000];   // after the first read, then give up
 
@@ -119,8 +124,12 @@
   btn.textContent = 'Checking your claim…';
 
   function readStatus() {
-    fetch('/api/claim-status?cid=' + encodeURIComponent(cid))
-      .then(function (r) { return r.ok ? r.json() : null; })
+    return fetch('/api/claim-status?cid=' + encodeURIComponent(cid))
+      .then(function (r) { return r.ok ? r.json() : null; });
+  }
+
+  function firstRead() {
+    readStatus()
       .then(function (s) {
         // Status unreadable. Let them try the button rather than blocking on
         // our own uncertainty; the endpoint will give a definite answer.
@@ -135,7 +144,7 @@
 
         if (s.payment_status !== 'paid') {
           if (attempt < DELAYS.length) {
-            setTimeout(readStatus, DELAYS[attempt++]);
+            setTimeout(firstRead, DELAYS[attempt++]);
             return;
           }
           if (paidLine) paidLine.textContent = 'Payment not showing against this claim yet';
@@ -147,65 +156,149 @@
       })
       .catch(function () { enable(); });
   }
-  readStatus();
+  firstRead();
 
-  // Full-page redirect to the hosted verification flow, the most reliable route
-  // to the phone camera (in-context iframes can lose getUserMedia permissions
-  // inside in-app browsers like the Instagram and WhatsApp webviews).
-  btn.addEventListener('click', async function () {
+  /* ---------- opening the check: modal first, hosted page as the fallback ----------
+     Stripe.js is loaded lazily, only once there is actually something to verify,
+     so a client who lands here already verified fetches nothing from Stripe.
+
+     The embedded modal keeps the client on daspa.com.au, which is how ABN Assist
+     does it. The full-page redirect is kept as the fallback because DASPA's
+     clients are overseas and mostly on phones, often inside the Instagram or
+     WhatsApp in-app browser, where an embedded modal can lose getUserMedia and
+     the hosted page still works. Anything that goes wrong with the modal, a
+     blocked script included, ends up on the redirect rather than on an error. */
+  function loadStripe() {
+    return new Promise(function (ok, no) {
+      if (window.Stripe) { ok(window.Stripe); return; }
+      var el = document.createElement('script');
+      el.src = STRIPE_JS;
+      el.onload = function () { window.Stripe ? ok(window.Stripe) : no(new Error('stripe.js')); };
+      el.onerror = function () { no(new Error('stripe.js blocked')); };
+      document.head.appendChild(el);
+    });
+  }
+
+  function redirect(url) {
+    if (!url) {
+      stop('We could not open the verification just now. Your payment is safe and your claim is saved. Please try again in a few minutes, or ' + WA + ' and a human will sort it out with you.');
+      enable();
+      return;
+    }
+    window.location.href = url;
+  }
+
+  function afterModal(url) {
+    /* Stripe resolves when the modal closes, whether or not anything was
+       submitted, and resolves with an error object rather than rejecting when
+       the client cancels. So the modal closing proves nothing: ask the server
+       again and let Stripe's own status decide. */
+    return readStatus().then(function (s) {
+      if (s && s.verification_status === 'verified') { goConfirmation(); return; }
+      if (s && s.verification_status === 'needs_review') {
+        stop('Thanks. Your identity check needs a quick look from one of our team, so there is nothing more for you to do here. We will email you as soon as it is cleared.');
+        return;
+      }
+      /* Neither verified nor an error. Checks usually finish in seconds but not
+         always, so this is the honest answer rather than a spinner that may
+         never resolve, and the button offers a retry rather than a dead end. */
+      enable();
+      btn.textContent = 'Try again';
+      stop('Thanks. Stripe is still checking your documents. This page will show it as done once they finish, so please check back shortly, or ' + WA + ' if it stays like this.');
+    });
+  }
+
+  btn.addEventListener('click', function () {
     btn.disabled = true;
     btn.textContent = 'Opening secure verification…';
     err.classList.add('hidden');
 
-    var r, data;
-    try {
-      r = await fetch('/api/identity-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ claimId: cid })
+    fetch('/api/identity-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ claimId: cid })
+    })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (data) {
+          data.httpStatus = r.status;
+          data.httpOk = r.ok;
+          return data;
+        });
+      })
+      .then(function (data) {
+        /* Each status means something different to the person reading it, so
+           each gets its own answer. A single "try again" message is what sent a
+           client round the same loop five times. */
+        if (data.httpStatus === 409) { goConfirmation(); return null; }   // already verified
+
+        if (data.httpStatus === 402) {                                    // not marked paid
+          if (paidLine) paidLine.textContent = 'Payment not showing against this claim yet';
+          stop('Your payment is not showing against this claim yet, so we cannot start the identity check. <b>Please do not pay again.</b> ' + WA_CAP + ' with your name and we will fix it straight away.');
+          btn.textContent = IDLE_LABEL;
+          return null;
+        }
+
+        if (data.httpStatus === 403 && data.error === 'manual verification required') {
+          stop('We can\'t verify a passport from your country of issue electronically, so one of our team will verify your identity by hand instead, at no extra cost. Nothing has gone wrong and your payment is safe. Please <a href="/upload-form">send us a photo of your passport</a>, or ' + WA + ' and we will walk you through it.');
+          btn.textContent = IDLE_LABEL;
+          return null;
+        }
+
+        if (data.httpStatus === 403) {                                    // guard refused it
+          stop('We could not start the verification from here. Please reload the page and try again, or ' + WA + ' and a human will sort it out with you.');
+          enable();
+          return null;
+        }
+
+        if (data.httpStatus === 429) {                                    // rate limited
+          stop('That was a few too many attempts in a row. Please wait a minute and try again, or ' + WA + ' if it keeps happening.');
+          enable();
+          return null;
+        }
+
+        if (data.httpStatus === 404) {                                    // unknown claim
+          stop('We could not find a claim for this link. Open the link from your payment confirmation email, or ' + WA + ' and we will find you.');
+          btn.textContent = IDLE_LABEL;
+          return null;
+        }
+
+        if (data.enabled === false) {                                     // shipped inert
+          stop('Identity verification is not available on this page right now. Nothing is needed from you, and our team will be in touch if anything is.');
+          btn.textContent = IDLE_LABEL;
+          return null;
+        }
+
+        if (!data.httpOk) {                                               // 502, 500, anything else
+          stop('We could not start the verification session. Your payment is safe and your claim is saved. Please try again in a few minutes, or ' + WA + ' and a human will sort it out with you.');
+          enable();
+          return null;
+        }
+
+        // No key or no client secret means the modal cannot run. The hosted
+        // page can, so use it rather than reporting a fault to the client.
+        if (!data.pk || !data.clientSecret) { redirect(data.url); return null; }
+
+        return loadStripe()
+          .then(function (Stripe) { return Stripe(data.pk).verifyIdentity(data.clientSecret); })
+          .then(function (out) {
+            /* An invalid_request_error means the session itself was refused, so
+               the hosted page would refuse it too. Anything else, a cancel
+               included, is answered by re-reading the status. */
+            if (out && out.error && out.error.type === 'invalid_request_error') {
+              throw new Error(out.error.message || 'could not verify');
+            }
+            return afterModal(data.url);
+          })
+          .catch(function (e) {
+            if (window.console) console.warn('identity modal unavailable, using the hosted page:', e && e.message);
+            redirect(data.url);
+          });
+      })
+      .catch(function () {
+        // Network or offline, which genuinely is worth retrying.
+        stop('We could not reach our server. Check your connection and try again, or ' + WA + '.');
+        enable();
       });
-      data = await r.json().catch(function () { return {}; });
-    } catch (e) {
-      // Network or offline, which genuinely is worth retrying.
-      stop('We could not reach our server. Check your connection and try again, or ' + WA + '.');
-      enable();
-      return;
-    }
-
-    // Each status means something different to the person reading it, so each
-    // gets its own answer. A single "try again" message is what sent a client
-    // round the same loop five times.
-    if (r.status === 409) { goConfirmation(); return; }          // already verified
-
-    if (r.status === 402) {                                       // not marked paid
-      if (paidLine) paidLine.textContent = 'Payment not showing against this claim yet';
-      stop('Your payment is not showing against this claim yet, so we cannot start the identity check. <b>Please do not pay again.</b> ' + WA_CAP + ' with your name and we will fix it straight away.');
-      btn.disabled = true;
-      btn.textContent = IDLE_LABEL;
-      return;
-    }
-
-    if (r.status === 403) {                    // Stripe cannot verify this passport
-      stop('We can\'t verify a passport from your country of issue electronically, so one of our team will verify your identity by hand instead, at no extra cost. Nothing has gone wrong and your payment is safe. Please <a href="/upload-form">send us a photo of your passport</a>, or ' + WA + ' and we will walk you through it.');
-      btn.disabled = true;
-      btn.textContent = IDLE_LABEL;
-      return;
-    }
-
-    if (r.status === 404) {                                       // unknown claim
-      stop('We could not find a claim for this link. Open the link from your payment confirmation email, or ' + WA + ' and we will find you.');
-      btn.disabled = true;
-      btn.textContent = IDLE_LABEL;
-      return;
-    }
-
-    if (!r.ok || !data.url) {                                     // 500 and anything else
-      stop('We could not start the verification session. Your payment is safe and your claim is saved. Please try again in a few minutes, or ' + WA + ' and a human will sort it out with you.');
-      enable();
-      return;
-    }
-
-    window.location.href = data.url;
   });
 })();
 </script>
