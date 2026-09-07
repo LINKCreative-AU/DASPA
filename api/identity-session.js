@@ -18,8 +18,14 @@
 // manualOnly() gate below refuses those claims with a 403 before any session is
 // created, and /verify explains the manual route rather than showing an error.
 //
+// CHECKS RUN: passport only, captured live with the device camera
+// (require_live_capture), plus a matching selfie (require_matching_selfie).
+// Both confirmed verbatim against Stripe's API reference for
+// POST /v1/identity/verification_sessions.
+//
 // Env: STRIPE_SECRET_KEY (already required for checkout),
-//      STRIPE_VERIFICATION_FLOW_ID (optional, see below).
+//      STRIPE_VERIFICATION_FLOW_ID (optional, and it OVERRIDES the checks above,
+//      see checkParams).
 
 const config = require('./_lib/config');
 const db = require('./_lib/supabase');
@@ -32,7 +38,17 @@ const email = require('./_lib/email');
 // endpoint still works out of the box.
 function checkParams() {
   const flow = String(process.env.STRIPE_VERIFICATION_FLOW_ID || '').trim();
-  if (flow) return { verification_flow: flow };
+  if (flow) {
+    // A flow carries its own check configuration and the API accepts nothing
+    // but metadata, provided_details and client_reference_id alongside it. So
+    // setting this variable silently replaces every check set below, and the
+    // site's copy would then be describing checks that are not running.
+    // Loud, because that is the exact class of fault that caused the incident.
+    console.warn('identity: STRIPE_VERIFICATION_FLOW_ID is set (' + flow + '), so live capture '
+      + 'and the selfie check come from the dashboard flow, NOT from this code. Confirm both are '
+      + 'enabled on that flow or /verify is promising checks that are not happening.');
+    return { verification_flow: flow };
+  }
 
   return {
     type: 'document',
@@ -40,12 +56,18 @@ function checkParams() {
     // collects a passport number and issuing country, so passport is the only
     // document we should be asking for.
     'options[document][allowed_types][0]': 'passport',
-    // The selfie check is the one that actually defeats the fraud this service
-    // attracts: somebody claiming a stranger's super with a stolen passport.
+    // Capture the passport with the device camera. Stripe: "Disable image
+    // uploads, identity document images have to be captured using the device's
+    // camera." This is what stops the obvious attack on a lodgement service,
+    // a saved image or scan of somebody else's passport, since a stored file
+    // cannot be presented at all. The cost is that a desktop without a working
+    // camera cannot finish, which is why the page now says to use a phone and
+    // /upload-form plus a manual check remains the fallback.
+    'options[document][require_live_capture]': 'true',
+    // The selfie check is the other half: it ties the person holding the
+    // passport to the passport. Live capture alone proves a real document is
+    // present, not that it belongs to whoever is claiming the super.
     'options[document][require_matching_selfie]': 'true',
-    // require_live_capture is deliberately NOT set. It disables image upload
-    // entirely, which locks out anyone on a laptop without a webcam, and the
-    // selfie match already covers the attack it would prevent.
   };
 }
 

@@ -186,9 +186,14 @@ module.exports = async (req, res) => {
     identity: {
       provider: 'stripe',
       STRIPE_VERIFICATION_FLOW_ID: set('STRIPE_VERIFICATION_FLOW_ID'),
+      // Which checks actually run. A flow id replaces the code defaults
+      // entirely, live capture included, and the site's copy promises live
+      // capture, so this has to be readable without a deploy.
       checks: process.env.STRIPE_VERIFICATION_FLOW_ID
-        ? 'per the dashboard verification flow'
-        : 'passport document + matching selfie (code default)',
+        ? 'per the dashboard verification flow, NOT this code. Confirm live capture and selfie are enabled on that flow'
+        : 'passport, live camera capture, matching selfie (code default)',
+      live_capture: process.env.STRIPE_VERIFICATION_FLOW_ID ? 'unknown, set by the flow' : true,
+      matching_selfie: process.env.STRIPE_VERIFICATION_FLOW_ID ? 'unknown, set by the flow' : true,
     },
 
     // Addresses, not booleans. EMAIL_FROM falls back to a working default in

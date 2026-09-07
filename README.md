@@ -39,7 +39,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    |---|---|
    | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | server-side DB access |
    | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout, identity verification, and the one webhook that serves both (endpoint: `/api/stripe-webhook`, three events, see step 4) |
-   | `STRIPE_VERIFICATION_FLOW_ID` | **optional.** A verification flow configured in the Stripe dashboard, so the team can change which identity checks run without a deploy. Unset → `/api/identity-session` asks for a passport plus a matching selfie, set in code |
+   | `STRIPE_VERIFICATION_FLOW_ID` | **optional, and it overrides the checks set in code.** A verification flow configured in the Stripe dashboard. Unset → `/api/identity-session` requires a passport, captured live with the device camera, plus a matching selfie. Set → those three come from the flow instead, live capture included, so **enable both on the flow or `/verify` is promising checks that are not running.** `/api/health` reports which mode is live and the endpoint logs a warning |
    | `RESEND_API_KEY` / `EMAIL_FROM` | transactional email (skipped gracefully if unset) |
    | `WHATSAPP_NUMBER` | digits with country code. Resolves `/wa`, used by every WhatsApp CTA and the status emails. Unset → `/wa` redirects to `/faq` |
    | `OPS_EMAIL` | where new claims, payments, verifications and paper forms are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
@@ -115,6 +115,15 @@ pages, and should be confirmed against ARO's executed copy.
 
    Signature: HMAC SHA-256 over the raw body, `Stripe-Signature` v1 scheme,
    300-second tolerance, constant-time compare. No SDK.
+
+   **Checks that run** (`options[document][...]`, names verified against Stripe's API
+   reference): `allowed_types=passport`, `require_live_capture=true`,
+   `require_matching_selfie=true`. Live capture disables image uploads, so the
+   passport must be photographed with the device camera and a saved photo or scan of
+   somebody else's passport cannot be presented at all. The selfie ties the person
+   holding the passport to it. The cost is that a computer with no working camera
+   cannot finish; `/verify` says so and offers the phone or the manual route, and
+   every page already frames the check as "from your phone".
 
    **Identity is not available to every claimant.** The Stripe Identity Agreement
    prohibits verifying anyone linked directly or indirectly with China or the
