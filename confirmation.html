@@ -41,6 +41,9 @@
           <li>Claim form received</li>
           <li id="st-paid">Payment received: $163.90 flat fee</li>
         </ul>
+        <div id="st-payment-missing" class="stop hidden">
+          <b>Your payment is not showing against this claim yet.</b> Please do not pay again. If you have already paid, <a href="/wa" target="_blank" rel="noopener">message us on WhatsApp</a> with your name and we will sort it out straight away.
+        </div>
         <div id="st-verify-ok" class="hidden"><ul class="checklist" style="grid-template-columns:1fr"><li>Identity verified</li></ul></div>
         <div id="st-verify-pending" class="note hidden">
           <b>Identity verification is still pending.</b> Your claim can't be lodged until it's done. It takes about two minutes with your passport and a selfie.
@@ -92,6 +95,20 @@
       var ok = document.getElementById('st-verify-ok');
       var pending = document.getElementById('st-verify-pending');
       var review = document.getElementById('st-verify-review');
+
+      /* Payment state was fetched and then ignored, so this page cheerfully
+         said "Payment received: $163.90" to three clients whose payment had
+         never been marked paid, and offered them a verify button that could
+         only 402. Say the true thing instead, and do not send them into a
+         step that cannot succeed. */
+      if (s.payment_status !== 'paid') {
+        document.getElementById('st-paid').textContent = 'Payment not showing against this claim yet';
+        document.getElementById('st-payment-missing').classList.remove('hidden');
+        document.getElementById('hero-title').innerHTML = 'We have your claim. <em>One thing to check.</em>';
+        document.getElementById('hero-sub').textContent = 'Your claim form is saved with us, but your payment has not registered against it yet.';
+        return;
+      }
+
       if (s.verification_status === 'verified') {
         ok.classList.remove('hidden');
       } else if (s.verification_status === 'needs_review') {

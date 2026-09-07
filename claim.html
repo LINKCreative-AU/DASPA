@@ -461,8 +461,14 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       if (!co.ok || !data.url) throw new Error(data.error || 'checkout failed');
       window.location.href = data.url;
     } catch (err) {
+      // wireWhatsApp() used to sit on the next line. It was deleted from
+      // assets/site.js when the number moved server-side to /wa, and the
+      // ReferenceError it threw here stopped the two lines below ever running:
+      // a failed submission left a dead "Saving your claim…" button, so the
+      // client could not retry without reloading and losing the form. The
+      // WhatsApp link in the error banner is a plain href to /wa and needs no
+      // wiring.
       document.getElementById('submit-error').classList.remove('hidden');
-      wireWhatsApp();
       btn.disabled = false;
       btn.textContent = 'Continue to payment →';
     }

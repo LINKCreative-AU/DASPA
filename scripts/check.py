@@ -232,6 +232,66 @@ if node:
 else:
     warn("node not found, skipped the syntax check on api/ and assets/")
 
+# --- 10. inline page scripts do not call functions that do not exist ------
+# `node --check` above proves the FUNCTIONS parse. It cannot see that a page
+# calls a helper nobody defines, because that is a runtime ReferenceError, not
+# a syntax error. That gap shipped a real fault: commit 34d7d28 moved the
+# WhatsApp number server-side and deleted wireWhatsApp() from assets/site.js,
+# leaving three call sites behind in claim.html and verify.html. Each sat on
+# the second line of a catch block, so the throw stopped the button ever being
+# re-enabled. A client who failed at either step was left with a dead button
+# and no way back except reloading the page. Three paying clients hit it in
+# August and September 2026.
+#
+# Deliberately narrow: bare `name(` calls only, in <script> blocks that are
+# actually code. Anything reached through a dot, a constructor, or a
+# type-carrying block such as application/ld+json is somebody else's problem.
+JS_KEYWORDS = set("""if for while switch catch return typeof new delete void do else try
+finally function var let const of in instanceof await async yield throw case break
+continue default""".split())
+JS_GLOBALS = set("""fetch setTimeout setInterval clearTimeout clearInterval
+requestAnimationFrame parseInt parseFloat isNaN isFinite encodeURIComponent
+decodeURIComponent encodeURI decodeURI alert confirm prompt resolve reject
+structuredClone queueMicrotask btoa atob""".split())
+
+# <script> with no src and no type, i.e. the ones the browser runs as script.
+INLINE_CODE = re.compile(r"<script(?![^>]*\ssrc=)(?![^>]*\stype=)[^>]*>(.*?)</script>", re.S)
+
+
+def _strip_js(js):
+    """Remove comments and string bodies so prose cannot look like a call."""
+    js = re.sub(r"/\*.*?\*/", " ", js, flags=re.S)
+    js = re.sub(r"(?m)//.*$", " ", js)
+    js = re.sub(r'"(?:\\.|[^"\\])*"', '""', js)
+    js = re.sub(r"'(?:\\.|[^'\\])*'", "''", js)
+    js = re.sub(r"`(?:\\.|[^`\\])*`", "``", js)
+    return js
+
+
+def _declared(js):
+    names = set(re.findall(r"function\s+([A-Za-z_$][\w$]*)", js))
+    names |= set(re.findall(r"(?:var|let|const)\s+([A-Za-z_$][\w$]*)", js))
+    for args in re.findall(r"function\s*[\w$]*\s*\(([^)]*)\)", js):
+        names |= {a.strip() for a in args.split(",") if a.strip()}
+    return names
+
+
+_shared_js = ""
+for path in glob("assets/*.js"):
+    _shared_js += _strip_js(open(path, encoding="utf-8").read())
+_shared_names = _declared(_shared_js)
+
+for path in pages:
+    blocks = INLINE_CODE.findall(open(path, encoding="utf-8").read())
+    if not blocks:
+        continue
+    body = _strip_js("\n".join(blocks))
+    known = _declared(body) | _shared_names | JS_KEYWORDS | JS_GLOBALS
+    for name in sorted(set(re.findall(r"(?<![.\w$])([a-z_$][\w$]*)\s*\(", body)) - known):
+        err("%s: calls %s() which is not defined in the page or in assets/. "
+            "A ReferenceError here stops every line after it in the same block."
+            % (path, name))
+
 # --- report ---------------------------------------------------------------
 for w in warnings:
     print("WARN  " + w)

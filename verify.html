@@ -39,7 +39,7 @@
       <div class="form-body">
         <ul class="checklist" style="grid-template-columns:1fr;margin-bottom:16px">
           <li>Claim form received</li>
-          <li>Payment confirmed: $163.90 flat fee</li>
+          <li id="paid-line">Payment confirmed: $163.90 flat fee</li>
         </ul>
         <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Didit</b> and happens in their secure environment, have your <b>passport</b> ready and allow <b>camera access</b> when asked.</p>
         <div class="note">Tip: use your phone, find decent light, and take the selfie without a hat or sunglasses. Most people are done in under two minutes.</div>
@@ -66,37 +66,139 @@
   var params = new URLSearchParams(location.search);
   var cid = params.get('cid');
   var btn = document.getElementById('verify-btn');
+  var err = document.getElementById('verify-error');
+  var paidLine = document.getElementById('paid-line');
+
+  var IDLE_LABEL = 'Verify my identity now';
+  // Two casings because these appear both mid-sentence and sentence-initial,
+  // and uppercasing the first character of a string that starts with "<a" does
+  // nothing useful.
+  var WA = '<a href="/wa" target="_blank" rel="noopener">message us on WhatsApp</a>';
+  var WA_CAP = '<a href="/wa" target="_blank" rel="noopener">Message us on WhatsApp</a>';
+
+  // wireWhatsApp() used to live in assets/site.js and build wa.me links in the
+  // browser. It was deleted when the number moved server-side to /wa, but three
+  // call sites survived (here twice, claim.html once). Because the call sat on
+  // the SECOND line of each catch block, the ReferenceError it threw stopped the
+  // button ever being re-enabled: a failure left a dead "Opening secure
+  // verification…" button and the only way out was a page reload. Every WhatsApp
+  // link on the site is now a plain href to /wa, so there is nothing to wire.
+  function stop(html) {
+    err.innerHTML = html;
+    err.classList.remove('hidden');
+  }
+  function enable() {
+    btn.disabled = false;
+    btn.textContent = IDLE_LABEL;
+  }
+  function goConfirmation() {
+    window.location.href = '/confirmation?cid=' + encodeURIComponent(cid);
+  }
 
   if (!cid) {
     btn.disabled = true;
-    document.getElementById('verify-error').classList.remove('hidden');
-    document.getElementById('verify-error').innerHTML = 'This link is missing its claim reference. Open the link from your confirmation email, or message us on <a href="/wa" data-wa target="_blank" rel="noopener">WhatsApp</a>.';
-    wireWhatsApp();
+    stop('This link is missing its claim reference. Open the link from your payment confirmation email, or ' + WA + '.');
     return;
   }
 
-  // Full-page redirect to Didit's hosted flow, the most reliable route to the
-  // phone camera (in-context iframes can lose getUserMedia permissions inside
-  // in-app browsers like Instagram/WhatsApp webviews).
+  /* ---------- decide what to show BEFORE offering the button ----------
+     This page used to offer the button unconditionally. A claim whose payment
+     had not registered then produced a 402 the instant someone clicked, and the
+     error copy said "please try again in a moment", which retrying can never
+     fix. Three paying clients hit exactly that in August and September 2026,
+     one of them five times.
+
+     There is also a legitimate race: Stripe redirects the client here as soon
+     as the card clears, which can beat the checkout.session.completed webhook
+     by a second or two. So a not-yet-paid answer is retried a couple of times
+     before we tell anyone anything is wrong. */
+  var attempt = 0;
+  var DELAYS = [1500, 4000];   // after the first read, then give up
+
+  btn.disabled = true;
+  btn.textContent = 'Checking your claim…';
+
+  function readStatus() {
+    fetch('/api/claim-status?cid=' + encodeURIComponent(cid))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (s) {
+        // Status unreadable. Let them try the button rather than blocking on
+        // our own uncertainty; the endpoint will give a definite answer.
+        if (!s) { enable(); return; }
+
+        if (s.verification_status === 'verified') { goConfirmation(); return; }
+
+        if (s.verification_status === 'needs_review') {
+          stop('Your identity check needs a quick look from one of our team, so there is nothing more for you to do here. We will email you as soon as it is cleared. Any questions, ' + WA + '.');
+          return;
+        }
+
+        if (s.payment_status !== 'paid') {
+          if (attempt < DELAYS.length) {
+            setTimeout(readStatus, DELAYS[attempt++]);
+            return;
+          }
+          if (paidLine) paidLine.textContent = 'Payment not showing against this claim yet';
+          stop('We have your claim, but your payment is not showing against it yet. <b>Please do not pay again.</b> If you have already paid, ' + WA + ' with your name and we will sort it out straight away.');
+          return;
+        }
+
+        enable();
+      })
+      .catch(function () { enable(); });
+  }
+  readStatus();
+
+  // Full-page redirect to the hosted verification flow, the most reliable route
+  // to the phone camera (in-context iframes can lose getUserMedia permissions
+  // inside in-app browsers like the Instagram and WhatsApp webviews).
   btn.addEventListener('click', async function () {
     btn.disabled = true;
     btn.textContent = 'Opening secure verification…';
-    document.getElementById('verify-error').classList.add('hidden');
+    err.classList.add('hidden');
+
+    var r, data;
     try {
-      var r = await fetch('/api/didit-session', {
+      r = await fetch('/api/didit-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ claimId: cid })
       });
-      var data = await r.json();
-      if (!r.ok || !data.url) throw new Error(data.error || 'no url');
-      window.location.href = data.url;
+      data = await r.json().catch(function () { return {}; });
     } catch (e) {
-      document.getElementById('verify-error').classList.remove('hidden');
-      wireWhatsApp();
-      btn.disabled = false;
-      btn.textContent = 'Verify my identity now';
+      // Network or offline, which genuinely is worth retrying.
+      stop('We could not reach our server. Check your connection and try again, or ' + WA + '.');
+      enable();
+      return;
     }
+
+    // Each status means something different to the person reading it, so each
+    // gets its own answer. A single "try again" message is what sent a client
+    // round the same loop five times.
+    if (r.status === 409) { goConfirmation(); return; }          // already verified
+
+    if (r.status === 402) {                                       // not marked paid
+      if (paidLine) paidLine.textContent = 'Payment not showing against this claim yet';
+      stop('Your payment is not showing against this claim yet, so we cannot start the identity check. <b>Please do not pay again.</b> ' + WA_CAP + ' with your name and we will fix it straight away.');
+      btn.disabled = true;
+      btn.textContent = IDLE_LABEL;
+      return;
+    }
+
+    if (r.status === 404) {                                       // unknown claim
+      stop('We could not find a claim for this link. Open the link from your payment confirmation email, or ' + WA + ' and we will find you.');
+      btn.disabled = true;
+      btn.textContent = IDLE_LABEL;
+      return;
+    }
+
+    if (!r.ok || !data.url) {                                     // 500 and anything else
+      stop('We could not start the verification session. Your payment is safe and your claim is saved. Please try again in a few minutes, or ' + WA + ' and a human will sort it out with you.');
+      enable();
+      return;
+    }
+
+    window.location.href = data.url;
   });
 })();
 </script>
