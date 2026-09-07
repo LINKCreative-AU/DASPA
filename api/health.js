@@ -41,7 +41,7 @@ function malformed() {
   const watched = [
     'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY',
     'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET',
-    'DIDIT_API_KEY', 'DIDIT_WORKFLOW_ID', 'DIDIT_WEBHOOK_SECRET',
+    'STRIPE_VERIFICATION_FLOW_ID',
     'RESEND_API_KEY', 'EMAIL_FROM', 'OPS_EMAIL',
     'AC_API_URL', 'AC_API_KEY', 'ACTIVECAMPAIGN_API_URL', 'ACTIVECAMPAIGN_API_KEY',
     'WHATSAPP_NUMBER', 'INVOICE_SECRET', 'SITE_URL', 'CRON_SECRET', 'HEALTH_KEY',
@@ -179,10 +179,16 @@ module.exports = async (req, res) => {
       fee_charged_cents: config.FEE_CENTS,
       currency: config.CURRENCY,
     },
+    // Stripe Identity rides STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET, both
+    // reported above, so there is no credential of its own to be missing. The
+    // flow id is optional: unset means /api/identity-session falls back to
+    // passport + matching selfie in code.
     identity: {
-      DIDIT_API_KEY: set('DIDIT_API_KEY'),
-      DIDIT_WORKFLOW_ID: set('DIDIT_WORKFLOW_ID'),
-      DIDIT_WEBHOOK_SECRET: set('DIDIT_WEBHOOK_SECRET'),
+      provider: 'stripe',
+      STRIPE_VERIFICATION_FLOW_ID: set('STRIPE_VERIFICATION_FLOW_ID'),
+      checks: process.env.STRIPE_VERIFICATION_FLOW_ID
+        ? 'per the dashboard verification flow'
+        : 'passport document + matching selfie (code default)',
     },
 
     // Addresses, not booleans. EMAIL_FROM falls back to a working default in

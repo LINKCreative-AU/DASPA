@@ -41,7 +41,7 @@
           <li>Claim form received</li>
           <li id="paid-line">Payment confirmed: $163.90 flat fee</li>
         </ul>
-        <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Didit</b> and happens in their secure environment, have your <b>passport</b> ready and allow <b>camera access</b> when asked.</p>
+        <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Stripe Identity</b>, the same provider that took your payment, and happens in Stripe's secure environment. Have your <b>passport</b> ready and allow <b>camera access</b> when asked.</p>
         <div class="note">Tip: use your phone, find decent light, and take the selfie without a hat or sunglasses. Most people are done in under two minutes.</div>
         <div class="stop hidden" id="verify-error">We couldn't start the verification session. Please try again in a moment. Your payment is safe and your claim is saved. Stuck? Message us on <a href="/wa" data-wa target="_blank" rel="noopener">WhatsApp</a>.</div>
         <button class="btn block" id="verify-btn" type="button">Verify my identity now</button>
@@ -55,7 +55,7 @@
   <div class="wrap">
     <div class="disclaimer" style="border-top:none;margin-top:0;padding-top:0">
       Operated by Australian Registration Office Pty Ltd · ABN <a href="https://abr.business.gov.au/ABN/View?abn=58645964156" target="_blank" rel="noopener">58 645 964 156</a> · Registered Tax Agent <a href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener">26076969</a> · <a href="/tpb">Important Information for Clients</a> · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a><br>
-      Identity verification is powered by <a href="https://didit.me" target="_blank" rel="noopener">Didit</a>. Your super is paid by your fund or the ATO directly to you. We never hold client money.
+      Identity verification is powered by <a href="https://stripe.com/identity" target="_blank" rel="noopener">Stripe Identity</a>. Your super is paid by your fund or the ATO directly to you. We never hold client money.
     </div>
   </div>
 </footer>
@@ -159,7 +159,7 @@
 
     var r, data;
     try {
-      r = await fetch('/api/didit-session', {
+      r = await fetch('/api/identity-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ claimId: cid })
@@ -180,6 +180,13 @@
     if (r.status === 402) {                                       // not marked paid
       if (paidLine) paidLine.textContent = 'Payment not showing against this claim yet';
       stop('Your payment is not showing against this claim yet, so we cannot start the identity check. <b>Please do not pay again.</b> ' + WA_CAP + ' with your name and we will fix it straight away.');
+      btn.disabled = true;
+      btn.textContent = IDLE_LABEL;
+      return;
+    }
+
+    if (r.status === 403) {                    // Stripe cannot verify this passport
+      stop('We can\'t verify a passport from your country of issue electronically, so one of our team will verify your identity by hand instead, at no extra cost. Nothing has gone wrong and your payment is safe. Please <a href="/upload-form">send us a photo of your passport</a>, or ' + WA + ' and we will walk you through it.');
       btn.disabled = true;
       btn.textContent = IDLE_LABEL;
       return;

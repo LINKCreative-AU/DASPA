@@ -4,7 +4,7 @@ DASP (Departing Australia Superannuation Payment) lodgement service under the AR
 Registered Tax Agent 26076969**. Flat fee $149 + GST, all funds included.
 
 Static HTML + Vercel serverless functions (zero npm dependencies), Supabase for claims,
-Stripe Checkout for payment, Didit for identity verification. Brand tokens were extracted
+Stripe Checkout for payment, Stripe Identity for identity verification. Brand tokens were extracted
 from the live abnassist.com.au stylesheet (navy `#1e2250`, blue `#2a53a2`, yellow CTA
 gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
 
@@ -12,6 +12,19 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
 
 1. **Supabase**, run `supabase/schema.sql` in the SQL editor. RLS: the anon key can
    **insert** claims and nothing else; the audit log is service-role only.
+
+   On the **existing** database, the Stripe Identity move is two files and the order
+   matters, because the live `claim.html` inserts `didit_consent_at` and PostgREST
+   400s an insert naming a column that is not there:
+
+   1. `supabase/2026-09-07-stripe-identity.sql` **before** deploying. Additive only:
+      adds `identity_consent_at` / `identity_session_id` and copies the old values
+      across, leaving the `didit_*` pair in place so the currently deployed form
+      keeps working.
+   2. Deploy, then submit one real claim through the live form and confirm the row
+      has `identity_consent_at` set.
+   3. `supabase/2026-09-07-stripe-identity-step2-drop-didit.sql` to drop the old
+      pair. Not before step 2, or the live form starts failing silently for clients.
 2. **Placeholders in pages** (search for `PLACEHOLDER`):
    - `claim.html` → `SUPABASE_URL`, `SUPABASE_ANON_KEY`
 
@@ -25,8 +38,8 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | Var | Purpose |
    |---|---|
    | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | server-side DB access |
-   | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout + webhook (endpoint: `/api/stripe-webhook`, event `checkout.session.completed`) |
-   | `DIDIT_API_KEY` / `DIDIT_WORKFLOW_ID` / `DIDIT_WEBHOOK_SECRET` | Didit v3 sessions + webhook (endpoint: `/api/didit-webhook`) |
+   | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout, identity verification, and the one webhook that serves both (endpoint: `/api/stripe-webhook`, three events, see step 4) |
+   | `STRIPE_VERIFICATION_FLOW_ID` | **optional.** A verification flow configured in the Stripe dashboard, so the team can change which identity checks run without a deploy. Unset → `/api/identity-session` asks for a passport plus a matching selfie, set in code |
    | `RESEND_API_KEY` / `EMAIL_FROM` | transactional email (skipped gracefully if unset) |
    | `WHATSAPP_NUMBER` | digits with country code. Resolves `/wa`, used by every WhatsApp CTA and the status emails. Unset → `/wa` redirects to `/faq` |
    | `OPS_EMAIL` | where new claims, payments, verifications and paper forms are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
@@ -91,9 +104,30 @@ its site, so these were read from the published form, not from the guidance
 pages, and should be confirmed against ARO's executed copy.
 
 4. **Stripe webhook**: add endpoint `https://daspa.com.au/api/stripe-webhook`.
-   **Didit webhook**: `https://daspa.com.au/api/didit-webhook` (X-Signature-V2 HMAC verified,
-   5-minute timestamp window; decision payload uses plural arrays: `id_verifications`,
-   `liveness_checks`, `face_matches`).
+   Payment and identity both run on Stripe, so they share that endpoint and the one
+   signing secret. Tick exactly these **three** events, not "receive all events":
+
+   | Event | What the handler does |
+   |---|---|
+   | `checkout.session.completed` | marks the claim paid, sends the payment confirmation, asks the portal for the tax invoice |
+   | `identity.verification_session.verified` | `verification_status=verified`, `claim_status=ready_for_lodgement`, sends the verified email |
+   | `identity.verification_session.requires_input` | `needs_review` plus an ops alert carrying `last_error`, because Stripe does not distinguish "blurry photo, would pass on a retry" from "genuinely declined" |
+
+   Signature: HMAC SHA-256 over the raw body, `Stripe-Signature` v1 scheme,
+   300-second tolerance, constant-time compare. No SDK.
+
+   **Identity is not available to every claimant.** The Stripe Identity Agreement
+   prohibits verifying anyone linked directly or indirectly with China or the
+   Russian Federation. That is policy, not coverage: both countries appear in
+   Stripe's supported-document list. Because the agreement sits on the same Stripe
+   account that processes every payment, `/api/identity-session` enforces it:
+   `manualOnly()` matches the claim's free-text `passport_country` (China, PRC, the
+   two SARs, Russia, in several spellings and scripts), returns **403** without
+   creating a session, and alerts ops. `/verify` reads that 403 and points the
+   client at `/upload-form` for a manual check at no extra cost, so nobody pays and
+   then hits a Stripe refusal. Taiwan is deliberately allowed through; **get a
+   written answer from Stripe on Taiwanese passports before launch**, since Stripe
+   lists Taiwan separately in its own supported-document tables.
 
 ## Checks and generators
 
@@ -116,10 +150,13 @@ Generators, rerun when their inputs change:
 ## Claim flow
 
 `/claim` (Supabase anon insert, client-generated UUID) → `/api/create-checkout` (Stripe, sends
-"form received" email) → Stripe webhook marks paid → `/verify` → `/api/didit-session` (full-page
-redirect; mobile camera reliability) → Didit webhook maps Approved→`ready_for_lodgement`,
-Declined/In&nbsp;Review→`needs_review`, Abandoned→`verification_pending`+nudge → `/confirmation`
-(sequence-aware via `/api/claim-status`). Cron (`/api/cron-nudge`, 6-hourly): 24h abandoned-
+"form received" email) → Stripe webhook marks paid → `/verify` (reads `/api/claim-status` and
+answers each status separately **before** offering the button; a not-paid answer is retried twice
+to absorb the redirect-beats-webhook race) → `/api/identity-session` (Stripe Identity, full-page
+redirect for mobile camera reliability) → the same Stripe webhook maps
+`verified`→`ready_for_lodgement` and `requires_input`→`needs_review` → `/confirmation`
+(sequence-aware via `/api/claim-status`, and it now stops on a claim with no payment against it).
+Abandoned verifications are picked up by the cron nudge below. Cron (`/api/cron-nudge`, 6-hourly): 24h abandoned-
 verification nudges + "lodged" emails when the team sets `claim_status=lodged` in the dashboard.
 
 ## FOR LEGAL REVIEW (before launch)

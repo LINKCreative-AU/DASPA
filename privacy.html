@@ -50,7 +50,7 @@
 <li><b>Travel and visa details</b>, passport number and country of issue, visa subclass, departure date, visa status.</li>
 <li><b>Tax and super details</b>, Tax File Number (optional; collected under the taxation laws for the purpose of your claim), super fund names and account details.</li>
 <li><b>Bank details</b>, the account (Australian or international) your DASP is to be paid to.</li>
-<li><b>Identity verification data</b>, document images, selfie and biometric verification results, processed by our provider Didit (see section 4).</li>
+<li><b>Identity verification data</b>, document images, selfie and biometric verification results, processed by our provider Stripe (see section 4).</li>
 <li><b>Payment data</b>, processed by Stripe; we do not see or store your full card number.</li>
 </ul>
 <h2>2. Why we collect it</h2>
@@ -58,12 +58,12 @@
 <h2>3. Who we disclose it to</h2>
 <ul>
 <li>The Australian Taxation Office, the Department of Home Affairs and your superannuation fund(s), as necessary to progress your claim under the authority you sign;</li>
-<li>Didit (identity verification) and Stripe (payments), each under their own privacy terms;</li>
+<li>Stripe, which handles both card payment and identity verification, under its own privacy terms;</li>
 <li>Our secure infrastructure providers (database and hosting), bound by confidentiality;</li>
 <li>Regulators or courts where the law requires it.</li>
 </ul>
-<h2>4. Identity verification by Didit</h2>
-<p>Identity verification is powered by Didit. When you verify, your document images, selfie and biometric data are captured and processed by Didit in their secure environment; we receive the verification outcome and reference data, not a store of your biometrics. Didit's own privacy notice applies to their processing, see didit.me. You provide explicit consent to this processing in the claim form before verification begins.</p>
+<h2>4. Identity verification by Stripe Identity</h2>
+<p>Identity verification is powered by <a href="https://stripe.com/identity" target="_blank" rel="noopener">Stripe Identity</a>, the same provider that processes your card payment. When you verify, an image of your passport and a selfie are captured and processed by Stripe in Stripe's own environment, and Stripe uses biometric technology to compare the two. We receive the verification outcome and the reference data drawn from your document; we do not receive or store your biometric data. Stripe's own <a href="https://stripe.com/privacy" target="_blank" rel="noopener">privacy policy</a> governs its processing. You give explicit consent to this in the claim form before verification begins. Where a document cannot be verified electronically we verify identity manually instead, and we will tell you if that applies to you.</p>
 <h2>5. Tax File Numbers</h2>
 <p>TFNs are collected, used and disclosed only as permitted by the taxation laws and the Privacy (Tax File Number) Rule 2015. That is, to identify your superannuation and lodge your claim. Providing your TFN is optional; declining may make it harder to locate all of your super.</p>
 <h2>6. Overseas recipients</h2>
@@ -129,7 +129,7 @@
       </div>
     </div>
     <div class="disclaimer">
-      DASPA is a lodgement service operated by a registered tax agent; we are not a financial adviser and nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO. No agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account. We never hold client money. Identity verification is powered by <a href="https://didit.me" target="_blank" rel="noopener">Didit</a>. © Australian Registration Office Pty Ltd.
+      DASPA is a lodgement service operated by a registered tax agent; we are not a financial adviser and nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO. No agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account. We never hold client money. Identity verification is powered by <a href="https://stripe.com/identity" target="_blank" rel="noopener">Stripe Identity</a>. © Australian Registration Office Pty Ltd.
     </div>
   </div>
 </footer>
