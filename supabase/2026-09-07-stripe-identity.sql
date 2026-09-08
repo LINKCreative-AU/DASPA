@@ -96,3 +96,44 @@ where table_schema = 'public' and table_name = 'claims'
   and column_name in ('identity_session_id', 'identity_consent_at',
                       'stripe_customer_id', 'identity_verified_at')
 order by column_name;
+
+-- ------------------------------- step 1d: refunds and disputes
+-- Added 8 September 2026. Juan asked whether refunds needed a webhook too, and
+-- they did: nothing in the codebase ever set payment_status = 'refunded', so a
+-- refund in Stripe left the claim reading 'paid'. The consequence is not
+-- cosmetic. A refunded claim stayed in the lodgement queue, kept getting
+-- verification nudges, and could reach ready_for_lodgement, so a registered
+-- agent could have lodged a DASP application for someone who had been refunded.
+--
+-- stripe_payment_intent_id is what makes the match possible. Refund and dispute
+-- events carry a CHARGE, not a Checkout Session, so stripe_session_id cannot be
+-- matched against them. The charge carries payment_intent, and whether a charge
+-- inherits the PaymentIntent's metadata is not something to bet on, so the join
+-- is on the payment intent id rather than on metadata.
+alter table public.claims add column if not exists stripe_payment_intent_id text;
+alter table public.claims add column if not exists refunded_at timestamptz;
+
+comment on column public.claims.stripe_payment_intent_id is
+  'Stripe PaymentIntent (pi_...) from the Checkout Session. Used to match charge.refunded and charge.dispute.* events back to this claim.';
+comment on column public.claims.refunded_at is
+  'When a FULL refund was recorded. A partial refund raises an ops alert and leaves payment_status as paid, since the client has still paid for part of the service.';
+
+create index if not exists claims_stripe_payment_intent_id
+  on public.claims (stripe_payment_intent_id)
+  where stripe_payment_intent_id is not null;
+
+-- The three August/September claims predate this, so their payment intents are
+-- backfilled by hand as part of the recovery. Taken from the Stripe payments
+-- list on 8 September 2026.
+update public.claims set stripe_payment_intent_id = 'pi_3U8zbXPKEqtYM9zM0PRHTJm4'
+ where id = '30c2583a-4170-48e9-acf9-c994015742bc' and stripe_payment_intent_id is null;
+update public.claims set stripe_payment_intent_id = 'pi_3U94V9PKEqtYM9zM0y6uJLZJ'
+ where id = '8b02f9ce-dbf5-416a-bdc9-93fa0de479da' and stripe_payment_intent_id is null;
+update public.claims set stripe_payment_intent_id = 'pi_3UB1eXPKEqtYM9zM01P06FoQ'
+ where id = 'a1df5189-90da-4297-9820-3ace21a7982a' and stripe_payment_intent_id is null;
+
+-- Expect three rows with a payment intent set.
+select id, full_name, stripe_payment_intent_id
+from public.claims
+where stripe_payment_intent_id is not null
+order by created_at;

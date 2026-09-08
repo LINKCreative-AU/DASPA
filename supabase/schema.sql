@@ -62,6 +62,8 @@ create table public.claims (
   paid_at timestamptz,
   stripe_session_id text,
   stripe_customer_id text,            -- Customer object from customer_creation:'always'; what Stripe Identity verifies against (related_customer)
+  stripe_payment_intent_id text,      -- pi_...; the only reliable way to match a refund or dispute back to a claim (those events carry a charge, not a session)
+  refunded_at timestamptz,            -- set on a FULL refund; a partial refund is alerted to ops and leaves payment_status as paid
   verification_status text not null default 'not_started' check (verification_status in ('not_started','pending','verified','needs_review')),
   identity_session_id text,           -- Stripe Identity VerificationSession (vs_...); the session URL is single-use and never stored
   identity_verified_at timestamptz,   -- when the check passed; set by whichever of the webhook, a page visit or the cron got there first

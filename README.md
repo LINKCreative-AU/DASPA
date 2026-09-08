@@ -158,9 +158,29 @@ pages, and should be confirmed against ARO's executed copy.
 
    | Event | What the handler does |
    |---|---|
-   | `checkout.session.completed` | marks the claim paid, sends the payment confirmation, asks the portal for the tax invoice |
+   | `checkout.session.completed` | marks the claim paid, records the customer and payment intent, sends the payment confirmation, asks the portal for the tax invoice |
    | `identity.verification_session.verified` | `verification_status=verified`, `claim_status=ready_for_lodgement`, sends the verified email |
-   | `identity.verification_session.requires_input` | `needs_review` plus an ops alert carrying `last_error`, because Stripe does not distinguish "blurry photo, would pass on a retry" from "genuinely declined" |
+   | `identity.verification_session.requires_input` | ops alert carrying `last_error`, because Stripe does not distinguish "blurry photo, would pass on a retry" from "genuinely declined". The claim is deliberately NOT moved, so the client can retry from the same link |
+   | `charge.refunded` | full refund → `payment_status=refunded`, `claim_status=on_hold`; partial → `on_hold` only, still paid. Ops alerted either way |
+   | `charge.dispute.created` | `claim_status=on_hold` and a loud ops alert with the reason and evidence deadline. Nothing is marked refunded: in a dispute the money has not moved back |
+
+   **Why refunds needed handling at all.** Nothing used to set
+   `payment_status='refunded'`, so a refunded claim still read `paid`. It stayed in
+   the lodgement queue, kept collecting verification nudges, and could reach
+   `ready_for_lodgement`, so a registered agent could have lodged a DASP
+   application for someone who had been refunded.
+
+   Refund and dispute events carry a **charge**, not a Checkout Session, so
+   `stripe_session_id` cannot match them. `claims.stripe_payment_intent_id` is what
+   makes the join possible, recorded from `session.payment_intent` when the payment
+   lands. `payment_intent_data[metadata][claim_id]` is also stamped at checkout, but
+   only so a human answering a dispute in the Stripe dashboard can see which claim
+   a payment belongs to; the matching does not depend on it, because a charge
+   inheriting its PaymentIntent's metadata is not worth betting a lodgement on.
+
+   `node tests/stripe-webhook.mjs` covers these branches against fakes, including
+   the partial-refund and dispute distinctions and a forged signature. They cannot
+   be reached by clicking through the site, so that test is the only coverage.
 
    Signature: HMAC SHA-256 over the raw body, `Stripe-Signature` v1 scheme,
    300-second tolerance, constant-time compare. No SDK.

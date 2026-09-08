@@ -114,6 +114,36 @@ module.exports = {
     ]);
   },
 
+  /* A refund landed. Loud on purpose: a refunded claim must not be lodged, and
+     the team works the queue by status, so somebody has to know the status
+     changed under them. */
+  opsRefunded(c, { amountCents, full, reason }) {
+    const money = amountCents ? `$${(amountCents / 100).toFixed(2)}` : 'an unstated amount';
+    return notifyOps(`${full ? 'REFUNDED' : 'PARTIAL REFUND'}: ${c.full_name || 'unnamed'}`, [
+      full
+        ? `${money} refunded in full. The claim is on hold and must NOT be lodged.`
+        : `${money} refunded, which is less than the fee, so the claim is still marked paid `
+          + 'and is on hold pending a decision. Check whether this was intended.',
+      reason ? `Stripe reason: ${reason}` : null,
+      '',
+      ...opsRef(c),
+    ].filter(Boolean));
+  },
+
+  /* A chargeback, which is not a refund: the money has not gone back yet and
+     there is a deadline to respond. Nothing is marked refunded here. */
+  opsDispute(c, { amountCents, reason, dueBy }) {
+    const money = amountCents ? `$${(amountCents / 100).toFixed(2)}` : 'an unstated amount';
+    return notifyOps(`DISPUTE OPENED: ${c.full_name || 'unnamed'}`, [
+      `${money} disputed with the cardholder's bank. The claim is on hold.`,
+      reason ? `Reason given: ${reason}` : null,
+      dueBy ? `Evidence due by: ${dueBy}` : null,
+      'This needs a response in Stripe. See the Online Services Stripe dispute process.',
+      '',
+      ...opsRef(c),
+    ].filter(Boolean));
+  },
+
   opsPaperForm(name, from, phone, note) {
     return notifyOps(`Paper form received: ${name || 'unnamed'}`, [
       'A completed paper application arrived through /upload-form.',

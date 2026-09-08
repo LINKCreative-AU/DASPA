@@ -54,6 +54,20 @@ async function patchClaims(query, patch) {
   return r.json();
 }
 
+/* The claim a Stripe charge belongs to.
+
+   Refund and dispute events carry a charge, whose only usable link back to us
+   is its payment_intent, so this is how those events find their claim. Returns
+   null rather than throwing on no match: a charge on this account that is not
+   one of our claims is a normal thing, not a fault. */
+async function getClaimByPaymentIntent(pi) {
+  if (!pi) return null;
+  const rows = await selectClaims(
+    `stripe_payment_intent_id=eq.${encodeURIComponent(pi)}&limit=1`
+  );
+  return (Array.isArray(rows) && rows[0]) || null;
+}
+
 async function selectClaims(query) {
   const r = await fetch(`${BASE}/rest/v1/claims?${query}`, { headers: headers() });
   if (!r.ok) throw new Error(`supabase select failed: ${r.status}`);
@@ -70,4 +84,4 @@ async function insertAudit(claimId, event, detail) {
   }).catch(() => {});
 }
 
-module.exports = { getClaim, updateClaim, patchClaims, selectClaims, insertAudit };
+module.exports = { getClaim, getClaimByPaymentIntent, updateClaim, patchClaims, selectClaims, insertAudit };

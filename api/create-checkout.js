@@ -50,6 +50,14 @@ module.exports = async (req, res) => {
       customer_creation: 'always',
       client_reference_id: claim.id,
       'metadata[claim_id]': claim.id,
+      /* The same id again, on the PaymentIntent. Session metadata does not
+         reach the PaymentIntent or the Charge on its own, and refund and
+         dispute events carry a charge rather than a session. The webhook
+         matches those on stripe_payment_intent_id rather than on metadata, so
+         this is not load-bearing: it is here so a human opening the payment in
+         the Stripe dashboard, most likely while answering a dispute, can see
+         which claim it belongs to without going via our database. */
+      'payment_intent_data[metadata][claim_id]': claim.id,
       success_url: `${config.SITE_URL}/verify?cid=${claim.id}`,
       cancel_url: `${config.SITE_URL}/claim?cancelled=1`,
     });
