@@ -39,8 +39,19 @@ function verifyStripeSignature(payload, header, secret, toleranceSec = 300) {
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
 
+  /* Trimmed, and a stray newline in a pasted secret is exactly why.
+
+     The signing secret is the HMAC key, so one invisible character at the end
+     makes every digest wrong and every delivery a 400: no claim marked paid,
+     no email, no alert. The same silence as having no webhook at all, which is
+     the fault this whole endpoint exists to have fixed. Vercel's value box is a
+     multi-line field and a copied secret often carries a trailing return, so
+     this is a likely accident with a catastrophic blast radius and a one-word
+     defence. /api/health still reports the whitespace, so the variable gets
+     tidied rather than left dirty forever. */
+  const secret = String(process.env.STRIPE_WEBHOOK_SECRET || '').trim();
   const payload = (await rawBody(req)).toString('utf8');
-  if (!verifyStripeSignature(payload, req.headers['stripe-signature'], process.env.STRIPE_WEBHOOK_SECRET)) {
+  if (!verifyStripeSignature(payload, req.headers['stripe-signature'], secret)) {
     return res.status(400).json({ error: 'invalid signature' });
   }
 
@@ -83,11 +94,12 @@ module.exports = async (req, res) => {
           await db.insertAudit(claimId, 'email_payment_confirmed', claim.email);
           await email.opsPaid(claim, session.amount_total);
           // tax invoice via the portal (idempotent there; never fails the webhook)
-          if (process.env.INVOICE_SECRET) {
+          const invoiceSecret = String(process.env.INVOICE_SECRET || '').trim();
+          if (invoiceSecret) {
             await fetch('https://registrationoffice.com.au/api/invoice', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                secret: process.env.INVOICE_SECRET, site: 'daspa', orderId: claimId,
+                secret: invoiceSecret, site: 'daspa', orderId: claimId,
                 email: claim.email, name: claim.full_name,
                 amountCents: session.amount_total, description: 'DASP claim lodgement service',
               }),

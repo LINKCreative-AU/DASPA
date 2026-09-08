@@ -42,10 +42,10 @@ Module._load = function (req, parent, isMain) {
 };
 const handler = require('/home/user/DASPA/api/stripe-webhook.js');
 
-function post(event) {
+function post(event, signWith) {
   const body = JSON.stringify(event);
   const t = Math.floor(Date.now() / 1000);
-  const sig = crypto.createHmac('sha256', SECRET).update(`${t}.${body}`).digest('hex');
+  const sig = crypto.createHmac('sha256', signWith || SECRET).update(`${t}.${body}`).digest('hex');
   const req = { method: 'POST', headers: { 'stripe-signature': `t=${t},v1=${sig}` },
     on: (ev, cb) => { if (ev === 'data') cb(Buffer.from(body)); if (ev === 'end') cb(); } };
   let code, payload;
@@ -105,6 +105,22 @@ const bad = await (async () => {
   await handler(req, res); return code;
 })();
 check('forged signature -> 400', bad === 400);
+
+/* ---- a pasted secret with whitespace must still verify ----
+   Juan's STRIPE_WEBHOOK_SECRET arrived with a trailing line break from Vercel's
+   multi-line value box. Untrimmed, that makes every HMAC wrong and every
+   delivery a 400: no claim paid, no email, no alert. The same silence as having
+   no webhook at all, which is the fault this endpoint exists to fix. */
+const CLEAN = 'whsec_test';
+async function postWith(envValue, signWith) {
+  process.env.STRIPE_WEBHOOK_SECRET = envValue;
+  const r = await post({ type: 'ping', created: 1, data: { object: {} } }, signWith);
+  process.env.STRIPE_WEBHOOK_SECRET = SECRET;
+  return r.code;
+}
+check('trailing newline in env -> still accepted', await postWith(CLEAN + '\n', CLEAN) === 200);
+check('padding and CRLF in env -> still accepted', await postWith('  ' + CLEAN + ' \r\n', CLEAN) === 200);
+check('genuinely wrong secret -> still rejected', await postWith(CLEAN, 'whsec_wrong') === 400);
 
 console.log(fails ? `\n${fails} FAILED` : '\nall assertions passed');
 process.exit(fails ? 1 : 0);

@@ -256,7 +256,8 @@ module.exports = async (req, res) => {
   const env = process.env.VERCEL_ENV || 'development';
   if (env === 'production') {
     const key = (req.query && req.query.key) || '';
-    if (!process.env.HEALTH_KEY || key !== process.env.HEALTH_KEY) return res.status(404).end();
+    const expected = String(process.env.HEALTH_KEY || '').trim();
+    if (!expected || String(key).trim() !== expected) return res.status(404).end();
   }
 
   const out = {

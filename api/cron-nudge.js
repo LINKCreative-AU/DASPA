@@ -10,7 +10,11 @@ const db = require('./_lib/supabase');
 const email = require('./_lib/email');
 
 module.exports = async (req, res) => {
-  if (process.env.CRON_SECRET && req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
+  // Trimmed: a trailing newline in the variable would lock Vercel's own cron
+  // out of its own endpoint, and the only symptom would be nudges quietly
+  // never sending. See the note in api/stripe-webhook.js.
+  const cronSecret = String(process.env.CRON_SECRET || '').trim();
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
     return res.status(401).json({ error: 'unauthorized' });
   }
 
