@@ -103,14 +103,23 @@ async function stripeAccount() {
   const mode = key.startsWith('sk_live_') || key.startsWith('rk_live_') ? 'live'
     : key.startsWith('sk_test_') || key.startsWith('rk_test_') ? 'test'
     : 'unrecognised key prefix';
+  /* Restricted or standard, from the prefix alone. Reported because it is the
+     one thing about this key you cannot read anywhere else without revealing
+     the value: Stripe's dashboard shows which keys EXIST, not which one this
+     deployment is holding. A standard sk_ works for everything here, including
+     Identity, so nothing breaks, but Stripe's own guidance is to use a
+     restricted key and it is worth being able to see which one is live. */
+  const kind = key.startsWith('rk_') ? 'restricted'
+    : key.startsWith('sk_') ? 'standard, prefer a restricted key'
+    : 'unrecognised';
   try {
     const r = await fetch('https://api.stripe.com/v1/account', {
       headers: { Authorization: `Bearer ${key}` },
     });
-    if (!r.ok) return { checked: true, ok: false, mode, error: `stripe ${r.status}` };
+    if (!r.ok) return { checked: true, ok: false, mode, kind, error: `stripe ${r.status}` };
     const a = await r.json();
     return {
-      checked: true, ok: true, mode,
+      checked: true, ok: true, mode, kind,
       charges_enabled: !!a.charges_enabled,
       country: a.country || null,
       default_currency: a.default_currency || null,
