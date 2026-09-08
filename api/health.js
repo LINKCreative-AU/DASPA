@@ -71,6 +71,24 @@ async function resendDomains() {
     const r = await fetch('https://api.resend.com/domains', {
       headers: { Authorization: `Bearer ${key}` },
     });
+    if (r.status === 401 || r.status === 403) {
+      /* Not necessarily a bad key. Resend keys carry a permission, and a
+         "Sending access" key cannot list domains at all, which is the correct
+         scope for this site: it only ever sends. So this endpoint is unusable
+         with the key we want to be holding, and reporting a flat failure here
+         would be the check crying wolf about a correct configuration.
+
+         A wrong key gives the same status, so this cannot be resolved from
+         here. Say what it means and where to settle it. */
+      return {
+        checked: true, ok: false, error: `resend ${r.status}`,
+        means: 'Either this key is Sending access, which cannot list domains and is the '
+          + 'right scope for this site, or the key is wrong. Check the key\'s permission in '
+          + 'the Resend dashboard. If it says Sending access, this line is expected and the '
+          + 'sending domain has to be confirmed verified there instead. The real proof is a '
+          + 'test claim: if the client email arrives, sending works.',
+      };
+    }
     if (!r.ok) return { checked: true, ok: false, error: `resend ${r.status}` };
     const body = await r.json();
     const domains = (body.data || []).map((d) => ({ name: d.name, status: d.status }));
@@ -118,6 +136,19 @@ async function stripeAccount() {
     const r = await fetch('https://api.stripe.com/v1/account', {
       headers: { Authorization: `Bearer ${key}` },
     });
+    if (r.status === 403) {
+      /* The key authenticated and was refused this endpoint. Stripe answers a
+         bad key with 401, so a 403 here is proof the key is GOOD and simply has
+         no Account read permission, which is exactly what a restricted key
+         built from the one-time-payments template looks like. Reporting that as
+         a failure would push somebody toward widening a key that is correctly
+         scoped. Not ok:false. */
+      return {
+        checked: true, ok: true, mode, kind,
+        account_details: 'not readable with this key, which is expected for a restricted key. '
+          + 'Stripe answers an invalid key with 401, so a 403 confirms the key is valid.',
+      };
+    }
     if (!r.ok) return { checked: true, ok: false, mode, kind, error: `stripe ${r.status}` };
     const a = await r.json();
     return {
