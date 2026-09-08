@@ -8,6 +8,11 @@
 //   /api/health?deep=1       also calls Resend, Stripe (account + Identity
 //                            permission) and Supabase to prove
 //                            the keys work, not just that they exist
+//   /api/health?deep=1&send=1  additionally SENDS ONE REAL EMAIL to OPS_EMAIL.
+//                            The only conclusive proof that mail leaves this
+//                            site, because a sending-scoped Resend key is
+//                            refused by every read endpoint. Opt-in for that
+//                            reason: it is the one check with an effect.
 //
 // Access. Preview and development are open, because a preview deployment on
 // this project sits behind Vercel Authentication already. Production answers
@@ -107,6 +112,96 @@ async function resendDomains() {
       sending_domain_verified: !!match && match.status === 'verified',
       sending_domain_status: match ? match.status : 'not added to this Resend account',
     };
+  } catch (e) {
+    return { checked: true, ok: false, error: e.message };
+  }
+}
+
+// The only check that actually proves email works.
+//
+// resendDomains() above cannot settle it: a Sending-access key -- the correct
+// scope for this site -- is refused by /domains, and a wrong key is refused
+// identically, so 401 means nothing either way. Every other credential here can
+// be proven with a read. Sending cannot. Resend has no dry run and no
+// permissions endpoint; posting a message is the only call a sending key is
+// allowed to make, so the only way to learn whether mail leaves this site is to
+// make mail leave this site.
+//
+// So this is opt-in, ?deep=1&send=1, and never runs on a plain deep check. It
+// sends one real message to OPS_EMAIL, which we own, and says nothing about the
+// claim flow -- nobody outside gets mail from a health check.
+//
+// Worth the intrusion because it is on the critical path. Verification can work
+// perfectly and a client still hears nothing, which is the failure this site
+// already had once: a payment taken, no email, no next step, and no signal
+// anywhere that anything was wrong.
+async function resendSend() {
+  const key = String(process.env.RESEND_API_KEY || '').replace(/^\uFEFF/, '').trim();
+  if (!key) return { checked: false, reason: 'no api key' };
+
+  const from = String(process.env.EMAIL_FROM || '').trim();
+  const to = String(process.env.OPS_EMAIL || '').trim();
+  if (!from) return { checked: false, reason: 'EMAIL_FROM not set' };
+  if (!to) {
+    // Deliberately not falling back to a hardcoded address. A test send has to
+    // go somewhere we chose on purpose.
+    return { checked: false, reason: 'OPS_EMAIL not set, nowhere safe to send' };
+  }
+
+  const stamp = new Date().toISOString();
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        subject: `DASPA health check ${stamp}`,
+        text: 'Sent by /api/health?deep=1&send=1 to prove the Resend key can send.\n\n'
+          + `From: ${from}\nSent: ${stamp}\n\n`
+          + 'If you are reading this, email works. No client received it.',
+      }),
+    });
+
+    const body = await r.json().catch(() => ({}));
+    if (r.ok && body && body.id) {
+      return {
+        checked: true, ok: true, accepted: true, from, to,
+        note: 'Resend ACCEPTED the message. That proves the key can send and the '
+          + 'from-domain is verified. It does not prove delivery: check the '
+          + 'inbox, and if it is not there check Resend\'s Emails log for a '
+          + 'bounce before assuming this endpoint lied.',
+      };
+    }
+
+    /* Resend puts the useful part in the message, and it is safe to surface:
+       it names the domain or the address, never the key. */
+    const msg = (body && (body.message || (body.error && body.error.message))) || '';
+    const out = { checked: true, ok: false, error: `resend ${r.status}`, from, to };
+    if (msg) out.resend_says = String(msg).slice(0, 300);
+
+    if (r.status === 401) {
+      out.means = 'The key is wrong, revoked, or belongs to another Resend account. A '
+        + 'Sending-access key is REFUSED BY /domains BUT ALLOWED HERE, so unlike the '
+        + 'resend block above, this status is conclusive: fix the key.';
+      out.fix = 'Resend dashboard, API Keys: create a key with Sending access, put it in '
+        + 'RESEND_API_KEY on the scope you are testing, then REDEPLOY. Vercel resolves '
+        + 'variables when a deployment is created, so the running build still holds the old one.';
+    } else if (r.status === 403 || /domain/i.test(msg)) {
+      /* Resend returns 403 for a key that may not send from this address, which
+         in practice means the from-domain is not verified on the account. Kept
+         apart from 401 because the fix is in a different dashboard screen. */
+      out.means = 'The key is accepted but it may not send from this address, which almost '
+        + 'always means the from-domain is not verified on this account. That is the '
+        + 'silent failure this check exists to catch.';
+      out.fix = 'Resend dashboard, Domains: add and verify the domain in EMAIL_FROM, then retry.';
+    } else if (r.status === 422) {
+      out.means = 'Resend rejected the message itself, not the key. Usually EMAIL_FROM is not '
+        + 'a valid address or its domain is not on this account.';
+    } else if (r.status === 429) {
+      out.means = 'Rate limited, not misconfigured. Retry in a moment.';
+    }
+    return out;
   } catch (e) {
     return { checked: true, ok: false, error: e.message };
   }
@@ -365,6 +460,11 @@ module.exports = async (req, res) => {
       resendDomains(), stripeAccount(), identityWrite(), supabaseReach(),
     ]);
     out.deep = { resend, stripe, identity, supabase };
+
+    /* Separate flag, not part of deep, because this one has an effect in the
+       world: it puts a message in an inbox. Everything else above only reads. */
+    if (req.query.send) out.deep.resend_send = await resendSend();
+    else out.deep.resend_send = { checked: false, reason: 'add &send=1 to send one real test email to OPS_EMAIL' };
   }
 
   res.setHeader('Cache-Control', 'no-store');

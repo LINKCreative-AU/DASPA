@@ -118,8 +118,29 @@ the keys work rather than merely exist: whether the `EMAIL_FROM` domain is
 verified for sending, whether the Stripe key is **live or test** and has charges
 enabled, and whether the service-role key can reach the `claims` table.
 
+`?deep=1&send=1` goes one step further and **sends one real email** to
+`OPS_EMAIL`. It is the only conclusive proof that mail leaves this site, and it
+is opt-in because it is the one check with an effect in the world.
+
+The reason it has to exist: a Resend key carries a permission, and a
+**Sending-access** key -- the correct, narrow scope for this site, which only
+ever sends -- is refused by `/domains` and by every other read endpoint. A
+*wrong* key is refused identically. So `resend 401` on a plain `?deep=1` is not
+evidence of anything, in either direction. Posting a message is the only call a
+sending key is allowed to make, so it is the only call that can answer the
+question. Under `&send=1`, 401 **is** conclusive (fix the key) and 403 means the
+`EMAIL_FROM` domain is not verified (a different dashboard screen, hence a
+different message).
+
+Acceptance is not delivery. A `202` with a message id proves the key can send
+and the domain is verified; if the message then never arrives, check Resend's
+Emails log for a bounce before assuming the endpoint lied.
+
 Preview and development answer openly (they sit behind Vercel Authentication).
-Production answers only with `?key=<HEALTH_KEY>` and 404s otherwise.
+Production answers only with `?key=<HEALTH_KEY>` and 404s otherwise. `HEALTH_KEY`
+is any long random string; it exists so the live domain never serves a
+configuration listing to the public, and without one set there is no way to
+verify a production deployment short of making a payment.
 
 Vercel resolves env vars when a deployment is **created**, so set the variable,
 redeploy, then read this. A variable set for Production only reads as missing on
