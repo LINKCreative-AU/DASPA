@@ -23,3 +23,13 @@ jobs:
           node-version: '20'
       - name: Pre-flight checks
         run: python scripts/check.py
+
+      # The webhook's refund and dispute branches cannot be reached by clicking
+      # through the site, so they are only ever covered here.
+      - name: Webhook tests
+        run: node tests/stripe-webhook.mjs
+
+      # Same reason: the paths where the health check must NOT send an email,
+      # and where it must not confuse a bad key with an unverified domain.
+      - name: Health check tests
+        run: node tests/health-resend.mjs

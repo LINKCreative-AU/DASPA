@@ -182,11 +182,11 @@
                by the entity's legal adviser before launch. -->
           <label class="check"><input type="checkbox" id="authority" required><span><b>Written authority to act.</b> I appoint Australian Registration Office Pty Ltd, Registered Tax Agent 26076969, to act on my behalf to claim my Departing Australia Superannuation Payment, and to deal with the Australian Taxation Office, the Department of Home Affairs and my superannuation fund(s) in connection with that claim, including enquiries about my visa status, tax file number and superannuation accounts. I declare the information I have provided is true and complete. <em>[PLACEHOLDER WORDING, FOR LEGAL REVIEW]</em></span></label>
           <div class="err" id="authority-err" style="margin:-6px 0 10px">You'll need to authorise us to act before we can lodge for you.</div>
-          <label class="check"><input type="checkbox" id="didit_consent" required><span><b>Identity verification consent.</b> I understand identity verification is powered by <b>Didit</b> and consent to the capture and biometric processing of my identity document, a selfie and liveness data for that purpose, as described in the <a href="/privacy" target="_blank">Privacy Policy</a>.</span></label>
-          <div class="err" id="didit-err" style="margin:-6px 0 10px">Identity verification is required by law before we can lodge, please consent to continue.</div>
+          <label class="check"><input type="checkbox" id="identity_consent" required><span><b>Identity verification consent.</b> I understand identity verification is powered by <b>Stripe Identity</b> and I consent to Stripe capturing a photo of my passport and a photo of my face using my device camera, and using biometric technology to compare the two to confirm I am who I say I am. This is described in our <a href="/privacy" target="_blank">Privacy Policy</a> and <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe's privacy policy</a>.</span></label>
+          <div class="err" id="identity-err" style="margin:-6px 0 10px">Identity verification is required by law before we can lodge, please consent to continue.</div>
         </fieldset>
 
-        <div class="stop hidden" id="submit-error">Something went wrong sending your form. Nothing was charged. Please try again, or message us on <a href="/wa" data-wa target="_blank" rel="noopener">WhatsApp</a> and a human will sort it.</div>
+        <div class="stop hidden" id="submit-error">Something went wrong sending your form. Nothing was charged. Please try again, or <a href="mailto:claims@daspa.com.au">email us at claims@daspa.com.au</a> and a human will sort it.</div>
       </div>
 
       <div class="form-foot">
@@ -195,7 +195,7 @@
       </div>
     </form>
 
-    <p style="font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center">Next: secure card payment (Stripe), then passport + selfie verification (Didit). Your super is paid by your fund or the ATO directly to the account above. Never through us.</p>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center">Next: secure card payment, then passport and selfie verification. Both are handled by Stripe. Your super is paid by your fund or the ATO directly to the account above. Never through us.</p>
   </div>
 </main>
 
@@ -244,7 +244,7 @@
           <a href="/terms">Terms of Service</a>
           <a href="/privacy">Privacy Policy</a>
           <a href="/tpb">Important Information for Clients</a>
-          <a href="/wa" data-wa target="_blank" rel="noopener">WhatsApp us</a>
+          <a href="mailto:claims@daspa.com.au">Email us</a>
         </div>
       </div>
       <div>
@@ -252,7 +252,7 @@
       </div>
     </div>
     <div class="disclaimer">
-      DASPA is a lodgement service operated by a registered tax agent; we are not a financial adviser and nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO. No agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account. We never hold client money. Identity verification is powered by <a href="https://didit.me" target="_blank" rel="noopener">Didit</a>. © Australian Registration Office Pty Ltd.
+      DASPA is a lodgement service operated by a registered tax agent; we are not a financial adviser and nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO. No agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account. We never hold client money. Identity verification is powered by <a href="https://stripe.com/identity" target="_blank" rel="noopener">Stripe Identity</a>. © Australian Registration Office Pty Ltd.
     </div>
   </div>
 </footer>
@@ -382,10 +382,10 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     }
 
     var authErr = document.getElementById('authority-err');
-    var diditErr = document.getElementById('didit-err');
+    var identityErr = document.getElementById('identity-err');
     authErr.style.display = document.getElementById('authority').checked ? 'none' : 'block';
-    diditErr.style.display = document.getElementById('didit_consent').checked ? 'none' : 'block';
-    if (!document.getElementById('authority').checked || !document.getElementById('didit_consent').checked) bad = true;
+    identityErr.style.display = document.getElementById('identity_consent').checked ? 'none' : 'block';
+    if (!document.getElementById('authority').checked || !document.getElementById('identity_consent').checked) bad = true;
 
     return !bad;
   }
@@ -435,7 +435,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       address_postcode: v('address_postcode'),
       address_country: v('address_country'),
       authority_accepted_at: now,
-      didit_consent_at: now
+      identity_consent_at: now
     };
 
     try {
@@ -461,8 +461,13 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       if (!co.ok || !data.url) throw new Error(data.error || 'checkout failed');
       window.location.href = data.url;
     } catch (err) {
+      // wireWhatsApp() used to sit on the next line. It was deleted from
+      // assets/site.js when the number moved server-side to /wa, and the
+      // ReferenceError it threw here stopped the two lines below ever running:
+      // a failed submission left a dead "Saving your claim…" button, so the
+      // client could not retry without reloading and losing the form. The
+      // contact link in the error banner is a plain mailto and needs no wiring.
       document.getElementById('submit-error').classList.remove('hidden');
-      wireWhatsApp();
       btn.disabled = false;
       btn.textContent = 'Continue to payment →';
     }

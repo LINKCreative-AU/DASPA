@@ -7,6 +7,7 @@
 const config = require('./_lib/config');
 const db = require('./_lib/supabase');
 const email = require('./_lib/email');
+const { stripeHeaders } = require('./_lib/stripe');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'method not allowed' });
@@ -32,18 +33,38 @@ module.exports = async (req, res) => {
       'line_items[0][price_data][product_data][name]': config.PRODUCT_NAME,
       'line_items[0][price_data][product_data][description]': config.FEE_DESCRIPTION,
       customer_email: claim.email,
+      /* WITHOUT THIS THERE IS NO CUSTOMER TO VERIFY AGAINST.
+         customer_creation defaults to 'if_required', and a one-off payment
+         requires nothing, so Checkout records a "guest customer" with no
+         Customer object behind it. customer_email does not change that: per the
+         API reference it only prefills the email field.
+
+         It matters because Stripe Identity attaches a verification to a
+         customer via related_customer, and that is what lets _lib/identity.js
+         ask Stripe "is this person verified?" weeks later instead of trusting a
+         webhook that may never have arrived. No Customer object, no repair, and
+         DASPA has already shipped one flow whose only writer was a webhook that
+         did not exist. Same reasoning and same flag as
+         abnassist-site/api/order-checkout.js.
+         https://docs.stripe.com/payments/checkout/guest-customers */
+      customer_creation: 'always',
       client_reference_id: claim.id,
       'metadata[claim_id]': claim.id,
+      /* The same id again, on the PaymentIntent. Session metadata does not
+         reach the PaymentIntent or the Charge on its own, and refund and
+         dispute events carry a charge rather than a session. The webhook
+         matches those on stripe_payment_intent_id rather than on metadata, so
+         this is not load-bearing: it is here so a human opening the payment in
+         the Stripe dashboard, most likely while answering a dispute, can see
+         which claim it belongs to without going via our database. */
+      'payment_intent_data[metadata][claim_id]': claim.id,
       success_url: `${config.SITE_URL}/verify?cid=${claim.id}`,
       cancel_url: `${config.SITE_URL}/claim?cancelled=1`,
     });
 
     const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: stripeHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
       body: params.toString(),
     });
     const session = await r.json();

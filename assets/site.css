@@ -331,3 +331,23 @@ html[lang="ja"] body{font-family:'Plus Jakarta Sans','Hiragino Sans','Yu Gothic'
 .lang-nav a{color:var(--blue2)}
 .lang-nav a:hover{text-decoration:underline}
 .lang-nav .here{color:var(--muted)}
+
+/* ---------------------------------------------------------------- WhatsApp off
+   WHATSAPP_NUMBER has never been set in Vercel, so /wa redirects to /faq and
+   every WhatsApp call to action on the site leads somewhere that is not
+   WhatsApp. Rather than ship a channel that does not answer, the header button
+   is hidden until WhatsApp Business is actually configured. Juan's call,
+   8 September 2026.
+
+   ONE RULE, ON PURPOSE. Reversing this is deleting these four lines: no page
+   markup was touched, so nothing has to be put back across 43 files. The
+   transactional pages (/claim, /verify, /confirmation, /upload-form) were
+   changed properly to point at email instead, because a client stuck mid
+   payment needs a route that works, not a hidden one.
+
+   STILL TO DECIDE: WhatsApp is also a marketing claim in body copy on the
+   country and FAQ pages ("Human support on WhatsApp from form to payout" and
+   similar, including inside FAQPage JSON-LD and the ja/ko/zh-tw pages). Those
+   are not addressed here because changing them changes the site's positioning,
+   which is not a decision to take in a CSS file. See README. */
+.wa-btn { display: none !important; }

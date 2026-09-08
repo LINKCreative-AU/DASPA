@@ -68,7 +68,19 @@ const opsRef = (c) =>
    `Status:   ${config.SITE_URL}/confirmation?cid=${c.id}`];
 
 const firstName = (c) => (c.full_name || 'there').trim().split(/\s+/)[0];
-const wa = () => `Questions any time, just message us on WhatsApp: ${config.whatsappLink()}`;
+/* The address a client should write to, taken out of EMAIL_FROM so there is one
+   variable to keep right rather than two that can disagree. EMAIL_FROM is either
+   "Name <addr>" or a bare address, so both shapes are handled. */
+const contactAddress = () => {
+  const from = process.env.EMAIL_FROM || 'DASPA <hello@daspa.com.au>';
+  const m = from.match(/<([^>]+)>/);
+  return (m ? m[1] : from).trim();
+};
+
+/* Was a WhatsApp line until 8 September 2026. WHATSAPP_NUMBER has never been
+   set, so config.whatsappLink() resolved to /wa, which redirects to /faq: every
+   client email was inviting them to message a channel that did not exist. */
+const wa = () => `Questions any time, just reply to this email or write to ${contactAddress()}.`;
 const sig = 'The DASPA team\nAustralian Registration Office Pty Ltd · Registered Tax Agent 26076969\nhttps://daspa.com.au';
 
 const lodgementLine = () =>
@@ -112,6 +124,36 @@ module.exports = {
       '',
       ...opsRef(c),
     ]);
+  },
+
+  /* A refund landed. Loud on purpose: a refunded claim must not be lodged, and
+     the team works the queue by status, so somebody has to know the status
+     changed under them. */
+  opsRefunded(c, { amountCents, full, reason }) {
+    const money = amountCents ? `$${(amountCents / 100).toFixed(2)}` : 'an unstated amount';
+    return notifyOps(`${full ? 'REFUNDED' : 'PARTIAL REFUND'}: ${c.full_name || 'unnamed'}`, [
+      full
+        ? `${money} refunded in full. The claim is on hold and must NOT be lodged.`
+        : `${money} refunded, which is less than the fee, so the claim is still marked paid `
+          + 'and is on hold pending a decision. Check whether this was intended.',
+      reason ? `Stripe reason: ${reason}` : null,
+      '',
+      ...opsRef(c),
+    ].filter(Boolean));
+  },
+
+  /* A chargeback, which is not a refund: the money has not gone back yet and
+     there is a deadline to respond. Nothing is marked refunded here. */
+  opsDispute(c, { amountCents, reason, dueBy }) {
+    const money = amountCents ? `$${(amountCents / 100).toFixed(2)}` : 'an unstated amount';
+    return notifyOps(`DISPUTE OPENED: ${c.full_name || 'unnamed'}`, [
+      `${money} disputed with the cardholder's bank. The claim is on hold.`,
+      reason ? `Reason given: ${reason}` : null,
+      dueBy ? `Evidence due by: ${dueBy}` : null,
+      'This needs a response in Stripe. See the Online Services Stripe dispute process.',
+      '',
+      ...opsRef(c),
+    ].filter(Boolean));
   },
 
   opsPaperForm(name, from, phone, note) {

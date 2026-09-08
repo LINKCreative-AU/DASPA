@@ -33,6 +33,41 @@ async function updateClaim(id, patch) {
   return rows[0] || null;
 }
 
+/* Conditional update: patches every claim matching an arbitrary PostgREST
+   filter and returns the rows it actually changed.
+
+   This is how a race is settled without a lock. Put the precondition in the
+   filter (`verification_status=neq.verified`) rather than reading first and
+   writing second, and PostgREST tells you how many rows you claimed. Zero rows
+   means somebody else got there first, so the caller knows not to send the
+   email twice. Ported from the pattern in abnassist-site.
+
+   updateClaim above is the unconditional version and stays for callers that
+   genuinely just want to write. */
+async function patchClaims(query, patch) {
+  const r = await fetch(`${BASE}/rest/v1/claims?${query}`, {
+    method: 'PATCH',
+    headers: headers({ Prefer: 'return=representation' }),
+    body: JSON.stringify(patch),
+  });
+  if (!r.ok) throw new Error(`supabase conditional update failed: ${r.status} ${await r.text()}`);
+  return r.json();
+}
+
+/* The claim a Stripe charge belongs to.
+
+   Refund and dispute events carry a charge, whose only usable link back to us
+   is its payment_intent, so this is how those events find their claim. Returns
+   null rather than throwing on no match: a charge on this account that is not
+   one of our claims is a normal thing, not a fault. */
+async function getClaimByPaymentIntent(pi) {
+  if (!pi) return null;
+  const rows = await selectClaims(
+    `stripe_payment_intent_id=eq.${encodeURIComponent(pi)}&limit=1`
+  );
+  return (Array.isArray(rows) && rows[0]) || null;
+}
+
 async function selectClaims(query) {
   const r = await fetch(`${BASE}/rest/v1/claims?${query}`, { headers: headers() });
   if (!r.ok) throw new Error(`supabase select failed: ${r.status}`);
@@ -49,4 +84,4 @@ async function insertAudit(claimId, event, detail) {
   }).catch(() => {});
 }
 
-module.exports = { getClaim, updateClaim, selectClaims, insertAudit };
+module.exports = { getClaim, getClaimByPaymentIntent, updateClaim, patchClaims, selectClaims, insertAudit };
