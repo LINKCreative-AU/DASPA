@@ -323,6 +323,25 @@ for path in pages:
             "A ReferenceError here stops every line after it in the same block."
             % (path, name))
 
+# --- 11. nothing ships a path that only exists on one machine ------------
+# A test that required '/home/user/DASPA/api/stripe-webhook.js' passed locally
+# and failed on every CI runner, which is the worst shape of failure: green in
+# the place you are looking, red in the place that gates a release. It surfaced
+# during a live payment incident, holding up the merge that fixed it.
+#
+# Node resolves a relative require against the importing file, so there is no
+# reason for an absolute path in this repo. Checking the tests as well as the
+# shipped code, because the tests are the gate.
+MACHINE_PATH = re.compile(r"['\"](?:/home/|/Users/|/root/|[A-Za-z]:\\\\)[^'\"\n]*['\"]")
+for path in (glob("api/*.js") + glob("api/_lib/*.js") + glob("assets/*.js")
+             + glob("tests/*.mjs") + glob("scripts/*.py")):
+    if os.path.abspath(path) == os.path.abspath(__file__):
+        continue  # this file names those prefixes on purpose, just above
+    for m in MACHINE_PATH.findall(open(path, encoding="utf-8").read()):
+        err("%s: contains the machine-specific path %s. Use a path relative to "
+            "the file (Node resolves those against the importer), or it will "
+            "work here and fail in CI." % (path, m))
+
 # --- report ---------------------------------------------------------------
 for w in warnings:
     print("WARN  " + w)

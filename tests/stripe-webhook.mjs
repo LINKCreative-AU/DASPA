@@ -40,7 +40,9 @@ Module._load = function (req, parent, isMain) {
   if (req === './_lib/identity-verified') return { markVerified: async () => ({ claimed: true }) };
   return origLoad.apply(this, arguments);
 };
-const handler = require('/home/user/DASPA/api/stripe-webhook.js');
+// Relative, resolved against this file by createRequire above. An absolute
+// path works on one machine and fails on every CI runner.
+const handler = require('../api/stripe-webhook.js');
 
 function post(event, signWith) {
   const body = JSON.stringify(event);

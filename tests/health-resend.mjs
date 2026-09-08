@@ -32,7 +32,7 @@ process.env.SUPABASE_SERVICE_ROLE_KEY = 'x';
 process.env.STRIPE_SECRET_KEY = 'rk_live_x';
 process.env.SITE_URL = 'https://daspa.com.au';
 
-const handler = require(new URL('../api/health.js', import.meta.url).pathname);
+const handler = require('../api/health.js');
 
 function run(stub, query) {
   global.fetch = stub;
