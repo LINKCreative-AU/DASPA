@@ -12,6 +12,27 @@ const { stripeHeaders } = require('./_lib/stripe');
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'method not allowed' });
 
+  /* Checkout closed. Checked first, before the claim lookup and before Stripe,
+     because the point is that no session can be created at all.
+
+     This is the half of the kill switch that actually holds. claim.html hides
+     the submit button when it loads, which covers everybody who opens the page,
+     but a tab left open from before the flip, a back-button return or a
+     prerender still has a live button. Those requests land here.
+
+     What it does NOT stop is the claim row. claim.html inserts straight into
+     Supabase under the anon key, which never passes through this API, so a
+     stale tab can still write a claim. That is the acceptable failure: a row
+     with no payment against it, which is the same state as any abandoned
+     checkout. No money changes hands, and money is the thing that cannot be
+     undone without a refund and an apology. */
+  if (!config.PAYMENTS_LIVE) {
+    return res.status(503).json({
+      error: 'Payments are temporarily closed while we finish setting up. Nothing has been charged.',
+      reason: 'payments_closed',
+    });
+  }
+
   try {
     const { claimId } = req.body || {};
     if (!claimId || !/^[0-9a-f-]{36}$/i.test(claimId)) {

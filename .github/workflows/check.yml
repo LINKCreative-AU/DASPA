@@ -33,3 +33,9 @@ jobs:
       # and where it must not confuse a bad key with an unverified domain.
       - name: Health check tests
         run: node tests/health-resend.mjs
+
+      # The kill switch's safety property is that an ABSENT variable closes
+      # checkout. A regression to a convenience default would pass every manual
+      # test and take money in production.
+      - name: Payments kill switch tests
+        run: node tests/payments-live.mjs

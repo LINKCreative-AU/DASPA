@@ -1,10 +1,27 @@
-// Scheduled email dispatcher (vercel.json crons, every 6 hours).
+// Email dispatcher. NOT SCHEDULED ANY MORE, and nothing calls it.
+//
+// The crons block was removed from vercel.json on 8 September 2026. Two
+// reasons. Immediately, four clients had paid without being recorded as paid,
+// and the moment the recovery ran they would have become eligible for an
+// automated nudge before a person had apologised to them. Longer term, both of
+// these messages are moving to ActiveCampaign, so the schedule was going away
+// regardless.
+//
+// The endpoint is kept rather than deleted because it still requires
+// "Authorization: Bearer <CRON_SECRET>", so it is inert but available: adding
+// the crons block back, or `vercel crons run /api/cron-nudge`, restores it
+// exactly as it was. Delete it once ActiveCampaign owns both messages.
+//
+// DO NOT try to disable this by clearing CRON_SECRET. The guard below is
+// `if (cronSecret && ...)`, so an unset secret does not lock the endpoint, it
+// removes the lock and makes it callable by anyone.
+//
+// What it does when it runs:
 //   1. Verification abandoned >24h after payment → one nudge email.
 //   2. claim_status moved to 'lodged' in the Supabase dashboard → "lodged with
-//      the ATO" email (the team works the queue in the dashboard; this is how
-//      a manual status change still triggers the client email).
-// Vercel sends "Authorization: Bearer <CRON_SECRET>" automatically when the
-// CRON_SECRET env var is set.
+//      the ATO" email. Worth knowing while this is parked: moving a claim to
+//      'lodged' in Supabase no longer emails anyone, because nothing is calling
+//      this. The client will not be told until ActiveCampaign takes over.
 
 const db = require('./_lib/supabase');
 const email = require('./_lib/email');

@@ -110,6 +110,54 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `AC_FIELD_MAP` | JSON, `{"<field key>": <AC custom field id>}`. Absent → custom fields skipped |
    | `AC_LIST_MAP` | JSON, which AC list a paid claim joins. Automations in this account trigger on **list membership**, not tags |
 
+## Taking payments on and off
+
+`PAYMENTS_LIVE` is the checkout kill switch, and **absent means closed**. Only
+the exact string `true` (whitespace trimmed) opens it.
+
+That default is deliberate and it is the opposite of convenient. Closed by
+mistake loses a sale you can see and fix in a minute. Open by mistake takes
+money for work that cannot be delivered, which is what happened here between
+27 August and 8 September 2026: four clients paid $163.90 each into a flow with
+no webhook destination behind it, so nothing recorded the payment, verification
+refused them as unpaid, no email went out, and no alert fired anywhere. The
+price of the safe default is that a deployment created without the variable
+shuts the shop silently, so `/api/health` reports `checkout` in plain words and
+it is the first thing to check if orders stop.
+
+It closes in two places, and they do different jobs:
+
+| Where | What it stops |
+|---|---|
+| `api/create-checkout.js` | The payment. Refuses with 503 before the claim lookup and before Stripe, so no session can exist. This is the half that holds. |
+| `claim.html`, via `/api/site-status` | The wasted effort. Hides the submit button on load, so nobody types passport, TFN and bank details before finding out. Fails **open** if the fetch errors, so a blip on the status endpoint cannot close a shop that is open. |
+
+What it does not stop is the claim row: `claim.html` inserts directly into
+Supabase under the anon key, which never passes through this API, so a tab left
+open from before the flip can still write a claim. That is the accepted failure.
+The row is indistinguishable from any abandoned checkout, and no money moves.
+
+`LODGEMENT_LIVE` is a separate switch and answers a different question: not
+whether we take orders, but what clients already in the flow are told. While it
+is false, emails and `/verify` say the claim is prepared and held at "in review"
+pending the ATO channel. It governs the four recovered claims regardless of
+whether checkout is open, so settle it before sending anyone a verification link.
+
+## Scheduled email
+
+There is no cron. The `crons` block was removed from `vercel.json` on
+8 September 2026, and `api/cron-nudge.js` is inert but intact: it still requires
+`Authorization: Bearer <CRON_SECRET>`, so restoring the block or running
+`vercel crons run /api/cron-nudge` brings it back unchanged.
+
+**Do not try to disable it by clearing `CRON_SECRET`.** The guard is
+`if (cronSecret && ...)`, so an unset secret does not lock the endpoint, it
+unlocks it.
+
+One consequence to know while it is parked: moving a claim to `lodged` in the
+Supabase dashboard no longer emails the client, because the second half of that
+cron is what sent it. Both messages are moving to ActiveCampaign.
+
 ## Readiness check
 
 `/api/health` reports which variables are set in the scope serving that URL,

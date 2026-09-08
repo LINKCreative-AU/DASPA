@@ -52,6 +52,7 @@ function malformed() {
     'RESEND_API_KEY', 'EMAIL_FROM', 'OPS_EMAIL',
     'AC_API_URL', 'AC_API_KEY', 'ACTIVECAMPAIGN_API_URL', 'ACTIVECAMPAIGN_API_KEY',
     'WHATSAPP_NUMBER', 'INVOICE_SECRET', 'SITE_URL', 'CRON_SECRET', 'HEALTH_KEY',
+    'PAYMENTS_LIVE', 'LODGEMENT_LIVE',
   ];
   for (const name of watched) {
     const v = process.env[name];
@@ -60,6 +61,15 @@ function malformed() {
     if (/^\uFEFF/.test(v)) why.push('starts with a byte order mark');
     if (/[\u200B-\u200D\u2060]/.test(v)) why.push('contains a zero-width character');
     if (v !== v.trim()) why.push('has leading or trailing whitespace');
+    /* The two flags are compared against the exact string 'true', so anything
+       else is off. Called out by name because "True" or "1" reads as on to a
+       human and as off to the code, and for PAYMENTS_LIVE the consequence of
+       that gap is a shop that looks open in the dashboard and is shut. */
+    if ((name === 'PAYMENTS_LIVE' || name === 'LODGEMENT_LIVE')
+        && v.trim() !== 'true' && v.trim() !== 'false') {
+      why.push(`is "${v.trim().slice(0, 12)}", which is neither "true" nor "false", `
+        + 'so it counts as false. Only the exact lower-case string "true" turns this on');
+    }
     if (/[\r\n]/.test(v)) why.push('contains a line break');
     if (why.length) bad.push({ name, problem: why.join(', ') });
   }
@@ -377,6 +387,13 @@ module.exports = async (req, res) => {
     stripe: {
       STRIPE_SECRET_KEY: set('STRIPE_SECRET_KEY'),
       STRIPE_WEBHOOK_SECRET: set('STRIPE_WEBHOOK_SECRET'),
+      /* First thing to check if orders stop arriving. Absent means CLOSED
+         (see api/_lib/config.js), so a deployment created without the variable
+         shuts checkout with no other symptom. */
+      PAYMENTS_LIVE: config.PAYMENTS_LIVE,
+      checkout: config.PAYMENTS_LIVE
+        ? 'OPEN, taking real payments'
+        : 'CLOSED, /api/create-checkout refuses and claim.html hides the button',
       fee_charged_cents: config.FEE_CENTS,
       currency: config.CURRENCY,
     },

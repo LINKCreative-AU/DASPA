@@ -186,6 +186,15 @@
           <div class="err" id="identity-err" style="margin:-6px 0 10px">Identity verification is required by law before we can lodge, please consent to continue.</div>
         </fieldset>
 
+        <div class="stop hidden" id="payments-closed">
+          <b>We have paused new claims for a few days.</b> We are finishing off our identity
+          verification and ATO lodgement setup, and we would rather not take your money until
+          every step works end to end. Nothing has been charged and nothing has been submitted.
+          Email <a href="mailto:claims@daspa.com.au">claims@daspa.com.au</a> and we will let you
+          know the moment claims reopen. Your super is not going anywhere: there is no deadline
+          on a DASP claim.
+        </div>
+
         <div class="stop hidden" id="submit-error">Something went wrong sending your form. Nothing was charged. Please try again, or <a href="mailto:claims@daspa.com.au">email us at claims@daspa.com.au</a> and a human will sort it.</div>
       </div>
 
@@ -458,6 +467,16 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
         body: JSON.stringify({ claimId: id })
       });
       var data = await co.json();
+      /* Payments closed between this page loading and this click: a tab left
+         open from before the flip. Tell them what actually happened rather than
+         letting it fall into the generic "something went wrong" below, which
+         would invite a retry that cannot succeed. */
+      if (co.status === 503 && data && data.reason === 'payments_closed') {
+        document.getElementById('payments-closed').classList.remove('hidden');
+        btn.disabled = true;
+        btn.textContent = 'New claims paused';
+        return;
+      }
       if (!co.ok || !data.url) throw new Error(data.error || 'checkout failed');
       window.location.href = data.url;
     } catch (err) {
@@ -472,6 +491,43 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       btn.textContent = 'Continue to payment →';
     }
   });
+})();
+</script>
+<script>
+/* Checkout kill switch, client half.
+   api/create-checkout.js refuses when payments are closed, so this is not what
+   makes the site safe. It is what makes it honest: without it a client fills in
+   passport, TFN and bank details, presses the button and only then learns we are
+   closed. Hiding the button first means nobody types any of that for nothing,
+   and no claim row is written, since claim.html inserts to Supabase directly.
+
+   FAILS OPEN ON PURPOSE. If the fetch errors, times out or returns something
+   unexpected, the button is left exactly as it is and the server decides. A
+   network blip on our status endpoint must not close a shop that is open. */
+(function () {
+  var btn = document.getElementById('submit-btn');
+  var notice = document.getElementById('payments-closed');
+  var form = btn && btn.form;
+  if (!btn || !notice || !form) return;
+
+  function close() {
+    notice.classList.remove('hidden');
+    btn.disabled = true;
+    btn.textContent = 'New claims paused';
+    /* Belt and braces for a submit triggered by Enter in a text field or by
+       anything that bypasses the disabled button. Capture phase so it runs
+       before the handler that does the Supabase insert. */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      notice.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, true);
+  }
+
+  fetch('/api/site-status', { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) { if (d && d.payments_live === false) close(); })
+    .catch(function () { /* leave the button alone, the server will refuse */ });
 })();
 </script>
 <script defer src="https://registrationoffice.com.au/t.js" data-site="daspa"></script>
