@@ -8,21 +8,35 @@
    at all. The webhook would still return 200, the claim would still be marked
    paid, and the client would be emailed an invoice with no amount on it.
 
-   WHY 2026-05-27.dahlia, AND WHAT THAT REASONING DOES NOT COVER. DASPA has its
-   own Stripe account, separate from the one abnassist-site runs on (confirmed
-   with Juan, 8 September 2026), so "the version this account already uses" is
-   NOT the argument here. What does transfer is version behaviour rather than
-   account state: abnassist-site runs this exact version in live production and
-   creates Identity sessions with `related_customer` and Checkout Sessions it
-   reads `amount_total` and `customer_details` off, which is direct evidence
-   that every field this codebase depends on exists at this version. That is
-   worth more than "latest", where DASPA would be the first traffic.
+   WHY 2026-06-24.dahlia. Read from Workbench on the DASPA account,
+   8 September 2026:
 
-   What is NOT settled by that: the DASPA account's own default version, which
-   nothing here reads once this pin is in place, and which should be left alone.
-   Do not press Workbench's "Upgrade" button to resolve a version warning; it
-   moves the account default and affects every other integration on the
-   account.
+     2026-08-26.dahlia   Latest    no traffic
+     2026-06-24.dahlia   Default   traffic
+     2025-06-30.basil              traffic
+
+   This pin was briefly 2026-05-27.dahlia, carried over from abnassist-site.
+   That was wrong twice over: DASPA is a separate Stripe account, so
+   abnassist-site's account evidence never applied here, and 2026-05-27.dahlia
+   does not appear on this account at all.
+
+   2026-06-24.dahlia is the choice with the strongest evidence available. Every
+   Stripe call this codebase has ever made went out with no version header, so
+   it resolved against the account default, which is this version. The three
+   real Checkout Sessions in August and September were created at it, and
+   api/stripe-webhook.js reads `amount_total` and `customer_details` off exactly
+   that shape. So this is not inference: it is the version this code is already
+   proven against on this account.
+
+   Not "Latest": 2026-08-26.dahlia has no traffic anywhere, and there is no
+   reason for DASPA to be the first thing on it. `related_customer` on Identity
+   sessions is safe here, since abnassist-site uses it at 2026-05-27.dahlia and
+   API versions only add fields going forward.
+
+   Do NOT press Workbench's "Upgrade" button to clear the "Upgrade available"
+   badge. It moves the ACCOUNT default, not this pin, and affects everything
+   else on the account. Once this pin is deployed the account default stops
+   reaching us at all, so the badge is cosmetic.
 
    THIS MUST MATCH the API version pinned on the webhook destination in Stripe.
    A destination's version is fixed when it is created and cannot be edited
@@ -33,7 +47,7 @@
 
 'use strict';
 
-const API_VERSION = '2026-05-27.dahlia';
+const API_VERSION = '2026-06-24.dahlia';
 
 // Every call to api.stripe.com goes through this, so the version can never be
 // pinned in two places and drift.

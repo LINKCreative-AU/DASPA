@@ -140,11 +140,25 @@ pages, and should be confirmed against ARO's executed copy.
    biometrics, we hold the outcome. Widening it later is a privacy decision and a
    policy update, not a permission tweak.
 
-   **The API version is pinned** in `api/_lib/stripe.js` (`2026-05-27.dahlia`, the
-   version `abnassist-site` already runs in production). A webhook destination's
-   version is fixed when it is created and cannot be edited afterwards, so **create
-   the destination on that version**. Changing it later means a new destination and
-   moving `STRIPE_WEBHOOK_SECRET` with it.
+   **The API version is pinned** in `api/_lib/stripe.js` at `2026-06-24.dahlia`,
+   which is the DASPA account's own default and the version the three real Checkout
+   Sessions were created at, since every call so far went out unversioned. A webhook
+   destination's version is fixed when it is created and cannot be edited afterwards,
+   so **create the destination on that version**. Changing it later means a new
+   destination and moving `STRIPE_WEBHOOK_SECRET` with it. Do not press Workbench's
+   "Upgrade" button to clear the version badge: that moves the account default, not
+   this pin.
+
+   **Adaptive Pricing is on** for Checkout on this account, and nearly every DASPA
+   client is overseas so most will see a local currency. That is safe for the tax
+   invoice: Stripe's Adaptive Pricing documentation states the Checkout Session and
+   PaymentIntent "reflect what your customer paid in your integration currency and
+   amount", with the local figures carried separately in a `presentment_details`
+   hash. So `session.amount_total` stays `16390` and `session.currency` stays `aud`
+   whatever the client sees, and the invoice is built in AUD with AUD GST either way.
+   To see what an overseas client sees, create a Checkout Session with a
+   `+location_XX` email suffix (e.g. `test+location_FR@example.com`), which is
+   Stripe's documented way to force a presentment currency for testing.
 
    **Identity is not available to every claimant.** The Stripe Identity Agreement
    prohibits verifying anyone linked directly or indirectly with China or the
