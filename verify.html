@@ -43,7 +43,7 @@
         </ul>
         <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Stripe Identity</b>, the same provider that took your payment. Your <b>passport</b> and selfie go to Stripe, not to us, and we only ever see whether the check succeeded. Allow <b>camera access</b> when asked.</p>
         <div class="note">Tip: use your phone, find decent light, and take the selfie without a hat or sunglasses. Most people are done in under two minutes.</div>
-        <div class="stop hidden" id="verify-error">We couldn't start the verification session. Please try again in a moment. Your payment is safe and your claim is saved. Stuck? Message us on <a href="/wa" data-wa target="_blank" rel="noopener">WhatsApp</a>.</div>
+        <div class="stop hidden" id="verify-error">We couldn't start the verification session. Please try again in a moment. Your payment is safe and your claim is saved. Stuck? <a href="mailto:claims@daspa.com.au">Email us at claims@daspa.com.au</a>.</div>
         <button class="btn block" id="verify-btn" type="button">Verify my identity now</button>
         <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Prefer to do it later? We'll email you this link, but claims can't be lodged until it's done.<br>No camera on this device? Open this page on your phone, or <a href="/wa" target="_blank" rel="noopener">message us</a> and we'll verify you by hand at no extra cost.</p>
       </div>
@@ -74,8 +74,13 @@
   // Two casings because these appear both mid-sentence and sentence-initial,
   // and uppercasing the first character of a string that starts with "<a" does
   // nothing useful.
-  var WA = '<a href="/wa" target="_blank" rel="noopener">message us on WhatsApp</a>';
-  var WA_CAP = '<a href="/wa" target="_blank" rel="noopener">Message us on WhatsApp</a>';
+  //
+  // These were WhatsApp links to /wa until 8 September 2026. WHATSAPP_NUMBER has
+  // never been set, so every one of them redirected to /faq: this page told a
+  // client stuck mid-payment to message a channel that did not exist. Email is
+  // the honest escape hatch until WhatsApp Business is actually configured.
+  var WA = '<a href="mailto:claims@daspa.com.au">email us at claims@daspa.com.au</a>';
+  var WA_CAP = '<a href="mailto:claims@daspa.com.au">Email us at claims@daspa.com.au</a>';
 
   // wireWhatsApp() used to live in assets/site.js and build wa.me links in the
   // browser. It was deleted when the number moved server-side to /wa, but three

@@ -299,6 +299,47 @@ needs `supabase/2026-09-07-rate-limits.sql`; until that is applied it logs one w
 in-memory layer carries it alone. Cron (`/api/cron-nudge`, 6-hourly): 24h abandoned-
 verification nudges + "lodged" emails when the team sets `claim_status=lodged` in the dashboard.
 
+## WhatsApp is switched off, and half the job is still open
+
+`WHATSAPP_NUMBER` has never been set in Vercel, so `/wa` redirects to `/faq` and
+every WhatsApp call to action on the site leads somewhere that is not WhatsApp.
+Switched off 8 September 2026 rather than left promising a channel that does not
+answer.
+
+**Done.** The header button is hidden by one rule at the bottom of
+`assets/site.css`, and the four transactional pages (`/claim`, `/verify`,
+`/confirmation`, `/upload-form`) were changed properly to point at
+`claims@daspa.com.au`, because a client stuck mid-payment needs a route that
+works rather than one that is merely hidden. Client emails now say "reply to this
+email", with the address derived from `EMAIL_FROM` so there is one variable to
+keep right instead of two that can disagree.
+
+**Not done, and it needs a decision rather than a patch.** WhatsApp is also a
+*marketing claim* in body copy across the country and FAQ pages, including inside
+FAQPage JSON-LD and the `ja`, `ko` and `zh-tw` pages. Examples:
+
+- "Human support on WhatsApp from form to payout"
+- "real people answer on WhatsApp, in your timezone, until it lands"
+- "answers on WhatsApp, all for a flat $149 + GST"
+- "a human answers on WhatsApp" (FAQ, and its JSON-LD copy)
+
+Around 160 mentions over 43 pages. Those sentences are currently **untrue**, and
+on a service sold by a registered tax agent an untrue support claim is an
+Australian Consumer Law s18 exposure, not just stale copy. Two ways out:
+
+1. **Configure WhatsApp Business and set `WHATSAPP_NUMBER`.** Every claim becomes
+   true again, delete the CSS rule, revert the four pages. Cheapest by far if the
+   channel is genuinely coming.
+2. **Rewrite the claims.** They are load-bearing positioning ("human support" is
+   one of the site's three selling points against the ATO's free service), so the
+   replacement has to say something equally true, e.g. email support within
+   business hours, Monday to Friday 9am to 5pm AEST. That is a copy decision for
+   Juan, Chris and James, not a find-and-replace.
+
+Until one of those happens the site is quieter about WhatsApp but not honest
+about it. Worth resolving before any Ads spend, since the claim appears in ad
+landing copy.
+
 ## FOR LEGAL REVIEW (before launch)
 
 - Authority declaration wording in `claim.html`

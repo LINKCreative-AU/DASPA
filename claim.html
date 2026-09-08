@@ -186,7 +186,7 @@
           <div class="err" id="identity-err" style="margin:-6px 0 10px">Identity verification is required by law before we can lodge, please consent to continue.</div>
         </fieldset>
 
-        <div class="stop hidden" id="submit-error">Something went wrong sending your form. Nothing was charged. Please try again, or message us on <a href="/wa" data-wa target="_blank" rel="noopener">WhatsApp</a> and a human will sort it.</div>
+        <div class="stop hidden" id="submit-error">Something went wrong sending your form. Nothing was charged. Please try again, or <a href="mailto:claims@daspa.com.au">email us at claims@daspa.com.au</a> and a human will sort it.</div>
       </div>
 
       <div class="form-foot">
@@ -244,7 +244,7 @@
           <a href="/terms">Terms of Service</a>
           <a href="/privacy">Privacy Policy</a>
           <a href="/tpb">Important Information for Clients</a>
-          <a href="/wa" data-wa target="_blank" rel="noopener">WhatsApp us</a>
+          <a href="mailto:claims@daspa.com.au">Email us</a>
         </div>
       </div>
       <div>
@@ -466,8 +466,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       // ReferenceError it threw here stopped the two lines below ever running:
       // a failed submission left a dead "Saving your claim…" button, so the
       // client could not retry without reloading and losing the form. The
-      // WhatsApp link in the error banner is a plain href to /wa and needs no
-      // wiring.
+      // contact link in the error banner is a plain mailto and needs no wiring.
       document.getElementById('submit-error').classList.remove('hidden');
       btn.disabled = false;
       btn.textContent = 'Continue to payment →';
