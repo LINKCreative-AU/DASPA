@@ -5,7 +5,8 @@
 // prefix, never a length. The most it will say about a secret is true.
 //
 //   /api/health              what is set, in the scope serving this URL
-//   /api/health?deep=1       also calls Resend, Stripe and Supabase to prove
+//   /api/health?deep=1       also calls Resend, Stripe (account + Identity
+//                            permission) and Supabase to prove
 //                            the keys work, not just that they exist
 //
 // Access. Preview and development are open, because a preview deployment on
@@ -25,6 +26,7 @@
 'use strict';
 
 const config = require('./_lib/config');
+const { stripeHeaders } = require('./_lib/stripe');
 
 const set = (name) => !!(process.env[name] && String(process.env[name]).trim());
 
@@ -129,6 +131,69 @@ async function stripeAccount() {
     };
   } catch (e) {
     return { checked: true, ok: false, mode, error: e.message };
+  }
+}
+
+/* Proves STRIPE_SECRET_KEY can actually create a Stripe Identity session.
+
+   This is the one permission on the key that no other check can reach. A key
+   scoped to Checkout processes every payment perfectly and fails only here, so
+   the symptom in normal operation is a single 502 from /api/identity-session
+   with nothing in the client's experience explaining it. A restricted key
+   starts with Identity Verification Results at None, so the default state of a
+   brand new key is the broken one.
+
+   IT CLEANS UP AFTER ITSELF. The session is cancelled immediately, which per
+   Stripe's API reference disables future submission attempts, so nothing is
+   left behind that a person could stumble into. Creating and cancelling costs
+   nothing: Stripe bills per successful verification, and this one can never be
+   completed. The url and client_secret are never returned or logged.
+
+   The cancel is best-effort. An uncancelled session expires on its own, so a
+   failure there is worth reporting but is not worth failing the check over. */
+async function identityWrite() {
+  const key = String(process.env.STRIPE_SECRET_KEY || '').replace(/^\uFEFF/, '').trim();
+  if (!key) return { checked: false, reason: 'no secret key' };
+  const API = 'https://api.stripe.com/v1/identity/verification_sessions';
+
+  try {
+    const r = await fetch(API, {
+      method: 'POST',
+      headers: stripeHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      body: new URLSearchParams({
+        type: 'document',
+        'options[document][allowed_types][0]': 'passport',
+        'options[document][require_matching_selfie]': 'true',
+        'metadata[health_check]': 'true',
+      }).toString(),
+    });
+    const j = await r.json().catch(() => ({}));
+
+    if (!r.ok) {
+      const msg = (j.error && j.error.message) || `stripe ${r.status}`;
+      const permissions = r.status === 403 || /permission|scope/i.test(msg);
+      return {
+        checked: true, ok: false, error: msg,
+        /* Stripe's error body names the permission it wanted, so it is passed
+           through verbatim rather than summarised. */
+        fix: permissions
+          ? 'Stripe, Developers, API keys, edit this key: set Identity Verification Results to Write, '
+            + 'and leave both Detailed Verification Results rows at None.'
+          : undefined,
+      };
+    }
+
+    let cancelled = false;
+    if (j.id) {
+      const c = await fetch(`${API}/${encodeURIComponent(j.id)}/cancel`, {
+        method: 'POST', headers: stripeHeaders(),
+      }).catch(() => null);
+      cancelled = !!(c && c.ok);
+    }
+    // Deliberately no url and no client_secret in this response.
+    return { checked: true, ok: true, checks: 'passport + matching selfie', test_session_cancelled: cancelled };
+  } catch (e) {
+    return { checked: true, ok: false, error: e.message };
   }
 }
 
@@ -264,10 +329,10 @@ module.exports = async (req, res) => {
   if (bad.length) out.malformed_values = bad;
 
   if (req.query && req.query.deep) {
-    const [resend, stripe, supabase] = await Promise.all([
-      resendDomains(), stripeAccount(), supabaseReach(),
+    const [resend, stripe, identity, supabase] = await Promise.all([
+      resendDomains(), stripeAccount(), identityWrite(), supabaseReach(),
     ]);
-    out.deep = { resend, stripe, supabase };
+    out.deep = { resend, stripe, identity, supabase };
   }
 
   res.setHeader('Cache-Control', 'no-store');
