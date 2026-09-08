@@ -55,6 +55,51 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
 
    Not wired into the site yet, set ahead of the ActiveCampaign work so the
    credentials can be verified before the integration depends on them.
+
+   **Which environment each variable belongs to.** Vercel lets one entry cover
+   several environments, which is right for some of these and actively dangerous
+   for others. Learned the hard way on 8 September 2026.
+
+   | Variable | Scope | Why |
+   |---|---|---|
+   | `SITE_URL` | **separate entry per environment** | see the warning below |
+   | `STRIPE_SECRET_KEY` | **separate entry per environment** | live key on Production, `rk_test_` on Preview, or branch testing takes real money |
+   | `STRIPE_PUBLISHABLE_KEY` | separate per environment | `pk_live_` / `pk_test_` |
+   | `STRIPE_WEBHOOK_SECRET` | separate per environment | test and live destinations have different signing secrets |
+   | `OPS_EMAIL` | separate per environment | Preview to one person, Production to the team, so test claims do not raise real alerts |
+   | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | one entry, both | there is only one Supabase project. **Preview therefore reads and writes the production `claims` table**, so a test claim is a real row: note its id and delete it |
+   | `RESEND_API_KEY`, `EMAIL_FROM`, `WHATSAPP_NUMBER` | one entry, both | Resend has no test mode, so **email sent from Preview is real email**. Use your own address as the claimant when testing |
+   | `CRON_SECRET`, `HEALTH_KEY` | Production only | the cron only runs on Production; `/api/health` only needs a key there |
+   | `INVOICE_SECRET` | Production only | otherwise a test order asks the registrationoffice portal for a real tax invoice |
+   | `LODGEMENT_LIVE` | unset everywhere | until the ATO agreement is confirmed |
+
+   **`SITE_URL` MUST NOT BE SHARED BETWEEN PRODUCTION AND PREVIEW.** It is the
+   site's own address, and the server stitches it onto the front of every link it
+   hands Stripe: the checkout success and cancel URLs, the Identity return URL,
+   and the WhatsApp link in emails. Production and a preview deployment are at two
+   different addresses, so one value cannot be right for both:
+
+   - shared, holding `https://daspa.com.au` → a branch test payment redirects to
+     **production**, which is running different code, and the test silently proves
+     nothing;
+   - shared, holding the preview URL → **production sends real paying customers to
+     an SSO-protected deployment**, so they hit a Vercel login screen straight
+     after paying. This is the bad one.
+
+   Two entries, scoped so they do not overlap. Production `https://daspa.com.au`,
+   Preview the branch alias (`daspa-site-git-<branch>-online-services.vercel.app`,
+   no trailing slash, since the code appends paths directly). Unset is safe on
+   Production: `api/_lib/config.js` falls back to `https://daspa.com.au`. Unset on
+   Preview is the first trap above.
+
+   `/api/health` reports `site_url_in_use`, which is the quickest way to tell
+   whether a deployment picked the right one up.
+
+   **Vercel resolves env vars when a deployment is created.** Setting a variable
+   changes nothing until the next deployment, and redeploying *production* does not
+   redeploy a branch. To pick up new Preview values, redeploy the branch's own
+   deployment (Deployments → the row for that branch → ⋯ → Redeploy) or push a
+   commit to it.
    `abnassist-site` accepts either spelling per credential and `/api/health`
    watches both, because Vercel carries the long ones:
 
