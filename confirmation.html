@@ -102,7 +102,11 @@
          only 402. Say the true thing instead, and do not send them into a
          step that cannot succeed. */
       if (s.payment_status !== 'paid') {
-        document.getElementById('st-paid').textContent = 'Payment not showing against this claim yet';
+        var stPaid = document.getElementById('st-paid');
+        stPaid.textContent = 'Payment not showing against this claim yet';
+        /* Swap the green tick for an amber exclamation. Without this the line
+           reads as a completed step while saying the opposite. */
+        stPaid.classList.add('pending');
         document.getElementById('st-payment-missing').classList.remove('hidden');
         document.getElementById('hero-title').innerHTML = 'We have your claim. <em>One thing to check.</em>';
         document.getElementById('hero-sub').textContent = 'Your claim form is saved with us, but your payment has not registered against it yet.';
