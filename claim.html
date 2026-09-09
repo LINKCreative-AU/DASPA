@@ -186,6 +186,17 @@
           <div class="err" id="identity-err" style="margin:-6px 0 10px">Identity verification is required by law before we can lodge, please consent to continue.</div>
         </fieldset>
 
+        <div style="margin:0 0 18px">
+          <p style="font-weight:600;margin:0 0 4px">Are you in Australia right now?</p>
+          <p style="font-size:13px;color:var(--muted);margin:0 0 8px">
+            This decides whether GST applies to our fee, which we have to state on your tax invoice.
+            <b>The price is $163.90 either way</b> and your answer does not change what you pay.
+          </p>
+          <label class="check" style="margin-bottom:4px"><input type="radio" name="in_australia" value="yes" required><span>Yes, I am in Australia at the moment</span></label>
+          <label class="check"><input type="radio" name="in_australia" value="no"><span>No, I have already left Australia</span></label>
+          <div class="err" id="in-australia-err" style="margin:-2px 0 10px">Please let us know whether you are currently in Australia.</div>
+        </div>
+
         <div class="stop hidden" id="payments-closed">
           <b>We have paused new claims for a few days.</b> We are finishing off our identity
           verification and ATO lodgement setup, and we would rather not take your money until
@@ -395,6 +406,12 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     authErr.style.display = document.getElementById('authority').checked ? 'none' : 'block';
     identityErr.style.display = document.getElementById('identity_consent').checked ? 'none' : 'block';
     if (!document.getElementById('authority').checked || !document.getElementById('identity_consent').checked) bad = true;
+    /* Required, with no default selected. A pre-ticked answer would be us
+       declaring on the client's behalf where they are standing, which is the
+       one fact on this form that only they can know. */
+    var inAu = form.querySelector('input[name=in_australia]:checked');
+    document.getElementById('in-australia-err').style.display = inAu ? 'none' : 'block';
+    if (!inAu) bad = true;
 
     return !bad;
   }
@@ -444,7 +461,12 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       address_postcode: v('address_postcode'),
       address_country: v('address_country'),
       authority_accepted_at: now,
-      identity_consent_at: now
+      identity_consent_at: now,
+      /* Their answer only. edge_country and client_ip are written server-side in
+         api/create-checkout.js, and anon is revoked from both, because a browser
+         that could tell us which country the edge saw would make the
+         corroboration worthless. */
+      in_australia_declared: form.querySelector('input[name=in_australia]:checked').value === 'yes'
     };
 
     try {

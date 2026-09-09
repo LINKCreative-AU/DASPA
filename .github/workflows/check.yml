@@ -39,3 +39,9 @@ jobs:
       # test and take money in production.
       - name: Payments kill switch tests
         run: node tests/payments-live.mjs
+
+      # The corroboration behind the GST position on a tax invoice: a junk
+      # header must not reach the record, and the browser must never be its
+      # source.
+      - name: GST declaration tests
+        run: node tests/gst-declaration.mjs
