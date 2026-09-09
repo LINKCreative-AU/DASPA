@@ -45,3 +45,8 @@ jobs:
       # source.
       - name: GST declaration tests
         run: node tests/gst-declaration.mjs
+
+      # The seven-element guard on the tax invoice, and the Brisbane date that
+      # would otherwise be a day early on a payment made after 10am UTC.
+      - name: Invoice model tests
+        run: node tests/invoice.mjs
