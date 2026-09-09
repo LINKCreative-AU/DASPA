@@ -50,3 +50,9 @@ jobs:
       # would otherwise be a day early on a payment made after 10am UTC.
       - name: Invoice model tests
         run: node tests/invoice.mjs
+
+      # PDF structure (a wrong xref offset opens in some readers and not
+      # others) and the WinAnsi decision: a French name must be drawn, a
+      # Japanese one must be omitted rather than drawn as boxes.
+      - name: Invoice PDF tests
+        run: node tests/invoice-pdf.mjs
