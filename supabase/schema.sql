@@ -57,6 +57,11 @@ create table public.claims (
   authority_accepted_at timestamptz,  -- written authority appointing ARO Pty Ltd (RTA 26076969)
   identity_consent_at timestamptz,    -- Stripe Identity biometric comparison consent
 
+  -- human reference, and the invoice number for this claim (see
+  -- 2026-09-09-order-numbers.sql for the sequence, the format check and the
+  -- column-level grant that stops anon choosing its own)
+  order_number text,
+
   -- workflow
   payment_status text not null default 'unpaid' check (payment_status in ('unpaid','paid','refunded')),
   paid_at timestamptz,
@@ -115,5 +120,13 @@ create policy "anon can insert claims"
   on public.claims for insert
   to anon
   with check (true);
+
+-- RLS says anon MAY insert. It does not say WHICH COLUMNS, and "with check
+-- (true)" plus a table-wide grant let a crafted request set any of them:
+-- payment_status 'paid', verification_status 'verified', or its own
+-- order_number. The column-level allowlist in
+-- 2026-09-09-order-numbers.sql is what closes that, and it has to be applied
+-- for this table to be safe. Policies and grants are separate mechanisms and
+-- both are load-bearing.
 
 -- (no select/update/delete policies for anon or authenticated: denied by default)
