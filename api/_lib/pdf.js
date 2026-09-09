@@ -97,6 +97,25 @@ function textWidth(s, size, bold) {
   return (w * size) / 1000;
 }
 
+/* Colour. Accepts '#14164A', 'F5F7FD', [r,g,b] in 0..1, or a single number as
+   grey. The first version of this writer emitted only "g g g rg", so a brand
+   navy was literally unrepresentable and every invoice came out looking like a
+   fax. PDF wants three components in 0..1. */
+function rgb(c) {
+  if (c === undefined || c === null) return null;
+  if (Array.isArray(c)) return c.slice(0, 3).map((v) => Math.max(0, Math.min(1, v)));
+  if (typeof c === 'number') return [c, c, c];
+  const h = String(c).replace('#', '').trim();
+  if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+  return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+}
+
+function colourOp(c, op, fallback) {
+  const v = rgb(c === undefined ? fallback : c);
+  if (!v) return '';
+  return `${num(v[0])} ${num(v[1])} ${num(v[2])} ${op}\n`;
+}
+
 function pdfString(s) {
   // Escape only what a PDF literal string requires, on the encoded bytes.
   const bytes = encodeWinAnsi(s);
@@ -132,10 +151,8 @@ function doc(opts) {
       let tx = x;
       if (opt.align === 'right') tx = x - textWidth(s, size, bold);
       else if (opt.align === 'center') tx = x - textWidth(s, size, bold) / 2;
-      const g = opt.grey;
       push('BT\n');
-      if (g !== undefined) push(`${num(g)} ${num(g)} ${num(g)} rg\n`);
-      else push('0 0 0 rg\n');
+      push(colourOp(opt.color !== undefined ? opt.color : opt.grey, 'rg', 0));
       push(`/${bold ? 'F2' : 'F1'} ${num(size)} Tf\n`);
       push(`1 0 0 1 ${num(tx)} ${num(flip(y) - size * 0.28)} Tm\n`);
       push(pdfString(s));
@@ -144,15 +161,14 @@ function doc(opts) {
     },
     line(x1, y1, x2, y2, o) {
       const opt = o || {};
-      const g = opt.grey === undefined ? 0.8 : opt.grey;
-      push(`${num(g)} ${num(g)} ${num(g)} RG\n${num(opt.width || 0.7)} w\n`);
+      push(colourOp(opt.color !== undefined ? opt.color : opt.grey, 'RG', 0.8));
+      push(`${num(opt.width || 0.7)} w\n`);
       push(`${num(x1)} ${num(flip(y1))} m ${num(x2)} ${num(flip(y2))} l S\n`);
       return api;
     },
     rect(x, y, w, h, o) {
       const opt = o || {};
-      const g = opt.grey === undefined ? 0.95 : opt.grey;
-      push(`${num(g)} ${num(g)} ${num(g)} rg\n`);
+      push(colourOp(opt.color !== undefined ? opt.color : opt.grey, 'rg', 0.95));
       push(`${num(x)} ${num(flip(y + h))} ${num(w)} ${num(h)} re f\n`);
       return api;
     },
@@ -209,4 +225,4 @@ function doc(opts) {
   return api;
 }
 
-module.exports = { doc, A4, canEncode, encodeWinAnsi, textWidth };
+module.exports = { doc, A4, canEncode, encodeWinAnsi, textWidth, rgb };

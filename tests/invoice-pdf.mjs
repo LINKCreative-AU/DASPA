@@ -143,6 +143,33 @@ eq('CJK contributes no bytes', [...pdf.encodeWinAnsi('田')], []);
   catch (e) { console.log(/without a built invoice model/.test(e.message) ? 'PASS  raw object -> refuses' : `FAIL  wrong message: ${e.message}`); }
 }
 
+// --- colour parsing ------------------------------------------------------
+eq('hex parses to three components', pdf.rgb('#14164A').map((v) => v.toFixed(3)),
+   ['0.078', '0.086', '0.290']);
+eq('hex without the hash also parses', !!pdf.rgb('14164A'), true);
+eq('a bare number is grey', pdf.rgb(0.5), [0.5, 0.5, 0.5]);
+eq('an array passes through clamped', pdf.rgb([2, -1, 0.5]), [1, 0, 0.5]);
+eq('junk is null, not black-by-accident', pdf.rgb('nope'), null);
+
+// --- the invoice is actually in brand colour -----------------------------
+// The first version of the writer could only emit "g g g rg", so every invoice
+// came out looking like a fax. These assert the brand colours reach the file,
+// so a future change cannot quietly drop back to greyscale.
+{
+  const s = render().toString('latin1');
+  const op = (hex, o) => {
+    const v = pdf.rgb(hex).map((x) => (Math.round(x * 100) / 100).toString());
+    return `${v[0]} ${v[1]} ${v[2]} ${o}`;
+  };
+  eq('navy fill is used', s.includes(op('#14164A', 'rg')), true);
+  eq('accent blue is used (the A in the wordmark)', s.includes(op('#4A7BFF', 'rg')), true);
+  eq('yellow is used (the keyline and the stop)', s.includes(op('#fae541', 'rg')), true);
+  eq('green is used (the paid panel)', s.includes(op('#1b9e62', 'rg')), true);
+  eq('the wordmark is drawn in three pieces', 
+     [/\(DASP\) Tj/.test(s), /\(A\) Tj/.test(s), /\(\.\) Tj/.test(s)], [true, true, true]);
+  eq('the tagline is on the band', s.includes('GET YOUR SUPER BACK'), true);
+}
+
 // --- right alignment actually measures ----------------------------------
 eq('wider string measures wider',
    pdf.textWidth('$163.90', 10, false) > pdf.textWidth('$1.90', 10, false), true);
