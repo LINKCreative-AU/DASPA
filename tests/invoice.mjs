@@ -61,7 +61,9 @@ eq('a mid-morning AEST payment is unaffected',
 // --- taxable amounts reconcile with what Stripe charged -----------------
 {
   const m = invoice.build(paidClaim());
-  eq('subtotal is ex-GST', m.subtotal, '$149.00');
+  eq('subtotal is ex-GST', m.subtotal, '$149.00');   // model still carries it; the PDF does not print a subtotal row
+  eq('total label says including GST', m.total_label, 'Total paid, including GST');
+  eq('amount column is labelled ex-GST', m.amount_column_label, 'AMOUNT (EX GST)');
   eq('total is what was charged', m.total, '$163.90');
   eq('GST is exactly one eleventh', m.gst_cents * 11, m.total_cents);
   eq('line amount is ex-GST when taxable', m.lines[0].amount, '$149.00');
@@ -77,6 +79,8 @@ eq('a mid-morning AEST payment is unaffected',
   eq('gst_free line carries the whole amount', m.lines[0].amount, '$163.90');
   eq('gst_free line is marked not taxable', m.lines[0].taxable, false);
   eq('gst_free total still matches the charge', m.total, '$163.90');
+  eq('gst_free total label drops "including GST"', m.total_label, 'Total paid');
+  eq('gst_free amount column is plain', m.amount_column_label, 'AMOUNT');
   eq('element 7 explains the basis', /GST-free export/.test(m.taxable_extent), true);
 }
 

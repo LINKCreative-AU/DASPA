@@ -1,13 +1,25 @@
-// Renders the invoice model onto one A4 page, in DASPA's own colours.
+// Renders the invoice model onto one A4 page, following the ABN Assist tax
+// invoice Juan supplied as the reference on 9 September 2026.
 //
 // Layout only. What the document SAYS is decided in _lib/invoice.js, which
 // refuses to hand over a model missing any of the seven ATO elements, so this
 // file lays out what it is given without re-checking the law.
 //
-// The palette is lifted from assets/site.css rather than chosen here, so an
-// invoice looks like the site the client just paid on. The wordmark follows the
-// same treatment as the site header: DASP in white, the A in accent blue, the
-// full stop in yellow.
+// WHAT THE REFERENCE ACTUALLY LOOKS LIKE
+//
+// White page, no header band. A navy wordmark top left with the document type
+// opposite it, a navy rule under both, then everything else stacked compactly
+// in the upper third: issued-by and billed-to side by side, a row of three
+// facts, the line table, GST and total right-aligned, a green full-width paid
+// strip, and the notes as body text directly beneath it.
+//
+// The first version of this file invented a full-bleed navy header band and a
+// footer pinned to the bottom of the page. Neither is in the reference, and
+// both made the document look like a different company's. Restraint with navy
+// accents is the house style, not decoration.
+//
+// The palette is DASPA's own, from assets/site.css, so it matches the site the
+// client just paid on rather than copying ABN Assist's colours.
 //
 // THE ONE JUDGEMENT CALL IN HERE
 //
@@ -17,8 +29,6 @@
 // one of the required elements, so omitting it leaves the document complete;
 // printing gibberish would not. The client's full name still appears in the
 // email body and on the hosted copy, in proper Unicode.
-//
-// Decided with Juan, 9 September 2026.
 
 'use strict';
 
@@ -27,22 +37,20 @@ const pdf = require('./pdf');
 // assets/site.css :root
 const NAVY = '#14164A';
 const ACCENT = '#4A7BFF';
-const YELLOW = '#fae541';
 const INK = '#1e2250';
 const MUTED = '#5a6480';
 const LINE = '#DCE0F2';
 const GREEN = '#1b9e62';
-const PANEL = '#F5F7FD';
-const WHITE = '#ffffff';
-const REVERSED = '#aeb6d8';      // the muted tone that works on navy
+const GREEN_BG = '#E8F5EE';
 
-const M = 48;                    // page margin
+const M = 48;
 const W = pdf.A4.width;
 const RIGHT = W - M;
+const COL2 = M + 268;            // the billed-to column
 
 function label(d, s, x, y, opt) {
   d.text(String(s).toUpperCase(), x, y,
-    Object.assign({ size: 7.5, bold: true, color: MUTED }, opt || {}));
+    Object.assign({ size: 7.5, bold: true, color: NAVY }, opt || {}));
 }
 
 function render(model) {
@@ -52,135 +60,118 @@ function render(model) {
   }
 
   const d = pdf.doc();
+  let y = 56;
 
-  // ------------------------------------------------------- navy header band
-  // Full bleed, like the site header. 96pt deep.
-  d.rect(0, 0, W, 96, { color: NAVY });
-
-  /* Wordmark, drawn in three pieces so the A and the stop carry their colours.
-     Widths are measured rather than guessed, because "DASP" in 24pt bold is not
-     a number anybody should hardcode. */
-  const wmY = 34;
-  const wmSize = 24;
+  // ------------------------------------------------------- wordmark and type
+  /* Three pieces so the A carries the accent, as on the site. The full stop is
+     yellow on the navy site header; on white it would be invisible, so it takes
+     the accent blue too. Widths are measured, not guessed. */
+  const wmSize = 21;
   let wx = M;
-  d.text('DASP', wx, wmY, { size: wmSize, bold: true, color: WHITE });
+  d.text('DASP', wx, y, { size: wmSize, bold: true, color: NAVY });
   wx += d.widthOf('DASP', wmSize, true);
-  d.text('A', wx, wmY, { size: wmSize, bold: true, color: ACCENT });
+  d.text('A', wx, y, { size: wmSize, bold: true, color: ACCENT });
   wx += d.widthOf('A', wmSize, true);
-  d.text('.', wx, wmY, { size: wmSize, bold: true, color: YELLOW });
-  d.text('GET YOUR SUPER BACK', M + 1, wmY + 26, { size: 6.5, bold: true, color: REVERSED });
+  d.text('.', wx, y, { size: wmSize, bold: true, color: ACCENT });
 
-  // element 1: what this document is, reversed out on the right
-  d.text(m.document_type, RIGHT, wmY, { size: 14, bold: true, align: 'right', color: WHITE });
-  d.text(`Registered Tax Agent ${m.seller_tax_agent_number}`, RIGHT, wmY + 26,
-    { size: 7.5, align: 'right', color: REVERSED });
+  // element 1
+  d.text(m.document_type, RIGHT, y + 4, { size: 11, bold: true, align: 'right', color: NAVY });
 
-  // yellow keyline under the band, the site's accent device
-  d.rect(0, 96, W, 3, { color: YELLOW });
-
-  let y = 128;
+  y += 16;
+  d.line(M, y, RIGHT, y, { width: 1.6, color: NAVY });
+  y += 16;
 
   // -------------------------------------------------- issued by / billed to
-  const colR = M + 292;
   label(d, 'Issued by', M, y);
-  d.text(m.seller_trading_as, M, y + 15, { size: 11.5, bold: true, color: INK });
-  d.text(m.seller_legal_name, M, y + 29, { size: 8.5, color: MUTED });
-  d.text(`ABN ${m.seller_abn}`, M, y + 41, { size: 8.5, color: MUTED });
+  // elements 2 and 3
+  d.text(m.seller_trading_as, M, y + 13, { size: 10.5, bold: true, color: INK });
+  d.text(m.seller_legal_name, M, y + 26, { size: 8, color: MUTED });
+  d.text(`Our ABN (the supplier): ${m.seller_abn}`, M, y + 37, { size: 8, color: MUTED });
+  d.text(`Registered Tax Agent ${m.seller_tax_agent_number}`, M, y + 48, { size: 8, color: MUTED });
 
-  label(d, 'Billed to', colR, y);
+  label(d, 'Billed to', COL2, y);
   const nameDrawable = m.buyer_name && pdf.canEncode(m.buyer_name);
   if (nameDrawable) {
-    d.text(m.buyer_name, colR, y + 15, { size: 11.5, bold: true, color: INK });
+    d.text(m.buyer_name, COL2, y + 13, { size: 10.5, bold: true, color: INK });
   } else {
-    d.text('Details as per your claim', colR, y + 15, { size: 10, color: MUTED });
+    d.text('Details as per your claim', COL2, y + 13, { size: 9.5, color: MUTED });
   }
   if (m.buyer_email && pdf.canEncode(m.buyer_email)) {
-    d.text(m.buyer_email, colR, y + 29, { size: 8.5, color: MUTED });
+    d.text(m.buyer_email, COL2, y + 26, { size: 8, color: MUTED });
   }
-  y += 66;
+  y += 74;
 
-  // ------------------------------------------- number / date / amount panel
-  d.rect(M, y, RIGHT - M, 50, { color: PANEL });
-  const cells = [
-    ['Invoice number', m.invoice_number],
-    ['Date of issue', m.date_of_issue],     // element 4
-    ['Amount paid', `${m.total} ${m.currency}`],
-  ];
-  cells.forEach(([k, v], i) => {
-    const x = M + 16 + i * 166;
-    label(d, k, x, y + 13);
-    d.text(String(v), x, y + 30, { size: 11, bold: true, color: INK });
+  // ------------------------------------------------------ three facts, no panel
+  /* The reference's third column is PAYMENT METHOD. DASPA does not store it:
+     the webhook records the payment intent, not the card brand, so putting
+     "Credit card" here would be an assumption on a tax document. Amount paid is
+     a fact we hold. Capturing the method from charge.payment_method_details is
+     a small follow-up if it is wanted. */
+  [['Order / invoice number', m.invoice_number],
+   ['Date paid', m.date_of_issue],
+   ['Amount paid', `${m.total} ${m.currency}`],
+  ].forEach(([k, v], i) => {
+    const x = M + i * 168;
+    label(d, k, x, y);
+    d.text(String(v), x, y + 14, { size: 10.5, bold: true, color: INK });
   });
-  y += 76;
+  y += 42;
 
   // ------------------------------------------------------------ line items
-  label(d, 'Description', M, y, { color: NAVY });
-  label(d, 'Qty', M + 336, y, { color: NAVY });
-  /* Right-aligned, so it cannot use label(), which is left-aligned. Drawing
-     both printed AMOUNTAMOUNT on the first version of this file. */
-  d.text('AMOUNT', RIGHT, y, { size: 7.5, bold: true, align: 'right', color: NAVY });
-  y += 11;
-  d.line(M, y, RIGHT, y, { width: 1.2, color: NAVY });
+  label(d, 'Description', M, y);
+  d.text(m.amount_column_label, RIGHT, y, { size: 7.5, bold: true, align: 'right', color: NAVY });
+  y += 10;
+  d.line(M, y, RIGHT, y, { width: 1, color: NAVY });
 
-  // element 5: description, quantity and price
+  // element 5
   m.lines.forEach((ln) => {
-    y += 20;
-    d.text(ln.description, M, y, { size: 10, color: INK });
-    d.text(String(ln.quantity), M + 336, y, { size: 10, color: INK });
-    d.text(ln.amount, RIGHT, y, { size: 10, bold: true, align: 'right', color: INK });
-    y += 11;
+    y += 19;
+    d.text(ln.description, M, y, { size: 9.5, color: INK });
+    d.text(ln.amount, RIGHT, y, { size: 9.5, bold: true, align: 'right', color: INK });
+    y += 10;
     d.line(M, y, RIGHT, y, { color: LINE });
   });
 
-  // ---------------------------------------------------------------- totals
-  y += 20;
-  const tl = RIGHT - 160;
-  d.text('Subtotal', tl, y, { size: 9.5, color: MUTED });
-  d.text(m.subtotal, RIGHT, y, { size: 9.5, align: 'right', color: INK });
-  y += 16;
-  /* Named GST either way. On a GST-free sale it reads $0.00 and the panel below
-     states plainly that none was charged, which is clearer than dropping the
-     row and leaving a reader to wonder whether it was forgotten. */
-  d.text('GST', tl, y, { size: 9.5, color: MUTED });
+  // ------------------------------------------------------------ GST + total
+  /* No subtotal row. The line amount already IS the ex-GST figure, so a
+     subtotal of a single line just repeats it, which is why the reference
+     labels the total "including GST" instead. */
+  y += 22;
+  d.text('GST', RIGHT - 84, y, { size: 9.5, align: 'right', color: MUTED });
   d.text(m.gst_amount, RIGHT, y, { size: 9.5, align: 'right', color: INK });
-  y += 10;
-  d.line(tl, y, RIGHT, y, { width: 1, color: LINE });
-  y += 20;
-  d.text('Total paid', tl, y, { size: 11.5, bold: true, color: INK });
-  d.text(`${m.total} ${m.currency}`, RIGHT, y, { size: 14, bold: true, align: 'right', color: NAVY });
+  y += 15;
+  d.text(m.total_label, RIGHT - 84, y, { size: 9.5, align: 'right', color: MUTED });
+  d.text(`${m.total}`, RIGHT, y, { size: 13, bold: true, align: 'right', color: INK });
 
-  // ------------------------------------------------ paid panel, green means done
-  y += 32;
-  d.rect(M, y, RIGHT - M, 40, { color: '#E8F5EE' });
-  d.rect(M, y, 3.5, 40, { color: GREEN });
-  d.text(m.paid_statement, M + 16, y + 15, { size: 9.5, bold: true, color: GREEN });
-  // element 6
-  d.text(m.gst_statement, M + 16, y + 29, { size: 9, color: MUTED });
-  y += 58;
+  // --------------------------------------------------------- paid, in green
+  y += 22;
+  d.rect(M, y, RIGHT - M, 26, { color: GREEN_BG });
+  d.text(m.paid_statement, M + 12, y + 10, { size: 9, bold: true, color: GREEN });
 
-  // element 7
-  d.text(m.taxable_extent, M, y, { size: 8.5, color: MUTED });
-  y += 18;
-  d.text('Keep this invoice with your records.', M, y, { size: 8.5, color: MUTED });
-
-  // ----------------------------------------------------------------- footer
-  let fy = pdf.A4.height - M - 40;
-  d.line(M, fy, RIGHT, fy, { color: LINE });
-  fy += 13;
-  d.text(`${m.seller_legal_name} trading as ${m.seller_trading_as}`, M, fy, { size: 8, bold: true, color: MUTED });
-  fy += 11;
-  d.text(`ABN ${m.seller_abn}   ·   Registered Tax Agent ${m.seller_tax_agent_number}`, M, fy, { size: 8, color: MUTED });
-  fy += 11;
-  /* Both numbers. The 1800 is useless to somebody who has already flown home,
+  // ------------------------------------------------------------------ notes
+  /* Body text under the panel, not a page footer. Deliberately NOT carrying
+     ABN Assist's "this fee is tax deductible as a cost of carrying on your
+     business": true for a sole trader registering an ABN, false for a departing
+     temporary resident claiming super, and a misleading representation if
+     copied across. */
+  y += 44;
+  const note = (t) => { d.text(t, M, y, { size: 7.5, color: MUTED }); y += 11; };
+  // element 6 and element 7
+  note(m.gst_statement);
+  note(m.taxable_extent);
+  note('Keep this invoice with your records.');
+  note('The ABN under "Issued by" is ours as the supplier of this service.');
+  y += 3;
+  note(`${m.seller_legal_name} trading as ${m.seller_trading_as}. Registered Tax Agent ${m.seller_tax_agent_number}.`);
+  /* Both numbers: the 1800 is useless to somebody who has already flown home,
      which is most of this client base. */
-  d.text(`${m.seller_email}   ·   ${m.seller_phone_au} (in Australia)   ·   ${m.seller_phone_intl} (overseas)`,
-    M, fy, { size: 8, color: MUTED });
+  note(`Questions about this invoice: ${m.seller_email}, ${m.seller_phone_au} in Australia, or ${m.seller_phone_intl} from overseas.`);
 
   return d.end();
 }
 
 function filename(model) {
-  return `DASPA invoice ${model.invoice_number}.pdf`;
+  return `DASPA - Order ${model.invoice_number} tax invoice.pdf`;
 }
 
 module.exports = { render, filename };

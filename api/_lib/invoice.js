@@ -173,6 +173,11 @@ function build(claim) {
     currency: (config.CURRENCY || 'aud').toUpperCase(),
     paid_statement: `Paid in full on ${brisbaneDate(c.paid_at)}`
       + (brisbaneTime(c.paid_at) ? ` at ${brisbaneTime(c.paid_at)}` : '') + '.',
+    /* The reference invoice labels the total "Total paid, including GST" rather
+       than showing a separate subtotal row, because the line amount already IS
+       the ex-GST figure and a subtotal of one line repeats it. */
+    total_label: taxable ? 'Total paid, including GST' : 'Total paid',
+    amount_column_label: taxable ? 'AMOUNT (EX GST)' : 'AMOUNT',
 
     /* Not one of the seven: the buyer's identity is only required at $1,000 or
        more and this sale is $163.90. Carried anyway so the template stays valid

@@ -126,8 +126,17 @@ eq('CJK contributes no bytes', [...pdf.encodeWinAnsi('田')], []);
                      'taxable sale', '1800 546 526', '+61 7 2101 4373']) {
     eq(`contains ${bit}`, s.includes(bit), true);
   }
-  eq('no duplicated AMOUNT heading', (s.match(/\(AMOUNT\) Tj/g) || []).length, 1);
+  /* The heading is drawn once. An earlier version drew it twice, once through
+     the left-aligned label() helper and once right-aligned, which printed
+     AMOUNTAMOUNT. It now reads "AMOUNT (EX GST)" on a taxable sale. */
+  eq('amount heading drawn exactly once',
+     (s.match(/\(AMOUNT \\\(EX GST\\\)\) Tj/g) || []).length, 1);
   eq('no "deductible" claim', /deductib/i.test(s), false);
+  /* No subtotal row: the line amount already IS the ex-GST figure, so a
+     subtotal of one line repeats it. The reference labels the total
+     "including GST" instead. */
+  eq('no Subtotal row', /\(Subtotal\) Tj/.test(s), false);
+  eq('total says including GST', s.includes('Total paid, including GST'), true);
 }
 {
   const s = render({ gst_treatment: 'gst_free' }).toString('latin1');
@@ -161,13 +170,17 @@ eq('junk is null, not black-by-accident', pdf.rgb('nope'), null);
     const v = pdf.rgb(hex).map((x) => (Math.round(x * 100) / 100).toString());
     return `${v[0]} ${v[1]} ${v[2]} ${o}`;
   };
-  eq('navy fill is used', s.includes(op('#14164A', 'rg')), true);
+  eq('navy is used (wordmark, rules, labels)', s.includes(op('#14164A', 'rg')), true);
   eq('accent blue is used (the A in the wordmark)', s.includes(op('#4A7BFF', 'rg')), true);
-  eq('yellow is used (the keyline and the stop)', s.includes(op('#fae541', 'rg')), true);
-  eq('green is used (the paid panel)', s.includes(op('#1b9e62', 'rg')), true);
-  eq('the wordmark is drawn in three pieces', 
+  eq('green is used (the paid strip)', s.includes(op('#1b9e62', 'rg')), true);
+  eq('the wordmark is drawn in three pieces',
      [/\(DASP\) Tj/.test(s), /\(A\) Tj/.test(s), /\(\.\) Tj/.test(s)], [true, true, true]);
-  eq('the tagline is on the band', s.includes('GET YOUR SUPER BACK'), true);
+  /* No yellow, and no full-bleed band. An earlier version had both. The
+     reference invoice Juan supplied is a white page with navy type and a green
+     paid strip, and yellow on white does not read anyway. A band would also
+     mean a filled rect spanning the full page width, so assert there isn't one. */
+  eq('no yellow on a white page', s.includes(op('#fae541', 'rg')), false);
+  eq('no full-bleed header band', /0 [\d.]+ 595\.28 \d+ re f/.test(s), false);
 }
 
 // --- right alignment actually measures ----------------------------------
@@ -177,8 +190,9 @@ eq('bold is wider than regular for the same string',
    pdf.textWidth('Total paid', 11, true) > pdf.textWidth('Total paid', 11, false), true);
 
 // --- filename ------------------------------------------------------------
-eq('filename carries the invoice number',
-   invoicePdf.filename(invoice.build(claim())), 'DASPA invoice DASP00020151.pdf');
+// Named like the reference: product, order number, what it is.
+eq('filename carries the order number',
+   invoicePdf.filename(invoice.build(claim())), 'DASPA - Order DASP00020151 tax invoice.pdf');
 
 console.log(`\n${n} assertions, ${failed} failed`);
 process.exit(failed ? 1 : 0);
