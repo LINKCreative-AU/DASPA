@@ -56,3 +56,8 @@ jobs:
       # Japanese one must be omitted rather than drawn as boxes.
       - name: Invoice PDF tests
         run: node tests/invoice-pdf.mjs
+
+      # The one-off customer backfill writes to production, so what matters is
+      # the ways it refuses and the idempotency key that makes a re-run safe.
+      - name: Customer backfill tests
+        run: node tests/backfill-customers.mjs
