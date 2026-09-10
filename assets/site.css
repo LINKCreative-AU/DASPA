@@ -172,6 +172,15 @@ input[type=range]{width:100%;accent-color:var(--blue);height:30px}
 .checklist li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;font-weight:500}
 .checklist li::before{content:"";width:20px;height:20px;flex:none;margin-top:2px;border-radius:50%;background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4 10-11'/%3E%3C/svg%3E") center/12px no-repeat}
 @media(min-width:700px){.checklist{grid-template-columns:1fr 1fr}}
+/* A checklist item that is NOT done. Every li in .checklist carries a green
+   tick, so a line whose text was rewritten to say something had not happened
+   still showed a tick beside it: /confirmation told Saul Moss "Payment not
+   showing against this claim yet" with a green tick, immediately above a red
+   banner saying the same thing. Two contradictory signals with the reassuring
+   one first, on a page a client reads after a failed card. Amber exclamation
+   instead, matching the "task" colour used in the emails. */
+.checklist li.pending{color:var(--ink)}
+.checklist li.pending::before{background:var(--amber,#E8B33A) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round'%3E%3Cpath d='M12 6v8'/%3E%3Cpath d='M12 17.6v.2'/%3E%3C/svg%3E") center/12px no-repeat}
 
 /* ---------- how it works ---------- */
 .steps3{display:grid;grid-template-columns:1fr;gap:14px}

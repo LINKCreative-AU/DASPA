@@ -8,6 +8,24 @@ const config = require('./_lib/config');
 const db = require('./_lib/supabase');
 const email = require('./_lib/email');
 const { stripeHeaders } = require('./_lib/stripe');
+const { clientIp } = require('./_lib/guard');
+
+/* Where Vercel's edge thinks this request came from, as a two-letter ISO 3166-1
+   code. Corroborates the client's own "am I in Australia" answer, which decides
+   what the tax invoice says about GST.
+   https://vercel.com/docs/headers/request-headers
+
+   Evidence, never an override. A VPN, a mobile carrier routing through another
+   country, or an Australian SIM roaming overseas all produce a wrong answer,
+   and the client standing in a room knows which country it is better than a
+   header does. A disagreement sets gst_review_required in the database and a
+   human looks at it. Nothing here changes what anyone is charged. */
+function edgeCountry(req) {
+  const h = (req && req.headers) || {};
+  const raw = h['x-vercel-ip-country'] || h['X-Vercel-IP-Country'] || '';
+  const c = String(raw).trim().toUpperCase();
+  return /^[A-Z]{2}$/.test(c) ? c : null;
+}
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'method not allowed' });
@@ -94,7 +112,14 @@ module.exports = async (req, res) => {
       return res.status(502).json({ error: 'payment provider unavailable' });
     }
 
-    await db.updateClaim(claim.id, { stripe_session_id: session.id });
+    /* Written here rather than at form insert because these two are the only
+       facts on the claim that must NOT come from the browser, and this is the
+       first server-side touch. anon is revoked from both columns. */
+    await db.updateClaim(claim.id, {
+      stripe_session_id: session.id,
+      edge_country: edgeCountry(req),
+      client_ip: clientIp(req),
+    });
 
     if (firstAttempt) {
       await email.formReceived(claim);

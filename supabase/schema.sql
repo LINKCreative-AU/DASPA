@@ -53,6 +53,12 @@ create table public.claims (
   address_postcode text,
   address_country text,
 
+  -- GST position (see 2026-09-09-gst-declaration.sql for the why and the trigger)
+  in_australia_declared boolean,      -- the client's own answer at submission; does NOT change the price
+  edge_country text,                  -- two-letter country Vercel's edge saw; corroboration, never an override
+  client_ip text,                     -- kept for dispute evidence
+  gst_treatment text check (gst_treatment in ('taxable','gst_free')),
+
   -- consents (timestamps captured at submission)
   authority_accepted_at timestamptz,  -- written authority appointing ARO Pty Ltd (RTA 26076969)
   identity_consent_at timestamptz,    -- Stripe Identity biometric comparison consent
