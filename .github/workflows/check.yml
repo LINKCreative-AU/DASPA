@@ -61,3 +61,9 @@ jobs:
       # the ways it refuses and the idempotency key that makes a re-run safe.
       - name: Customer backfill tests
         run: node tests/backfill-customers.mjs
+
+      # The verification link travels in an email with two editable ids in it.
+      # The pairing check, and the single 404 that hides whether an order
+      # exists or has been paid, are the whole security of that link.
+      - name: Identity endpoint tests
+        run: node tests/identity.mjs
