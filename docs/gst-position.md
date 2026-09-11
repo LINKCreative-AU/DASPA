@@ -1,9 +1,20 @@
 # GST treatment of the DASPA fee
 
-**Status: CONFIRMED by James and Chris, 11 September 2026, and applied.
-The fee is $150 with no GST. Applied in commit on branch claude/verify-id;
-the database side is supabase/2026-09-11-gst-free-and-price.sql, which must be
-run before the next order is taken.**
+**Status: CONFIRMED by James and Chris, 11 September 2026, and APPLIED.**
+The fee is $150 with no GST. Code on branch claude/verify-id;
+`supabase/2026-09-11-gst-free-and-price.sql` was run against production
+("Online Services Combined", ufsnmrqenedpyqyviwne) on 11 September 2026 and
+reported:
+
+| gst_treatment | claims | with_amount | min_paid | max_paid |
+|---|---|---|---|---|
+| gst_free | 11 | 0 | null | null |
+| taxable | 4 | 4 | 16390 | 16390 |
+
+The four paid claims keep `taxable` at $163.90, so their invoices still
+reproduce what was issued. The eleven are unpaid form-fills, which now default
+to GST-free and will stay that way if any of them ever pays. See "The eleven
+unpaid rows" below.
 
 Last updated 11 September 2026.
 
@@ -103,6 +114,29 @@ what was issued.
 **This needs a deliberate decision from James**, not a code change: whether to
 refund the GST component to those three clients, reissue their invoices, or
 leave them and remit. Nothing in the build assumes an answer.
+
+## The eleven unpaid rows
+
+The check turned up **11 unpaid claims**. Those are abandoned form-fills, and
+under the current order (the form inserts to Supabase before payment) each one
+carries a full payload: tax file number, passport number, date of birth and
+bank details, for somebody who never became a client.
+
+Nothing in the codebase deletes them. This is the same gap the ABN Assist
+review flagged, and it is no longer hypothetical here: the rows exist now.
+
+Two things follow, neither of them a tax question:
+
+1. **A retention sweep** on `payment_status = 'unpaid'` rows. OAIC guidance on
+   TFN information is to restrict access and not keep it longer than needed,
+   and eleven strangers' TFNs on rows nobody will ever act on fails that on
+   its face. The window is a judgement, not a rule: `api/id-documents-sweep.js`
+   in abnassist-site is worth reading as a model for how to write that
+   judgement down.
+2. **The pre-payment storage change** (see the backlog in README) stops the
+   pile growing, but does nothing about the eleven already there.
+
+Neither is blocked by anything. Both need somebody to pick a retention window.
 
 ## Sources
 
