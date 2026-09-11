@@ -103,21 +103,32 @@ function build(claim) {
     throw new Error(`invoice: claim ${c.order_number} has no paid_at, so the date of issue cannot be established.`);
   }
 
-  /* Defaulting to taxable rather than throwing on a null. Every page on the
-     site advertises "$163.90 inc. GST", so taxable is what the client was told,
-     and it is the direction that does not under-remit if the position is ever
-     revisited. Claims predating 9 September 2026 have no declaration. */
-  const treatment = c.gst_treatment === 'gst_free' ? 'gst_free' : 'taxable';
+  /* GST-free is the position for every sale from 11 September 2026, see
+     docs/gst-position.md. The taxable branch stays for the handful invoiced
+     before that: an invoice reissued for one of those has to reproduce the
+     document the client was actually sent. A null defaults to gst_free, which
+     matches the database default. */
+  const treatment = c.gst_treatment === 'taxable' ? 'taxable' : 'gst_free';
   const taxable = treatment === 'taxable';
 
-  const total = config.FEE_CENTS;
-  const exGst = config.FEE_EX_GST_CENTS;
-  const gst = taxable ? total - exGst : 0;
+  /* WHAT WAS CHARGED, not what we charge now. config.FEE_CENTS is the fallback
+     for rows written before amount_paid_cents existed, all of which paid
+     $163.90. Building the figures from the current price means the next price
+     change silently restates every invoice ever issued, and the document stops
+     agreeing with the client's card statement. */
+  const total = Number.isInteger(c.amount_paid_cents) && c.amount_paid_cents > 0
+    ? c.amount_paid_cents
+    : config.FEE_CENTS;
 
-  /* Reconciliation, not decoration. If someone changes one constant and not the
-     other, this stops an invoice going out with figures that do not add up. */
+  /* On a taxable sale the price is GST-inclusive, so the GST is exactly one
+     eleventh and the ex-GST figure follows from it. Derived rather than read
+     from a second constant, because a second constant goes stale the moment
+     the price moves, which is what just happened to this file. */
+  const gst = taxable ? Math.round(total / 11) : 0;
+  const exGst = total - gst;
+
   if (taxable && gst * 11 !== total) {
-    throw new Error(`invoice: GST of ${gst} is not one eleventh of ${total}. The pricing constants in _lib/config.js disagree with each other.`);
+    throw new Error(`invoice: ${total} cents does not divide into eleven whole cents, so the GST on it cannot be stated exactly.`);
   }
 
   const lines = [{
@@ -180,7 +191,7 @@ function build(claim) {
     amount_column_label: taxable ? 'AMOUNT (EX GST)' : 'AMOUNT',
 
     /* Not one of the seven: the buyer's identity is only required at $1,000 or
-       more and this sale is $163.90. Carried anyway so the template stays valid
+       more and this sale is $150. Carried anyway so the template stays valid
        if the fee ever crosses that line, and because a client looking for their
        own record expects to see their name on it. */
     buyer_name: c.full_name || null,

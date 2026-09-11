@@ -71,7 +71,7 @@
         {
           "@type": "Question",
           "name": "Does the calculator include the DASPA fee?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can toggle it. The flat fee is $149 + GST ($163.90), refunded in full if no super is recovered. You can also use the ATO's free DASP system yourself; the tax outcome is identical either way." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can toggle it. The flat fee is $150, refunded in full if no super is recovered. You can also use the ATO's free DASP system yourself; the tax outcome is identical either way." }
         }
       ]
     }
@@ -152,13 +152,13 @@
         <div class="est-amt"><span>$</span><input id="c-balance" type="text" inputmode="numeric" autocomplete="off" value="5,600" aria-label="Super balance in dollars"></div>
       </div>
 
-      <label class="check" style="margin-top:2px"><input type="checkbox" id="c-fee" checked><span>Include the DASPA flat fee ($163.90 inc GST. Refunded if no super is recovered). Untick to see the DIY-at-the-ATO numbers; the tax is identical either way.</span></label>
+      <label class="check" style="margin-top:2px"><input type="checkbox" id="c-fee" checked><span>Include the DASPA flat fee ($150. Refunded if no super is recovered). Untick to see the DIY-at-the-ATO numbers; the tax is identical either way.</span></label>
 
       <div class="res-box">
         <div class="res-line"><span class="k">Super balance</span><span class="v" id="r-bal">$5,600</span></div>
         <div class="res-line neg"><span class="k" id="r-tax-label">DASP tax withheld (65%)</span><span class="v" id="r-tax">−$3,640</span></div>
-        <div class="res-line neg" id="r-fee-row"><span class="k">DASPA flat fee (tax deductible)</span><span class="v">−$163.90</span></div>
-        <div class="res-net"><span class="k">Paid to your bank</span><span class="v" id="r-net">$1,796</span></div>
+        <div class="res-line neg" id="r-fee-row"><span class="k">DASPA flat fee (tax deductible)</span><span class="v">−$150.00</span></div>
+        <div class="res-net"><span class="k">Paid to your bank</span><span class="v" id="r-net">$1,810</span></div>
         <div class="kept-bar"><i id="r-bar" style="width:32%"></i></div>
         <div class="kept-lab" id="r-kept">You keep about 32% of your balance</div>
         <div class="warn hidden" id="r-warn-ato">Your super is (or soon will be) ATO-held, so the 65% rate applies regardless of visa. <span id="r-warn-detail"></span></div>
@@ -223,27 +223,27 @@
 
       <h2>Worked examples</h2>
       <ul>
-        <li><b>Backpacker, 417, $5,600 with one fund:</b> 65% tax = $3,640 withheld → $1,960 paid, about $1,796 after our fee.</li>
-        <li><b>Nurse, 482, $20,000 with her fund:</b> 35% tax = $7,000 withheld → $13,000 paid, about $12,836 after the fee. The same balance claimed <em>after</em> the ATO transfer: $7,000 paid. Waiting costs her $6,000.</li>
-        <li><b>Student, 500, $2,400 across three part-time-job funds:</b> 35% tax = $840 → $1,560 paid, about $1,396 after the one flat fee (it covers all three funds).</li>
+        <li><b>Backpacker, 417, $5,600 with one fund:</b> 65% tax = $3,640 withheld → $1,960 paid, about $1,810 after our fee.</li>
+        <li><b>Nurse, 482, $20,000 with her fund:</b> 35% tax = $7,000 withheld → $13,000 paid, about $12,850 after the fee. The same balance claimed <em>after</em> the ATO transfer: $7,000 paid. Waiting costs her $6,000.</li>
+        <li><b>Student, 500, $2,400 across three part-time-job funds:</b> 35% tax = $840 → $1,560 paid, about $1,410 after the one flat fee (it covers all three funds).</li>
       </ul>
 
 
       <h2 id="matrix">What lands in your bank, at a glance</h2>
-      <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $149 + GST fee, so it is the number you would actually see. Find the row nearest your balance.</p>
+      <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $150 fee, so it is the number you would actually see. Find the row nearest your balance.</p>
       <div class="table-scroll">
       <table>
         <thead><tr><th>Your balance</th><th>Working holiday<br><small>417 or 462, 65%</small></th><th>Other temporary visa<br><small>482 or 500, 35%</small></th><th>Already at the ATO<br><small>any visa, 65%</small></th></tr></thead>
         <tbody>
-<tr><td><b>$1,000</b></td><td>$186</td><td>$486</td><td>$186</td></tr>
-<tr><td><b>$2,500</b></td><td>$711</td><td>$1,461</td><td>$711</td></tr>
-<tr><td><b>$5,000</b></td><td>$1,586</td><td>$3,086</td><td>$1,586</td></tr>
-<tr><td><b>$7,500</b></td><td>$2,461</td><td>$4,711</td><td>$2,461</td></tr>
-<tr><td><b>$10,000</b></td><td>$3,336</td><td>$6,336</td><td>$3,336</td></tr>
-<tr><td><b>$15,000</b></td><td>$5,086</td><td>$9,586</td><td>$5,086</td></tr>
-<tr><td><b>$20,000</b></td><td>$6,836</td><td>$12,836</td><td>$6,836</td></tr>
-<tr><td><b>$30,000</b></td><td>$10,336</td><td>$19,336</td><td>$10,336</td></tr>
-<tr><td><b>$50,000</b></td><td>$17,336</td><td>$32,336</td><td>$17,336</td></tr>
+<tr><td><b>$1,000</b></td><td>$200</td><td>$500</td><td>$200</td></tr>
+<tr><td><b>$2,500</b></td><td>$725</td><td>$1,475</td><td>$725</td></tr>
+<tr><td><b>$5,000</b></td><td>$1,600</td><td>$3,100</td><td>$1,600</td></tr>
+<tr><td><b>$7,500</b></td><td>$2,475</td><td>$4,725</td><td>$2,475</td></tr>
+<tr><td><b>$10,000</b></td><td>$3,350</td><td>$6,350</td><td>$3,350</td></tr>
+<tr><td><b>$15,000</b></td><td>$5,100</td><td>$9,600</td><td>$5,100</td></tr>
+<tr><td><b>$20,000</b></td><td>$6,850</td><td>$12,850</td><td>$6,850</td></tr>
+<tr><td><b>$30,000</b></td><td>$10,350</td><td>$19,350</td><td>$10,350</td></tr>
+<tr><td><b>$50,000</b></td><td>$17,350</td><td>$32,350</td><td>$17,350</td></tr>
         </tbody>
       </table>
       </div>
@@ -275,7 +275,7 @@
         <details><summary>Why is the working holiday rate 65%?</summary><div class="a"><p>Parliament set a special 65% DASP rate for working holiday makers from 1 July 2017. No agent can reduce it. Anyone implying otherwise should be avoided. What you control is timing, and making sure every account is found.</p></div></details>
         <details><summary>How accurate is this?</summary><div class="a"><p>It applies the current legislated rates to the balance you enter, treated as a taxed element. Which is what nearly all employer-paid super is. Your fund calculates the exact components at payment time, so treat results as a close estimate, not a quote.</p></div></details>
         <details><summary>How do I find my real balance?</summary><div class="a"><p>Your fund's app or last statement is the quickest way. Multiple jobs usually mean multiple funds, and money may already be at the ATO, finding every account in your name is part of every DASPA claim, included in the flat fee.</p></div></details>
-        <details><summary>Does the calculator include your fee?</summary><div class="a"><p>Yes, as a toggle: $149 + GST ($163.90), flat, refunded in full if we can't recover any super. Untick it to see the DIY numbers; the ATO's free system produces the same tax outcome.</p></div></details>
+        <details><summary>Does the calculator include your fee?</summary><div class="a"><p>Yes, as a toggle: $150, flat, refunded in full if we can't recover any super. Untick it to see the DIY numbers; the ATO's free system produces the same tax outcome.</p></div></details>
       </div>
 
       <div class="cta-band">
@@ -352,7 +352,7 @@
 (function () {
   var aud = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
   var RATES = { '417': 0.65, '462': 0.65, '482': 0.35, '500': 0.35 };
-  var FEE = 163.90;
+  var FEE = 150.00;
   var num = function (el) { return Number(el.value.replace(/[^0-9]/g, '')) || 0; };
   var fmtIn = function (el) { var n = num(el); el.value = n ? n.toLocaleString('en-AU') : ''; };
 

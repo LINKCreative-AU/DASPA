@@ -1,11 +1,13 @@
 # GST treatment of the DASPA fee
 
-**Status: proposed, awaiting sign-off from James and Chris. The build still
-charges GST. Nothing changes until this is signed off.**
+**Status: CONFIRMED by James and Chris, 11 September 2026, and applied.
+The fee is $150 with no GST. Applied in commit on branch claude/verify-id;
+the database side is supabase/2026-09-11-gst-free-and-price.sql, which must be
+run before the next order is taken.**
 
 Last updated 11 September 2026.
 
-## The proposed position
+## The position
 
 The DASPA service fee is a **GST-free export of services** under item 2 of the
 table in s38-190(1) of the A New Tax System (Goods and Services Tax) Act 1999.
@@ -58,29 +60,49 @@ would not shift a shortfall if the position were wrong. It is worth capturing
 as evidence of reasonable care for penalty purposes, which the two fields above
 already do.
 
-## What changes if this is signed off
+## What changed, all of it done
 
-1. `gst_treatment` defaults to `gst_free` rather than `taxable`, in
-   `supabase/2026-09-09-gst-declaration.sql`. The per-claim override stays.
-2. The invoice drops the GST line and the ex-GST subtotal, and is titled
-   **Invoice**, not **Tax invoice**. A tax invoice is the document for a
-   taxable sale.
-3. The **"Are you in Australia right now?"** question comes off `claim.html`.
-   It exists only to decide GST and is two radio buttons plus an explanatory
-   paragraph of friction. `in_australia_declared`, `edge_country` and
-   `client_ip` stay in the table as evidence on historical claims.
-4. Every page advertising **"$163.90 incl. GST"** has to change. That is a
-   consumer representation under the Australian Consumer Law, not just a tax
-   label, so it moves at the same time as the treatment, not after.
-5. Someone decides whether the price falls to $149.00 or stays at $163.90 with
-   ARO keeping the $14.90. The tax position does not decide this.
+1. **Price $163.90 to $150.** `FEE_CENTS` is 15000. Not $149: a round number
+   was preferred to the old ex-GST figure.
+2. **`gst_treatment` defaults to `gst_free`**, in the new migration. The
+   per-claim override stays, and rows invoiced before today keep `taxable` so
+   reissuing one reproduces the document that was actually sent.
+3. **The invoice** is titled *Invoice*, carries no GST row at all (not a nil
+   one, which would read as though GST applied and came to nothing), states
+   "No GST has been charged on this sale", and the PDF filename says invoice
+   rather than tax invoice.
+4. **The "Are you in Australia right now?" question is off the form**, with its
+   validation and its submitted field. `in_australia_declared`, `edge_country`
+   and `client_ip` stay in the table as evidence on historical claims, and
+   `edge_country` is still recorded as a fact about the order.
+5. **Every "$163.90 incl. GST" on the site is now "$150"**, across 57 files
+   including the Japanese, Korean and Chinese pages. The calculator matrix,
+   the worked examples and the estimator defaults were recomputed, because
+   they are arithmetic on the fee and the text sweep would not have touched
+   them.
 
-## The four historical claims
+## The defect this exposed
 
-The three not refunded were invoiced as taxable, so $44.70 of GST was charged
-and would have been remitted on a treatment that this note says does not apply.
-Small, and correctable, but it should be corrected deliberately rather than
-discovered later.
+The invoice was building its figures from `config.FEE_CENTS`, the price
+**today**. That survived only because the price had never moved. Regenerating
+any invoice after this change would have restated it at $150 and the document
+would have stopped agreeing with the client's card statement.
+
+`claims.amount_paid_cents` now records what Stripe actually charged, written by
+the webhook from `amount_total`, and the invoice is built from it. Existing paid
+rows are backfilled to 16390 by the migration. `config.FEE_CENTS` survives only
+as the fallback for rows written before the column existed.
+
+## The four historical claims, still open
+
+The three not refunded were invoiced as taxable at $163.90, so $44.70 of GST
+was charged on a treatment this note says does not apply. They keep
+`gst_treatment = 'taxable'` in the database, so their invoices still reproduce
+what was issued.
+
+**This needs a deliberate decision from James**, not a code change: whether to
+refund the GST component to those three clients, reissue their invoices, or
+leave them and remit. Nothing in the build assumes an answer.
 
 ## Sources
 

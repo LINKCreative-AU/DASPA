@@ -50,7 +50,7 @@ PRELOAD = re.search(r'<link rel="preload"[^>]*>', tpl).group(0)
 # The payout table, generated from the same constants as the English calculator
 # so a rate change cannot leave a translated page quietly wrong.
 # ---------------------------------------------------------------------------
-FEE = 163.90
+FEE = 150.00
 WHM, OTHER = 0.65, 0.35
 BANDS = [2500, 5000, 7500, 10000, 15000, 20000, 30000]
 
@@ -63,8 +63,8 @@ def money(n):
     return "$" + format(int(round(n)), ",d")
 
 
-assert money(net(20000, OTHER)) == "$12,836"   # agrees with /dasp-calculator
-assert money(net(5000, WHM)) == "$1,586"
+assert money(net(20000, OTHER)) == "$12,850"   # agrees with /dasp-calculator
+assert money(net(5000, WHM)) == "$1,600"
 
 
 def payout_table(headers):
@@ -139,11 +139,11 @@ NAV = {
 
 CTA = {
     "zh-tw": ("準備好了嗎？<em>五分鐘，固定費用。</em>",
-              "$149 + GST · 涵蓋所有基金與 ATO 保管款項 · 約 28 天內入帳", "開始申請"),
+              "$150 · 涵蓋所有基金與 ATO 保管款項 · 約 28 天內入帳", "開始申請"),
     "ja": ("ご準備ができましたら。<em>5 分、定額。</em>",
-           "$149 + GST · すべての基金と ATO 保管分を含む · 約 28 日で入金", "申請をはじめる"),
+           "$150 · すべての基金と ATO 保管分を含む · 約 28 日で入金", "申請をはじめる"),
     "ko": ("준비되셨나요? <em>5분, 정액 수수료.</em>",
-           "$149 + GST · 모든 펀드와 ATO 보유분 포함 · 약 28일 내 본인 계좌로 입금", "신청 시작하기"),
+           "$150 · 모든 펀드와 ATO 보유분 포함 · 약 28일 내 본인 계좌로 입금", "신청 시작하기"),
 }
 
 PAGES = []   # (slug, lang, head_term, title, desc, h1, sub, body, faq, en_equiv)
@@ -222,7 +222,7 @@ PAGES.append(dict(
 <table>
 <thead><tr><th></th><th>自己送件</th><th>交給 DASPA</th></tr></thead>
 <tbody>
-<tr><td>費用</td><td>免費</td><td>$149 + GST 固定收費</td></tr>
+<tr><td>費用</td><td>免費</td><td>$150 固定收費</td></tr>
 <tr><td>稅率</td><td colspan="2">完全相同，由法律訂定</td></tr>
 <tr><td>不知道基金在哪</td><td>要自己一家家查</td><td>查遍所有基金與 ATO 保管款項</td></tr>
 <tr><td>基金要求公證文件</td><td>要自己找公證人</td><td>用護照與自拍完成電子驗證</td></tr>
@@ -262,7 +262,7 @@ PAGES.append(dict(
 __RATE_TABLE__
 
 <h2>稅後實拿金額對照表</h2>
-<p>下表已扣除 DASP 稅與 $149 + GST 的固定費用，也就是實際會匯進你帳戶的金額。找最接近你餘額的那一列。</p>
+<p>下表已扣除 DASP 稅與 $150 的固定費用，也就是實際會匯進你帳戶的金額。找最接近你餘額的那一列。</p>
 __PAYOUT_TABLE__
 <p style="font-size:13px;color:var(--muted)">金額以澳幣計算並四捨五入至整數。表格假設整筆餘額為應稅部分，這是最常見的情況；少見的非應稅部分適用 45%。實際入帳金額會依你的銀行換匯而定。</p>
 
@@ -302,7 +302,7 @@ PAGES.append(dict(
 
 <h2>費用與稅</h2>
 <details class="faq"><summary>找代辦划得來嗎？</summary><div class="a"><p>看情況，我們的答案不會一律是「划得來」。如果你只有一個基金、資料齊全、餘額不高，澳洲稅務局的免費系統完全夠用。會找我們的人通常是不知道基金在哪、款項已經轉到 ATO，或是自己送件被退件。</p></div></details>
-<details class="faq"><summary>費用怎麼算？</summary><div class="a"><p>$149 + GST（合計澳幣 $163.90）固定收費，不論餘額多少、有幾個基金帳戶都一樣，不是按餘額抽成。查不到任何可領回的退休金時，費用全額退還。</p></div></details>
+<details class="faq"><summary>費用怎麼算？</summary><div class="a"><p>$150固定收費，不論餘額多少、有幾個基金帳戶都一樣，不是按餘額抽成。查不到任何可領回的退休金時，費用全額退還。</p></div></details>
 <details class="faq"><summary>這筆稅可以退嗎？</summary><div class="a"><p>DASP 稅屬於最終扣繳稅，無法透過澳洲報稅退回。但薪資所得被預扣的所得稅（PAYG）是另一回事，那部分有機會退稅，屬於不同的申請。</p></div></details>
 <details class="faq"><summary>台灣要不要為這筆錢繳稅？</summary><div class="a"><p>這筆錢在澳洲已依法課稅。台灣端如何認定屬於台灣稅務問題，我們沒有相關執照，不提供這方面的意見，建議諮詢台灣的會計師。</p></div></details>
 
@@ -393,7 +393,7 @@ PAGES.append(dict(
 <table>
 <thead><tr><th></th><th>自分で申請</th><th>DASPA に依頼</th></tr></thead>
 <tbody>
-<tr><td>費用</td><td>無料</td><td>$149 + GST の定額</td></tr>
+<tr><td>費用</td><td>無料</td><td>$150 の定額</td></tr>
 <tr><td>税率</td><td colspan="2">同じ。法律で定められています</td></tr>
 <tr><td>基金が分からない</td><td>自分で一つずつ確認</td><td>すべての基金と ATO 保管分を調査</td></tr>
 <tr><td>公証書類を求められた</td><td>自分で公証人を手配</td><td>パスポートと自撮りで電子的に確認</td></tr>
@@ -433,7 +433,7 @@ PAGES.append(dict(
 __RATE_TABLE__
 
 <h2>手取りの早見表</h2>
-<p>DASP 税と $149 + GST の定額費用を差し引いた、実際に振り込まれる金額です。ご自身の残高に近い行をご覧ください。</p>
+<p>DASP 税と $150 の定額費用を差し引いた、実際に振り込まれる金額です。ご自身の残高に近い行をご覧ください。</p>
 __PAYOUT_TABLE__
 <p style="font-size:13px;color:var(--muted)">金額はオーストラリアドル建て、1 ドル単位に四捨五入しています。残高の全額が課税対象分である一般的なケースを想定しています。まれな非課税対象分には 45% が適用されます。実際の入金額はご利用の銀行の為替レートによって変わります。</p>
 
@@ -473,7 +473,7 @@ PAGES.append(dict(
 
 <h2>費用と税金</h2>
 <details class="faq"><summary>代行を頼む価値はありますか。</summary><div class="a"><p>場合によります。いつでも「ある」とは申し上げません。基金が一つで書類が揃い、残高もそれほど多くなければ、オーストラリア税務局の無料システムで十分です。ご依頼が多いのは、基金が分からない、既に ATO へ移管されている、自分で申請して却下された、というケースです。</p></div></details>
-<details class="faq"><summary>費用はいくらですか。</summary><div class="a"><p>$149 + GST（合計 163.90 オーストラリアドル）の定額です。残高がいくらでも、基金がいくつあっても同じで、残高に対する歩合ではありません。返金できる年金が見つからなかった場合は全額返金します。</p></div></details>
+<details class="faq"><summary>費用はいくらですか。</summary><div class="a"><p>$150の定額です。残高がいくらでも、基金がいくつあっても同じで、残高に対する歩合ではありません。返金できる年金が見つからなかった場合は全額返金します。</p></div></details>
 <details class="faq"><summary>この税金は取り戻せますか。</summary><div class="a"><p>DASP の税金は最終源泉徴収税で、オーストラリアの確定申告で取り戻すことはできません。ただし給与から源泉徴収された所得税（PAYG）は別で、還付の対象になる場合があります。</p></div></details>
 <details class="faq"><summary>日本で課税されますか。</summary><div class="a"><p>このお金はオーストラリアで法律に基づき課税済みです。日本側の取り扱いは日本の税務の問題であり、当社はその資格を持たないため見解を述べません。日本の税理士にご相談ください。</p></div></details>
 
@@ -522,7 +522,7 @@ __RATE_TABLE__
 <p>모든 금액은 호주달러 기준이며, 실제 입금액은 은행 환율에 따라 달라집니다.</p>
 
 <h2>세후 실수령액</h2>
-<p>DASP 세금과 $149 + GST 정액 수수료를 모두 뺀, 실제로 계좌에 들어오는 금액입니다.</p>
+<p>DASP 세금과 $150 정액 수수료를 모두 뺀, 실제로 계좌에 들어오는 금액입니다.</p>
 __PAYOUT_TABLE__
 
 <h2>6개월이 지나면 손해가 커집니다</h2>
@@ -537,7 +537,7 @@ __PAYOUT_TABLE__
 </ul>
 
 <h2>비용</h2>
-<p>수수료는 <b>$149 + GST (총 호주달러 $163.90)</b> 정액입니다. 잔액이 얼마이든, 펀드가 몇 개이든 동일하며 잔액의 일정 비율을 가져가는 방식이 아닙니다. 회수된 퇴직연금이 없으면 전액 환불됩니다.</p>
+<p>수수료는 <b>$150</b> 정액입니다. 잔액이 얼마이든, 펀드가 몇 개이든 동일하며 잔액의 일정 비율을 가져가는 방식이 아닙니다. 회수된 퇴직연금이 없으면 전액 환불됩니다.</p>
 <p>분명히 말씀드리면, 호주 국세청은 무료 DASP 온라인 신청 시스템을 운영합니다. 상황이 단순하다면 직접 신청하셔도 충분합니다. 저희를 찾으시는 분들은 대개 펀드를 모르거나, 이미 ATO로 넘어갔거나, 직접 신청했다가 거절당한 경우입니다.</p>
 
 <h2>자주 묻는 질문</h2>

@@ -1,28 +1,24 @@
 // Shared server-side config. Files under api/_lib are not deployed as functions.
 
 // ---------------------------------------------------------------------------
-// FEE, charged via Stripe Checkout, in cents.
-// $149 + GST = $163.90 advertised across the site (keep assets/site.js in sync).
+// FEE, charged via Stripe Checkout, in cents. $150 flat, no GST.
 //
-// GST NOTE: the proposed position is that this fee is a GST-free export under
-// item 2 of s38-190(1), because a DASP cannot be paid until the claimant has
-// left Australia and their visa has ceased, and the ATO enforces that against
-// Home Affairs at lodgement. Written up in docs/gst-position.md.
+// GST-free export under item 2 of s38-190(1): a DASP cannot be claimed until
+// the client has left Australia and their visa has ceased, so the supply is
+// always made to somebody outside Australia. Confirmed by James and Chris on
+// 11 September 2026. Reasoning and sources in docs/gst-position.md.
 //
-// NOT SIGNED OFF. Until James and Chris agree it, the site charges GST and
-// FEE_CENTS stays at the inc-GST amount. Switching it is not a one-line
-// change: the invoice, the order form and every "incl. GST" price on the site
-// move together, and that last one is a consumer representation. See the
-// checklist in the note. Do not hardcode amounts elsewhere.
+// This is the price for NEW orders only. An invoice is built from
+// claims.amount_paid_cents, which is what Stripe actually charged, so moving
+// this number cannot restate a document that has already gone out. Keep
+// assets/site.js in step and do not hardcode amounts anywhere else.
 // ---------------------------------------------------------------------------
-const FEE_INC_GST_CENTS = 16390;
-const FEE_EX_GST_CENTS = 14900;
+const FEE_CENTS = 15000;
 
 module.exports = {
-  FEE_CENTS: FEE_INC_GST_CENTS,
-  FEE_EX_GST_CENTS,
+  FEE_CENTS,
   CURRENCY: 'aud',
-  FEE_DESCRIPTION: 'DASP claim · flat service fee (incl. GST)',
+  FEE_DESCRIPTION: 'DASP claim · flat service fee (GST-free)',
   PRODUCT_NAME: 'DASPA · Departing Australia super claim',
 
   SITE_URL: process.env.SITE_URL || 'https://daspa.com.au',
@@ -38,7 +34,7 @@ module.exports = {
   // default. Getting this wrong in the safe direction loses a sale we can see
   // and fix; getting it wrong in the other direction takes money for work we
   // cannot deliver, which is exactly what happened here between 27 August and
-  // 8 September: four clients paid $163.90 each into a flow that could not
+  // 8 September: four clients paid $150 each into a flow that could not
   // verify them, and nothing anywhere raised a flag.
   //
   // The cost of that choice is that a deployment created without the variable

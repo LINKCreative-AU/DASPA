@@ -137,9 +137,15 @@ function render(model) {
      subtotal of a single line just repeats it, which is why the reference
      labels the total "including GST" instead. */
   y += 22;
-  d.text('GST', RIGHT - 84, y, { size: 9.5, align: 'right', color: MUTED });
-  d.text(m.gst_amount, RIGHT, y, { size: 9.5, align: 'right', color: INK });
-  y += 15;
+  /* And no GST row at all on a GST-free sale. "GST $0.00" reads as though GST
+     applies and happens to be nil, which is a different statement from the one
+     the note underneath makes, and the wrong one. A sale with no GST on it
+     says so in words and shows no line. */
+  if (m.gst_cents > 0) {
+    d.text('GST', RIGHT - 84, y, { size: 9.5, align: 'right', color: MUTED });
+    d.text(m.gst_amount, RIGHT, y, { size: 9.5, align: 'right', color: INK });
+    y += 15;
+  }
   d.text(m.total_label, RIGHT - 84, y, { size: 9.5, align: 'right', color: MUTED });
   d.text(`${m.total}`, RIGHT, y, { size: 13, bold: true, align: 'right', color: INK });
 
@@ -171,7 +177,11 @@ function render(model) {
 }
 
 function filename(model) {
-  return `DASPA - Order ${model.invoice_number} tax invoice.pdf`;
+  /* Named for what the document actually is. A GST-free sale is an invoice,
+     not a tax invoice, and the filename is the first thing the client sees in
+     their downloads folder. */
+  const kind = model.document_type === 'TAX INVOICE' ? 'tax invoice' : 'invoice';
+  return `DASPA - Order ${model.invoice_number} ${kind}.pdf`;
 }
 
 module.exports = { render, filename };

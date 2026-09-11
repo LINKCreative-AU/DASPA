@@ -5,13 +5,13 @@ Two conversion actions, so the account can optimise on real value, not clicks.
 | Conversion action | Fires when | Counts as | Why |
 |---|---|---|---|
 | **Claim submitted** | The claim form's thanks panel shows (form stored in Supabase, pre-payment) | Primary — bidding | The moment we've captured a real applicant |
-| **Payment completed** | Visitor lands on `/verify?cid=…` (Stripe success redirect) | Secondary — value $163.90 | True revenue signal; used to sanity-check CPA |
+| **Payment completed** | Visitor lands on `/verify?cid=…` (Stripe success redirect) | Secondary — value $150 | True revenue signal; used to sanity-check CPA |
 
 ## Setup (Rod/Juan — 10 minutes in the Ads UI)
 
 1. Google Ads → Goals → Conversions → **New conversion action → Website**.
 2. Create the two actions above ("Claim submitted": category *Submit lead form*,
-   count *One*; "Payment completed": category *Purchase*, value 163.90 AUD, count *One*).
+   count *One*; "Payment completed": category *Purchase*, value 150.00 AUD, count *One*).
 3. Choose "set up with code" — note the **AW-XXXXXXXXX** tag ID and the two
    **conversion labels**.
 4. Hand the three values to Claude Code — the snippets below get wired into
@@ -38,7 +38,7 @@ gtag('event','conversion',{send_to:'AW-XXXXXXXXX/CLAIM_LABEL'});
 Payment completed — on `verify.html` load when `cid` param present:
 
 ```js
-gtag('event','conversion',{send_to:'AW-XXXXXXXXX/PAY_LABEL',value:163.90,currency:'AUD',
+gtag('event','conversion',{send_to:'AW-XXXXXXXXX/PAY_LABEL',value:150.00,currency:'AUD',
   transaction_id:new URLSearchParams(location.search).get('cid')||''});
 ```
 

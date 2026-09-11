@@ -1,10 +1,10 @@
 /* DASPA, shared front-end behaviour: refund estimator, eligibility quiz.
    WhatsApp links are plain hrefs to /wa, resolved server-side in api/wa.js. */
 
-/* Fee shown across the site. Charged amount lives server-side in api/_lib/config.js. Keep the two in sync. $149 + GST = $163.90 (GST treatment may change for non-resident
-   export sales, see the server config comment). */
-var FEE_EX_GST = 149;
-var FEE_INC_GST = 163.90;
+/* Fee shown across the site. The charged amount lives server-side in
+   api/_lib/config.js; keep the two in step. $150 flat, GST-free export of
+   services, see docs/gst-position.md. */
+var FEE = 150;
 
 var aud = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
 var aud2 = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
@@ -43,11 +43,11 @@ function initEstimator() {
   function render() {
     var r = rate();
     var tax = balance * r;
-    var netAmt = Math.max(0, balance - tax - FEE_INC_GST);
+    var netAmt = Math.max(0, balance - tax - FEE);
     lineBal.textContent = aud.format(balance);
     lineTaxLabel.textContent = 'DASP tax withheld (' + Math.round(r * 100) + '%)';
     lineTax.textContent = '−' + aud.format(tax);
-    lineFee.textContent = '−' + aud2.format(FEE_INC_GST);
+    lineFee.textContent = '−' + aud2.format(FEE);
     net.textContent = aud.format(netAmt);
   }
 
@@ -169,7 +169,7 @@ function initQuiz() {
     var html = '<div class="result ok"><div class="qnum">Good news</div>' +
       '<h3>You look eligible to claim your super back. 🎉</h3>' +
       (note ? '<p>' + note + '</p>' : '') +
-      '<p>Complete the 5-minute form, verify your identity with your passport and a selfie, and our registered tax agents handle the rest. Flat fee ' + aud2.format(FEE_INC_GST) + ', no percentage taken from your super, paid to any bank account worldwide.</p>' +
+      '<p>Complete the 5-minute form, verify your identity with your passport and a selfie, and our registered tax agents handle the rest. Flat fee ' + aud2.format(FEE) + ', no percentage taken from your super, paid to any bank account worldwide.</p>' +
       '<a class="btn" href="/claim">Start my claim</a> <a class="btn ghost" href="#" data-wa>Question first? WhatsApp us</a>' +
       '<p style="margin-top:14px"><button type="button" class="q-back">← Start the check again</button></p></div>';
     host.innerHTML = html;

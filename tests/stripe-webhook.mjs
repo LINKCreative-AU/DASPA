@@ -62,7 +62,7 @@ const check = (label, cond) => { console.log((cond ? 'PASS  ' : 'FAIL  ') + labe
 // --- full refund
 writes.length = 0; mails.length = 0;
 let r = await post({ type: 'charge.refunded', created: 1788000000,
-  data: { object: { id: 'ch_1', payment_intent: 'pi_match', amount: 16390, amount_refunded: 16390,
+  data: { object: { id: 'ch_1', payment_intent: 'pi_match', amount: 15000, amount_refunded: 15000,
     refunds: { data: [{ reason: 'requested_by_customer' }] } } } });
 check('full refund -> 200', r.code === 200);
 const fullPatch = writes.find(w => w.kind === 'patch');
@@ -75,7 +75,7 @@ check('full refund -> ops alerted as full', mails.some(m => m.name === 'opsRefun
 // --- partial refund
 writes.length = 0; mails.length = 0;
 r = await post({ type: 'charge.refunded', created: 1788000000,
-  data: { object: { id: 'ch_2', payment_intent: 'pi_match', amount: 16390, amount_refunded: 5000, refunds: { data: [] } } } });
+  data: { object: { id: 'ch_2', payment_intent: 'pi_match', amount: 15000, amount_refunded: 5000, refunds: { data: [] } } } });
 check('partial refund -> 200', r.code === 200);
 check('partial refund -> does NOT mark refunded', !writes.some(w => w.patch?.payment_status === 'refunded'));
 check('partial refund -> on_hold only', writes.some(w => w.kind === 'update' && w.patch.claim_status === 'on_hold'));
@@ -90,7 +90,7 @@ check('unknown charge -> 200 and no writes', r.code === 200 && writes.length ===
 // --- dispute
 writes.length = 0; mails.length = 0;
 r = await post({ type: 'charge.dispute.created', created: 1788000000,
-  data: { object: { id: 'dp_1', payment_intent: 'pi_match', amount: 16390, reason: 'fraudulent',
+  data: { object: { id: 'dp_1', payment_intent: 'pi_match', amount: 15000, reason: 'fraudulent',
     evidence_details: { due_by: 1789000000 } } } });
 check('dispute -> 200', r.code === 200);
 check('dispute -> on_hold', writes.some(w => w.kind === 'update' && w.patch.claim_status === 'on_hold'));

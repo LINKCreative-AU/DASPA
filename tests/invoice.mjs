@@ -34,13 +34,21 @@ const paidClaim = (over = {}) => ({
   email: 'tay@example.com',
   payment_status: 'paid',
   paid_at: '2026-08-27T14:41:00Z',   // 00:41 on the 28th in Brisbane
-  gst_treatment: 'taxable',
+  gst_treatment: 'gst_free',
+  amount_paid_cents: 15000,
   ...over,
 });
 
+/* A sale invoiced before 11 September 2026, when the fee was $163.90 including
+   GST. These have to keep reproducing the document the client was actually
+   sent, so the taxable branch is tested against the price of the day, not
+   today's. */
+const legacyTaxable = (over = {}) =>
+  paidClaim({ gst_treatment: 'taxable', amount_paid_cents: 16390, ...over });
+
 // --- the seven elements are all present ---------------------------------
 {
-  const m = invoice.build(paidClaim());
+  const m = invoice.build(legacyTaxable());
   eq('1 document says tax invoice', m.document_type, 'TAX INVOICE');
   eq('2 seller identity', m.seller_name, 'Australian Registration Office Pty Ltd trading as DASPA');
   eq('3 seller ABN', m.seller_abn, '58 645 964 156');
@@ -60,14 +68,30 @@ eq('a mid-morning AEST payment is unaffected',
 
 // --- taxable amounts reconcile with what Stripe charged -----------------
 {
-  const m = invoice.build(paidClaim());
+  const m = invoice.build(legacyTaxable());
   eq('subtotal is ex-GST', m.subtotal, '$149.00');   // model still carries it; the PDF does not print a subtotal row
   eq('total label says including GST', m.total_label, 'Total paid, including GST');
   eq('amount column is labelled ex-GST', m.amount_column_label, 'AMOUNT (EX GST)');
-  eq('total is what was charged', m.total, '$163.90');
+  eq('total is the old price, not today\'s', m.total, '$163.90');
   eq('GST is exactly one eleventh', m.gst_cents * 11, m.total_cents);
   eq('line amount is ex-GST when taxable', m.lines[0].amount, '$149.00');
   eq('short-form GST statement is offered', /Total price includes GST/.test(m.gst_statement), true);
+}
+
+// --- the price change must not restate an invoice already issued ---------
+// The whole reason amount_paid_cents exists. Before it, the model read
+// config.FEE_CENTS, so moving the price rewrote every historical document and
+// the invoice stopped agreeing with the client's card statement.
+{
+  eq('a $163.90 sale still renders $163.90', invoice.build(legacyTaxable()).total, '$163.90');
+  eq('a $150 sale renders $150', invoice.build(paidClaim()).total, '$150.00');
+  // No stored amount: rows written before the column existed all paid the old
+  // price, but the fallback is today's, so this is only correct while those
+  // rows have been backfilled. The migration does that.
+  eq('no stored amount falls back to the current price',
+     invoice.build(paidClaim({ amount_paid_cents: null })).total, '$150.00');
+  eq('a zero amount is not trusted',
+     invoice.build(paidClaim({ amount_paid_cents: 0 })).total, '$150.00');
 }
 
 // --- GST-free ------------------------------------------------------------
@@ -76,22 +100,31 @@ eq('a mid-morning AEST payment is unaffected',
   eq('gst_free is not titled TAX INVOICE', m.document_type, 'INVOICE');
   eq('gst_free has no GST', m.gst_cents, 0);
   eq('gst_free says so plainly', m.gst_statement, 'No GST has been charged on this sale.');
-  eq('gst_free line carries the whole amount', m.lines[0].amount, '$163.90');
+  eq('gst_free line carries the whole amount', m.lines[0].amount, '$150.00');
   eq('gst_free line is marked not taxable', m.lines[0].taxable, false);
-  eq('gst_free total still matches the charge', m.total, '$163.90');
+  eq('gst_free total still matches the charge', m.total, '$150.00');
   eq('gst_free total label drops "including GST"', m.total_label, 'Total paid');
   eq('gst_free amount column is plain', m.amount_column_label, 'AMOUNT');
   eq('element 7 explains the basis', /GST-free export/.test(m.taxable_extent), true);
 }
 
-// --- a null treatment defaults to taxable, it does not throw -------------
-// Claims predating 9 September 2026 have no declaration, and the site told
-// every one of them "$163.90 inc. GST".
+// --- a null treatment defaults to GST-free, it does not throw ------------
+// Matching the database default from 11 September 2026. Only an explicit
+// 'taxable' produces a tax invoice now, so a missing value cannot quietly
+// put GST on a sale that carries none.
 {
   const m = invoice.build(paidClaim({ gst_treatment: null }));
-  eq('null treatment -> taxable', m.gst_treatment, 'taxable');
-  eq('null treatment -> GST charged', m.gst_amount, '$14.90');
+  eq('null treatment -> gst_free', m.gst_treatment, 'gst_free');
+  eq('null treatment -> no GST', m.gst_cents, 0);
+  eq('null treatment -> not a tax invoice', m.document_type, 'INVOICE');
 }
+
+// --- an amount with no exact GST is refused rather than rounded ----------
+// $150 taxable would be $13.6363 of GST. An invoice cannot state that, and
+// silently rounding it would put a figure on a tax document that does not
+// reconcile.
+throws('taxable on an indivisible amount -> refuses',
+  () => invoice.build(legacyTaxable({ amount_paid_cents: 15000 })), /eleven whole cents/);
 
 // --- it refuses to render an incomplete tax document ---------------------
 throws('no order number -> refuses',
@@ -111,7 +144,7 @@ throws('unparseable paid_at -> refuses rather than printing Invalid Date',
 {
   const m = invoice.build(paidClaim({ full_name: null }));
   eq('missing buyer name does NOT block the invoice', m.buyer_name, null);
-  eq('and the seven elements are still complete', m.document_type, 'TAX INVOICE');
+  eq('and the seven elements are still complete', m.document_type, 'INVOICE');
 }
 {
   // CJK name: the model must carry it intact. Whether the PDF can DRAW it is a

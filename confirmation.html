@@ -39,7 +39,7 @@
       <div class="form-body">
         <ul class="checklist" style="grid-template-columns:1fr;margin-bottom:6px" id="status-list">
           <li>Claim form received</li>
-          <li id="st-paid">Payment received: $163.90 flat fee</li>
+          <li id="st-paid">Payment received: $150 flat fee</li>
         </ul>
         <div id="st-payment-missing" class="stop hidden">
           <b>Your payment is not showing against this claim yet.</b> Please do not pay again. If you have already paid, <a href="mailto:claims@daspa.com.au">email us at claims@daspa.com.au</a> with your name and we will sort it out straight away.
@@ -97,7 +97,7 @@
       var review = document.getElementById('st-verify-review');
 
       /* Payment state was fetched and then ignored, so this page cheerfully
-         said "Payment received: $163.90" to three clients whose payment had
+         said "Payment received: $150" to three clients whose payment had
          never been marked paid, and offered them a verify button that could
          only 402. Say the true thing instead, and do not send them into a
          step that cannot succeed. */

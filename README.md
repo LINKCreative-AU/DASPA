@@ -1,7 +1,7 @@
 # daspa.com.au
 
 DASP (Departing Australia Superannuation Payment) lodgement service under the ARO group, same entity as abnassist.com.au: **Australian Registration Office Pty Ltd, ABN 58 645 964 156,
-Registered Tax Agent 26076969**. Flat fee $149 + GST, all funds included.
+Registered Tax Agent 26076969**. Flat fee $150, all funds included.
 
 Static HTML + Vercel serverless functions (zero npm dependencies), Supabase for claims,
 Stripe Checkout for payment, Stripe Identity for identity verification. Brand tokens were extracted
@@ -118,7 +118,7 @@ the exact string `true` (whitespace trimmed) opens it.
 That default is deliberate and it is the opposite of convenient. Closed by
 mistake loses a sale you can see and fix in a minute. Open by mistake takes
 money for work that cannot be delivered, which is what happened here between
-27 August and 8 September 2026: four clients paid $163.90 each into a flow with
+27 August and 8 September 2026: four clients paid $150 each into a flow with
 no webhook destination behind it, so nothing recorded the payment, verification
 refused them as unpaid, no email went out, and no alert fired anywhere. The
 price of the safe default is that a deployment created without the variable
@@ -288,7 +288,7 @@ pages, and should be confirmed against ARO's executed copy.
    invoice: Stripe's Adaptive Pricing documentation states the Checkout Session and
    PaymentIntent "reflect what your customer paid in your integration currency and
    amount", with the local figures carried separately in a `presentment_details`
-   hash. So `session.amount_total` stays `16390` and `session.currency` stays `aud`
+   hash. So `session.amount_total` stays `15000` and `session.currency` stays `aud`
    whatever the client sees, and the invoice is built in AUD with AUD GST either way.
    To see what an overseas client sees, create a Checkout Session with a
    `+location_XX` email suffix (e.g. `test+location_FR@example.com`), which is
@@ -389,7 +389,7 @@ FAQPage JSON-LD and the `ja`, `ko` and `zh-tw` pages. Examples:
 
 - "Human support on WhatsApp from form to payout"
 - "real people answer on WhatsApp, in your timezone, until it lands"
-- "answers on WhatsApp, all for a flat $149 + GST"
+- "answers on WhatsApp, all for a flat $150"
 - "a human answers on WhatsApp" (FAQ, and its JSON-LD copy)
 
 Around 160 mentions over 43 pages. Those sentences are currently **untrue**, and
@@ -424,7 +424,7 @@ landing copy.
 
 - Authority declaration wording in `claim.html`
 - `terms.html`, `privacy.html`, `tpb.html` draft copy (banner on each)
-- GST treatment of non-resident sales: proposed position written up in `docs/gst-position.md`, not signed off, site still charges GST
+- ~~GST treatment of non-resident sales~~ confirmed by James and Chris on 11 September 2026, GST-free, $150. See `docs/gst-position.md`. The GST on the three historical claims is still an open decision
 - Lodgement cannot commence until the ATO DASP Agreement is executed (`LODGEMENT_LIVE` flag)
 
 Content pages were generated from a scratchpad script; edit the HTML directly (the pages are

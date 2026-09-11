@@ -34,10 +34,17 @@ const claim = (over = {}) => ({
   email: 'tay@example.com',
   payment_status: 'paid',
   paid_at: '2026-08-27T14:41:00Z',
-  gst_treatment: 'taxable',
+  gst_treatment: 'gst_free',
+  amount_paid_cents: 15000,
   ...over,
 });
 const render = (over) => invoicePdf.render(invoice.build(claim(over)));
+
+/* A sale from before 11 September 2026, at $163.90 including GST. Reissuing
+   one of those has to reproduce the document that was actually sent, so the
+   tax-invoice layout is drawn from the price of the day. */
+const renderLegacy = (over) =>
+  invoicePdf.render(invoice.build(claim({ gst_treatment: 'taxable', amount_paid_cents: 16390, ...over })));
 
 // --- can this character be drawn at all ---------------------------------
 eq('ASCII encodable', pdf.canEncode('Taylor McDonough'), true);
@@ -120,7 +127,7 @@ eq('CJK contributes no bytes', [...pdf.encodeWinAnsi('田')], []);
 
 // --- the content that must be on a tax invoice ---------------------------
 {
-  const s = render().toString('latin1');
+  const s = renderLegacy().toString('latin1');
   for (const bit of ['TAX INVOICE', 'DASP00020151', '58 645 964 156', '28/08/2026',
                      '$149.00', '$14.90', '$163.90', '26076969',
                      'taxable sale', '1800 546 526', '+61 7 2101 4373']) {
@@ -142,7 +149,18 @@ eq('CJK contributes no bytes', [...pdf.encodeWinAnsi('田')], []);
   const s = render({ gst_treatment: 'gst_free' }).toString('latin1');
   eq('gst_free is titled INVOICE, not TAX INVOICE', /\(TAX INVOICE\)/.test(s), false);
   eq('gst_free says no GST was charged', s.includes('No GST has been charged'), true);
-  eq('gst_free shows $0.00', s.includes('$0.00'), true);
+  /* Not "GST $0.00". A nil figure reads as though GST applies to this sale and
+     happens to come to nothing, which is a different statement from the one
+     the note makes and the wrong one. No GST means no row. */
+  eq('gst_free draws no GST row at all', s.includes('(GST)'), false);
+  eq('and no nil amount anywhere', s.includes('$0.00'), false);
+  eq('the whole fee is on the one line', s.includes('$150.00'), true);
+}
+{
+  // The taxable branch still draws its row, so the rule above is about the
+  // treatment and not a row that quietly disappeared for everyone.
+  const s = renderLegacy().toString('latin1');
+  eq('a taxable sale still draws the GST row', s.includes('(GST)'), true);
 }
 
 // --- the layout refuses a raw claim -------------------------------------
@@ -185,14 +203,17 @@ eq('junk is null, not black-by-accident', pdf.rgb('nope'), null);
 
 // --- right alignment actually measures ----------------------------------
 eq('wider string measures wider',
-   pdf.textWidth('$163.90', 10, false) > pdf.textWidth('$1.90', 10, false), true);
+   pdf.textWidth('$1,163.90', 10, false) > pdf.textWidth('$1.90', 10, false), true);
 eq('bold is wider than regular for the same string',
    pdf.textWidth('Total paid', 11, true) > pdf.textWidth('Total paid', 11, false), true);
 
 // --- filename ------------------------------------------------------------
 // Named like the reference: product, order number, what it is.
-eq('filename carries the order number',
-   invoicePdf.filename(invoice.build(claim())), 'DASPA - Order DASP00020151 tax invoice.pdf');
+eq('filename says invoice for a GST-free sale',
+   invoicePdf.filename(invoice.build(claim())), 'DASPA - Order DASP00020151 invoice.pdf');
+eq('filename says tax invoice only when it is one',
+   invoicePdf.filename(invoice.build(claim({ gst_treatment: 'taxable', amount_paid_cents: 16390 }))),
+   'DASPA - Order DASP00020151 tax invoice.pdf');
 
 console.log(`\n${n} assertions, ${failed} failed`);
 process.exit(failed ? 1 : 0);
