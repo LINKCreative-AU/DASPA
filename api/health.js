@@ -460,7 +460,11 @@ module.exports = async (req, res) => {
       INVOICE_SECRET: set('INVOICE_SECRET'),
       SITE_URL: set('SITE_URL'),
       site_url_in_use: config.SITE_URL,
-      // Protects /api/cron-nudge. Vercel sends it automatically once set.
+      /* Protects /api/claims-sweep, the seven-day retention sweep, which is
+         the one scheduled job in vercel.json. Vercel sends it automatically
+         once set. Also still guards the inert /api/cron-nudge.
+         FALSE HERE MEANS THE SWEEP IS NOT RUNNING: it refuses without a
+         secret rather than opening, because it destroys data. */
       CRON_SECRET: set('CRON_SECRET'),
       // Without this, production 404s this endpoint. That is the intended
       // default, so a false here is only a problem if you wanted to read this
