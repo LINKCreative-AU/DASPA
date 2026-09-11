@@ -453,10 +453,17 @@ module.exports = async (req, res) => {
     },
 
     other: {
-      // Tax invoices are requested from the Registration Office portal when
-      // this is set, and skipped entirely when it is not. abnassist-site has
-      // moved to generating its own invoice and keeps this OFF; DASPA has not,
-      // so here it must be ON or paid clients get no tax invoice.
+      /* FALSE IS NOW CORRECT, and this comment used to say the opposite.
+         The old portal call in api/stripe-webhook.js asked
+         registrationoffice.com.au for a tax invoice and only fired when this
+         was set. DASPA generates its own now, in _lib/invoice.js and
+         _lib/invoice-pdf.js, so setting this would start issuing two invoices
+         for one sale the moment the email layer lands. Leave it unset and
+         delete the portal call with that work.
+
+         What IS missing is the sending: the generator exists and nothing
+         emails it yet, so a paid client currently receives no invoice at all.
+         That is a missing feature, not this variable. */
       INVOICE_SECRET: set('INVOICE_SECRET'),
       SITE_URL: set('SITE_URL'),
       site_url_in_use: config.SITE_URL,
