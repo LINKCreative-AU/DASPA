@@ -125,18 +125,19 @@ bank details, for somebody who never became a client.
 Nothing in the codebase deletes them. This is the same gap the ABN Assist
 review flagged, and it is no longer hypothetical here: the rows exist now.
 
-Two things follow, neither of them a tax question:
+**Both resolved on 11 September 2026.**
 
-1. **A retention sweep** on `payment_status = 'unpaid'` rows. OAIC guidance on
-   TFN information is to restrict access and not keep it longer than needed,
-   and eleven strangers' TFNs on rows nobody will ever act on fails that on
-   its face. The window is a judgement, not a rule: `api/id-documents-sweep.js`
-   in abnassist-site is worth reading as a model for how to write that
-   judgement down.
-2. **The pre-payment storage change** (see the backlog in README) stops the
-   pile growing, but does nothing about the eleven already there.
+Juan set the window at **seven days**, and confirmed unpaid rows may live in
+Supabase for that long and then be cleared. That settles the pre-payment
+storage question too: the form keeps writing at submit, and the sweep is what
+stops the pile growing, so no holding pen or encrypted metadata is needed.
 
-Neither is blocked by anything. Both need somebody to pick a retention window.
+Built as `api/claims-sweep.js` plus
+`supabase/2026-09-11-unpaid-retention.sql`. It **redacts rather than deletes**,
+because `claim_audit_log` has a foreign key to `claims.id`, because deleting
+the row destroys the conversion numbers, and because name, email and visa are
+exactly what an abandoned-cart follow-up needs and are a far easier privacy
+conversation than a TFN. The first run catches the eleven.
 
 ## Sources
 

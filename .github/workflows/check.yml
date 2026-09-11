@@ -67,3 +67,10 @@ jobs:
       # exists or has been paid, are the whole security of that link.
       - name: Identity endpoint tests
         run: node tests/identity.mjs
+
+      # The sweep destroys data on live claims and runs unattended. Its
+      # failure directions are reversed from everything else on the site: an
+      # absent CRON_SECRET must CLOSE it, and a paid claim must be unreachable
+      # even through a bug in the handler.
+      - name: Retention sweep tests
+        run: node tests/claims-sweep.mjs

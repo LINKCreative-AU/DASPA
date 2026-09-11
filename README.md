@@ -156,6 +156,20 @@ is false, emails and `/verify` say the claim is prepared and held at "in review"
 pending the ATO channel. It governs the four recovered claims regardless of
 whether checkout is open, so settle it before sending anyone a verification link.
 
+## Scheduled jobs
+
+`vercel.json` carries one cron: **`/api/claims-sweep` daily at 16:00 UTC**
+(2am Brisbane, a quiet hour). It is the seven-day retention sweep on unpaid
+claims, described in `supabase/2026-09-11-unpaid-retention.sql`.
+
+It needs `CRON_SECRET` set on Production. Unlike every other guard on this
+site, this one **fails closed**: an absent secret refuses the request rather
+than opening the endpoint, because it destroys data. Preview a run with
+`?dry=1` and the right Authorization header before trusting it.
+
+`/api/cron-nudge` is NOT in the crons block and therefore still inert, even
+though a block now exists. A cron only fires the paths it names.
+
 ## Scheduled email
 
 There is no cron. The `crons` block was removed from `vercel.json` on
@@ -424,16 +438,14 @@ landing copy.
 
 ## Backlog (agreed, not scheduled)
 
-- **Abandoned cart.** The order form is to be changed so nothing reaches
-  Supabase until payment succeeds (agreed 11 September 2026; where the TFN and
-  bank details sit between submit and payment is still open, and Stripe
-  forbids putting them in Checkout metadata. Not built yet, and
-  "Claim flow" below still describes the old order). Once that lands, a visitor
-  who fills the form and does not pay leaves no record and cannot be followed
-  up. That is the accepted cost, not an oversight. Recovering those visitors
-  needs a decision from James and Chris about what may be stored before payment
-  and for how long, and it interacts with the privacy policy, so it is parked
-  rather than half-built. Raised by Juan.
+- **Abandoned cart.** Partly settled on 11 September 2026. The form keeps
+  writing to Supabase at submit, and the seven-day sweep in
+  `api/claims-sweep.js` clears the sensitive fields off anything still unpaid.
+  That leaves a seven-day window in which a follow-up is possible, against a
+  row holding name, email, phone and visa but no TFN, passport number or bank
+  details. Whether to actually follow those visitors up is still a decision for
+  James and Chris, and it touches the privacy policy, so it stays parked rather
+  than half-built. Raised by Juan.
 
 ## FOR LEGAL REVIEW (before launch)
 
