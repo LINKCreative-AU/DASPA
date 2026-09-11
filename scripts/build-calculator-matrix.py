@@ -11,10 +11,11 @@
 # quietly drift from the calculator sitting above it.
 import re, os
 
-ROOT = r"C:\dev\daspa-site"
+# Overridable so this runs outside the Windows machine it was written on.
+ROOT = os.environ.get("DASPA_ROOT", r"C:\dev\daspa-site")
 PAGE = os.path.join(ROOT, "dasp-calculator.html")
 
-FEE = 163.90                      # matches FEE in the page script
+FEE = 150.00                      # matches FEE in the page script
 WHM, OTHER, ATO_HELD = 0.65, 0.35, 0.65
 BANDS = [1000, 2500, 5000, 7500, 10000, 15000, 20000, 30000, 50000]
 SG = [("0.115", "11.5%", "2023 to 2025"), ("0.12", "12%", "July 2025 onwards")]
@@ -31,9 +32,9 @@ def money(n):
 
 
 # the page already publishes three worked examples; the table must agree with them
-assert round(net(5600, WHM)) == 1796, round(net(5600, WHM))
-assert round(net(20000, OTHER)) == 12836, round(net(20000, OTHER))
-assert round(net(2400, OTHER)) == 1396, round(net(2400, OTHER))
+assert round(net(5600, WHM)) == 1810, round(net(5600, WHM))
+assert round(net(20000, OTHER)) == 12850, round(net(20000, OTHER))
+assert round(net(2400, OTHER)) == 1410, round(net(2400, OTHER))
 
 rows = "\n".join(
     "<tr><td><b>%s</b></td><td>%s</td><td>%s</td><td>%s</td></tr>"
@@ -47,7 +48,7 @@ wage_rows = "\n".join(
 
 SECTION = """
       <h2 id="matrix">What lands in your bank, at a glance</h2>
-      <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $149 + GST fee, so it is the number you would actually see. Find the row nearest your balance.</p>
+      <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $150 fee, so it is the number you would actually see. Find the row nearest your balance.</p>
       <div class="table-scroll">
       <table>
         <thead><tr><th>Your balance</th><th>Working holiday<br><small>417 or 462, 65%</small></th><th>Other temporary visa<br><small>482 or 500, 35%</small></th><th>Already at the ATO<br><small>any visa, 65%</small></th></tr></thead>

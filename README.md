@@ -1,7 +1,7 @@
 # daspa.com.au
 
 DASP (Departing Australia Superannuation Payment) lodgement service under the ARO group, same entity as abnassist.com.au: **Australian Registration Office Pty Ltd, ABN 58 645 964 156,
-Registered Tax Agent 26076969**. Flat fee $149 + GST, all funds included.
+Registered Tax Agent 26076969**. Flat fee $150, all funds included.
 
 Static HTML + Vercel serverless functions (zero npm dependencies), Supabase for claims,
 Stripe Checkout for payment, Stripe Identity for identity verification. Brand tokens were extracted
@@ -12,6 +12,19 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
 
 1. **Supabase**, run `supabase/schema.sql` in the SQL editor. RLS: the anon key can
    **insert** claims and nothing else; the audit log is service-role only.
+
+   **Check which project you are in first.** The account has two with similar
+   names and DASPA is not the obvious one:
+
+   | Project | Ref | What is in it |
+   |---|---|---|
+   | **Online Services Combined** | `ufsnmrqenedpyqyviwne` | **DASPA.** `claims`, the audit log, rate limits. Hardcoded in `claim.html`, and what `SUPABASE_URL` points at |
+   | Online Services Platform | `makuifpcxwrwdhwaettc` | Not DASPA. The portal and marketing-reporting tables (`portal_*`, `mr_*`) |
+
+   Running a DASPA migration against Platform fails with a bare
+   `42P01 relation "public.claims" does not exist` and changes nothing.
+   Migrations from 11 September 2026 open with a guard that says so in words
+   instead; older ones do not.
 
    On the **existing** database, the Stripe Identity move is two files and the order
    matters, because the live `claim.html` inserts `didit_consent_at` and PostgREST
@@ -67,7 +80,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `STRIPE_PUBLISHABLE_KEY` | separate per environment | `pk_live_` / `pk_test_` |
    | `STRIPE_WEBHOOK_SECRET` | separate per environment | test and live destinations have different signing secrets |
    | `OPS_EMAIL` | separate per environment | Preview to one person, Production to the team, so test claims do not raise real alerts |
-   | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | one entry, both | there is only one Supabase project. **Preview therefore reads and writes the production `claims` table**, so a test claim is a real row: note its id and delete it |
+   | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | one entry, both | DASPA has one Supabase project across both environments (`ufsnmrqenedpyqyviwne`, and see the table above: the account has another that is not DASPA). **Preview therefore reads and writes the production `claims` table**, so a test claim is a real row: note its id and delete it |
    | `RESEND_API_KEY`, `EMAIL_FROM`, `WHATSAPP_NUMBER` | one entry, both | Resend has no test mode, so **email sent from Preview is real email**. Use your own address as the claimant when testing |
    | `CRON_SECRET`, `HEALTH_KEY` | Production only | the cron only runs on Production; `/api/health` only needs a key there |
    | `INVOICE_SECRET` | Production only | otherwise a test order asks the registrationoffice portal for a real tax invoice |
@@ -118,7 +131,7 @@ the exact string `true` (whitespace trimmed) opens it.
 That default is deliberate and it is the opposite of convenient. Closed by
 mistake loses a sale you can see and fix in a minute. Open by mistake takes
 money for work that cannot be delivered, which is what happened here between
-27 August and 8 September 2026: four clients paid $163.90 each into a flow with
+27 August and 8 September 2026: four clients paid $150 each into a flow with
 no webhook destination behind it, so nothing recorded the payment, verification
 refused them as unpaid, no email went out, and no alert fired anywhere. The
 price of the safe default is that a deployment created without the variable
@@ -142,6 +155,34 @@ whether we take orders, but what clients already in the flow are told. While it
 is false, emails and `/verify` say the claim is prepared and held at "in review"
 pending the ATO channel. It governs the four recovered claims regardless of
 whether checkout is open, so settle it before sending anyone a verification link.
+
+## Scheduled jobs
+
+`vercel.json` carries one cron: **`/api/claims-sweep` daily at 16:00 UTC**
+(2am Brisbane, a quiet hour). It is the seven-day retention sweep on unpaid
+claims, described in `supabase/2026-09-11-unpaid-retention.sql`.
+
+The account is on **Pro**, so the job fires within the specified minute. On
+Hobby, Vercel spreads invocations across the whole hour and allows only one
+run a day, which would still be fine for a seven-day window but is worth
+knowing if the plan ever changes.
+
+**Rotating `CRON_SECRET`.** Any random string of 16 characters or more; Vercel
+sends it as the `Authorization` header itself, so nothing has to construct it
+and the format is ours to choose. Generate it locally with
+`openssl rand -hex 32`, paste the value into the existing variable in Vercel,
+then **redeploy**, because an env var change does not reach the running
+functions until a new deployment. The handler trims the value, so a trailing
+newline picked up from a terminal will not lock Vercel's own cron out of its
+own endpoint, which is the failure this trap usually produces.
+
+It needs `CRON_SECRET` set on Production. Unlike every other guard on this
+site, this one **fails closed**: an absent secret refuses the request rather
+than opening the endpoint, because it destroys data. Preview a run with
+`?dry=1` and the right Authorization header before trusting it.
+
+`/api/cron-nudge` is NOT in the crons block and therefore still inert, even
+though a block now exists. A cron only fires the paths it names.
 
 ## Scheduled email
 
@@ -288,7 +329,7 @@ pages, and should be confirmed against ARO's executed copy.
    invoice: Stripe's Adaptive Pricing documentation states the Checkout Session and
    PaymentIntent "reflect what your customer paid in your integration currency and
    amount", with the local figures carried separately in a `presentment_details`
-   hash. So `session.amount_total` stays `16390` and `session.currency` stays `aud`
+   hash. So `session.amount_total` stays `15000` and `session.currency` stays `aud`
    whatever the client sees, and the invoice is built in AUD with AUD GST either way.
    To see what an overseas client sees, create a Checkout Session with a
    `+location_XX` email suffix (e.g. `test+location_FR@example.com`), which is
@@ -389,7 +430,7 @@ FAQPage JSON-LD and the `ja`, `ko` and `zh-tw` pages. Examples:
 
 - "Human support on WhatsApp from form to payout"
 - "real people answer on WhatsApp, in your timezone, until it lands"
-- "answers on WhatsApp, all for a flat $149 + GST"
+- "answers on WhatsApp, all for a flat $150"
 - "a human answers on WhatsApp" (FAQ, and its JSON-LD copy)
 
 Around 160 mentions over 43 pages. Those sentences are currently **untrue**, and
@@ -409,11 +450,22 @@ Until one of those happens the site is quieter about WhatsApp but not honest
 about it. Worth resolving before any Ads spend, since the claim appears in ad
 landing copy.
 
+## Backlog (agreed, not scheduled)
+
+- **Abandoned cart.** Partly settled on 11 September 2026. The form keeps
+  writing to Supabase at submit, and the seven-day sweep in
+  `api/claims-sweep.js` clears the sensitive fields off anything still unpaid.
+  That leaves a seven-day window in which a follow-up is possible, against a
+  row holding name, email, phone and visa but no TFN, passport number or bank
+  details. Whether to actually follow those visitors up is still a decision for
+  James and Chris, and it touches the privacy policy, so it stays parked rather
+  than half-built. Raised by Juan.
+
 ## FOR LEGAL REVIEW (before launch)
 
 - Authority declaration wording in `claim.html`
 - `terms.html`, `privacy.html`, `tpb.html` draft copy (banner on each)
-- GST treatment of non-resident sales, see comment in `api/_lib/config.js`
+- ~~GST treatment of non-resident sales~~ confirmed by James and Chris on 11 September 2026, GST-free, $150. See `docs/gst-position.md`. The GST on the three historical claims is still an open decision
 - Lodgement cannot commence until the ATO DASP Agreement is executed (`LODGEMENT_LIVE` flag)
 
 Content pages were generated from a scratchpad script; edit the HTML directly (the pages are

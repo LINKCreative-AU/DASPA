@@ -11,7 +11,8 @@
 import os, re, glob, io, urllib.request
 from PIL import Image, ImageDraw, ImageFont
 
-ROOT = r"C:\dev\daspa-site"
+# Overridable so this runs outside the Windows machine it was written on.
+ROOT = os.environ.get("DASPA_ROOT", r"C:\dev\daspa-site")
 OUT = os.path.join(ROOT, "assets", "og")
 UA_OLD = "Mozilla/4.0"   # legacy UA makes Google Fonts serve TTF instead of woff2
 
@@ -116,11 +117,11 @@ CARDS = {
  "can-i-claim-my-super-myself-for-free": ("Yes, you can do this yourself for free.", "The ATO route step by step, and where DIY claims come unstuck."),
  "dasp-nat-7204-application-form": ("The DASP application form, as a fillable PDF", "Our version of NAT 7204. Fill it in, send it back, we lodge it."),
  "faq": ("Straight answers about claiming your super", "Tax, timing, lost funds, overseas payments and the free ATO option."),
- "pricing": ("One flat fee. Never a percentage.", "$149 + GST covers every fund. No super recovered, no fee."),
+ "pricing": ("One flat fee. Never a percentage.", "$150 covers every fund. No super recovered, no fee."),
  "visas": ("Which visa were you on?", "417, 462, 482, 500 and the rest. Your subclass sets your tax rate."),
  "claim-super-from": ("Claiming your Australian super from overseas", "You do not need to go back, and you do not need an Australian bank."),
  "brazil": ("Claim your Australian super from Brazil", "Studied here on a 500? You pay the lower rate, not the backpacker one."),
- "uk": ("Claim your Australian super from the UK", "Paid to a UK account. Flat fee $149 + GST, every fund included."),
+ "uk": ("Claim your Australian super from the UK", "Paid to a UK account. Flat fee $150, every fund included."),
  "ireland": ("Claim your Australian super from Ireland", "Several jobs usually means several funds. We find all of them."),
  "germany": ("Claim your Australian super from Germany", "Paid to a German account, paperwork handled in English."),
  "france": ("Claim your Australian super from France", "No notaire, no consulate queue. A passport and a selfie."),

@@ -71,6 +71,9 @@ module.exports = async (req, res) => {
         if (claim && claim.payment_status !== 'paid') {
           await db.updateClaim(claimId, {
             payment_status: 'paid',
+            /* What Stripe actually charged. The invoice is built from this, so
+               a later price change cannot restate a document already issued. */
+            amount_paid_cents: Number.isInteger(session.amount_total) ? session.amount_total : null,
             paid_at: new Date().toISOString(),
             stripe_session_id: session.id,
             /* From customer_creation: 'always' in api/create-checkout.js.

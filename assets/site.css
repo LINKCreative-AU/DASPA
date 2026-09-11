@@ -360,3 +360,29 @@ html[lang="ja"] body{font-family:'Plus Jakarta Sans','Hiragino Sans','Yu Gothic'
    are not addressed here because changing them changes the site's positioning,
    which is not a decision to take in a CSS file. See README. */
 .wa-btn { display: none !important; }
+
+/* ---------- verification, two cards ---------- */
+/* Matches the ABN Assist thank-you page: Step 1 done beside Step 2 outstanding.
+   Seeing BOTH is what tells the client where they are. One card showing only
+   the thing still to do reads as though the payment might not have landed,
+   which is exactly the anxiety these clients already had. */
+.vcards{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:20px}
+@media(min-width:820px){.vcards{grid-template-columns:1fr 1fr;align-items:stretch}}
+.vcard{background:var(--card);border:1.5px solid var(--blue);border-radius:16px;padding:24px 22px;display:flex;flex-direction:column}
+.vcard .vstep{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:14px}
+.vcard .vicon{width:64px;height:64px;border-radius:50%;margin:2px auto 16px;display:flex;align-items:center;justify-content:center}
+.vcard .vicon svg{width:30px;height:30px}
+.vicon.done{background:#e3f5ec}
+.vicon.done svg{stroke:var(--green)}
+.vicon.todo{background:#fff6e0}
+.vicon.todo svg{stroke:var(--amber)}
+.vicon.stop{background:#fdeaed}
+.vicon.stop svg{stroke:var(--red)}
+.vcard h3{font-size:18px;font-weight:700;color:var(--blue);text-align:center;line-height:1.3;margin-bottom:12px}
+.vcard p{font-size:14.5px;color:var(--muted);margin-bottom:11px}
+.vcard p:last-child{margin-bottom:0}
+.vcard .btn{display:block;width:100%;text-align:center;background:var(--green);margin:6px 0 12px}
+.vcard .btn:hover{background:#168a54}
+.vcard .btn[disabled]{opacity:.55;cursor:default}
+.vmeta{display:flex;flex-wrap:wrap;gap:6px 30px;justify-content:center;font-size:14px;color:var(--muted);margin-bottom:22px}
+.vmeta b{color:var(--ink);font-weight:700}

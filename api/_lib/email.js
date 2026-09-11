@@ -192,7 +192,7 @@ ${sig}`
       'Payment received, one step to go',
       `Hi ${firstName(c)},
 
-Payment received: $163.90, the flat fee, all inclusive. That's the only thing you'll ever pay us, and if we can't recover any super for you, it comes straight back (no super, no fee).
+Payment received: $150, the flat fee, all inclusive. That's the only thing you'll ever pay us, and if we can't recover any super for you, it comes straight back (no super, no fee).
 
 One step left: verify your identity with your passport and a quick selfie (about two minutes, from your phone):
 

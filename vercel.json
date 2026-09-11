@@ -6,5 +6,11 @@
       "source": "/googlec958a1798c20283a.html",
       "destination": "/google-gsc-verification.txt"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/claims-sweep",
+      "schedule": "0 16 * * *"
+    }
   ]
 }

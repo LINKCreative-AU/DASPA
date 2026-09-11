@@ -11,15 +11,17 @@ const { stripeHeaders } = require('./_lib/stripe');
 const { clientIp } = require('./_lib/guard');
 
 /* Where Vercel's edge thinks this request came from, as a two-letter ISO 3166-1
-   code. Corroborates the client's own "am I in Australia" answer, which decides
-   what the tax invoice says about GST.
-   https://vercel.com/docs/headers/request-headers
+   code. https://vercel.com/docs/headers/request-headers
 
-   Evidence, never an override. A VPN, a mobile carrier routing through another
-   country, or an Australian SIM roaming overseas all produce a wrong answer,
-   and the client standing in a room knows which country it is better than a
-   header does. A disagreement sets gst_review_required in the database and a
-   human looks at it. Nothing here changes what anyone is charged. */
+   It no longer decides anything. It was the corroboration for the client's own
+   "am I in Australia" answer while that answer set the GST treatment; from
+   11 September 2026 every sale is GST-free, the form question is gone, and
+   this is kept purely as a recorded fact about the order.
+
+   Evidence, never an override, and it was never reliable enough to be one: a
+   VPN, a carrier routing through another country, or an Australian SIM roaming
+   overseas all produce a wrong answer. Nothing here changes what anyone is
+   charged. */
 function edgeCountry(req) {
   const h = (req && req.headers) || {};
   const raw = h['x-vercel-ip-country'] || h['X-Vercel-IP-Country'] || '';

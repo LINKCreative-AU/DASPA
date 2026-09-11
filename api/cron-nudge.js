@@ -8,9 +8,13 @@
 // regardless.
 //
 // The endpoint is kept rather than deleted because it still requires
-// "Authorization: Bearer <CRON_SECRET>", so it is inert but available: adding
-// the crons block back, or `vercel crons run /api/cron-nudge`, restores it
-// exactly as it was. Delete it once ActiveCampaign owns both messages.
+// "Authorization: Bearer <CRON_SECRET>", so it is inert but available.
+//
+// NOTE, since 11 September 2026 vercel.json HAS a crons block again, for
+// /api/claims-sweep. It does not list this path, so this endpoint is still
+// inert; a cron only fires the paths it names. Restoring the nudge means
+// adding this path to that block, or `vercel crons run /api/cron-nudge`.
+// Delete it once ActiveCampaign owns both messages.
 //
 // DO NOT try to disable this by clearing CRON_SECRET. The guard below is
 // `if (cronSecret && ...)`, so an unset secret does not lock the endpoint, it

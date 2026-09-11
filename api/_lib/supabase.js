@@ -84,4 +84,28 @@ async function insertAudit(claimId, event, detail) {
   }).catch(() => {});
 }
 
-module.exports = { getClaim, getClaimByPaymentIntent, updateClaim, patchClaims, selectClaims, insertAudit };
+/* "Has this already happened to this claim?" The audit log is the only
+   append-only record we have, so it doubles as the once-only marker for events
+   that have no column of their own. Returns false on any failure, which means
+   a broken read sends a duplicate notification rather than swallowing the
+   first one: telling the team twice is recoverable, never telling them is not. */
+async function hasAudit(claimId, event) {
+  if (!claimId || !event) return false;
+  try {
+    const r = await fetch(
+      `${BASE}/rest/v1/claim_audit_log?claim_id=eq.${encodeURIComponent(claimId)}`
+      + `&event=eq.${encodeURIComponent(event)}&select=id&limit=1`,
+      { headers: headers() },
+    );
+    if (!r.ok) return false;
+    const rows = await r.json();
+    return Array.isArray(rows) && rows.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+module.exports = {
+  getClaim, getClaimByPaymentIntent, updateClaim, patchClaims, selectClaims,
+  insertAudit, hasAudit,
+};
