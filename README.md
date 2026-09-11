@@ -162,6 +162,20 @@ whether checkout is open, so settle it before sending anyone a verification link
 (2am Brisbane, a quiet hour). It is the seven-day retention sweep on unpaid
 claims, described in `supabase/2026-09-11-unpaid-retention.sql`.
 
+The account is on **Pro**, so the job fires within the specified minute. On
+Hobby, Vercel spreads invocations across the whole hour and allows only one
+run a day, which would still be fine for a seven-day window but is worth
+knowing if the plan ever changes.
+
+**Rotating `CRON_SECRET`.** Any random string of 16 characters or more; Vercel
+sends it as the `Authorization` header itself, so nothing has to construct it
+and the format is ours to choose. Generate it locally with
+`openssl rand -hex 32`, paste the value into the existing variable in Vercel,
+then **redeploy**, because an env var change does not reach the running
+functions until a new deployment. The handler trims the value, so a trailing
+newline picked up from a terminal will not lock Vercel's own cron out of its
+own endpoint, which is the failure this trap usually produces.
+
 It needs `CRON_SECRET` set on Production. Unlike every other guard on this
 site, this one **fails closed**: an absent secret refuses the request rather
 than opening the endpoint, because it destroys data. Preview a run with
