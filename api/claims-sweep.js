@@ -18,7 +18,20 @@
 // lock. On an endpoint that only sends email that is survivable. On this one
 // it would hand anybody a button that wipes fields off live claims.
 //
+// SAFE TO RUN TWICE, which is not optional. Vercel documents that cron
+// delivery is best effort and "can also occasionally invoke the same scheduled
+// run more than once", so a job that is not idempotent will eventually do its
+// work twice. Here that is free: `redacted_at is null` is in both the select
+// filter and the conditional PATCH, so a second delivery finds nothing to do.
+// https://vercel.com/docs/cron-jobs/manage-cron-jobs
+//
+// A missed run is equally harmless. The filter asks "older than seven days"
+// rather than "became seven days old yesterday", so the next run catches up on
+// anything a skipped one left behind.
+//
 // Env: CRON_SECRET (required), SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
+// Vercel sends the secret as an Authorization header automatically; nothing
+// needs to construct it.
 
 'use strict';
 
