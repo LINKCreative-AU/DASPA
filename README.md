@@ -13,6 +13,19 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
 1. **Supabase**, run `supabase/schema.sql` in the SQL editor. RLS: the anon key can
    **insert** claims and nothing else; the audit log is service-role only.
 
+   **Check which project you are in first.** The account has two with similar
+   names and DASPA is not the obvious one:
+
+   | Project | Ref | What is in it |
+   |---|---|---|
+   | **Online Services Combined** | `ufsnmrqenedpyqyviwne` | **DASPA.** `claims`, the audit log, rate limits. Hardcoded in `claim.html`, and what `SUPABASE_URL` points at |
+   | Online Services Platform | `makuifpcxwrwdhwaettc` | Not DASPA. The portal and marketing-reporting tables (`portal_*`, `mr_*`) |
+
+   Running a DASPA migration against Platform fails with a bare
+   `42P01 relation "public.claims" does not exist` and changes nothing.
+   Migrations from 11 September 2026 open with a guard that says so in words
+   instead; older ones do not.
+
    On the **existing** database, the Stripe Identity move is two files and the order
    matters, because the live `claim.html` inserts `didit_consent_at` and PostgREST
    400s an insert naming a column that is not there:
@@ -67,7 +80,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `STRIPE_PUBLISHABLE_KEY` | separate per environment | `pk_live_` / `pk_test_` |
    | `STRIPE_WEBHOOK_SECRET` | separate per environment | test and live destinations have different signing secrets |
    | `OPS_EMAIL` | separate per environment | Preview to one person, Production to the team, so test claims do not raise real alerts |
-   | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | one entry, both | there is only one Supabase project. **Preview therefore reads and writes the production `claims` table**, so a test claim is a real row: note its id and delete it |
+   | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | one entry, both | DASPA has one Supabase project across both environments (`ufsnmrqenedpyqyviwne`, and see the table above: the account has another that is not DASPA). **Preview therefore reads and writes the production `claims` table**, so a test claim is a real row: note its id and delete it |
    | `RESEND_API_KEY`, `EMAIL_FROM`, `WHATSAPP_NUMBER` | one entry, both | Resend has no test mode, so **email sent from Preview is real email**. Use your own address as the claimant when testing |
    | `CRON_SECRET`, `HEALTH_KEY` | Production only | the cron only runs on Production; `/api/health` only needs a key there |
    | `INVOICE_SECRET` | Production only | otherwise a test order asks the registrationoffice portal for a real tax invoice |
@@ -411,8 +424,10 @@ landing copy.
 
 ## Backlog (agreed, not scheduled)
 
-- **Abandoned cart.** The order form is being changed so nothing reaches
-  Supabase until payment succeeds (decided 11 September 2026, not built yet;
+- **Abandoned cart.** The order form is to be changed so nothing reaches
+  Supabase until payment succeeds (agreed 11 September 2026; where the TFN and
+  bank details sit between submit and payment is still open, and Stripe
+  forbids putting them in Checkout metadata. Not built yet, and
   "Claim flow" below still describes the old order). Once that lands, a visitor
   who fills the form and does not pay leaves no record and cannot be followed
   up. That is the accepted cost, not an oversight. Recovering those visitors

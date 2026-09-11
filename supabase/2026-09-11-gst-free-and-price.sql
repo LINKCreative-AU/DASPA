@@ -11,6 +11,24 @@
 --
 -- Run in the Supabase SQL editor. Safe to run twice.
 
+-- ------------------------------------------------------- 0. right database?
+--
+-- There are two Supabase projects with confusingly similar names, and this ran
+-- against the wrong one on the first attempt: "Online Services Platform"
+-- (makuifpcxwrwdhwaettc) holds the portal and marketing-reporting tables and
+-- has no claims table, so the first statement failed with a bare
+-- 42P01 relation does not exist, which says nothing about what to do next.
+--
+-- DASPA is "Online Services Combined", ufsnmrqenedpyqyviwne, the project
+-- hardcoded in claim.html and set as SUPABASE_URL in Vercel.
+do $$
+begin
+  if to_regclass('public.claims') is null then
+    raise exception
+      'Wrong Supabase project. This migration belongs to DASPA: "Online Services Combined" (ufsnmrqenedpyqyviwne). There is no public.claims table here, so nothing has been changed. Switch project in the breadcrumb and run it again.';
+  end if;
+end $$;
+
 -- ------------------------------------------------- 1. what was actually paid
 --
 -- The invoice was building its figures from config.FEE_CENTS, which is the
