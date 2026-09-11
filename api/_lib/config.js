@@ -4,12 +4,16 @@
 // FEE, charged via Stripe Checkout, in cents.
 // $149 + GST = $163.90 advertised across the site (keep assets/site.js in sync).
 //
-// GST NOTE / FOR ACCOUNTING REVIEW: sales to non-residents who are outside
-// Australia when the service is performed may qualify as GST-free exports
-// (GST Act s38-190). If/when that treatment is confirmed, switch the charged
-// amount to FEE_EX_GST_CENTS for those clients (or point Stripe at a tax-aware
-// price). The invoice line description is built here so it can flex with the
-// treatment. Do not hardcode amounts elsewhere.
+// GST NOTE: the proposed position is that this fee is a GST-free export under
+// item 2 of s38-190(1), because a DASP cannot be paid until the claimant has
+// left Australia and their visa has ceased, and the ATO enforces that against
+// Home Affairs at lodgement. Written up in docs/gst-position.md.
+//
+// NOT SIGNED OFF. Until James and Chris agree it, the site charges GST and
+// FEE_CENTS stays at the inc-GST amount. Switching it is not a one-line
+// change: the invoice, the order form and every "incl. GST" price on the site
+// move together, and that last one is a consumer representation. See the
+// checklist in the note. Do not hardcode amounts elsewhere.
 // ---------------------------------------------------------------------------
 const FEE_INC_GST_CENTS = 16390;
 const FEE_EX_GST_CENTS = 14900;

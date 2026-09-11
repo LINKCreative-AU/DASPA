@@ -424,7 +424,7 @@ landing copy.
 
 - Authority declaration wording in `claim.html`
 - `terms.html`, `privacy.html`, `tpb.html` draft copy (banner on each)
-- GST treatment of non-resident sales, see comment in `api/_lib/config.js`
+- GST treatment of non-resident sales: proposed position written up in `docs/gst-position.md`, not signed off, site still charges GST
 - Lodgement cannot commence until the ATO DASP Agreement is executed (`LODGEMENT_LIVE` flag)
 
 Content pages were generated from a scratchpad script; edit the HTML directly (the pages are
