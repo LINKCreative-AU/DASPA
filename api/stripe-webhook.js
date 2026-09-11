@@ -69,7 +69,13 @@ module.exports = async (req, res) => {
       if (claimId) {
         const claim = await db.getClaim(claimId);
         if (claim && claim.payment_status !== 'paid') {
-          await db.updateClaim(claimId, {
+          /* The RETURN VALUE, not the row we read a moment ago.
+             email.paymentConfirmed builds the invoice and the verification
+             link from what it is handed, and both need fields this PATCH is
+             what writes: paid_at and amount_paid_cents for the invoice,
+             stripe_customer_id for the link. Passing the pre-update row sent a
+             confirmation with no invoice and no link, every time. */
+          const paid = await db.updateClaim(claimId, {
             payment_status: 'paid',
             /* What Stripe actually charged. The invoice is built from this, so
                a later price change cannot restate a document already issued. */
@@ -93,22 +99,21 @@ module.exports = async (req, res) => {
             claim_status: 'paid',
           });
           await db.insertAudit(claimId, 'stripe_payment_completed', session.id);
-          await email.paymentConfirmed(claim);
+
+          /* Fall back to the row we read plus the patch if PostgREST returned
+             nothing, so a confirmation still goes out rather than the webhook
+             throwing on a missing field. */
+          const fresh = paid || { ...claim, payment_status: 'paid', paid_at: new Date().toISOString() };
+
+          await email.paymentConfirmed(fresh);
           await db.insertAudit(claimId, 'email_payment_confirmed', claim.email);
-          await email.opsPaid(claim, session.amount_total);
-          // tax invoice via the portal (idempotent there; never fails the webhook)
-          const invoiceSecret = String(process.env.INVOICE_SECRET || '').trim();
-          if (invoiceSecret) {
-            await fetch('https://registrationoffice.com.au/api/invoice', {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                secret: invoiceSecret, site: 'daspa', orderId: claimId,
-                email: claim.email, name: claim.full_name,
-                amountCents: session.amount_total, description: 'DASP claim lodgement service',
-              }),
-            }).catch((e) => console.error('invoice call failed', e.message));
-            await db.insertAudit(claimId, 'tax_invoice_requested', claim.email).catch(() => {});
-          }
+          await email.opsPaid(fresh, session.amount_total);
+
+          /* The old call to registrationoffice.com.au for a tax invoice is
+             gone. DASPA generates its own now, in _lib/invoice.js and
+             _lib/invoice-pdf.js, and email.paymentConfirmed attaches it. Two
+             invoices for one sale is worse than none, so INVOICE_SECRET is not
+             read here any more and setting it does nothing. */
         }
       }
     }

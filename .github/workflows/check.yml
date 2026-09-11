@@ -74,3 +74,11 @@ jobs:
       # even through a bug in the handler.
       - name: Retention sweep tests
         run: node tests/claims-sweep.mjs
+
+      # The only thing a client sees from us after paying. Two of these cover
+      # bugs that were real: the webhook handed paymentConfirmed the row as it
+      # was BEFORE the payment patch, so every confirmation would have gone out
+      # with no invoice and no verification link, and neither absence is
+      # visible in a send that reports success.
+      - name: Email tests
+        run: node tests/email.mjs

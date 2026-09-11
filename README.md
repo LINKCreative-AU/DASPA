@@ -184,6 +184,25 @@ than opening the endpoint, because it destroys data. Preview a run with
 `/api/cron-nudge` is NOT in the crons block and therefore still inert, even
 though a block now exists. A cron only fires the paths it names.
 
+## Email
+
+Transactional mail goes through Resend. `api/_lib/email.js` holds the senders,
+`api/_lib/email-html.js` the HTML shell. Every message ships an HTML part and a
+hand-written plain-text part; Resend will synthesise the text from the HTML if
+it is omitted, but the result reads like stripped markup.
+
+**Nothing is sent to the client before payment.** `paymentConfirmed` is first
+contact. It carries the order reference, the verification link, what happens
+next, the invoice rendered in the body and the same invoice attached as a PDF.
+The body and the attachment are built from one model, so their figures cannot
+disagree.
+
+**The team alert carries the tax file number in full.** That was a decision, not
+an oversight, and it has consequences: `OPS_EMAIL` must stay a small internal
+list, the alert carries a do-not-forward line, and the TFN must stay out of
+ActiveCampaign when that is wired up. The reasoning is in the comment above
+`opsRef`. Bank details are still excluded.
+
 ## Scheduled email
 
 There is no cron. The `crons` block was removed from `vercel.json` on
