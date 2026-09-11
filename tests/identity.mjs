@@ -44,6 +44,9 @@ let stripeVerified = false;
 let dbThrows = null;
 let sessionThrows = null;
 
+let alreadyFlagged = false;
+let opsMailThrows = null;
+
 const dbFake = {
   selectClaims: async (q) => {
     queries.push(q);
@@ -52,6 +55,7 @@ const dbFake = {
   },
   updateClaim: async (id, patch) => { writes.push({ id, patch }); return {}; },
   insertAudit: async (id, ev, detail) => { audits.push({ id, ev, detail }); },
+  hasAudit: async (id, ev) => { dbFake.askedAudit = { id, ev }; return alreadyFlagged; },
 };
 
 const identityFake = {
@@ -70,7 +74,10 @@ const verifiedFake = {
 };
 
 const emailFake = {
-  opsNeedsReview: async (c, status) => { opsMails.push({ order: c.order_number, status }); },
+  opsNeedsReview: async (c, status) => {
+    opsMails.push({ order: c.order_number, status });
+    if (opsMailThrows) throw opsMailThrows;
+  },
 };
 
 const origLoad = Module._load;
@@ -95,7 +102,7 @@ function load() {
 let ipSeq = 0;
 async function call(method, src, opts = {}) {
   queries = []; writes = []; audits = []; marks = []; opsMails = []; sessions = [];
-  identityFake.asked = null;
+  identityFake.asked = null; dbFake.askedAudit = null;
   // A fresh IP per call unless one is pinned, so the in-memory rate limiter
   // does not carry one test's hits into the next.
   const ip = opts.ip || `10.0.0.${++ipSeq % 250}`;
@@ -284,6 +291,48 @@ for (const [label, src] of MALFORMED) {
   eq('the GET does not create anything for one', sessions.length, 0);
 }
 {
+  /* The manual card offers no button, so nobody will ever POST. If the GET
+     does not raise the work, the page promises an email that never comes. */
+  rows = [claim({ passport_country: 'China' })];
+  alreadyFlagged = false;
+  const r = await call('GET', { c: CUS, o: ORD });
+  eq('the manual GET still renders', r.code, 200);
+  eq('viewing a manual-only claim tells the team', opsMails.length, 1);
+  eq('and marks it so, once', audits.map((a) => a.ev), ['identity_manual_required']);
+  eq('the marker is looked for under the same event name',
+    dbFake.askedAudit.ev, 'identity_manual_required');
+}
+{
+  rows = [claim({ passport_country: 'China' })];
+  alreadyFlagged = true;
+  await call('GET', { c: CUS, o: ORD });
+  eq('a second visit does not tell the team again', opsMails.length, 0);
+  eq('a second visit does not re-mark it', audits.length, 0);
+  alreadyFlagged = false;
+}
+{
+  // A failed send must not leave a marker saying it was handled.
+  rows = [claim({ passport_country: 'Russia' })];
+  alreadyFlagged = false;
+  opsMailThrows = new Error('resend 502');
+  await call('GET', { c: CUS, o: ORD });
+  opsMailThrows = null;
+  eq('a failed alert is not marked as sent', audits.length, 0);
+}
+{
+  rows = [claim({ passport_country: 'China', verification_status: 'verified' })];
+  alreadyFlagged = false; stripeVerified = false;
+  await call('GET', { c: CUS, o: ORD });
+  eq('an already-verified claim raises no manual work', opsMails.length, 0);
+}
+{
+  rows = [claim({ passport_country: 'Italy' })];
+  alreadyFlagged = false;
+  await call('GET', { c: CUS, o: ORD });
+  eq('an ordinary passport raises nothing', opsMails.length, 0);
+  eq('and is not even looked up', dbFake.askedAudit, null);
+}
+{
   process.env.LODGEMENT_LIVE = 'true';
   rows = [claim()];
   const r = await call('GET', { c: CUS, o: ORD });
@@ -341,7 +390,7 @@ for (const [label, src] of MALFORMED) {
 }
 {
   rows = [claim({ passport_country: 'China' })];
-  stripeVerified = false;
+  stripeVerified = false; alreadyFlagged = false;
   const r = await call('POST', { c: CUS, o: ORD });
   eq('a Chinese passport is refused', r.code, 403);
   eq('the refusal names the remedy, not the reason', r.payload, { error: 'manual verification required' });

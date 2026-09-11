@@ -57,12 +57,22 @@
     (o.after || []).forEach(function (node) { el.body.appendChild(node); });
   }
 
-  function link(text, href) {
+  /* The only fallback we offer is a person. There is no self-service ID
+     upload yet, so nothing here may link to one: sending a claimant to a page
+     that cannot take their document is worse than telling them to email us.
+     Pre-filling the subject with the order number saves the team a round trip
+     asking which claim this is. */
+  function mailLine(text, subject) {
     var p = document.createElement('p');
     var a = document.createElement('a');
-    a.href = href; a.textContent = text;
+    a.href = 'mailto:claims@daspa.com.au?subject=' + encodeURIComponent(subject);
+    a.textContent = text;
     p.appendChild(a);
     return p;
+  }
+
+  function subject(what) {
+    return O ? what + ' - order ' + O : what;
   }
 
   function verifyButton(label) {
@@ -98,7 +108,8 @@
       button: verifyButton(),
       after: [
         para('Handled by Stripe Identity. Your document goes to Stripe, not to us, and we only ever see whether it succeeded.'),
-        link('Cannot get it to work, or your document is not accepted? Send your ID to us instead.', '/upload-form'),
+        mailLine('Cannot get it to work, or your document is not accepted? Email us and we will sort it out.',
+          subject('Identity verification help')),
       ],
     });
   }
@@ -109,9 +120,9 @@
       title: 'We will verify your identity by hand',
       paras: [
         'The automated check cannot be used for documents issued by your country, so one of our team will do it manually instead. This is not a problem with your claim.',
-        'Send your ID to us using the link below and we will take it from there.',
+        'We will email you with what we need and how to send it securely. There is nothing for you to do right now.',
       ],
-      after: [link('Send your ID to us', '/upload-form')],
+      after: [mailLine('Rather get started? Email us.', subject('Manual identity verification'))],
     });
   }
 
@@ -165,7 +176,7 @@
         'Please try again in a few minutes, or email claims@daspa.com.au and we will send you a fresh link.',
       ],
       button: verifyButton('Try again'),
-      after: [link('Or send your ID to us instead.', '/upload-form')],
+      after: [mailLine('Or email us and we will take it from there.', subject('Identity verification help'))],
     });
   }
 

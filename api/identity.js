@@ -61,6 +61,27 @@ async function findClaim(c, o) {
   return (Array.isArray(rows) && rows[0]) || null;
 }
 
+/* A manual-only claimant never presses a button: the page tells them we will
+   be in touch and offers no automated check, because Stripe is not allowed to
+   look at their passport. So the page visit itself has to raise the work, or
+   the claim sits with nobody looking for it and the copy is a promise nothing
+   keeps.
+
+   Once only, marked in the audit log because verification_status has a check
+   constraint and no value for this. The marker is written only after the
+   notification actually leaves, so a failed send is retried on the next visit
+   rather than silently marked as handled. */
+async function flagManual(claim) {
+  if (await db.hasAudit(claim.id, 'identity_manual_required')) return;
+
+  let sent = true;
+  await email.opsNeedsReview(claim, 'manual identity verification required: passport issued by '
+    + (claim.passport_country || 'an unstated country') + ', which Stripe Identity cannot verify')
+    .catch((e) => { sent = false; console.error('identity: ops alert failed:', e.message); });
+
+  if (sent) await db.insertAudit(claim.id, 'identity_manual_required', String(claim.passport_country || ''));
+}
+
 module.exports = async (req, res) => {
   const isPost = req.method === 'POST';
   if (!isPost && req.method !== 'GET') {
@@ -107,13 +128,16 @@ module.exports = async (req, res) => {
         }
         status = 'verified';
       }
+      const manual = manualOnly(claim.passport_country);
+      if (manual && status !== 'verified') await flagManual(claim);
+
       return res.status(200).json({
         enabled: true,
         verification_status: status,
         first_name: String(claim.full_name || '').trim().split(/\s+/)[0] || '',
         order_number: claim.order_number,
         email: claim.email || '',
-        manual_only: manualOnly(claim.passport_country),
+        manual_only: manual,
         lodgement_live: config.LODGEMENT_LIVE,
       });
     }
@@ -130,11 +154,7 @@ module.exports = async (req, res) => {
     /* A claimant Stripe will not verify must never be sent into a flow that
        refuses them. Caught here rather than at Stripe's error page. */
     if (manualOnly(claim.passport_country)) {
-      await db.insertAudit(claim.id, 'identity_manual_required', String(claim.passport_country || ''))
-        .catch(() => {});
-      await email.opsNeedsReview(claim, 'manual identity verification required: passport issued by '
-        + (claim.passport_country || 'an unstated country') + ', which Stripe Identity cannot verify')
-        .catch(() => {});
+      await flagManual(claim);
       return res.status(403).json({ error: 'manual verification required' });
     }
 
