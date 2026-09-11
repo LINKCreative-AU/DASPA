@@ -409,6 +409,17 @@ Until one of those happens the site is quieter about WhatsApp but not honest
 about it. Worth resolving before any Ads spend, since the claim appears in ad
 landing copy.
 
+## Backlog (agreed, not scheduled)
+
+- **Abandoned cart.** The order form is being changed so nothing reaches
+  Supabase until payment succeeds (decided 11 September 2026, not built yet;
+  "Claim flow" below still describes the old order). Once that lands, a visitor
+  who fills the form and does not pay leaves no record and cannot be followed
+  up. That is the accepted cost, not an oversight. Recovering those visitors
+  needs a decision from James and Chris about what may be stored before payment
+  and for how long, and it interacts with the privacy policy, so it is parked
+  rather than half-built. Raised by Juan.
+
 ## FOR LEGAL REVIEW (before launch)
 
 - Authority declaration wording in `claim.html`
