@@ -542,6 +542,48 @@ Until one of those happens the site is quieter about WhatsApp but not honest
 about it. Worth resolving before any Ads spend, since the claim appears in ad
 landing copy.
 
+## Recovering the September incident claims
+
+The four clients who paid between 27 August and 8 September 2026 have still
+heard nothing, and the reason is not that nobody has pressed send. **There was
+no path in the site that could email them.**
+
+`email.paymentConfirmed` has exactly one caller, the webhook, and it sits behind
+
+```js
+if (claim && claim.payment_status !== 'paid')
+```
+
+That guard is right: it is what stops Stripe's own retries sending one client
+four confirmations. But their rows were repaired after the fact, by hand and by
+`api/admin-backfill-customers.js`, so they read `paid` today. **Replaying the
+Stripe events from the dashboard therefore sends nothing** — the guard sees
+`paid` and returns. The repair that made the data correct is what made the
+clients unreachable, and that is worth knowing before anyone spends an afternoon
+resending webhooks and wondering why no mail arrives.
+
+`api/admin-recover-send.js` is the way out. It is not a resend; it is the first
+send, late.
+
+    /api/admin-recover-send?key=<HEALTH_KEY>              dry run, reports only
+    /api/admin-recover-send?key=<HEALTH_KEY>&apply=1      sends
+    /api/admin-recover-send?key=<HEALTH_KEY>&order=DASP00020151&apply=1
+
+Dry by default, 404 without the key, capped at 10, and once only per claim via
+the `payment_confirmation_recovered` marker in `claim_audit_log`, written only
+after the send resolves so a Resend outage is retried rather than recorded as
+done. It filters on `payment_status=eq.paid` in the query, so **DASP00020158
+cannot be reached by it**: that one was refunded on 27 August and telling that
+client their payment is confirmed would be false.
+
+**Settle `LODGEMENT_LIVE` before running it with `apply=1`.** The email's "what
+happens next" reads from that flag, so the same endpoint sends materially
+different promises depending on it, and the dry run reports the flag's value
+back for exactly that reason.
+
+**Delete this endpoint once the four are contacted.** Every claim from now on is
+emailed by the webhook at the moment it pays.
+
 ## Backlog (agreed, not scheduled)
 
 - **Retire `/verify` and `/confirmation`.** Since 14 September 2026 the whole

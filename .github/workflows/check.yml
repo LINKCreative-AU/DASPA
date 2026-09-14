@@ -82,3 +82,10 @@ jobs:
       # visible in a send that reports success.
       - name: Email tests
         run: node tests/email.mjs
+
+      # The one-off incident recovery emails real clients about real money, and
+      # a "your payment is confirmed" sent twice to someone who has been
+      # waiting three weeks is worse than one sent late. The once-only marker,
+      # and the refusal to touch the refunded claim, are the whole of it.
+      - name: Recovery send tests
+        run: node tests/recover-send.mjs
