@@ -47,7 +47,10 @@ let sessionThrows = null;
 let alreadyFlagged = false;
 let opsMailThrows = null;
 
+let byId = null;   // what db.getClaim returns
+
 const dbFake = {
+  getClaim: async (id) => { dbFake.askedId = id; return byId; },
   selectClaims: async (q) => {
     queries.push(q);
     if (dbThrows) throw dbThrows;
@@ -89,9 +92,23 @@ Module._load = function (req) {
   return origLoad.apply(this, arguments);
 };
 
-// Nothing here should reach the network. If anything does, the test fails
-// loudly rather than quietly making a real request.
-global.fetch = async (url) => { throw new Error(`unexpected network call to ${url}`); };
+/* Nothing reaches the network except the Checkout Session lookup, which is
+   stubbed. Anything else throws loudly rather than quietly making a real call. */
+let stripeSession = null;      // what GET /checkout/sessions/:id returns
+let stripeStatus = 200;
+let stripeCalls = [];
+global.fetch = async (url, opts) => {
+  const u = String(url);
+  if (u.includes('/v1/checkout/sessions/')) {
+    stripeCalls.push({ url: u, headers: (opts && opts.headers) || {} });
+    return {
+      ok: stripeStatus >= 200 && stripeStatus < 300,
+      status: stripeStatus,
+      json: async () => stripeSession,
+    };
+  }
+  throw new Error(`unexpected network call to ${u}`);
+};
 
 function load() {
   delete require.cache[require.resolve('../api/_lib/config.js')];
@@ -101,7 +118,7 @@ function load() {
 
 let ipSeq = 0;
 async function call(method, src, opts = {}) {
-  queries = []; writes = []; audits = []; marks = []; opsMails = []; sessions = [];
+  queries = []; writes = []; audits = []; marks = []; opsMails = []; sessions = []; stripeCalls = [];
   identityFake.asked = null; dbFake.askedAudit = null;
   // A fresh IP per call unless one is pinned, so the in-memory rate limiter
   // does not carry one test's hits into the next.
@@ -503,6 +520,136 @@ for (const [label, src] of MALFORMED) {
   for (let i = 0; i < 32; i++) await call('GET', { c: CUS, o: ORD }, { ip: '203.0.113.11' });
   const r = await call('POST', { c: CUS, o: ORD }, { ip: '203.0.113.11' });
   eq('the read limit does not close the write', r.code, 200);
+}
+
+/* ---------- the Checkout Session door ----------
+
+   success_url cannot carry the durable pair, because at the moment the Session
+   is created neither id exists: the Customer is created BY Checkout and the
+   order number comes from a database default the webhook has not reached. So
+   the page arrives on ?s=cs_... and trades it for the pair. */
+
+process.env.STRIPE_SECRET_KEY = 'sk_test_x';
+const SID = 'cs_live_a1B2c3D4e5F6g7H8';
+const paidSession = (over = {}) => ({
+  id: SID, payment_status: 'paid', client_reference_id: null,
+  metadata: { claim_id: '11111111-1111-1111-1111-111111111111' }, ...over,
+});
+
+{
+  stripeStatus = 200; stripeSession = paidSession();
+  byId = claim({ verification_status: 'not_started' });
+  stripeVerified = false;
+  const r = await call('GET', { s: SID });
+  eq('a session id resolves the claim', r.code, 200);
+  eq('and reports the same state', r.payload.verification_status, 'not_started');
+  eq('it hands back the durable pair', [r.payload.c, r.payload.o], [CUS, ORD]);
+  eq('the claim is fetched by the id in the session', dbFake.askedId,
+     '11111111-1111-1111-1111-111111111111');
+  ok('the Stripe call is version-pinned',
+     !!(stripeCalls[0] && stripeCalls[0].headers['Stripe-Version']));
+}
+{
+  // Some sessions carry the claim in client_reference_id instead of metadata.
+  stripeStatus = 200;
+  stripeSession = paidSession({ metadata: {}, client_reference_id: 'abc-123' });
+  byId = claim();
+  await call('GET', { s: SID });
+  eq('client_reference_id is the fallback', dbFake.askedId, 'abc-123');
+}
+{
+  stripeStatus = 200; stripeSession = paidSession({ payment_status: 'unpaid' });
+  byId = claim();
+  const r = await call('GET', { s: SID });
+  eq('an unpaid session is 404', r.code, 404);
+  eq('with the standard body', r.payload, { error: 'not found' });
+}
+{
+  stripeStatus = 404; stripeSession = {};
+  byId = claim();
+  const r = await call('GET', { s: SID });
+  eq('a session Stripe does not know is 404', r.code, 404);
+}
+{
+  stripeStatus = 200; stripeSession = paidSession({ metadata: {}, client_reference_id: null });
+  byId = claim();
+  const r = await call('GET', { s: SID });
+  eq('a session with no claim id is 404', r.code, 404);
+}
+{
+  stripeStatus = 200; stripeSession = paidSession();
+  byId = null;
+  const r = await call('GET', { s: SID });
+  eq('a claim id that matches nothing is 404', r.code, 404);
+}
+for (const bad of ['', 'cs', 'pi_123', 'cs_live_a<b>', `cs_${'x'.repeat(3)}`.slice(0, 2)]) {
+  stripeCalls = []; byId = claim();
+  const r = await call('GET', { s: bad });
+  eq(`a malformed session id (${JSON.stringify(bad)}) is 404`, r.code, 404);
+  eq('and never reaches Stripe', stripeCalls.length, 0);
+}
+
+/* ---------- the redirect racing the webhook ---------- */
+{
+  /* Stripe says paid, our row does not yet. Not an error: the client HAS been
+     charged, and telling them something went wrong is the worst answer. */
+  stripeStatus = 200; stripeSession = paidSession();
+  byId = claim({ payment_status: 'unpaid' });
+  const r = await call('GET', { s: SID });
+  eq('the race answers 200, not an error', r.code, 200);
+  eq('and says the payment is still being recorded', r.payload.pending_payment, true);
+  eq('it does not leak a state it does not have', r.payload.verification_status, undefined);
+  eq('and writes nothing, so the webhook stays the only writer', writes.length, 0);
+  eq('nor sends anything', opsMails.length, 0);
+}
+
+/* ---------- the two doors do not interfere ---------- */
+{
+  stripeCalls = []; rows = [claim()]; byId = null;
+  const r = await call('GET', { c: CUS, o: ORD, s: SID });
+  eq('the durable pair wins when both are given', r.code, 200);
+  eq('and Stripe is not called at all', stripeCalls.length, 0);
+}
+{
+  stripeCalls = []; rows = [claim()];
+  const r = await call('POST', { c: CUS, o: ORD, s: SID });
+  eq('a POST ignores the session id', r.code, 200);
+  eq('and never looks one up', stripeCalls.length, 0);
+}
+{
+  // Feature off still short-circuits before any Stripe call.
+  identityFake.ENABLED = false;
+  stripeCalls = [];
+  const r = await call('GET', { s: SID });
+  eq('feature off answers 200 on the session door too', r.code, 200);
+  eq('and spends nothing at Stripe', stripeCalls.length, 0);
+  identityFake.ENABLED = true;
+}
+{
+  // No Stripe key configured: refuse rather than throw.
+  delete process.env.STRIPE_SECRET_KEY;
+  stripeCalls = [];
+  const r = await call('GET', { s: SID });
+  eq('no Stripe key is 404, not a crash', r.code, 404);
+  eq('and no call is attempted', stripeCalls.length, 0);
+  process.env.STRIPE_SECRET_KEY = 'sk_test_x';
+}
+
+/* ---------- the wiring that makes this reachable ---------- */
+{
+  const src = require('node:fs').readFileSync('api/create-checkout.js', 'utf8');
+  ok('success_url points at the new page', src.includes('/verify-id?s={CHECKOUT_SESSION_ID}'));
+  ok('with Stripe\'s literal placeholder, not an interpolation',
+     !src.includes('/verify-id?s=${'));
+  eq('and no longer at the old one', src.includes('/verify?cid='), false);
+}
+{
+  const src = require('node:fs').readFileSync('assets/identity.js', 'utf8');
+  ok('the page reads the session id', src.includes("q.get('s')"));
+  ok('and rewrites itself to the durable pair', src.includes('replaceState'));
+  /* A call, not a mention: the comment above the replaceState explains why it
+     is not pushState, and matching the bare word failed on that. */
+  ok('without adding a history entry to go back to', !/history\.pushState\s*\(/.test(src));
 }
 
 console.log(`\n${n - failed}/${n} passed`);
