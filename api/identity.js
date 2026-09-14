@@ -1,7 +1,17 @@
 // The durable verification endpoint, keyed on the Stripe customer id.
 //
 //   GET  /api/identity?c=cus_...&o=DASP00020151   what state is this in
+//   GET  /api/identity?s=cs_...                   the same, straight off Stripe
 //   POST /api/identity {c, o}                     start a verification
+//
+// TWO WAYS IN, BECAUSE NEITHER WORKS ALONE
+//
+// The durable pair is what an email can carry. It cannot be used on the
+// redirect back from Checkout, because at the moment we create the Session
+// neither id exists yet: the Customer is created BY Checkout, and the order
+// number comes from a database default the webhook has not reached. So
+// success_url carries Stripe's own {CHECKOUT_SESSION_ID} instead, and the page
+// trades it for the pair on first load and rewrites its own URL.
 //
 // WHY THE CUSTOMER ID AND NOT THE CLAIM ID
 //
@@ -36,6 +46,7 @@ const identity = require('./_lib/identity');
 const verified = require('./_lib/identity-verified');
 const { guard } = require('./_lib/guard');
 const { manualOnly } = require('./_lib/manual-only');
+const { stripeHeaders } = require('./_lib/stripe');
 
 /* Shape first, database second. A malformed value is rejected before it can
    reach a query, and the patterns are narrow: Stripe customer ids are
@@ -45,6 +56,50 @@ const ORDER_RE = /^DASP[0-9]{8}$/;
 
 // One body for all three, so they are indistinguishable from outside.
 const UNUSABLE = { error: 'not found' };
+
+const SESSION_RE = /^cs_[A-Za-z0-9_]+$/;
+
+/* The claim behind a Checkout Session id.
+ *
+ * The session id is a bearer token: holding one is proof of having completed
+ * that checkout, which is exactly how Stripe's own success-page documentation
+ * uses it. So this is not a weaker door than the pair, but it is a DIFFERENT
+ * door, and it still refuses anything not paid.
+ *
+ * Returns a claim, or one of two strings the caller turns into a state:
+ *   'unusable' the id is malformed, unknown, or its session is not paid
+ *   'pending'  Stripe says paid but our row is not marked yet
+ *
+ * The pending case is the redirect racing the webhook. It is rare, because the
+ * webhook usually lands while the browser is still following the redirect, and
+ * it is deliberately NOT repaired here: marking a claim paid means recording
+ * the customer and the payment intent and sending the confirmation, and a
+ * second writer doing half of that is how you get two invoices. The page waits
+ * instead, which costs a second and nothing else.
+ */
+async function findClaimBySession(sid) {
+  if (!SESSION_RE.test(sid || '')) return 'unusable';
+  if (!process.env.STRIPE_SECRET_KEY) return 'unusable';
+
+  const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sid)}`,
+    { headers: stripeHeaders() });
+  if (!r.ok) {
+    // 404 is an id that is not ours, or a typo. Anything else is Stripe being
+    // unwell, and both leave the caller with nothing to show.
+    if (r.status !== 404) console.error('identity: session lookup failed:', r.status);
+    return 'unusable';
+  }
+  const session = await r.json();
+  if (session.payment_status !== 'paid') return 'unusable';
+
+  const claimId = (session.metadata && session.metadata.claim_id) || session.client_reference_id;
+  if (!claimId) return 'unusable';
+
+  const claim = await db.getClaim(claimId);
+  if (!claim) return 'unusable';
+  if (claim.payment_status !== 'paid') return 'pending';
+  return claim;
+}
 
 async function findClaim(c, o) {
   if (!CUSTOMER_RE.test(c || '') || !ORDER_RE.test(o || '')) return null;
@@ -99,6 +154,9 @@ module.exports = async (req, res) => {
   const src = isPost ? (req.body || {}) : (req.query || {});
   const c = String(src.c || '').trim();
   const o = String(src.o || '').trim().toUpperCase();
+  /* GET only. A POST creates a Stripe object and is reached from a page that
+     already holds the durable pair, so there is no reason to widen its door. */
+  const sid = !isPost ? String(src.s || '').trim() : '';
 
   /* Feature off answers 200 rather than 404, so the page can render a "nothing
      to do here" state instead of looking broken. */
@@ -107,7 +165,20 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const claim = await findClaim(c, o);
+    let claim;
+    if (sid && !c && !o) {
+      const found = await findClaimBySession(sid);
+      if (found === 'unusable') return res.status(404).json(UNUSABLE);
+      if (found === 'pending') {
+        /* 200, not an error. The payment went through; we are a second behind
+           recording it, and the page says so rather than showing a failure to
+           somebody who has just been charged. */
+        return res.status(200).json({ enabled: true, pending_payment: true });
+      }
+      claim = found;
+    } else {
+      claim = await findClaim(c, o);
+    }
     if (!claim) return res.status(404).json(UNUSABLE);
 
     // ---------------------------------------------------------------- GET
@@ -133,6 +204,11 @@ module.exports = async (req, res) => {
 
       return res.status(200).json({
         enabled: true,
+        /* Handed back so a page that arrived on a one-time session id can
+           rewrite itself to the durable form. The customer id is in the
+           emailed link anyway, by design, so this reveals nothing new. */
+        c: claim.stripe_customer_id || '',
+        o: claim.order_number || '',
         verification_status: status,
         first_name: String(claim.full_name || '').trim().split(/\s+/)[0] || '',
         order_number: claim.order_number,

@@ -99,7 +99,22 @@ module.exports = async (req, res) => {
          the Stripe dashboard, most likely while answering a dispute, can see
          which claim it belongs to without going via our database. */
       'payment_intent_data[metadata][claim_id]': claim.id,
-      success_url: `${config.SITE_URL}/verify?cid=${claim.id}`,
+      /* {CHECKOUT_SESSION_ID} is a literal Stripe substitutes after payment; it
+         must be written exactly like this and not interpolated.
+         https://docs.stripe.com/payments/checkout/custom-success-page
+
+         Why not the durable /verify-id?c=&o= pair the emails use: neither id
+         exists yet at this point. The Customer is created BY Checkout because
+         of customer_creation below, and the order number comes from a database
+         default the webhook has not reached. The page trades this one-time id
+         for the pair on first load and rewrites its own URL, so a reload or a
+         bookmark still works after the session id has expired.
+
+         Stripe is explicit that this page is not a fulfilment mechanism:
+         "You can't rely on triggering fulfillment only from your checkout
+         landing page, because your customers aren't guaranteed to visit that
+         page." The webhook remains the writer. This is a reader. */
+      success_url: `${config.SITE_URL}/verify-id?s={CHECKOUT_SESSION_ID}`,
       cancel_url: `${config.SITE_URL}/claim?cancelled=1`,
     });
 

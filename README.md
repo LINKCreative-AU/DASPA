@@ -471,6 +471,15 @@ landing copy.
 
 ## Backlog (agreed, not scheduled)
 
+- **Retire `/verify` and `/confirmation`.** Since 14 September 2026 the whole
+  post-payment flow is `/verify-id`, reached either from Stripe on
+  `?s={CHECKOUT_SESSION_ID}` or from an email on the durable `?c=&o=` pair.
+  Nothing in the live flow points at the two old pages any more, but they are
+  still served and still work, because links to `/verify?cid=` were sent by
+  hand to the clients caught in the September incident and breaking those helps
+  nobody. They can go once those claims are closed. Until then they are a drift
+  risk: two pages doing one job, and only one of them maintained.
+
 - **Abandoned cart.** Partly settled on 11 September 2026. The form keeps
   writing to Supabase at submit, and the seven-day sweep in
   `api/claims-sweep.js` clears the sensitive fields off anything still unpaid.

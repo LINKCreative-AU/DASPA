@@ -35,6 +35,9 @@
   var q = new URLSearchParams(window.location.search);
   var C = q.get('c') || '';
   var O = q.get('o') || '';
+  /* Arriving straight from Checkout. One-time, expires with the session, and
+     traded for the durable pair on the first successful read below. */
+  var S = q.get('s') || '';
 
   var ICON = {
     done: '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4 10-11"/></svg>',
@@ -126,6 +129,19 @@
     });
   }
 
+  /* Only ever shown in the second between the Stripe redirect and the webhook.
+     Says what is true, and does not ask them to do anything. */
+  function showConfirming() {
+    paint({
+      step: 'Step 2', kind: 'todo',
+      title: 'Confirming your payment\u2026',
+      paras: [
+        'Your payment went through. We are just recording it against your claim, which takes a moment.',
+        'This page updates by itself. There is no need to pay again or refresh.',
+      ],
+    });
+  }
+
   function showPending() {
     paint({
       step: 'Step 2: In progress', kind: 'todo',
@@ -158,7 +174,7 @@
       step: 'Step 2', kind: 'stop',
       title: 'This verification link cannot be opened',
       paras: [
-        'Please use the most recent link we emailed you. If you copied it by hand, check nothing was cut off.',
+        'Please use the most recent link we emailed you. If you copied it by hand, check nothing was cut off, and if you have come straight from the payment page, the link there is single-use and may have expired.',
         'If it still will not open, email claims@daspa.com.au with your name and we will sort it out.',
       ],
     });
@@ -184,8 +200,10 @@
 
   // ------------------------------------------------------------- the server
   function read() {
-    return fetch('/api/identity?c=' + encodeURIComponent(C) + '&o=' + encodeURIComponent(O),
-      { cache: 'no-store' })
+    var qs = (C && O)
+      ? 'c=' + encodeURIComponent(C) + '&o=' + encodeURIComponent(O)
+      : 's=' + encodeURIComponent(S);
+    return fetch('/api/identity?' + qs, { cache: 'no-store' })
       .then(function (r) {
         if (r.status === 404) return { unusable: true };
         if (!r.ok) return { trouble: true };
@@ -194,10 +212,41 @@
       .catch(function () { return { trouble: true }; });
   }
 
+  var pendingTries = 0;
+
   function render(s) {
     if (!s || s.trouble) return showTrouble();
     if (s.unusable) return showUnusable();
     if (s.enabled === false) return showUnusable();
+
+    /* Paid at Stripe, not yet recorded here: the redirect beat the webhook.
+       Rare, and it resolves itself in about a second, so the page waits rather
+       than showing a failure to somebody who has just been charged. Bounded,
+       because waiting forever is its own kind of broken. */
+    if (s.pending_payment) {
+      if (pendingTries++ < 6) {
+        showConfirming();
+        window.setTimeout(function () { read().then(render); }, 1500);
+        return;
+      }
+      return showTrouble();
+    }
+
+    /* Trade the one-time session id for the durable pair and rewrite the
+       address bar, so a reload, a bookmark or a back button still works after
+       the session id has expired. replaceState, not pushState: the redirect
+       from Stripe should not become a history entry the client can go back to
+       and re-trigger. */
+    if (s.c && s.o) {
+      var changed = (C !== s.c || O !== s.o);
+      C = s.c; O = s.o;
+      if (changed && window.history && window.history.replaceState) {
+        try {
+          window.history.replaceState({}, '',
+            window.location.pathname + '?c=' + encodeURIComponent(C) + '&o=' + encodeURIComponent(O));
+        } catch (e) { /* a rewritten URL is a convenience, never the mechanism */ }
+      }
+    }
 
     if (s.first_name && el.heroTitle) el.heroTitle.textContent = 'Thank you, ' + s.first_name + '.';
     if (s.order_number && el.order && el.email) {
