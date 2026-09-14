@@ -542,47 +542,64 @@ Until one of those happens the site is quieter about WhatsApp but not honest
 about it. Worth resolving before any Ads spend, since the claim appears in ad
 landing copy.
 
-## Recovering the September incident claims
+## The September incident claims are handled by hand
 
-The four clients who paid between 27 August and 8 September 2026 have still
-heard nothing, and the reason is not that nobody has pressed send. **There was
-no path in the site that could email them.**
+The four clients who paid between 27 August and 8 September 2026 are contacted
+and invoiced **manually**. Decided by Juan on 14 September 2026. The automated
+emails are for clients from now on.
 
-`email.paymentConfirmed` has exactly one caller, the webhook, and it sits behind
+That is a process decision with a technical consequence, and the consequence is
+live rather than hypothetical. **DASP00020151 is mid-verification.** The moment
+that client finishes, `api/_lib/identity-verified.js` calls `email.verified()`
+and an automated "Identity verified" lands in the middle of a conversation a
+person is having with them. Two more paths do the same if `/api/cron-nudge` is
+ever added to the crons block: the 24-hour verification nudge and the lodged
+email both select on exactly the state these claims are in.
+
+So the decision is enforced in the data, not in anyone's memory:
+
+    claims.suppress_automated_email boolean not null default false
+
+set true on all four by `supabase/2026-09-14-incident-claims-manual-only.sql`,
+and checked by `suppressed()` in `api/_lib/email.js` at the top of all four
+client-facing senders. The check lives in the email layer rather than at each
+caller because there are four callers across three files and a fifth will be
+added by someone who has never heard of this.
+
+**Ops alerts are deliberately NOT suppressed.** The team needs to know a client
+verified precisely when that client is being handled by hand.
+
+A suppressed sender returns `false`, which is what a send that did not happen
+returns everywhere else here, so `cron-nudge` does not stamp
+`nudge_email_sent_at` and no claim is quietly marked as having been told
+something it was not. The three non-async senders return `Promise.resolve(false)`
+rather than a bare `false`, because `identity-verified.js` calls `.then()` on
+what it gets back.
+
+### Why replaying the Stripe webhooks was never the answer
+
+Worth recording, because it is the obvious first thing to try and it does
+nothing. `email.paymentConfirmed` has one caller, the webhook, behind
 
 ```js
 if (claim && claim.payment_status !== 'paid')
 ```
 
-That guard is right: it is what stops Stripe's own retries sending one client
-four confirmations. But their rows were repaired after the fact, by hand and by
-`api/admin-backfill-customers.js`, so they read `paid` today. **Replaying the
-Stripe events from the dashboard therefore sends nothing** — the guard sees
-`paid` and returns. The repair that made the data correct is what made the
-clients unreachable, and that is worth knowing before anyone spends an afternoon
-resending webhooks and wondering why no mail arrives.
+That guard is right: it stops Stripe's own retries sending one client four
+confirmations. But these rows were repaired after the fact, by hand and by
+`api/admin-backfill-customers.js`, so they read `paid` today. Replaying the
+events from the Stripe dashboard therefore sends nothing at all, and always
+would have. The repair that made the data correct is what made the clients
+unreachable by any automated path.
 
-`api/admin-recover-send.js` is the way out. It is not a resend; it is the first
-send, late.
+### GST on those four
 
-    /api/admin-recover-send?key=<HEALTH_KEY>              dry run, reports only
-    /api/admin-recover-send?key=<HEALTH_KEY>&apply=1      sends
-    /api/admin-recover-send?key=<HEALTH_KEY>&order=DASP00020151&apply=1
-
-Dry by default, 404 without the key, capped at 10, and once only per claim via
-the `payment_confirmation_recovered` marker in `claim_audit_log`, written only
-after the send resolves so a Resend outage is retried rather than recorded as
-done. It filters on `payment_status=eq.paid` in the query, so **DASP00020158
-cannot be reached by it**: that one was refunded on 27 August and telling that
-client their payment is confirmed would be false.
-
-**Settle `LODGEMENT_LIVE` before running it with `apply=1`.** The email's "what
-happens next" reads from that flag, so the same endpoint sends materially
-different promises depending on it, and the dry run reports the flag's value
-back for exactly that reason.
-
-**Delete this endpoint once the four are contacted.** Every claim from now on is
-emailed by the webhook at the moment it pays.
+`gst_treatment` is `gst_free` on all four, set by the same migration. Juan
+confirmed on 14 September 2026 that the position in `docs/gst-position.md`
+extends back over the incident sales. `amount_paid_cents` stays `16390`, because
+that is what was actually charged and an invoice must say what was paid. An
+invoice generated from these rows now reads **INVOICE** rather than **TAX
+INVOICE** and carries no GST line. The invoices themselves are produced by hand.
 
 ## Backlog (agreed, not scheduled)
 

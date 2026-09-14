@@ -83,9 +83,9 @@ jobs:
       - name: Email tests
         run: node tests/email.mjs
 
-      # The one-off incident recovery emails real clients about real money, and
-      # a "your payment is confirmed" sent twice to someone who has been
-      # waiting three weeks is worse than one sent late. The once-only marker,
-      # and the refusal to touch the refunded claim, are the whole of it.
-      - name: Recovery send tests
-        run: node tests/recover-send.mjs
+      # The four incident claims must receive nothing automatic. One of those
+      # paths is live: a client mid-verification triggers email.verified the
+      # moment they finish. These cover the suppression, and the fact that ops
+      # alerts are NOT suppressed.
+      - name: Suppression tests
+        run: node tests/suppression.mjs

@@ -164,9 +164,37 @@ const lodgementLine = () =>
     ? 'we lodge directly with the ATO, who typically process DASP claims within 28 days'
     : 'your claim is prepared and held at "in review", we complete every search and preparation step now, and lodge the moment our direct ATO channel opens (we\'ll email you when it goes in)';
 
+/* Some claims must never receive an automated client email.
+
+   The four clients caught in the September 2026 incident are contacted by hand
+   and invoiced by hand, decided by Juan on 14 September 2026. Without this
+   check that decision survives only as long as somebody remembers it, and one
+   of the paths is live right now: DASP00020151 is mid-verification, so the
+   moment that client finishes, identity-verified.js calls verified() and an
+   automated email lands in the middle of a conversation the team is having
+   with them personally.
+
+   The check lives here rather than at each caller because there are four
+   callers across three files and a fifth will be added by someone who has
+   never heard of this. A sender that refuses is the only version that stays
+   true.
+
+   It gates the CLIENT senders only. Ops alerts still fire: the team needs to
+   know a client verified, especially when the client hears nothing automatic.
+
+   Returns false, which is what a send that did not happen returns everywhere
+   else on this site, so cron-nudge does not stamp nudge_email_sent_at and the
+   claim is not quietly marked as having been told something it was not. */
+const suppressed = (c, what) => {
+  if (!c || c.suppress_automated_email !== true) return false;
+  console.log(`email: ${what} suppressed for ${c.order_number || c.id}, this claim is handled manually`);
+  return true;
+};
+
 module.exports = {
   send,
   notifyOps,
+  suppressed,
 
   // ---- alerts to us, not to the client ----------------------------------
   opsNewClaim(c) {
@@ -270,6 +298,7 @@ module.exports = {
      verification link reaching the client, so the invoice half degrades and
      the message still goes. */
   async paymentConfirmed(c) {
+    if (suppressed(c, 'payment confirmation')) return false;
     const name = H.esc(firstName(c));
     const vUrl = verifyUrl(c);
 
@@ -356,6 +385,9 @@ ${sig}`;
   },
 
   verified(c) {
+    /* Promise.resolve, not a bare false: this sender is not async and
+       identity-verified.js calls .then() on what it returns. */
+    if (suppressed(c, 'identity verified')) return Promise.resolve(false);
     const name = H.esc(firstName(c));
     const body = [
       H.h1('Your identity is verified'),
@@ -395,6 +427,9 @@ ${sig}`,
   },
 
   lodged(c) {
+    /* Promise.resolve, not a bare false: this sender is not async and
+       identity-verified.js calls .then() on what it returns. */
+    if (suppressed(c, 'lodged')) return Promise.resolve(false);
     const name = H.esc(firstName(c));
     const body = [
       H.h1('Your claim is lodged with the ATO'),
@@ -431,6 +466,9 @@ ${sig}`,
   },
 
   verificationNudge(c) {
+    /* Promise.resolve, not a bare false: this sender is not async and
+       identity-verified.js calls .then() on what it returns. */
+    if (suppressed(c, 'verification nudge')) return Promise.resolve(false);
     const name = H.esc(firstName(c));
     const vUrl = verifyUrl(c);
     const body = [
