@@ -123,11 +123,16 @@ module.exports = async (req, res) => {
       client_ip: clientIp(req),
     });
 
+    /* NO EMAIL TO THE CLIENT HERE.
+       This used to send "We have your super claim" the moment a payment link
+       was issued, so somebody who never paid got a confirmation for an order
+       they had not placed. Juan, 11 September 2026: nothing goes to the client
+       before payment. The webhook's paymentConfirmed is now first contact.
+
+       The ops alert stays, so a claim never sits in the table unseen. */
     if (firstAttempt) {
-      await email.formReceived(claim);
-      await db.insertAudit(claim.id, 'email_form_received', claim.email);
-      // tell our side too, so a claim never sits in the table unseen
       await email.opsNewClaim(claim);
+      await db.insertAudit(claim.id, 'checkout_started', claim.email);
     }
 
     return res.status(200).json({ url: session.url });
