@@ -184,6 +184,44 @@ than opening the endpoint, because it destroys data. Preview a run with
 `/api/cron-nudge` is NOT in the crons block and therefore still inert, even
 though a block now exists. A cron only fires the paths it names.
 
+## Brand
+
+The palette is **derived from the logo artwork**, not matched to another site by
+eye. `assets/daspa-logo-navy.svg` is the source of truth; three values come out
+of it verbatim and everything else is derived from them.
+
+| | | |
+|---|---|---|
+| navy | `#091F5B` | header and footer ground. White on it, 15.5:1 |
+| blue | `#1B0FC4` | links and headings on light. On white 11.0:1 |
+| yellow | `#FBC700` | the wordmark's final letter, buttons, accents on navy. On navy 9.8:1 |
+
+`--onnavy` (`#7B9CFF`) exists because the old light blue only reached 4.10:1
+against this navy, which fails AA for body text. Do not use `--blue2` on navy.
+
+**Five surfaces carry the brand and none of them share code**, so a change has
+to be made in all five or it drifts:
+
+| Surface | Where |
+|---|---|
+| Pages, header and footer | `assets/daspa-logo-white.svg` + `.logo` in `site.css` |
+| Favicon | inline SVG data URI, in the `<head>` of all 45 pages |
+| Emails | `api/_lib/email-html.js`, wordmark set in type |
+| Invoice PDF | `api/_lib/invoice-pdf.js`, wordmark set in type |
+| OG share cards | `scripts/build-og.py`, regenerate with `DASPA_ROOT=. python3 scripts/build-og.py` |
+
+The email and the PDF draw the wordmark as **type rather than artwork**, and
+that is deliberate in both cases. Outlook on Windows renders through Word and
+does not support SVG; Gmail strips `<svg>` from message bodies. The PDF writer
+has no image support at all, so a logo there means implementing XObjects, which
+is a feature rather than a repaint.
+
+**The TPB mark** (`assets/tpb-mark-on-dark.png`) comes from the Tax
+Practitioners Board with ARO's details already in it. It must not be altered,
+recoloured or recomposited. Four AI-generated mockups of it were removed on
+14 September 2026; if a variant is ever needed, get it from the TPB, do not
+make one.
+
 ## Email
 
 Transactional mail goes through Resend. `api/_lib/email.js` holds the senders,

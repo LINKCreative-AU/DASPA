@@ -4,24 +4,37 @@
 @font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:200 800;font-display:swap;src:url(/assets/fonts/plus-jakarta-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:200 800;font-display:swap;src:url(/assets/fonts/plus-jakarta-sans-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
 /* DASPA — shared design system.
-   Tokens extracted from the live abnassist.com.au stylesheet (BB layout CSS) so the
-   two sites read as siblings:
-     navy ink        #1e2250  (headings, dark header/footer)
-     brand blue      #2a53a2  (links, accents; hover ramp #4871c0)
-     light blue      #4486c6  (icons, secondary accents)
-     CTA yellow      linear-gradient(#ffff5f → #fae541), 1px border #eed935, navy text
-     font            Fira Sans (300/400/500/600/700)
+
+   Superseded on 14 September 2026. The palette used to be values copied off
+   abnassist.com.au's stylesheet, which made the two sites approximately
+   similar and exactly nothing. It now comes from DASPA's own logo artwork
+   (assets/daspa-logo-navy.svg), which is drawn in the Online Services family,
+   so the sites are siblings because they share an origin rather than because
+   someone matched them by eye.
+
+   Three values are the brand and are lifted verbatim from the artwork; every
+   other colour is derived from them. See the token block below for the
+   contrast each one was checked at.
+
    Audience browses on phones from overseas — everything here is mobile-first. */
 
 :root{
-  --navy:#14164A;
-  --navy2:#1E2160;          /* one step lighter than the header navy, for banded sections */
-  --blue:#3844CA;
-  --blue2:#4A7BFF;
-  --bluehov:#4A7BFF;
-  --yellow:#fae541;
-  --yellow2:#ffff5f;
-  --ybord:#eed935;
+  /* Palette taken from the logo (assets/daspa-logo-navy.svg), September 2026,
+     so the Online Services sites read as siblings. The three brand values are
+     lifted verbatim from the artwork rather than approximated; everything else
+     is derived from them and checked for contrast. */
+  --navy:#091F5B;           /* the logo's navy. White on it: 15.5:1 */
+  --navy2:#0E2C7A;          /* one step lighter, for banded sections */
+  --blue:#1B0FC4;           /* the logo's blue. On white 11.0:1, on page bg 10.3:1 */
+  --blue2:#3D33CF;          /* lighter blue for headings and rules on light backgrounds */
+  --bluehov:#3D33CF;
+  /* Links and accents that sit ON the navy. The old --blue2 (#4A7BFF) only
+     reached 4.10:1 against this navy, which fails AA for body text, so it is
+     not reused there. This is 5.9:1. */
+  --onnavy:#7B9CFF;
+  --yellow:#FBC700;         /* the logo's yellow. On navy 9.8:1 */
+  --yellow2:#FFD633;
+  --ybord:#E0B200;
   --ink:#1e2250;
   --muted:#5a6480;
   --bg:#F5F7FD;
@@ -31,7 +44,7 @@
   --red:#d6455b;
   --amber:#c98a1b;
   --wa:#25d366;
-  --accent:#4A7BFF;         /* logo A + highlights — light sky blue, reads clean on the navy */
+  --accent:#FBC700;         /* the wordmark's final letter, and highlights on navy */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -44,10 +57,13 @@ img{max-width:100%}
 /* ---------- header (sticky, every page) ---------- */
 header.site{background:var(--navy);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(20,25,60,.25)}
 header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
-.logo{color:#fff;text-decoration:none;font-weight:700;font-size:24px;letter-spacing:.04em;line-height:1;flex:none}
-.logo span{color:var(--yellow)}
-.logo .a{color:var(--accent)}
-.logo small{display:block;font-size:9.5px;font-weight:500;letter-spacing:.14em;color:#aeb6d8;text-transform:uppercase;margin-top:2px}
+/* The wordmark is artwork now, not styled text. Two files, because the
+   lettering is white-on-navy in the header and navy-on-white in the body; a
+   single file recoloured with a CSS filter would be a guess at the brand
+   colours rather than the brand colours. */
+.logo{display:inline-block;text-decoration:none;line-height:0;flex:none}
+.logo img{display:block;height:30px;width:auto}
+.logo small{display:block;font-size:9.5px;font-weight:500;letter-spacing:.14em;color:#aeb6d8;text-transform:uppercase;margin-top:6px;line-height:1.2}
 .rta-badge{display:inline-flex;flex-direction:column;color:#c9cfe8;text-decoration:none;font-size:10px;font-weight:600;letter-spacing:.05em;line-height:1.25;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:5px 9px;margin-left:2px}
 .rta-badge b{color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em}
 .head-spacer{flex:1}
@@ -337,7 +353,7 @@ html[lang="ja"] body{font-family:'Plus Jakarta Sans','Hiragino Sans','Yu Gothic'
 
 /* In-language nav under the hero on translated pages. */
 .lang-nav{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;font-weight:600}
-.lang-nav a{color:var(--blue2)}
+.lang-nav a{color:var(--onnavy)}
 .lang-nav a:hover{text-decoration:underline}
 .lang-nav .here{color:var(--muted)}
 
