@@ -38,7 +38,7 @@ const pdf = require('./pdf');
 const NAVY = '#091F5B';
 /* The brand blue, not the yellow. The site's accent on navy is yellow, which
    on a white page is 1.6:1 and effectively invisible. */
-const ACCENT = '#1B0FC4';
+const ACCENT = '#1B0FC5';
 const INK = '#1e2250';
 const MUTED = '#5a6480';
 const LINE = '#DCE0F2';

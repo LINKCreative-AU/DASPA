@@ -193,7 +193,7 @@ eq('junk is null, not black-by-accident', pdf.rgb('nope'), null);
      the identity it is supposed to carry. */
   eq('the brand navy is used (rules, labels, the final letter)',
      s.includes(op('#091F5B', 'rg')), true);
-  eq('the brand blue is used (the wordmark)', s.includes(op('#1B0FC4', 'rg')), true);
+  eq('the brand blue is used (the wordmark)', s.includes(op('#1B0FC5', 'rg')), true);
   eq('green is used (the paid strip)', s.includes(op('#1b9e62', 'rg')), true);
   eq('and none of the old palette survives',
      [s.includes(op('#14164A', 'rg')), s.includes(op('#4A7BFF', 'rg'))], [false, false]);

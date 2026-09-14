@@ -22,8 +22,8 @@ UA_OLD = "Mozilla/4.0"   # legacy UA makes Google Fonts serve TTF instead of wof
 NAVY = (9, 31, 91)        # #091F5B
 NAVY2 = (14, 44, 122)     # #0E2C7A
 WHITE = (255, 255, 255)
-YELLOW = (251, 199, 0)    # #FBC700
-ACCENT = (251, 199, 0)    # the wordmark's final letter, yellow on navy
+YELLOW = (252, 200, 0)    # #FCC800
+ACCENT = (252, 200, 0)    # the wordmark's final letter, yellow on navy
 MUTED = (174, 182, 216)
 
 W, H = 1200, 630

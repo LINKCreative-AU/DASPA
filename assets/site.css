@@ -19,20 +19,30 @@
    Audience browses on phones from overseas — everything here is mobile-first. */
 
 :root{
-  /* Palette taken from the logo (assets/daspa-logo-navy.svg), September 2026,
-     so the Online Services sites read as siblings. The three brand values are
-     lifted verbatim from the artwork rather than approximated; everything else
-     is derived from them and checked for contrast. */
+  /* THE ONLINE SERVICES MINI STYLE GUIDE 2026 IS THE AUTHORITY, not the logo
+     artwork and not another site. The three primaries below are its hex values.
+
+     The artwork disagrees with the guide by one bit on two of them: the SVG is
+     drawn in #1b0fc4 and #fbc700, the guide specifies #1b0fc5 and #fcc800.
+     Invisible on screen, and the guide wins, because artwork gets re-exported
+     and a guide is what the next product is built from.
+
+     The guide contradicts itself on the navy: it prints "RGB 15, 46, 77",
+     which is #0F2E4D, alongside hex #091F5b, which is RGB 9, 31, 91. The hex
+     matches the artwork exactly, so the hex is what we use. Worth a question
+     back to whoever produced the guide.
+
+     Everything not listed as a primary is derived here and contrast-checked. */
   --navy:#091F5B;           /* the logo's navy. White on it: 15.5:1 */
   --navy2:#0E2C7A;          /* one step lighter, for banded sections */
-  --blue:#1B0FC4;           /* the logo's blue. On white 11.0:1, on page bg 10.3:1 */
+  --blue:#1B0FC5;           /* the logo's blue. On white 11.0:1, on page bg 10.3:1 */
   --blue2:#3D33CF;          /* lighter blue for headings and rules on light backgrounds */
   --bluehov:#3D33CF;
   /* Links and accents that sit ON the navy. The old --blue2 (#4A7BFF) only
      reached 4.10:1 against this navy, which fails AA for body text, so it is
      not reused there. This is 5.9:1. */
   --onnavy:#7B9CFF;
-  --yellow:#FBC700;         /* the logo's yellow. On navy 9.8:1 */
+  --yellow:#FCC800;         /* the logo's yellow. On navy 9.8:1 */
   --yellow2:#FFD633;
   --ybord:#E0B200;
   --ink:#1e2250;
@@ -44,7 +54,7 @@
   --red:#d6455b;
   --amber:#c98a1b;
   --wa:#25d366;
-  --accent:#FBC700;         /* the wordmark's final letter, and highlights on navy */
+  --accent:#FCC800;         /* the wordmark's final letter, and highlights on navy */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}

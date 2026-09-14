@@ -30,11 +30,11 @@ const C = {
   ground: '#F6F7FD',
   card: '#FFFFFF',
   navy: '#091F5B',
-  accent: '#FBC700',
+  accent: '#FCC800',
   /* Links in body copy sit on white, so they use the brand blue. The accent
      above is the yellow, which is only ever on navy: yellow on white is
      1.6:1 and unreadable. */
-  link: '#1B0FC4',
+  link: '#1B0FC5',
   ink: '#1e2250',
   muted: '#5a6480',
   line: '#DCE0F2',
