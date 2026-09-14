@@ -29,8 +29,12 @@ const config = require('./config');
 const C = {
   ground: '#F6F7FD',
   card: '#FFFFFF',
-  navy: '#14164A',
-  accent: '#4A7BFF',
+  navy: '#091F5B',
+  accent: '#FCC800',
+  /* Links in body copy sit on white, so they use the brand blue. The accent
+     above is the yellow, which is only ever on navy: yellow on white is
+     1.6:1 and unreadable. */
+  link: '#1B0FC5',
   ink: '#1e2250',
   muted: '#5a6480',
   line: '#DCE0F2',
@@ -77,7 +81,13 @@ function shell({ title, preheader, body }) {
     <table role="presentation" width="${WIDTH}" cellpadding="0" cellspacing="0" style="width:${WIDTH}px;max-width:100%;border-collapse:collapse">
       <tr><td style="background:${C.navy};border-radius:16px 16px 0 0;padding:22px 28px">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse"><tr>
-          <td style="font-family:${FONT};font-size:21px;font-weight:bold;color:#ffffff;letter-spacing:-.01em">DASP<span style="color:${C.accent}">A</span><span style="color:${C.accent}">.</span></td>
+          <!-- Drawn as text, not the SVG the site uses. Outlook on Windows
+               renders through Word, which does not support SVG at all, and
+               Gmail strips <svg> from message bodies. A PNG would work but
+               needs hosting and survives image-blocking as a broken box, so
+               the wordmark is set in type here and matched to the artwork's
+               colours: white with the final letter in brand yellow. -->
+          <td style="font-family:${FONT};font-size:23px;font-weight:bold;color:#ffffff;letter-spacing:-.02em">dasp<span style="color:${C.accent}">a</span></td>
           <td align="right" style="font-family:${FONT};font-size:13px;font-weight:bold;color:#ffffff">1800 546 526</td>
         </tr></table>
       </td></tr>
@@ -87,7 +97,7 @@ ${body}
       <tr><td style="background:${C.card};border-radius:0 0 16px 16px;border-top:1px solid ${C.line};padding:18px 28px 24px;font-family:${FONT};font-size:12px;color:${C.muted};line-height:1.6">
         <p style="margin:0">Australian Registration Office Pty Ltd trading as DASPA<br>
         ABN 58 645 964 156 &middot; Registered Tax Agent 26076969<br>
-        <a href="mailto:claims@daspa.com.au" style="color:${C.accent}">claims@daspa.com.au</a> &middot; 1800 546 526 in Australia &middot; +61 7 2101 4373 from overseas</p>
+        <a href="mailto:claims@daspa.com.au" style="color:${C.link}">claims@daspa.com.au</a> &middot; 1800 546 526 in Australia &middot; +61 7 2101 4373 from overseas</p>
       </td></tr>
       <tr><td style="padding:16px 28px;font-family:${FONT};font-size:11px;color:${C.muted};text-align:center;line-height:1.5">
         You are receiving this because you placed an order with DASPA. This is a service message about that order, not marketing.
@@ -152,7 +162,7 @@ function invoiceBlock(m) {
   return `        <div style="border:1px solid ${C.line};border-radius:12px;padding:20px 20px 22px;margin:0 0 20px">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
         <tr>
-          <td style="font-size:19px;font-weight:800;color:${C.navy};padding-bottom:10px;border-bottom:2px solid ${C.navy};vertical-align:bottom;line-height:1">DASP<span style="color:${C.accent}">A</span><span style="color:${C.accent}">.</span></td>
+          <td style="font-size:19px;font-weight:800;color:${C.navy};padding-bottom:10px;border-bottom:2px solid ${C.navy};vertical-align:bottom;line-height:1">dasp<span style="color:${C.link}">a</span></td>
           <td style="text-align:right;font-size:14px;font-weight:800;color:${C.navy};letter-spacing:.06em;padding-bottom:10px;border-bottom:2px solid ${C.navy};vertical-align:bottom;line-height:1">${esc(m.document_type)}</td>
         </tr>
       </table>
@@ -210,7 +220,7 @@ ${taxable ? `        <tr>
 }
 
 const link = (url, label) =>
-  `<a href="${esc(url)}" style="color:${C.accent};font-weight:bold">${esc(label || url)}</a>`;
+  `<a href="${esc(url)}" style="color:${C.link};font-weight:bold">${esc(label || url)}</a>`;
 
 const mailto = () => link(`mailto:${config.CONTACT_EMAIL || 'claims@daspa.com.au'}`, 'claims@daspa.com.au');
 

@@ -35,8 +35,10 @@
 const pdf = require('./pdf');
 
 // assets/site.css :root
-const NAVY = '#14164A';
-const ACCENT = '#4A7BFF';
+const NAVY = '#091F5B';
+/* The brand blue, not the yellow. The site's accent on navy is yellow, which
+   on a white page is 1.6:1 and effectively invisible. */
+const ACCENT = '#1B0FC5';
 const INK = '#1e2250';
 const MUTED = '#5a6480';
 const LINE = '#DCE0F2';
@@ -63,16 +65,20 @@ function render(model) {
   let y = 56;
 
   // ------------------------------------------------------- wordmark and type
-  /* Three pieces so the A carries the accent, as on the site. The full stop is
-     yellow on the navy site header; on white it would be invisible, so it takes
-     the accent blue too. Widths are measured, not guessed. */
+  /* Set in type, not placed as artwork. This writer has no image support: an
+     SVG cannot be embedded at all and a PNG would need an XObject with a
+     decoded stream, which is a real feature rather than a colour change. Type
+     matched to the artwork is honest and looks deliberate; a missing logo does
+     not. Raised as its own decision rather than smuggled in with a repaint.
+
+     Lowercase, and the final letter in the brand blue, mirroring the wordmark:
+     on the navy header it is white with a yellow a, on white it is blue with a
+     navy a. Widths are measured, not guessed. */
   const wmSize = 21;
   let wx = M;
-  d.text('DASP', wx, y, { size: wmSize, bold: true, color: NAVY });
-  wx += d.widthOf('DASP', wmSize, true);
-  d.text('A', wx, y, { size: wmSize, bold: true, color: ACCENT });
-  wx += d.widthOf('A', wmSize, true);
-  d.text('.', wx, y, { size: wmSize, bold: true, color: ACCENT });
+  d.text('dasp', wx, y, { size: wmSize, bold: true, color: ACCENT });
+  wx += d.widthOf('dasp', wmSize, true);
+  d.text('a', wx, y, { size: wmSize, bold: true, color: NAVY });
 
   // element 1
   d.text(m.document_type, RIGHT, y + 4, { size: 11, bold: true, align: 'right', color: NAVY });

@@ -184,6 +184,79 @@ than opening the endpoint, because it destroys data. Preview a run with
 `/api/cron-nudge` is NOT in the crons block and therefore still inert, even
 though a block now exists. A cron only fires the paths it names.
 
+## Brand
+
+The authority is the **Online Services Mini Style Guide 2026**, not the logo
+artwork and not another site. Three primaries come from it; everything else is
+derived and contrast-checked.
+
+Two things the guide exposed, both worth knowing:
+
+- **The artwork is one bit off the guide** on two primaries. The SVG is drawn
+  in `#1b0fc4` / `#fbc700`; the guide specifies `#1b0fc5` / `#fcc800`. Invisible
+  on screen. The guide wins, because artwork gets re-exported and a guide is
+  what the next product is built from.
+- **The guide contradicts itself on the navy.** It prints "RGB 15, 46, 77"
+  (`#0F2E4D`) alongside hex `#091F5b` (RGB 9, 31, 91). The hex matches the
+  artwork exactly, so the hex is what we use. Open question for whoever
+  produced the guide.
+
+**abnassist.com.au does not use this palette.** Checked against the live site on
+14 September 2026: it runs navy `#262677`, blue `#3844ca`, light blue `#4a7bff`
+and yellow `#ffd650`, and none of the guide's three primaries appear anywhere on
+it. DASPA's palette before this change was copied from ABN Assist, which is how
+both ended up off-brand together. If the two look different now, DASPA is the
+one that is right.
+
+| | | |
+|---|---|---|
+| navy | `#091F5B` | header and footer ground. White on it, 15.5:1 |
+| blue | `#1B0FC5` | links and headings on light. On white 10.9:1 |
+| yellow | `#FCC800` | the wordmark's final letter, buttons, accents on navy. On navy 9.9:1 |
+
+`--onnavy` (`#7B9CFF`) exists because the old light blue only reached 4.10:1
+against this navy, which fails AA for body text. Do not use `--blue2` on navy.
+
+**Five surfaces carry the brand and none of them share code**, so a change has
+to be made in all five or it drifts:
+
+| Surface | Where |
+|---|---|
+| Pages, header and footer | `assets/daspa-logo-white.svg` + `.logo` in `site.css` |
+| Favicon | inline SVG data URI, in the `<head>` of all 45 pages |
+| Emails | `api/_lib/email-html.js`, wordmark set in type |
+| Invoice PDF | `api/_lib/invoice-pdf.js`, wordmark set in type |
+| OG share cards | `scripts/build-og.py`, regenerate with `DASPA_ROOT=. python3 scripts/build-og.py` |
+
+### Not yet applied from the guide
+
+Two things the guide specifies that this site does not do. Both are real gaps,
+neither is a colour, and neither should be changed without a decision:
+
+- **Typefaces.** The guide sets **Stoltz** for headings and **Instrument Sans**
+  for body, with Arial as the system fallback. The site is entirely **Plus
+  Jakarta Sans**, self-hosted. Instrument Sans is on Google Fonts and is free to
+  self-host; Stoltz is commercial and needs a webfont licence before it can be
+  served. Until that licence exists, changing the body font alone would leave
+  the site in two families that were never designed together.
+- **Sentence case and full stops.** The guide: "Always use sentence case … and
+  always use a full stop for all headlines." Most headings on the site are
+  sentence case already, but very few carry the full stop, and some headings are
+  title case. A sweep across 45 pages, and an editorial change rather than a
+  technical one.
+
+The email and the PDF draw the wordmark as **type rather than artwork**, and
+that is deliberate in both cases. Outlook on Windows renders through Word and
+does not support SVG; Gmail strips `<svg>` from message bodies. The PDF writer
+has no image support at all, so a logo there means implementing XObjects, which
+is a feature rather than a repaint.
+
+**The TPB mark** (`assets/tpb-mark-on-dark.png`) comes from the Tax
+Practitioners Board with ARO's details already in it. It must not be altered,
+recoloured or recomposited. Four AI-generated mockups of it were removed on
+14 September 2026; if a variant is ever needed, get it from the TPB, do not
+make one.
+
 ## Email
 
 Transactional mail goes through Resend. `api/_lib/email.js` holds the senders,

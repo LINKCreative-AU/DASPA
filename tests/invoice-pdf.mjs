@@ -188,11 +188,17 @@ eq('junk is null, not black-by-accident', pdf.rgb('nope'), null);
     const v = pdf.rgb(hex).map((x) => (Math.round(x * 100) / 100).toString());
     return `${v[0]} ${v[1]} ${v[2]} ${o}`;
   };
-  eq('navy is used (wordmark, rules, labels)', s.includes(op('#14164A', 'rg')), true);
-  eq('accent blue is used (the A in the wordmark)', s.includes(op('#4A7BFF', 'rg')), true);
+  /* The brand values from the logo artwork, not approximations of it. If these
+     ever stop matching assets/daspa-logo-navy.svg, the invoice has drifted from
+     the identity it is supposed to carry. */
+  eq('the brand navy is used (rules, labels, the final letter)',
+     s.includes(op('#091F5B', 'rg')), true);
+  eq('the brand blue is used (the wordmark)', s.includes(op('#1B0FC5', 'rg')), true);
   eq('green is used (the paid strip)', s.includes(op('#1b9e62', 'rg')), true);
-  eq('the wordmark is drawn in three pieces',
-     [/\(DASP\) Tj/.test(s), /\(A\) Tj/.test(s), /\(\.\) Tj/.test(s)], [true, true, true]);
+  eq('and none of the old palette survives',
+     [s.includes(op('#14164A', 'rg')), s.includes(op('#4A7BFF', 'rg'))], [false, false]);
+  eq('the wordmark is lowercase and drawn in two pieces',
+     [/\(dasp\) Tj/.test(s), /\(a\) Tj/.test(s), /\(DASP\) Tj/.test(s)], [true, true, false]);
   /* No yellow, and no full-bleed band. An earlier version had both. The
      reference invoice Juan supplied is a white page with navy type and a green
      paid strip, and yellow on white does not read anyway. A band would also

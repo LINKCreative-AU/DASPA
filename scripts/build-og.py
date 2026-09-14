@@ -16,11 +16,14 @@ ROOT = os.environ.get("DASPA_ROOT", r"C:\dev\daspa-site")
 OUT = os.path.join(ROOT, "assets", "og")
 UA_OLD = "Mozilla/4.0"   # legacy UA makes Google Fonts serve TTF instead of woff2
 
-NAVY = (20, 22, 74)
-NAVY2 = (30, 33, 96)
+# From the logo artwork (assets/daspa-logo-navy.svg), same values as the
+# --navy / --navy2 / --yellow tokens in assets/site.css. Keep them in step: an
+# OG card is the first DASPA anybody sees in a shared link or a search result.
+NAVY = (9, 31, 91)        # #091F5B
+NAVY2 = (14, 44, 122)     # #0E2C7A
 WHITE = (255, 255, 255)
-YELLOW = (250, 229, 65)
-ACCENT = (74, 123, 255)
+YELLOW = (252, 200, 0)    # #FCC800
+ACCENT = (252, 200, 0)    # the wordmark's final letter, yellow on navy
 MUTED = (174, 182, 216)
 
 W, H = 1200, 630
@@ -70,11 +73,12 @@ def card(headline, kicker, path):
     # wordmark
     f_logo = font(800, 40)
     x = 72
-    d.text((x, 128), "DASP", font=f_logo, fill=WHITE)
-    x += d.textlength("DASP", font=f_logo)
-    d.text((x, 128), "A", font=f_logo, fill=ACCENT)
-    x += d.textlength("A", font=f_logo)
-    d.text((x, 128), ".", font=f_logo, fill=YELLOW)
+    # Lowercase, matching the wordmark: white with the final letter in yellow,
+    # which is how the light variant of the logo is drawn on navy.
+    d.text((x, 128), "dasp", font=f_logo, fill=WHITE)
+    x += d.textlength("dasp", font=f_logo)
+    d.text((x, 128), "a", font=f_logo, fill=ACCENT)
+
 
     # headline, shrinking until it fits four lines
     for size in (66, 60, 54, 48, 44):
