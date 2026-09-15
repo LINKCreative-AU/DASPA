@@ -135,6 +135,7 @@ CARDS = {
  "india": ("Claim your Australian super from India", "Student, skilled and graduate visas pay the lower rate."),
  "indonesia": ("Claim your Australian super from Indonesia", "Work and Holiday 462 or student 500: your visa sets the rate."),
  "thailand": ("Claim your Australian super from Thailand", "The Work and Holiday money is still yours, and worth claiming."),
+ "malaysia": ("Claim your Australian super from Malaysia", "Student, graduate and skilled visas pay the lower rate."),
  "visa-417": ("Claim your super after a 417 working holiday", "What backpackers have waiting, and an honest word on the rate."),
  "visa-462": ("Claim your super after a 462 work and holiday", "Same rules as the 417, and the same money left behind."),
  "visa-482": ("Claim your super after a 482 skilled visa", "The largest balances, and the most to lose by waiting."),
