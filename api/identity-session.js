@@ -97,8 +97,23 @@ module.exports = async (req, res) => {
       return res.status(403).json({ error: 'manual verification required' });
     }
 
+    /* Caught here as well as in createSession, because this endpoint can tell
+       the client something useful and the library cannot. A paid claim with no
+       Customer is a data fault on our side, not anything the claimant did, so
+       it raises an ops alert and returns a distinct code rather than the
+       generic 502 an exception would produce. */
+    if (!claim.stripe_customer_id) {
+      console.error(`identity-session: ${claim.order_number || claim.id} is paid but has no `
+        + 'stripe_customer_id, so no verification session can be created');
+      await db.insertAudit(claim.id, 'identity_blocked_no_customer', '').catch(() => {});
+      await email.opsNeedsReview(claim, 'paid claim has no Stripe customer, so identity '
+        + 'verification cannot start. Run api/admin-backfill-customers.js for it.')
+        .catch(() => {});
+      return res.status(409).json({ error: 'verification unavailable for this claim' });
+    }
+
     const s = await identity.createSession({
-      customerId: claim.stripe_customer_id || null,
+      customerId: claim.stripe_customer_id,
       claimId: claim.id,
       email: claim.email || '',
       returnUrl: `${config.SITE_URL}/confirmation?cid=${encodeURIComponent(claim.id)}`,

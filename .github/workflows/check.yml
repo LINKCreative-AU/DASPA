@@ -89,3 +89,10 @@ jobs:
       # alerts are NOT suppressed.
       - name: Suppression tests
         run: node tests/suppression.mjs
+
+      # A verification session with no Stripe customer is invisible to
+      # isVerified(), so a missed webhook can never be repaired and the
+      # dashboard shows nothing on the customer. That silently cost us the
+      # September 2026 claims; it must refuse rather than degrade.
+      - name: Identity customer tests
+        run: node tests/identity-customer-required.mjs
