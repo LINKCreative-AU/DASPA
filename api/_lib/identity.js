@@ -92,6 +92,32 @@ async function call(path, opts) {
    both carry the claim id because client_reference_id is not shown everywhere
    in the dashboard. */
 async function createSession({ customerId, claimId, email, returnUrl }) {
+  /* NO CUSTOMER, NO SESSION. This used to fall back to omitting
+     related_customer, and that fallback cost us the September 2026 claims.
+
+     Between the manual payment recovery on 9 September and the customer
+     backfill on 10 September, four paid claims had no stripe_customer_id.
+     Sessions created in that window carry no related_customer, so
+     isVerified() below cannot see them: it filters on exactly that field.
+     Alessia Cittadini verified on 9 September and her verification is real,
+     but it does not appear on her customer in the dashboard and the
+     missed-webhook repair can never corroborate it. Stephane Dartois has the
+     same orphan, abandoned rather than verified, which is why "Stripe says he
+     is not verified" was an unanswerable question for two days.
+
+     A session without a customer is unrecoverable by design, and an
+     unrecoverable session is worse than no session: the client photographs
+     their passport and we cannot prove afterwards that they did. So this
+     throws rather than degrades. Every claim reaching here has a Customer,
+     because checkout creates one with customer_creation:'always' before any
+     of this can run. */
+  if (!customerId) {
+    const e = new Error('refusing to create a verification session with no Stripe customer: '
+      + 'it would be invisible to isVerified() and unrecoverable if the webhook is missed');
+    e.noCustomer = true;
+    throw e;
+  }
+
   const s = await call('', {
     method: 'POST',
     body: form({
@@ -100,7 +126,7 @@ async function createSession({ customerId, claimId, email, returnUrl }) {
       'options[document][require_matching_selfie]': 'true',
       client_reference_id: claimId,
       'metadata[claim_id]': claimId,
-      ...(customerId ? { related_customer: customerId } : {}),
+      related_customer: customerId,
       ...(email ? { 'provided_details[email]': email } : {}),
       ...(returnUrl ? { return_url: returnUrl } : {}),
     }),

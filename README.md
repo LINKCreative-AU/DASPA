@@ -576,6 +576,47 @@ something it was not. The three non-async senders return `Promise.resolve(false)
 rather than a bare `false`, because `identity-verified.js` calls `.then()` on
 what it gets back.
 
+### The orphaned verification sessions
+
+Three of the four Identity sessions on the Stripe account are not attached to
+any customer, and that is a defect rather than a curiosity.
+
+`createSession` used to omit `related_customer` when the claim had none. The
+four incident claims got their Stripe Customers from
+`api/admin-backfill-customers.js` on **10 September 2026 at 23:26 UTC**, but
+their verification sessions were created on **9 September**, a day and a half
+earlier, from the manual recovery. So those sessions carry no
+`related_customer`, and `isVerified()` filters on exactly that field:
+
+```js
+const q = form({ related_customer: customerId, status: 'verified', limit: '1' });
+```
+
+What that cost:
+
+| Session | Status | Whose | Consequence |
+|---|---|---|---|
+| `vs_1UDoL3…J1B04N4C` | verified | Alessia Cittadini | Real verification, invisible on her customer page. The missed-webhook repair can never corroborate it |
+| `vs_1UDeTx…IoKfuq7I` | abandoned | Stephane Dartois | "Has he verified?" was unanswerable from Stripe for two days |
+| `vs_1UDhuu…0qAjFZqD` | abandoned | Alessia, first attempt | |
+| `vs_1UDWTB…V23cmvFj` | cancelled | **unknown** | Matches no claim in the database. Probably a hand-made test from the dashboard |
+
+**Alessia's verification is genuine.** Document and selfie both passed against
+an Italian passport on 9 September at 16:28 UTC, and `identity_session_id` on
+her claim holds the verifying session, so the POI record is on the claim and not
+only in the audit log. It is findable under **Identity → Verifications**, not on
+her customer.
+
+Fixed on 15 September 2026: `createSession` now **throws** without a customer
+rather than degrading, and `/api/identity-session` refuses first with a 409, an
+audit row and an ops alert, because it can say something useful and the library
+cannot. A session without a customer is unrecoverable by design, and an
+unrecoverable session is worse than no session: the client photographs their
+passport and we cannot prove afterwards that they did.
+
+It cannot recur. Checkout creates the Customer with `customer_creation: 'always'`
+before any of this runs, so every claim that reaches verification has one.
+
 ### Why replaying the Stripe webhooks was never the answer
 
 Worth recording, because it is the obvious first thing to try and it does
