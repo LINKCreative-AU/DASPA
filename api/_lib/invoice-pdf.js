@@ -38,7 +38,11 @@ const pdf = require('./pdf');
 const NAVY = '#091F5B';
 /* The brand blue, not the yellow. The site's accent on navy is yellow, which
    on a white page is 1.6:1 and effectively invisible. */
-const ACCENT = '#1B0FC5';
+/* The wordmark, matching assets/daspa-logo-navy.svg: blue letters with the
+   final 'a' in brand yellow. Drawn as type because this writer has no image
+   support, so a logo here would mean implementing XObjects. */
+const BLUE = '#1B0FC5';
+const YELLOW = '#FCC800';
 const INK = '#1e2250';
 const MUTED = '#5a6480';
 const LINE = '#DCE0F2';
@@ -76,9 +80,9 @@ function render(model) {
      navy a. Widths are measured, not guessed. */
   const wmSize = 21;
   let wx = M;
-  d.text('dasp', wx, y, { size: wmSize, bold: true, color: ACCENT });
+  d.text('dasp', wx, y, { size: wmSize, bold: true, color: BLUE });
   wx += d.widthOf('dasp', wmSize, true);
-  d.text('a', wx, y, { size: wmSize, bold: true, color: NAVY });
+  d.text('a', wx, y, { size: wmSize, bold: true, color: YELLOW });
 
   // element 1
   d.text(m.document_type, RIGHT, y + 4, { size: 11, bold: true, align: 'right', color: NAVY });
@@ -92,7 +96,7 @@ function render(model) {
   // elements 2 and 3
   d.text(m.seller_trading_as, M, y + 13, { size: 10.5, bold: true, color: INK });
   d.text(m.seller_legal_name, M, y + 26, { size: 8, color: MUTED });
-  d.text(`Our ABN (the supplier): ${m.seller_abn}`, M, y + 37, { size: 8, color: MUTED });
+  d.text(`ABN ${m.seller_abn}`, M, y + 37, { size: 8, color: MUTED });
   d.text(`Registered Tax Agent ${m.seller_tax_agent_number}`, M, y + 48, { size: 8, color: MUTED });
 
   label(d, 'Billed to', COL2, y);
@@ -167,12 +171,13 @@ function render(model) {
      temporary resident claiming super, and a misleading representation if
      copied across. */
   y += 44;
-  const note = (t) => { d.text(t, M, y, { size: 7.5, color: MUTED }); y += 11; };
-  // element 6 and element 7
+  /* Skips a null rather than printing a blank line: elements 6 and 7 are
+     carried only on a tax invoice, see the note in _lib/invoice.js. */
+  const note = (t) => { if (!t) return; d.text(t, M, y, { size: 7.5, color: MUTED }); y += 11; };
+  // element 6 and element 7, on a tax invoice only
   note(m.gst_statement);
   note(m.taxable_extent);
   note('Keep this invoice with your records.');
-  note('The ABN under "Issued by" is ours as the supplier of this service.');
   y += 3;
   note(`${m.seller_legal_name} trading as ${m.seller_trading_as}. Registered Tax Agent ${m.seller_tax_agent_number}.`);
   /* Both numbers: the 1800 is useless to somebody who has already flown home,

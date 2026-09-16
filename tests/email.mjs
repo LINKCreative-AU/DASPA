@@ -86,7 +86,14 @@ const email = load();
      m.text.includes('https://daspa.com.au/verify-id?c=cus_VEksGXRGOW5FES&o=DASP00020155'));
   ok('with a button to press', m.html.includes('Verify my identity'));
 
-  ok('the invoice is rendered in the body', m.html.includes('DASP claim, flat service fee'));
+  ok('the invoice is rendered in the body', m.html.includes('DASP claim'));
+  ok('without the service-fee clause', !m.html.includes('flat service fee'));
+  ok('and the ABN is stated plainly', m.html.includes('ABN 58 645 964 156'));
+  ok('not with the old qualifier', !m.html.includes('Our ABN (the supplier)'));
+  ok('no GST sentence on a GST-free sale', !m.html.includes('No GST has been charged'));
+  ok('and no export-basis sentence', !m.html.includes('GST-free export'));
+  ok('the closing line survives on its own', m.html.includes('Keep this invoice with your records.'));
+  ok('and nothing rendered as null', !m.html.includes('null'));
   eq('and attached exactly once', (m.attachments || []).length, 1);
   eq('as a pdf named for the order', m.attachments[0].filename,
      'DASPA - Order DASP00020155 invoice.pdf');

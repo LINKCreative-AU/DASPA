@@ -86,6 +86,14 @@ const REQUIRED = [
   ['seller_abn', "element 3: the seller's ABN"],
   ['date_of_issue', 'element 4: the date of issue'],
   ['lines', 'element 5: a description of what was sold, with quantity and price'],
+];
+
+/* Elements 6 and 7 are requirements of a TAX INVOICE and are enforced only on
+   one. A GST-free sale is invoiced, not tax-invoiced, so there is no GST to
+   state and no taxable extent to describe. Keeping them in the unconditional
+   list would have forced a sentence onto the page purely to satisfy a check
+   that did not apply. */
+const REQUIRED_TAXABLE = [
   ['gst_statement', 'element 6: the GST amount payable, or a statement that there is none'],
   ['taxable_extent', 'element 7: the extent to which each sale is taxable'],
 ];
@@ -132,9 +140,9 @@ function build(claim) {
   }
 
   const lines = [{
-    description: taxable
-      ? 'DASP claim, flat service fee'
-      : 'DASP claim, flat service fee (GST-free export of services)',
+    /* The taxable string is left alone: those invoices were issued, and a
+       reissue has to reproduce the document the client was actually sent. */
+    description: taxable ? 'DASP claim, flat service fee' : 'DASP claim',
     quantity: 1,
     amount_cents: taxable ? exGst : total,
     amount: money(taxable ? exGst : total),
@@ -168,11 +176,21 @@ function build(claim) {
        better served by the figure than by the formula. */
     gst_statement: taxable
       ? `GST ${money(gst)}. Total price includes GST.`
-      : 'No GST has been charged on this sale.',
-    // element 7
+      : null,
+    /* element 7. Both of these are null on a GST-free sale, and that is a
+       deliberate reading of the law rather than a tidy-up. Elements 6 and 7 are
+       requirements of a TAX INVOICE, which exists so a registered buyer can
+       claim an input tax credit. A GST-free supply produces no credit to claim
+       and needs no tax invoice at all, which is why the document is headed
+       INVOICE rather than TAX INVOICE. Stating "no GST has been charged" on a
+       document that never purported to charge any was noise on a page a
+       departing backpacker reads once. Removed at Juan's direction,
+       16 September 2026; the position itself is in docs/gst-position.md.
+
+       The taxable branch keeps both, because there the requirement is real. */
     taxable_extent: taxable
       ? 'The whole of this sale is a taxable sale.'
-      : 'This sale is GST-free. It is a supply of services to a recipient who was outside Australia, treated as a GST-free export.',
+      : null,
 
     // number and totals
     invoice_number: c.order_number,
@@ -200,7 +218,7 @@ function build(claim) {
     gst_treatment: treatment,
   };
 
-  const missing = REQUIRED.filter(([k]) => {
+  const missing = REQUIRED.concat(taxable ? REQUIRED_TAXABLE : []).filter(([k]) => {
     const v = model[k];
     return v === null || v === undefined || v === ''
       || (Array.isArray(v) && v.length === 0);

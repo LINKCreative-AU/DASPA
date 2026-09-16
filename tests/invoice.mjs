@@ -96,16 +96,31 @@ eq('a mid-morning AEST payment is unaffected',
 
 // --- GST-free ------------------------------------------------------------
 {
+  /* $163.90, not the $150 default: a taxable price has to divide into eleven
+     whole cents or the model refuses to state the GST, and $150 does not. */
+  const t = invoice.build(paidClaim({ gst_treatment: 'taxable', amount_paid_cents: 16390 }));
+  eq('a TAX invoice still states the GST', t.gst_statement, 'GST $14.90. Total price includes GST.');
+  eq('and still states the taxable extent', t.taxable_extent, 'The whole of this sale is a taxable sale.');
+  eq('and keeps its own line wording', t.lines[0].description, 'DASP claim, flat service fee');
+}
+{
   const m = invoice.build(paidClaim({ gst_treatment: 'gst_free' }));
   eq('gst_free is not titled TAX INVOICE', m.document_type, 'INVOICE');
   eq('gst_free has no GST', m.gst_cents, 0);
-  eq('gst_free says so plainly', m.gst_statement, 'No GST has been charged on this sale.');
+  /* Elements 6 and 7 are requirements of a TAX INVOICE. A GST-free sale needs
+     none, so both are null and the page carries neither sentence. Changed at
+     Juan's direction, 16 September 2026. */
+  eq('gst_free states no GST, because there is none to state', m.gst_statement, null);
+  eq('gst_free line is the plain description', m.lines[0].description, 'DASP claim');
   eq('gst_free line carries the whole amount', m.lines[0].amount, '$150.00');
   eq('gst_free line is marked not taxable', m.lines[0].taxable, false);
   eq('gst_free total still matches the charge', m.total, '$150.00');
   eq('gst_free total label drops "including GST"', m.total_label, 'Total paid');
   eq('gst_free amount column is plain', m.amount_column_label, 'AMOUNT');
-  eq('element 7 explains the basis', /GST-free export/.test(m.taxable_extent), true);
+  eq('element 7 is absent too', m.taxable_extent, null);
+  /* The model still builds. The guard enforces 6 and 7 only on a tax invoice,
+     so dropping them must not make a GST-free invoice "incomplete". */
+  eq('and the invoice still builds', m.document_type, 'INVOICE');
 }
 
 // --- a null treatment defaults to GST-free, it does not throw ------------
