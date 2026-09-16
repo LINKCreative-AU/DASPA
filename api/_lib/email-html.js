@@ -162,7 +162,7 @@ function invoiceBlock(m) {
   return `        <div style="border:1px solid ${C.line};border-radius:12px;padding:20px 20px 22px;margin:0 0 20px">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
         <tr>
-          <td style="font-size:19px;font-weight:800;color:${C.navy};padding-bottom:10px;border-bottom:2px solid ${C.navy};vertical-align:bottom;line-height:1">dasp<span style="color:${C.link}">a</span></td>
+          <td style="font-size:19px;font-weight:800;color:${C.link};padding-bottom:10px;border-bottom:2px solid ${C.navy};vertical-align:bottom;line-height:1">dasp<span style="color:${C.accent}">a</span></td>
           <td style="text-align:right;font-size:14px;font-weight:800;color:${C.navy};letter-spacing:.06em;padding-bottom:10px;border-bottom:2px solid ${C.navy};vertical-align:bottom;line-height:1">${esc(m.document_type)}</td>
         </tr>
       </table>
@@ -173,7 +173,7 @@ function invoiceBlock(m) {
             <div style="${lbl};padding-bottom:6px">ISSUED BY</div>
             <div style="font-size:14px;font-weight:700;color:${C.ink}">${esc(m.seller_trading_as)}</div>
             <div style="font-size:12px;color:${C.muted};line-height:1.55">${esc(m.seller_legal_name)}<br>
-            Our ABN (the supplier): ${esc(m.seller_abn)}<br>Registered Tax Agent ${esc(m.seller_tax_agent_number)}</div>
+            ABN ${esc(m.seller_abn)}<br>Registered Tax Agent ${esc(m.seller_tax_agent_number)}</div>
           </td>
           <td width="48%" style="vertical-align:top">
             <div style="${lbl};padding-bottom:6px">BILLED TO</div>
@@ -215,7 +215,10 @@ ${taxable ? `        <tr>
         </tr>
       </table>
       <div style="background:${C.greenBg};border-radius:10px;padding:12px 14px;margin-top:18px;font-size:14px;font-weight:700;color:${C.green}">${esc(m.paid_statement)}</div>
-      <p style="font-size:12px;color:${C.muted};line-height:1.6;margin:16px 0 0">${esc(m.taxable_extent)} Keep this invoice with your records.</p>
+      <p style="font-size:12px;color:${C.muted};line-height:1.6;margin:16px 0 0">${
+        [m.gst_statement, m.taxable_extent, 'Keep this invoice with your records.']
+          .filter(Boolean).map(esc).join(' ')
+      }</p>
         </div>`;
 }
 

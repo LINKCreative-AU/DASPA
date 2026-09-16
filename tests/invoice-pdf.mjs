@@ -148,7 +148,20 @@ eq('CJK contributes no bytes', [...pdf.encodeWinAnsi('田')], []);
 {
   const s = render({ gst_treatment: 'gst_free' }).toString('latin1');
   eq('gst_free is titled INVOICE, not TAX INVOICE', /\(TAX INVOICE\)/.test(s), false);
-  eq('gst_free says no GST was charged', s.includes('No GST has been charged'), true);
+  /* The three lines Juan removed on 16 September 2026. Asserted absent rather
+     than replaced, because the point was to take them off the page. */
+  eq('gst_free does NOT state a GST that was never charged',
+     s.includes('No GST has been charged'), false);
+  eq('and does not explain the export basis', s.includes('GST-free export'), false);
+  eq('and does not explain whose ABN it is', s.includes('is ours as the supplier'), false);
+  eq('the ABN is stated plainly', s.includes('ABN 58 645 964 156'), true);
+  eq('and not with the old qualifier', s.includes('Our ABN \\(the supplier\\)'), false);
+  eq('the line is the plain description', s.includes('DASP claim'), true);
+  eq('without the service-fee clause', s.includes('flat service fee'), false);
+  /* The wordmark reads like the logo: blue letters, yellow final 'a'. Colours
+     are emitted as PDF rg operators, so they are matched as those. */
+  eq('the wordmark is blue', /0\.11 0\.06 0\.77 rg/.test(s), true);
+  eq('with a yellow final letter', /0\.99 0\.78 0 rg/.test(s), true);
   /* Not "GST $0.00". A nil figure reads as though GST applies to this sale and
      happens to come to nothing, which is a different statement from the one
      the note makes and the wrong one. No GST means no row. */
