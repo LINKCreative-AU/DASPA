@@ -146,6 +146,38 @@ async function createSession({ customerId, claimId, email, returnUrl }) {
    related_customer and status are both server-side filters, so this is one
    request that either returns a row or does not; nothing is fetched and sifted
    here. */
+/* Has this session been submitted, or was it walked away from?
+
+   OUR ROW CANNOT ANSWER THIS. verification_status goes to 'pending' the moment
+   a session is CREATED, before the claimant has photographed anything, so
+   'pending' covers two situations that need opposite messages:
+
+     submitted, Stripe is working   -> "still checking", and asking them to
+                                       redo it would be wrong
+     started and abandoned          -> they must start again, and "check back
+                                       shortly" is a promise we cannot keep
+
+   Stephane Dartois sat in the second case for three weeks while the page told
+   him to wait for a check that had never been submitted.
+
+   Stripe distinguishes them. A session that has been submitted is `processing`;
+   one that was opened and left is back at `requires_input`, which is also where
+   a failed attempt lands. `canceled` is a session we or Stripe closed.
+
+   Returns the raw status, or null when it cannot be read: a null must never be
+   reported to a client as "still checking", because the honest fallback is the
+   card that asks them to verify. */
+async function sessionStatus(sessionId) {
+  if (!sessionId) return null;
+  try {
+    const s = await call(`/${encodeURIComponent(sessionId)}`, { method: 'GET' });
+    return (s && s.status) || null;
+  } catch (e) {
+    console.error('identity: could not read session', sessionId, e.message);
+    return null;
+  }
+}
+
 async function isVerified(customerId) {
   if (!customerId) return false;
   const q = form({ related_customer: customerId, status: 'verified', limit: '1' });
@@ -157,5 +189,6 @@ module.exports = {
   ENABLED,
   createSession,
   isVerified,
+  sessionStatus,
   publishableKey: () => process.env.STRIPE_PUBLISHABLE_KEY || '',
 };

@@ -100,18 +100,26 @@
     });
   }
 
-  function showTodo() {
+  /* `resumed` is for somebody who opened the check and did not finish it. Same
+     card, same button: the task is identical and a second layout would only
+     add a state to keep true. One sentence in front so it does not read as if
+     we had not noticed they had already tried. */
+  function showTodo(resumed) {
     paint({
       step: 'Step 2: Not completed', kind: 'todo',
       title: 'Next, verify your identity so we can lodge your claim',
       paras: [
-        'We are required to confirm who you are before lodging on your behalf. It takes about two minutes.',
-        'Have your passport with you. You will be asked to photograph it and to take a selfie so the photo can be matched.',
+        resumed
+          ? 'It looks like the check was started but not finished, so nothing came through to us. You can pick it up again below, and starting over is fine.'
+          : 'We are required to confirm who you are before lodging on your behalf. It takes about two minutes.',
+        resumed
+          ? 'We are required to confirm who you are before lodging on your behalf. It takes about two minutes, and you will need your passport to photograph, plus a selfie so the photo can be matched.'
+          : 'Have your passport with you. You will be asked to photograph it and to take a selfie so the photo can be matched.',
       ],
       button: verifyButton(),
       after: [
         para('Handled by Stripe Identity. Your document goes to Stripe, not to us, and we only ever see whether it succeeded.'),
-        mailLine('Cannot get it to work, or your document is not accepted? Email us and we will sort it out.',
+        mailLine('Cannot get it to work, or your document is not accepted? Email claims@daspa.com.au with your order reference and we will assist you.',
           subject('Identity verification help')),
       ],
     });
@@ -142,14 +150,26 @@
     });
   }
 
+  /* Only reached when Stripe says `processing`, so the claimant HAS submitted
+     their document and the wait is real. It used to be shown for any 'pending'
+     row, including sessions that were opened and abandoned, which told people
+     to wait for a check that had never been submitted.
+
+     No button. While Stripe is genuinely mid-check there is nothing useful to
+     press, and a "Try again" next to "we are still checking" reads as though
+     the first attempt failed. The way out is still offered, by email. */
   function showPending() {
     paint({
       step: 'Step 2: In progress', kind: 'todo',
-      title: 'Stripe is still checking your documents',
+      title: 'Your documents are being checked',
       paras: [
-        'Checks usually finish in seconds, but not always. This page will show it as done once they finish, so please check back shortly.',
+        'Your passport and selfie came through and Stripe is checking them now. This usually finishes in seconds, but can take longer.',
+        'There is nothing further for you to do. This page updates by itself for the next minute or so, and we email you when the check finishes either way, so you are free to close it.',
       ],
-      button: verifyButton('Try again'),
+      after: [
+        mailLine('Been longer than you expected? Email claims@daspa.com.au with your order reference and we will assist you.',
+          subject('Identity verification help')),
+      ],
     });
   }
 
@@ -191,8 +211,9 @@
         'This is a problem on our side, not with your claim, and your verification is still outstanding.',
         'Please try again in a few minutes, or email claims@daspa.com.au and we will send you a fresh link.',
       ],
-      button: verifyButton('Try again'),
-      after: [mailLine('Or email us and we will take it from there.', subject('Identity verification help'))],
+      button: verifyButton(),
+      after: [mailLine('Or email claims@daspa.com.au with your order reference and we will assist you.',
+        subject('Identity verification help'))],
     });
   }
 
@@ -213,6 +234,7 @@
   }
 
   var pendingTries = 0;
+  var checkingTries = 0;
 
   function render(s) {
     if (!s || s.trouble) return showTrouble();
@@ -258,7 +280,20 @@
     if (s.verification_status === 'verified') return showVerified();
     if (s.verification_status === 'needs_review') return showReview();
     if (s.manual_only) return showManual();
-    if (s.verification_status === 'pending') return showPending();
+    /* Stripe is genuinely mid-check. Poll for a short while so somebody who
+       has just submitted sees it turn green without touching anything, then
+       stop: the confirmation email is the real notification, and a page that
+       polls all afternoon is a cost to them and to us for no added certainty. */
+    if (s.verification_status === 'pending') {
+      showPending();
+      if (checkingTries++ < 12) {
+        window.setTimeout(function () { read().then(render); }, 5000);
+      }
+      return;
+    }
+    /* Started and not finished. The server resolves this against Stripe, so
+       the page never has to guess which kind of 'pending' it is looking at. */
+    if (s.verification_status === 'incomplete') return showTodo(true);
     return showTodo();
   }
 

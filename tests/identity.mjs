@@ -41,6 +41,7 @@ let marks = [];         // identity-verified.markVerified calls
 let opsMails = [];      // email.opsNeedsReview calls
 let sessions = [];      // identity.createSession calls
 let stripeVerified = false;
+let sessionState = 'processing';
 let dbThrows = null;
 let sessionThrows = null;
 
@@ -64,6 +65,9 @@ const dbFake = {
 const identityFake = {
   ENABLED: true,
   isVerified: async (customerId) => { identityFake.asked = customerId; return stripeVerified; },
+  /* Mirrors the real contract: no id, no call, null answer. `sessionState` lets
+     a case choose what Stripe says about a session that does exist. */
+  sessionStatus: async (id) => { identityFake.statusAsked = id; return id ? sessionState : null; },
   createSession: async (args) => {
     sessions.push(args);
     if (sessionThrows) throw sessionThrows;
@@ -378,10 +382,17 @@ for (const [label, src] of MALFORMED) {
   eq('an already-verified row is not re-marked', marks.length, 0);
 }
 {
-  rows = [claim({ verification_status: 'pending' })];
+  /* Used to assert that 'pending' was reported as-is. That WAS the bug: the row
+     says pending from the moment a session is created, so reporting it without
+     asking Stripe told Stephane Dartois to wait for a check he had never
+     submitted. A submitted session still reports pending; an abandoned one is
+     now 'incomplete'. Covered in full in tests/identity-pending-split.mjs. */
+  rows = [claim({ verification_status: 'pending', identity_session_id: 'vs_1' })];
   stripeVerified = false;
+  sessionState = 'processing';
   const r = await call('GET', { c: CUS, o: ORD });
-  eq('pending with nothing at Stripe stays pending', r.payload.verification_status, 'pending');
+  eq('a SUBMITTED session still reports pending', r.payload.verification_status, 'pending');
+  eq('and Stripe was asked about it', identityFake.statusAsked, 'vs_1');
   eq('nothing is marked when Stripe has nothing', marks.length, 0);
 }
 
