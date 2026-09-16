@@ -202,6 +202,23 @@ module.exports = async (req, res) => {
       const manual = manualOnly(claim.passport_country);
       if (manual && status !== 'verified') await flagManual(claim);
 
+      /* 'pending' is written when a session is CREATED, not when a document is
+         submitted, so on its own it cannot tell a client whether to wait or to
+         start again. Ask Stripe, which distinguishes them:
+
+           processing      submitted, genuinely being checked -> wait
+           anything else   opened and left, or a failed attempt -> start again
+
+         A session we cannot read (network, a deleted session, a key without
+         the permission) resolves to 'incomplete' rather than 'pending',
+         because the page must never tell somebody to wait for a check we
+         cannot confirm exists. Its cost is one extra Stripe call, and only on
+         the one state that needs it. */
+      if (status === 'pending') {
+        const vs = await identity.sessionStatus(claim.identity_session_id);
+        status = vs === 'processing' ? 'pending' : 'incomplete';
+      }
+
       return res.status(200).json({
         enabled: true,
         /* Handed back so a page that arrived on a one-time session id can

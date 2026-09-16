@@ -96,3 +96,9 @@ jobs:
       # September 2026 claims; it must refuse rather than degrade.
       - name: Identity customer tests
         run: node tests/identity-customer-required.mjs
+
+      # "pending" is written when a session is CREATED, so on its own it cannot
+      # tell a client whether to wait or to start again. Stephane Dartois sat
+      # on "Stripe is still checking" for three weeks having submitted nothing.
+      - name: Verification state tests
+        run: node tests/identity-pending-split.mjs
