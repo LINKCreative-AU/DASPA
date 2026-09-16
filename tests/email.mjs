@@ -94,6 +94,11 @@ const email = load();
   ok('and no export-basis sentence', !m.html.includes('GST-free export'));
   ok('the closing line survives on its own', m.html.includes('Keep this invoice with your records.'));
   ok('and nothing rendered as null', !m.html.includes('null'));
+  /* The text part too. It was checked only in the HTML, and the word "null"
+     went straight into the plain-text alternative until a real render caught
+     it. Both parts are sent, so both have to be asserted. */
+  ok('nor in the plain-text part', !m.text.includes('null'));
+  ok('the text part has the plain line', m.text.includes('DASP claim  $'));
   eq('and attached exactly once', (m.attachments || []).length, 1);
   eq('as a pdf named for the order', m.attachments[0].filename,
      'DASPA - Order DASP00020155 invoice.pdf');

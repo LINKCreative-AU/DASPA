@@ -359,7 +359,10 @@ ${model ? `
 ${model.document_type} ${model.invoice_number}
 ${model.lines.map((l) => `${l.description}  ${l.amount}`).join('\n')}
 ${model.gst_treatment === 'taxable' ? `GST  ${model.gst_amount}\n` : ''}${model.total_label}  ${model.total} ${model.currency}
-${model.taxable_extent}
+${/* Null on a GST-free sale, where elements 6 and 7 do not apply. Interpolating
+      it raw printed the word "null" into the client's plain-text part, which
+      the HTML guard did not catch because it only covered the HTML. */
+  [model.gst_statement, model.taxable_extent].filter(Boolean).join(' ')}
 The same invoice is attached as a PDF.
 ` : ''}
 ${wa()}
