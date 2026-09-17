@@ -71,7 +71,7 @@ const email = load();
 
 {
   const m = await call(email.paymentConfirmed, paidClaim());
-  eq('subject is plain and true', m.subject, 'Your payment is confirmed');
+  eq('subject is plain and true', m.subject, 'Your payment is confirmed, DASP00020155');
   ok('there is an html part', typeof m.html === 'string' && m.html.length > 2000);
   ok('AND a hand-written text part', typeof m.text === 'string' && m.text.length > 400);
   ok('the text part is not markup', !m.text.includes('<table') && !m.text.includes('style='));
@@ -191,7 +191,7 @@ const email = load();
 
 {
   const m = await call(email.verified, paidClaim());
-  eq('verified has its own subject', m.subject, 'Identity verified, your claim is in review');
+  eq('verified has its own subject', m.subject, 'Identity verified, your claim is in review, DASP00020155');
   ok('it is html', m.html.includes('<table'));
   ok('with a text part', m.text.includes('Your identity check is done'));
   no('and no invoice attached twice', (m.attachments || []).length > 0);
@@ -273,6 +273,43 @@ const email = load();
   const src = require('node:fs').readFileSync('api/stripe-webhook.js', 'utf8');
   no('the old portal invoice call is gone', src.includes('registrationoffice.com.au/api/invoice'));
   ok('and the webhook passes the UPDATED row', /const paid = await db\.updateClaim/.test(src));
+}
+
+/* ---------- the order number in the subject ----------
+
+   The inbox is where a client looks first, and a bare "Your payment is
+   confirmed" gives them nothing to quote back. Added 17 September 2026. */
+
+{
+  const e = load();
+  const c = paidClaim();
+
+  eq('payment confirmation carries the reference',
+    (await call(e.paymentConfirmed, c)).subject,
+    'Your payment is confirmed, DASP00020155');
+  eq('so does the verified email',
+    (await call(e.verified, c)).subject,
+    'Identity verified, your claim is in review, DASP00020155');
+  eq('so does the lodged email',
+    (await call(e.lodged, c)).subject,
+    'Your claim is lodged with the ATO, DASP00020155');
+  eq('so does the nudge',
+    (await call(e.verificationNudge, c)).subject,
+    'Your super claim is waiting on one thing, DASP00020155');
+
+  /* Should not happen on a paid claim, since the order number IS the invoice
+     number and invoice.build refuses without one. But a missing reference must
+     degrade to the bare subject rather than put the word "undefined" in front
+     of a client. */
+  const noRef = paidClaim({ order_number: null });
+  eq('no order number degrades to the bare subject',
+    (await call(e.paymentConfirmed, noRef)).subject,
+    'Your payment is confirmed');
+
+  /* The ops alerts name the client, not the order, and are read by people who
+     already have the claim open. Leave them alone. */
+  ok('ops alerts keep their own subject shape',
+    (await call(e.opsVerified, c)).subject.startsWith('READY TO LODGE:'));
 }
 
 /* ---------- no key, no send ---------- */

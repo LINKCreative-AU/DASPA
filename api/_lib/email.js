@@ -9,6 +9,16 @@ const invoice = require('./invoice');
 const invoicePdf = require('./invoice-pdf');
 
 const firstName = (c) => (c.full_name || 'there').trim().split(/\s+/)[0];
+
+/* Every client subject carries the order number, because the inbox is where a
+   client looks first and a bare "Your payment is confirmed" gives them nothing
+   to quote back at us. Added 17 September 2026 after the three August and
+   September claims were emailed by hand with the reference appended, and the
+   reference turned out to be the useful half of the subject line.
+
+   Falls back to the bare subject when there is no order number, which should
+   not happen on a paid claim but is not worth failing a send over. */
+const subjectFor = (base, c) => (c && c.order_number ? `${base}, ${c.order_number}` : base);
 /* The address a client should write to, taken out of EMAIL_FROM so there is one
    variable to keep right rather than two that can disagree. EMAIL_FROM is either
    "Name <addr>" or a bare address, so both shapes are handled. */
@@ -369,7 +379,7 @@ ${wa()}
 
 ${sig}`;
 
-    return send(c.email, 'Your payment is confirmed', text, {
+    return send(c.email, subjectFor('Your payment is confirmed', c), text, {
       html: H.shell({
         title: 'Your payment is confirmed',
         /* The grey line next to the subject in the inbox. Left empty, most
@@ -408,7 +418,7 @@ ${sig}`;
       H.p(`Questions? Reply to this email or write to ${H.mailto()}.`),
     ].filter(Boolean).join('\n');
 
-    return send(c.email, 'Identity verified, your claim is in review',
+    return send(c.email, subjectFor('Identity verified, your claim is in review', c),
       `Hi ${firstName(c)},
 
 Your identity check is done. It was processed by Stripe Identity using your
@@ -448,7 +458,7 @@ ${sig}`,
       H.p(`Questions? Reply to this email or write to ${H.mailto()}.`),
     ].filter(Boolean).join('\n');
 
-    return send(c.email, 'Your claim is lodged with the ATO',
+    return send(c.email, subjectFor('Your claim is lodged with the ATO', c),
       `Hi ${firstName(c)},
 
 Your DASP claim has been lodged with the ATO through the registered tax agent
@@ -485,7 +495,7 @@ ${sig}`,
       H.p(`Camera playing up, passport renewed, or something else in the way? Reply to this email and a person will sort it out with you. There is no deadline on a DASP claim, so nothing is lost.`),
     ].filter(Boolean).join('\n');
 
-    return send(c.email, 'Your super claim is waiting on one thing',
+    return send(c.email, subjectFor('Your super claim is waiting on one thing', c),
       `Hi ${firstName(c)},
 
 Your claim and payment are safely in, but we cannot lodge until your identity is
