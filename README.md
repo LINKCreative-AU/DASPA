@@ -62,7 +62,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `OPS_EMAIL` | where new claims, payments, verifications and paper forms are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
    | `SITE_URL` | defaults to `https://daspa.com.au` |
    | `CRON_SECRET` | protects `/api/cron-nudge` (Vercel sends it automatically) |
-   | `INVOICE_SECRET` | tax invoices. The Stripe webhook asks `registrationoffice.com.au/api/invoice` for an ATO-compliant invoice when a claim is paid. **Unset = paid clients get no tax invoice and nothing complains.** (Note: abnassist-site generates its own invoice now and keeps this OFF; DASPA still uses the portal, so here it must be ON) |
+   | `INVOICE_SECRET` | **not used any more, leave it unset.** DASPA builds its own invoice in `_lib/invoice.js` and `_lib/invoice-pdf.js`, and `email.paymentConfirmed` attaches it. The old call to `registrationoffice.com.au/api/invoice` is gone. Setting this does nothing, and the row is kept only so nobody re-adds it. Same position as abnassist-site |
    | `HEALTH_KEY` | unlocks `/api/health` on the production domain. Unset → production 404s the endpoint, which is the intended default; preview and development answer without it |
    | `LODGEMENT_LIVE` | **keep unset/false until the ATO accepts the DASP intermediary agreement in writing**, holds all confirmations and emails at "in review" wording; set `true` to go live. See "The launch gate" below |
 
