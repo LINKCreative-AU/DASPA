@@ -71,7 +71,7 @@ const email = load();
 
 {
   const m = await call(email.paymentConfirmed, paidClaim());
-  eq('subject is plain and true', m.subject, 'Your payment is confirmed, DASP00020155');
+  eq('subject is plain and true', m.subject, 'DASPA order DASP00020155 - Your payment is confirmed');
   ok('there is an html part', typeof m.html === 'string' && m.html.length > 2000);
   ok('AND a hand-written text part', typeof m.text === 'string' && m.text.length > 400);
   ok('the text part is not markup', !m.text.includes('<table') && !m.text.includes('style='));
@@ -191,7 +191,7 @@ const email = load();
 
 {
   const m = await call(email.verified, paidClaim());
-  eq('verified has its own subject', m.subject, 'Identity verified, your claim is in review, DASP00020155');
+  eq('verified has its own subject', m.subject, 'DASPA order DASP00020155 - Identity verified, your claim is in review');
   ok('it is html', m.html.includes('<table'));
   ok('with a text part', m.text.includes('Your identity check is done'));
   no('and no invoice attached twice', (m.attachments || []).length > 0);
@@ -278,7 +278,8 @@ const email = load();
 /* ---------- the order number in the subject ----------
 
    The inbox is where a client looks first, and a bare "Your payment is
-   confirmed" gives them nothing to quote back. Added 17 September 2026. */
+   confirmed" gives them nothing to quote back. The reference LEADS, because a
+   subject is truncated from the right on every phone. Set 18 September 2026. */
 
 {
   const e = load();
@@ -286,16 +287,16 @@ const email = load();
 
   eq('payment confirmation carries the reference',
     (await call(e.paymentConfirmed, c)).subject,
-    'Your payment is confirmed, DASP00020155');
+    'DASPA order DASP00020155 - Your payment is confirmed');
   eq('so does the verified email',
     (await call(e.verified, c)).subject,
-    'Identity verified, your claim is in review, DASP00020155');
+    'DASPA order DASP00020155 - Identity verified, your claim is in review');
   eq('so does the lodged email',
     (await call(e.lodged, c)).subject,
-    'Your claim is lodged with the ATO, DASP00020155');
+    'DASPA order DASP00020155 - Your claim is lodged with the ATO');
   eq('so does the nudge',
     (await call(e.verificationNudge, c)).subject,
-    'Your super claim is waiting on one thing, DASP00020155');
+    'DASPA order DASP00020155 - Your super claim is waiting on one thing');
 
   /* Should not happen on a paid claim, since the order number IS the invoice
      number and invoice.build refuses without one. But a missing reference must

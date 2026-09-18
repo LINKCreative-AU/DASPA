@@ -10,15 +10,19 @@ const invoicePdf = require('./invoice-pdf');
 
 const firstName = (c) => (c.full_name || 'there').trim().split(/\s+/)[0];
 
-/* Every client subject carries the order number, because the inbox is where a
-   client looks first and a bare "Your payment is confirmed" gives them nothing
-   to quote back at us. Added 17 September 2026 after the three August and
-   September claims were emailed by hand with the reference appended, and the
-   reference turned out to be the useful half of the subject line.
+/* Every client subject LEADS with the order number, because the inbox is where
+   a client looks first and a bare "Your payment is confirmed" gives them
+   nothing to quote back at us. The brand is in there too: these go to people
+   overseas who bought once, weeks ago, and "DASPA" in the first two words is
+   what stops the message reading as a phish.
+
+   Leading, not trailing. A subject line is truncated from the right on every
+   phone, so anything appended is the first thing lost, which is the half worth
+   keeping. Set 18 September 2026.
 
    Falls back to the bare subject when there is no order number, which should
    not happen on a paid claim but is not worth failing a send over. */
-const subjectFor = (base, c) => (c && c.order_number ? `${base}, ${c.order_number}` : base);
+const subjectFor = (base, c) => (c && c.order_number ? `DASPA order ${c.order_number} - ${base}` : base);
 /* The address a client should write to, taken out of EMAIL_FROM so there is one
    variable to keep right rather than two that can disagree. EMAIL_FROM is either
    "Name <addr>" or a bare address, so both shapes are handled. */
