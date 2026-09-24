@@ -13,9 +13,11 @@ competing with a free government alternative, and the second job is harder.
 
 **How to use it.** Part 1 is the rules — short, arguable, and the thing to cite
 when someone wants to do something else. Parts 2–4 are the facts as at today.
-Part 5 is the per-site plan. Part 6 is the checklist you actually work through.
-Part 7 is the cutover procedure for the two sites still on WordPress. Part 8 is
-what to stop doing.
+Part 5 is the per-site plan. Part 6 is internal linking and how articles get
+commissioned — the only ranking lever you fully control, and the one that cost
+DASPA ten weeks. Part 7 is the checklist you actually work through. Part 8 is
+the cutover procedure for the two sites still on WordPress. Part 9 is what to
+stop doing.
 
 ---
 
@@ -290,7 +292,7 @@ head term at KD 1, and nothing. Four referring domains is the reason.
 ### Live faults found today
 
 1. **DASPA** — `/claim-super-from` in the sitemap *and* blocked by robots.txt.
-   Fixed 24 Sept; see Part 6. The prefix trap had been half-fixed once already.
+   Fixed 24 Sept; see 6.1 and Part 7. The prefix trap had been half-fixed once already.
 2. **GST Register and CGT Clearance** — `Crawl-delay: 10` (throttles Bing to
    ~8,640 pages/day), `Disallow: /*?*` blocking every query-string URL, and
    **Yoast-default schema only**: WebPage, WebSite, BreadcrumbList,
@@ -394,7 +396,240 @@ notification** (40/mo, KD 0), and state pages (`ato clearance certificate qld`,
 
 ---
 
-## Part 6 — The checklist
+## Part 6 — Internal linking, and how articles get commissioned
+
+This part exists because internal linking is the only ranking lever you fully
+control. You cannot make anyone link to you. You can decide, today, what every
+page on your own site points at — and on a site with four referring domains,
+that is the entire budget.
+
+It is also where DASPA lost ten weeks. The evidence is below, measured from the
+repository on 24 September 2026, not asserted.
+
+### 6.1 What the DASPA link graph actually looks like
+
+Counting only **in-body** links — header, footer and nav stripped out, because a
+link that appears on all 46 pages tells Google nothing about which page matters:
+
+| Destination | In-body inbound links |
+|---|---|
+| `/` | 42 |
+| **`/claim`** | **38** |
+| `/dasp-calculator` | 15 |
+| `/claim-super-from` | 12 |
+| `/can-i-claim-my-super-myself-for-free` | 8 |
+| `/claim-super-leaving-australia` | 6 |
+| `/dasp-online-application` | **2** |
+| every country page (`/uk`, `/ireland`, `/germany`, …) | **2** |
+| `/brazil` | **1** |
+| `/faq`, `/terms` | **0** |
+
+Three things are wrong here, and they are the three failures to look for on
+every site in the group.
+
+**The most-linked page on the site is one Google is forbidden to fetch.**
+`/claim` carries `noindex` *and* a `Disallow`. Thirty-eight in-body links — more
+than any page except the homepage — point into it. That is correct for
+conversion and it is the right CTA, so leave it. But recognise what it means:
+the strongest internal signal the site emits goes somewhere that does not exist
+for a crawler. The page that *should* be collecting that signal,
+`/dasp-online-application`, owns a 250/mo head term and receives **two** in-body
+links. Every page's editorial link budget is being spent on the checkout.
+
+**The country cluster had exactly one crawl path, and it was blocked.**
+`/uk`, `/ireland`, `/germany`, `/france`, `/italy`, `/spain`, `/philippines`,
+`/india`, `/indonesia`, `/malaysia`, `/thailand` are reachable in-body from
+`/claim-super-from` and the main guide. `/brazil` is reachable from the index
+alone. Until PR #31 merged today, **`/claim-super-from` was disallowed in
+robots.txt** — so eleven pages hung off a single blocked hub and one hung off
+nothing else at all. `/visa-462` and `/visa-500` are not linked from the index
+at all, though `/visa-417` and `/visa-482` are.
+
+Twelve country pages, roughly 15,000 words, covering real offshore demand
+(UK 250/mo, Philippines 90, Ireland 60), with no crawlable route in. A site with
+zero organic keywords does not have a content problem.
+
+**`/faq` and `/terms` exist only in the footer.** Nothing in any page body ever
+refers to them. A footer-only page is not orphaned, but it is unranked by
+construction: it has no context, no anchor variation and no topical neighbours.
+
+### 6.2 The rules
+
+**1. Nothing indexable gets fewer than three in-body inbound links.**
+From three *different* pages, in prose, not from a list of links at the bottom.
+Header and footer links do not count toward the three — they carry no topical
+signal because they are identical everywhere. Run the check in 6.5 and fix
+whatever it names before writing anything new.
+
+**2. A hub page is a liability until you prove it is crawlable.**
+Any cluster that hangs off one index page is one robots.txt rule, one typo or
+one `noindex` from disappearing entirely — which is precisely what happened. If
+a hub is the only path to a cluster, the cluster is not published, it is
+staged. Give every spoke at least one inbound link from outside its own hub,
+and link spokes to their two or three nearest siblings.
+
+**3. Spend the body-link budget on the page that ranks, not the page that converts.**
+The CTA can and should point at `/claim`. The *editorial* links — the ones inside
+sentences, with descriptive anchors — belong to the indexable pages that are
+trying to earn the query. On a page about DASP tax, the in-prose link goes to
+`/dasp-calculator` and `/how-much-is-super-taxed-when-leaving-australia`; the
+button goes to `/claim`.
+
+**4. Anchor text describes the destination, and varies.**
+"Read more" and "click here" transmit nothing. Nor does using the identical
+exact-match anchor 40 times — that is the pattern the link spam policy names,
+and it looks no better internally than externally. Write the anchor as the
+phrase a person would use: *"what the ATO actually charges"*, *"how long a DASP
+takes to land"*, *"claiming from the UK"*.
+
+**5. Link down, up, and sideways.**
+Hub → spoke (the index lists every country). Spoke → hub (every country page
+links back). Spoke → sibling (the UK page links Ireland and Germany, because a
+reader on one is plausibly on the wrong one). This is the shape that makes a
+cluster legible as a cluster.
+
+**6. Three clicks from the homepage, maximum.**
+Anything deeper is telling Google it is unimportant, and you will be believed.
+
+**7. Every link is a link from a page, not from a site.**
+A link out of `/dasp-calculator` — which has 15 inbound links — is worth more
+than one out of `/brazil`, which has 1. When you have a page that has earned
+something, that is where the new page gets linked from. This is the only
+mechanism you have for moving authority onto a new article, and on four
+referring domains it is the *whole* mechanism.
+
+**8. Retrofit, on a schedule.**
+Publishing an article is half the job. The other half is going back to the five
+existing pages that should reference it and adding the sentence. If that pass
+does not happen, the article launches with zero inbound links and stays there.
+Nothing ships without it.
+
+### 6.3 Cross-site linking between the four
+
+The four sites share an owner, a footer, a legal entity and a TPB registration.
+That makes cross-linking both legitimate and easy to do badly.
+
+**Do this:**
+- **Follow the real journey.** ABN → GST is a genuine sequence: a sole trader who
+  just got an ABN and crosses $75,000 must register for GST. Link it, in prose,
+  at the moment it is true. CGT clearance → nothing. DASP → nothing. A departing
+  backpacker does not need an ABN, and pretending otherwise is the beginning of
+  a link scheme.
+- **Disclose common ownership** wherever you cross-link. One clause: *"GST
+  Register is run by the same registered tax agent practice as ABN Assist."*
+  That single sentence is the difference between a group of related services and
+  an undisclosed network.
+- **Declare the relationship in schema.** Identical `Organization` on all four —
+  same `legalName`, same `taxID` (the ABN), same address, same `sameAs` array
+  listing all four domains and the TPB register entry. Entity consolidation is
+  the legitimate version of what a link network fakes, and it is the thing that
+  actually feeds Bing and Copilot.
+
+**Do not do this:**
+- **A reciprocal footer block on all four sites.** Four sites each linking the
+  other three sitewide is a mesh, it appears on every page, and it carries no
+  topical signal — the definition of a footprint. If you want a shared footer
+  element, make it one link to a single group page that lists the services, and
+  link that page from each site.
+- **Keyword-stuffed cross-domain anchors.** "Register for GST" as the anchor from
+  1,400 ABN Assist pages is not internal linking, it is a link campaign against
+  yourself.
+- **Duplicating the same article across two of the sites.** If the GST guide is
+  useful to ABN Assist readers, link it. Do not copy it. There is no duplicate
+  content penalty, but there is consolidation: Google picks one, and you lose
+  control of which.
+
+### 6.4 How articles get commissioned
+
+The internal link map is what tells you *what to write next*, which is why it
+comes before the content calendar rather than after it.
+
+**Start from the fan-out, not the keyword list.** One page per distinct question
+a user has, not one page per phrase they might type. `dasp tax rate`,
+`how much tax on dasp` and `dasp tax percentage` are the same question and the
+same page. "Why was my DASP rejected" and "how long does a DASP take" are
+different questions and different pages. If two candidate topics share a SERP,
+they share a page.
+
+**The brief.** Every commissioned article carries all of this before a word is
+written, or it does not get written:
+
+1. **The question**, in the user's words, and the monthly volume and KD behind it.
+2. **The parent topic** — confirm Google does not already cluster it with a page
+   you own. If it does, you are about to compete with yourself.
+3. **The answer**, in 40–80 words, self-contained, decided in advance. If it
+   cannot be written before the research, the page has no reason to exist.
+4. **Three inbound links**, named: which existing pages will link to it, with the
+   anchor text and the sentence each one gets. Prefer pages that already rank.
+5. **Three to five outbound internal links** the new page will carry.
+6. **The primary source** for every figure — an ATO, ABR or legislation URL.
+7. **Author and reviewer**, by name, both real.
+8. **What it does not cover**, and which page covers that instead.
+
+**Where the topics come from, in priority order:**
+1. **Questions your own support inbox is answering repeatedly.** Highest-intent,
+   zero-competition, and evidenced.
+2. **Rejection and failure modes.** Nobody writes these and everybody searches
+   them. "Why was my ABN application put under review", "why was my DASP
+   rejected", "my clearance certificate name doesn't match the title".
+3. **Government forum threads that rank.** When ATO Community sits at #4 on
+   `how to get an abn`, that is the ATO telling you their own documentation
+   failed. Those threads are a published list of content gaps.
+4. **Process questions the official form raises but does not answer.** Cash vs
+   accruals. Monthly vs quarterly. Which visa subclass qualifies.
+5. **Timelines.** "How long does X take" is a query on every one of these four
+   services and it is the one the government page answers worst, because they
+   will not commit to a number.
+
+**What does not get commissioned:** country and city clone pages (see 6.6),
+pages that exist to hold a keyword variant, anything whose answer is "it
+depends" with no worked example, and refreshes of pages that have not changed.
+
+### 6.5 The checks, and what they should return
+
+Run all four before any launch or cutover. They are cheap and each one has
+already caught something real.
+
+| Check | Passing result |
+|---|---|
+| Longest-match robots check against every sitemap URL | **0 blocked** |
+| In-body inbound links per indexable page (nav/footer stripped) | **≥ 3, none at 0** |
+| Click depth from `/` | **≤ 3 for everything indexable** |
+| Pairwise near-duplicate overlap within a cluster | **< 30%** |
+
+`scripts/link-audit.py` in this repository runs the middle two and the fourth.
+It exits non-zero on a failure, so it belongs in CI, not in someone's memory.
+
+### 6.6 On country pages — revising the rule
+
+An earlier draft of this kit said flatly: never build country pages. That was
+too blunt, and DASPA's twelve pages are the reason to be precise instead.
+
+Measured across all 66 pairs of DASPA country pages, the **median 8-gram overlap
+is 10%** — these are genuinely different documents, carrying country-specific
+tax treatment, certification rules and banking detail. That is not a doorway
+page set. It is a legitimate cluster.
+
+But `/france` and `/italy` overlap **68%**, and `/spain` overlaps both at 53%.
+Those three are converging on a template.
+
+So the rule is a threshold, not a ban:
+
+> A country page is legitimate when it carries material that is **true only of
+> that country** — tax treaty treatment, who may certify documents there, how
+> the payment arrives, what the local revenue authority will want. It is a
+> doorway page when the only difference is the country name. Measure it:
+> **under 30% pairwise overlap, keep it; over 50%, merge the group into one page
+> with sections.**
+
+Apply this before anyone proposes translated pages. `dasp` shows Korean and
+Taiwanese volume that is a **different acronym entirely** — a data architecture
+certificate. DASPA already ships `/ko` and `/zh-tw*`, correctly `noindex`ed.
+Leave them that way.
+
+---
+
+## Part 7 — The checklist
 
 Work through per site. Ticked items are done as at 24 September 2026.
 
@@ -441,17 +676,21 @@ Work through per site. Ticked items are done as at 24 September 2026.
 - [ ] Bolded direct answer with the current figure, attributed to the ATO with the URL
 - [ ] One page per fan-out sub-question — not one page per keyword variant
 - [ ] Visible "Updated [date] · Reviewed by [name]", `dateModified` matching and moving only on real change
-- [ ] No country clone pages; situation sections on one canonical page instead
+- [ ] Cluster near-duplicate overlap under 30% (see 6.6); merge anything over 50%
 - [ ] Worked examples with real dollar figures — this is what AI Overviews quote
 
 ### Authority
 
 - [ ] Referring domain count tracked monthly per site
 - [ ] DASPA specifically: a link plan. Four referring domains is the whole problem
+- [x] `link-audit.py` passing: every indexable page on 3+ in-body inbound links, nothing deeper than 3 clicks (DASPA, 24 Sept)
+- [ ] `link-audit.py` ported to the other three repos and wired into CI
+- [ ] Every new article ships with its three inbound links already added (6.4)
+- [ ] Cross-site links follow a real journey and disclose common ownership (6.3)
 
 ---
 
-## Part 7 — Cutover procedure, GST Register and CGT Clearance
+## Part 8 — Cutover procedure, GST Register and CGT Clearance
 
 Both are WordPress. CGT Clearance carries $903/month of traffic value and 23
 referring domains — treat it as the higher-risk migration of the two.
@@ -476,7 +715,7 @@ referring domains — treat it as the higher-risk migration of the two.
 
 ---
 
-## Part 8 — Stop doing these
+## Part 9 — Stop doing these
 
 All confirmed obsolete against primary sources, September 2026.
 
@@ -487,7 +726,7 @@ All confirmed obsolete against primary sources, September 2026.
 - **`WebSite` + `SearchAction` markup** — dead November 2024, still live on two of your sites
 - **Disavow files as routine maintenance** — Mueller, March 2026: most sites do not need it
 - **llms.txt, "AI files", content chunking, GEO/AEO as a separate discipline** — no measured effect
-- **Country page multiplication for offshore traffic** — doorway risk
+- **Country page multiplication where the only difference is the country name** — doorway risk. Genuinely differentiated country pages are fine; measure it, see 6.6
 - **"Duplicate content penalty"** — there is no penalty, only consolidation
 - **Exact-match anchor campaigns, directory and press-release links** — link spam policy, and irrelevant at KD 0–3
 - **"Structured data helps rankings"** — it does not; it clarifies entities and feeds Bing and Copilot

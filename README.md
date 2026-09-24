@@ -442,7 +442,7 @@ pages, and should be confirmed against ARO's executed copy.
 
 ## Checks and generators
 
-`python scripts/check.py` before you push. It is the only thing standing in for a
+`python scripts/check.py` and `python scripts/link-audit.py` before you push. It is the only thing standing in for a
 build step: SERP budgets (title 60, description 158), descriptions that give the
 answer away, em dashes, missing canonical / og:image / sitemap entries, JSON-LD
 that does not parse, placeholders in shipped code, and `node --check` over the
@@ -457,6 +457,8 @@ Generators, rerun when their inputs change:
 | `scripts/build-fonts.py` | the self-hosted Plus Jakarta Sans subsets and their `@font-face` rules |
 | `scripts/build-calculator-matrix.py` | the crawlable payout matrix on `/dasp-calculator` (asserts itself against the page's published worked examples) |
 | `scripts/build-language-pages.py` | `/ko` and `/zh-tw`, both **noindex until a native speaker signs off the copy** |
+| `scripts/build-country-siblings.py` | the "Claiming from somewhere else?" block on all 12 country pages (asserts no country is named by fewer than 2 siblings) |
+| `scripts/build-seo-kit-pdf.py` | `SEO-KIT.pdf` from `SEO-KIT.md`. Never edit the PDF, regenerate it |
 
 ## Claim flow
 
