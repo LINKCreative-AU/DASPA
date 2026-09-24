@@ -1,12 +1,27 @@
 User-agent: *
 Allow: /
-Allow: /claim-super-leaving-australia
-Disallow: /claim
-Disallow: /verify
-Disallow: /confirmation
-Disallow: /upload-form
+
+# ANCHORED WITH $ ON PURPOSE. A robots.txt rule is a PREFIX match, so a bare
+# "Disallow: /claim" also blocks /claim-super-from and
+# /claim-super-leaving-australia - the country index and the main guide, two of
+# the most valuable pages on the site and both listed in the sitemap.
+#
+# That trap was found and only HALF fixed: an "Allow: /claim-super-leaving-
+# australia" was added for the page someone knew about, and the country index
+# was missed and stayed blocked. Anchoring removes the class of bug instead of
+# patching one instance of it, so the next page named /claim-something is not
+# silently invisible.
+#
+# Each path below also carries noindex at page level, which is the instruction
+# that actually keeps them out of the index. These lines only keep them out of
+# the crawl. /api/ keeps its trailing slash deliberately - it is a directory
+# rule and is meant to cover everything beneath it.
+Disallow: /claim$
+Disallow: /verify$
+Disallow: /confirmation$
+Disallow: /upload-form$
 Disallow: /api/
-Disallow: /wa
+Disallow: /wa$
 
 Sitemap: https://daspa.com.au/sitemap.xml
 
