@@ -24,6 +24,13 @@ jobs:
       - name: Pre-flight checks
         run: python scripts/check.py
 
+      # Internal linking is the only ranking lever this site fully controls on
+      # four referring domains, and it failed silently: twelve country pages
+      # sat behind a hub that robots.txt was blocking, and nothing in the repo
+      # could notice. A check that lives in someone's memory is not a check.
+      - name: Internal link audit
+        run: python scripts/link-audit.py
+
       # The webhook's refund and dispute branches cannot be reached by clicking
       # through the site, so they are only ever covered here.
       - name: Webhook tests
