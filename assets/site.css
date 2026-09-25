@@ -368,24 +368,36 @@ html[lang="ja"] body{font-family:'Plus Jakarta Sans','Hiragino Sans','Yu Gothic'
 .lang-nav .here{color:var(--muted)}
 
 /* ---------------------------------------------------------------- WhatsApp off
-   WHATSAPP_NUMBER has never been set in Vercel, so /wa redirects to /faq and
-   every WhatsApp call to action on the site leads somewhere that is not
-   WhatsApp. Rather than ship a channel that does not answer, the header button
-   is hidden until WhatsApp Business is actually configured. Juan's call,
-   8 September 2026.
+   WHATSAPP_NUMBER has never been set in Vercel, so /wa cannot reach WhatsApp.
+   Rather than ship a channel that does not answer, every WhatsApp call to
+   action is hidden until WhatsApp Business is actually configured. Juan's
+   call, 8 September 2026.
 
-   ONE RULE, ON PURPOSE. Reversing this is deleting these four lines: no page
-   markup was touched, so nothing has to be put back across 43 files. The
-   transactional pages (/claim, /verify, /confirmation, /upload-form) were
-   changed properly to point at email instead, because a client stuck mid
-   payment needs a route that works, not a hidden one.
+   THE SELECTOR IS [data-wa], NOT .wa-btn, AND THAT WAS THE BUG. The original
+   rule named .wa-btn, which is only the floating header button. The footer
+   legal row carries a second, classless link, `<a href="/wa" data-wa>WhatsApp
+   us</a>`, sitting next to Terms, Privacy and Important Information for
+   Clients. The rule never touched it, so 41 pages kept a visible WhatsApp link
+   for a channel nobody staffs, and clicking it 404'd, because no rewrite
+   mapped /wa to /api/wa either. Found 25 September 2026. Every element that
+   opts into the WhatsApp wiring carries data-wa, so keying the rule off that
+   attribute means a new call to action cannot be added without inheriting it.
+
+   ONE RULE, ON PURPOSE. Reversing this is deleting these lines: no page markup
+   was touched, so nothing has to be put back across 46 files. Two places were
+   changed properly rather than hidden, because a client who needs help needs a
+   route that works, not a concealed one: the transactional pages (/claim,
+   /verify, /confirmation, /upload-form) in September, and the one inline
+   sentence on /can-i-claim-my-super-myself-for-free, which reads as prose and
+   would have been left dangling mid-sentence by display:none. Both point at
+   claims@daspa.com.au.
 
    STILL TO DECIDE: WhatsApp is also a marketing claim in body copy on the
    country and FAQ pages ("Human support on WhatsApp from form to payout" and
    similar, including inside FAQPage JSON-LD and the ja/ko/zh-tw pages). Those
    are not addressed here because changing them changes the site's positioning,
    which is not a decision to take in a CSS file. See README. */
-.wa-btn { display: none !important; }
+[data-wa] { display: none !important; }
 
 /* ---------- verification, two cards ---------- */
 /* Matches the ABN Assist thank-you page: Step 1 done beside Step 2 outstanding.
