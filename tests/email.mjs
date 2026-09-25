@@ -57,6 +57,16 @@ const paidClaim = (over = {}) => ({
   fund_unknown: false,
   fund_name: 'AustralianSuper',
   fund_member_number: 'M-99',
+  bank_type: 'international',
+  bank_account_name: 'Alessia Di Marco',
+  bank_name: 'Intesa Sanpaolo',
+  bank_swift: 'BCITITMM',
+  bank_account_number: 'IT60X0542811101000000123456',
+  address_line: 'Via Roma 1',
+  address_city: 'Milano',
+  address_region: 'MI',
+  address_postcode: '20121',
+  address_country: 'Italy',
   payment_status: 'paid',
   paid_at: '2026-09-11T04:12:00Z',
   amount_paid_cents: 15000,
@@ -234,10 +244,27 @@ const email = load();
   ok('and the fund', m.text.includes('AustralianSuper'));
   ok('and the order number', m.text.includes('DASP00020155'));
 
-  /* Bank details are the deliberate exclusion: not needed to lodge, and
-     readable off the claim when they are. */
-  no('no bank account number', m.text.includes('bank_account_number'));
-  ok('and it says where they are', m.text.includes('Bank details are on the claim in Supabase'));
+  /* Juan, 25 September 2026: every form field goes in, bank details included,
+     so nobody has to open Supabase to lodge. */
+  ok('the account name', m.text.includes('Acct name: Alessia Di Marco'));
+  ok('the bank', m.text.includes('Intesa Sanpaolo'));
+  ok('the SWIFT', m.text.includes('BCITITMM'));
+  ok('the account number in full', m.text.includes('IT60X0542811101000000123456'));
+  ok('the address', m.text.includes('Via Roma 1, Milano, MI, 20121, Italy'));
+  no('no pointer back to Supabase', m.text.includes('Bank details are on the claim in Supabase'));
+  ok('the warning names bank details', m.text.includes('tax file number and bank details'));
+}
+{
+  const m = await call(email.opsVerified, paidClaim({ bank_type: 'australian', bank_name: null,
+    bank_swift: null, bank_bsb: '062-000', bank_account_number: '12345678' }));
+  ok('an Australian account carries the BSB', m.text.includes('BSB:       062-000'));
+  ok('and the number', m.text.includes('Acct no:   12345678'));
+  no('and no empty SWIFT line', m.text.includes('SWIFT'));
+}
+{
+  const m = await call(email.opsVerified, paidClaim({ bank_type: null, bank_account_name: null,
+    bank_account_number: null }));
+  ok('missing bank details are called out', m.text.includes('Bank:      NOT PROVIDED'));
 }
 {
   const m = await call(email.opsPaid, paidClaim({ tfn: null }), 15000);

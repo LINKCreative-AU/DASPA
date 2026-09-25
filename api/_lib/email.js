@@ -131,8 +131,33 @@ async function notifyOps(subject, lines) {
  *     which is a different exposure from a restricted inbox, and nothing in a
  *     CRM needs a TFN.
  *
- * Bank details stay excluded. The team does not key them to lodge, and they can
- * be read off the claim when they are actually needed. */
+ * BANK DETAILS AND THE ADDRESS ARE HERE TOO, SAME REASONING. They used to be
+ * excluded as "not needed to lodge". Juan overruled that on 25 September 2026:
+ * the team works each claim from the READY TO LODGE email, and a claim that
+ * sends somebody back to Supabase for the payout account is a claim that stalls.
+ * So the alert now carries every field the client gave on the form. That makes
+ * this email a complete identity kit (name, birth date, passport, TFN, bank),
+ * which is exactly why the list rule and the do-not-forward line above matter
+ * more now, not less. */
+const bankLines = (c) => {
+  if (!c.bank_type && !c.bank_account_number && !c.bank_account_name) {
+    return ['Bank:      NOT PROVIDED on the form, ask the client before lodging'];
+  }
+  return [
+    `Bank type: ${c.bank_type === 'international' ? 'International'
+      : c.bank_type === 'australian' ? 'Australian' : '(not given)'}`,
+    `Acct name: ${c.bank_account_name || '(not given)'}`,
+    c.bank_name ? `Bank:      ${c.bank_name}` : null,
+    c.bank_swift ? `SWIFT/BIC: ${c.bank_swift}` : null,
+    c.bank_bsb ? `BSB:       ${c.bank_bsb}` : null,
+    `Acct no:   ${c.bank_account_number || '(not given)'}`,
+  ];
+};
+const addressLines = (c) => {
+  const parts = [c.address_line, c.address_city, c.address_region, c.address_postcode, c.address_country]
+    .map((v) => (v || '').trim()).filter(Boolean);
+  return [parts.length ? `Address:   ${parts.join(', ')}` : 'Address:   (not given)'];
+};
 const opsRef = (c) =>
   [`Claim id:  ${c.id}`,
    c.order_number ? `Order:     ${c.order_number}` : null,
@@ -149,9 +174,14 @@ const opsRef = (c) =>
    c.date_departed ? `Departed:  ${c.date_departed}` : null,
    c.fund_unknown ? 'Fund:      unknown, needs the all-accounts search'
      : (c.fund_name ? `Fund:      ${c.fund_name}${c.fund_member_number ? ` (member ${c.fund_member_number})` : ''}` : null),
+   ...addressLines(c),
+   c.in_australia_declared === true ? 'In Aus:    client declared they are IN Australia'
+     : (c.in_australia_declared === false ? 'In Aus:    client declared they are outside Australia' : null),
    '',
-   'Bank details are on the claim in Supabase, not in this email.',
-   'DO NOT FORWARD. This email contains a tax file number.'].filter((l) => l !== null);
+   'Payout account:',
+   ...bankLines(c),
+   '',
+   'DO NOT FORWARD. This email contains a tax file number and bank details.'].filter((l) => l !== null);
 
 /* Was a WhatsApp line until 8 September 2026. WHATSAPP_NUMBER has never been
    set, so config.whatsappLink() resolved to /wa, which redirects to /faq: every
