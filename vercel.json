@@ -5,6 +5,10 @@
     {
       "source": "/googlec958a1798c20283a.html",
       "destination": "/google-gsc-verification.txt"
+    },
+    {
+      "source": "/wa",
+      "destination": "/api/wa"
     }
   ],
   "crons": [

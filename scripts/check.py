@@ -342,6 +342,47 @@ for path in (glob("api/*.js") + glob("api/_lib/*.js") + glob("assets/*.js")
             "the file (Node resolves those against the importer), or it will "
             "work here and fail in CI." % (path, m))
 
+# --- 12. every internal link resolves to something ------------------------
+# `cleanUrls` makes /pricing serve pricing.html, so a root-relative href is
+# only real if a matching .html exists or vercel.json rewrites the path. An
+# API function does NOT cover it: api/wa.js is served at /api/wa, never at /wa.
+#
+# That distinction shipped a real fault. api/wa.js was written with the header
+# comment "GET /wa -> 302", and 42 footer links across the site pointed at
+# /wa, but no rewrite was ever added, so every one of them 404'd in production
+# from the day it was written. Nothing could catch it: the file existed, the
+# links existed, and a static site has no build step that resolves one against
+# the other. Found 25 September 2026, seventeen days after the function was
+# committed.
+try:
+    with open("vercel.json", encoding="utf-8") as fh:
+        VERCEL = json.load(fh)
+except Exception as e:                                   # noqa: BLE001
+    VERCEL = {}
+    err("vercel.json could not be read or parsed (%s), so internal links "
+        "cannot be checked and routing is unverified." % e)
+
+ROUTED = {r.get("source", "") for r in VERCEL.get("rewrites", [])}
+ROUTED |= {r.get("source", "") for r in VERCEL.get("redirects", [])}
+
+INTERNAL_HREF = re.compile(r'href="(/[^"#?]*)')
+for path in pages:
+    html = open(path, encoding="utf-8").read()
+    for href in sorted(set(INTERNAL_HREF.findall(html))):
+        if href == "/" or href.startswith("/assets/") or href.startswith("/api/"):
+            continue
+        if os.path.exists(href.lstrip("/") + ".html") or os.path.exists(href.lstrip("/")):
+            continue
+        if href in ROUTED:
+            continue
+        hint = ""
+        if os.path.exists("api" + href + ".js"):
+            hint = (' api%s.js exists, but Vercel serves it at /api%s. Add a '
+                    'rewrite from "%s" to "/api%s" in vercel.json.'
+                    % (href, href, href, href))
+        err('%s: links to %s, which is not a page and not routed.%s'
+            % (path, href, hint))
+
 # --- report ---------------------------------------------------------------
 for w in warnings:
     print("WARN  " + w)
