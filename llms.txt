@@ -9,8 +9,9 @@
 > Australian Registration Office Pty Ltd, ABN 58 645 964 156, Registered Tax
 > Agent 26076969 (verifiable on the Tax Practitioners Board register).
 
-Key facts (current as of July 2026):
-- Flat fee $149 + GST ($163.90). Never a percentage of the super balance
+Key facts (current as of September 2026):
+- Flat fee $150, GST-free (the service is supplied to someone outside
+  Australia, a GST-free export). Never a percentage of the super balance
 - No super, no fee: the fee is refunded in full if no super can be recovered
 - The 5-minute online form accepts "I don't know my fund". Locating every
   account is the core of the service
@@ -34,5 +35,6 @@ Key facts (current as of July 2026):
 - [DASP processing time, the 28-day standard, what starts the clock, how to chase a slow claim](https://daspa.com.au/dasp-processing-time)
 - [DASP application form (NAT 7204 PDF)](https://daspa.com.au/dasp-nat-7204-application-form)
 - [Can I claim my super myself for free?](https://daspa.com.au/can-i-claim-my-super-myself-for-free)
+- Super fund guide: [claiming a DASP from an AustralianSuper account](https://daspa.com.au/australiansuper), including the certified-passport step for balances of $5,000 or more
 - Country guides for claiming from home: [UK](https://daspa.com.au/uk), [Ireland](https://daspa.com.au/ireland), [Germany](https://daspa.com.au/germany), [Philippines](https://daspa.com.au/philippines), [Italy](https://daspa.com.au/italy), [France](https://daspa.com.au/france), [Spain](https://daspa.com.au/spain), [Brazil](https://daspa.com.au/brazil), [India](https://daspa.com.au/india), [Indonesia](https://daspa.com.au/indonesia), [Thailand](https://daspa.com.au/thailand), [Malaysia](https://daspa.com.au/malaysia)
 - [Pricing](https://daspa.com.au/pricing)

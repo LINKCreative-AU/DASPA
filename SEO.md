@@ -21,6 +21,7 @@ AU searches/month, ~10,000+ global, keyword difficulty 0–3 across almost the w
 | Country long-tail (offshore volume: UK 250, IE 60, DE, PH 90) | "claim super from the UK" etc. | **/uk, /ireland, /germany, /france, /italy, /spain, /philippines**, indexed at **/claim-super-from** |
 | Visa long-tail, collected | "which visa can claim super", "dasp by visa" | **/visas** |
 | Transparency / trust | "can I do it myself free" | **/can-i-claim-my-super-myself-for-free** |
+| Fund long-tail (~60) | `australian super dasp` 30 (KD 8) · `withdraw super australiansuper` 20 · `australiansuper dasp` 10 | **/australiansuper**, the first fund page; owns the "claim super from AustralianSuper" cluster, leads with the fund's own published $5,000 certified-passport step and 10 to 14 business day processing (both verified against the fund's site, 29 Sep 2026), carries a not-affiliated disclosure. Linked from /claim-super-from |
 
 ### Technical implementation
 
@@ -120,6 +121,25 @@ contexts (per James's positioning call). Honesty is the differentiator against p
 10. **SERP check** (from the research's next-step note): confirm who ranks for
     `dasp online application` and `withdraw super leaving australia`, if ALITAX/Y&S hold them,
     study their gaps (neither has a no-win-no-fee guarantee or a flat fee).
+11. **Per-fund pages: demand-checked 29 Sep 2026, and the answer is ONE page, not a set.**
+    The competitor-style "claim your REST/HESTA/AMP super" roadmap idea does not survive
+    contact with the data. Ahrefs on fund + DASP phrasings (AU):
+
+    | Cluster | Vol | KD | Verdict |
+    |---|---|---|---|
+    | `australian super dasp` 30 · `withdraw super australiansuper` 20 · `australiansuper dasp` 10 | ~60 | 0–8 | **/australiansuper built** (30 Sep 2026) |
+    | `rest super dasp`, `rest dasp`, `rest claim super`, `hostplus dasp`, `hostplus claim super`, `hostplus withdrawal`, `hesta dasp`, `cbus dasp`, `unisuper dasp` | 0 | - | **No page. Do not build.** |
+    | `australiansuper withdrawal` 150 · `rest super withdrawal` 50 | - | 31 / 0 | Off-intent: parent topic is ordinary withdrawal (retirement, hardship), not DASP. Chasing it would mean writing a page about the wrong thing |
+
+    The SERP for `australian super dasp` is the fund itself, the ATO and other funds'
+    official pages (DR 57–90), no agent present, so /australiansuper competes on the gap
+    none of them fill: what stalls a claim and who deals with it for you. Rule for the
+    future: a fund page needs its own fund + DASP volume; funds whose members search
+    generic terms are already served by the existing money pages. Fund-specific process
+    facts (the $5,000 certified-passport threshold, 10 to 14 business day processing)
+    were verified against AustralianSuper's own published page and factsheet on 29 Sep
+    2026 and must be re-verified at each refresh; if a fund fact cannot be verified,
+    write around it, never invent it.
 
 **Paid (when ready)**
 11. Google Ads geo-targeting per the research: Australia + South Korea, Taiwan, UK, Japan,
