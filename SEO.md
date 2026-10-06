@@ -74,6 +74,22 @@ contexts (per James's positioning call). Honesty is the differentiator against p
 **Ongoing habits**
 4. **Refresh "last updated" honestly**, whenever rates/process are re-checked, update the date
    stamps (they're in the answer-first blocks). Stale dates erode snippet trust.
+   **Refresh run, 6 Oct 2026** (August cohort: uk, ireland, germany, france, italy, spain,
+   philippines, brazil, visa-417/462/482/500, visas, dasp-calculator): every stated figure
+   re-verified. DASP rates unchanged (65 WHM / 35 taxed / 45 untaxed / 65 ATO-held, ATO).
+   Brazil 462 still capped at 500 and still paused for 2026-27 (Home Affairs caps page);
+   Spain 462 still 18 to 30 with a quota (3,400, currently open, so no status claim needed on
+   the page); France and Italy 417 age 35 still correct, and note Germany, Finland, Cyprus and
+   South Korea joined the age-35 list on 1 July 2026 (no page says otherwise). One figure fixed:
+   /germany's euro conversion (€1,100 → €1,000 for A$1,810, AUD/EUR ≈ 0.56), date bumped there
+   only. One systemic fix: 22 pages carried a wrong deep ATO source URL
+   (…/early-access-to-super/access-on-compassionate-grounds/…); the live canonical is
+   …/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp
+   (confirmed in the SERP data below). Fixed on the 12 cohort pages; **still wrong on**: index,
+   dasp-online-application, claim-super-leaving-australia, claim-super-from,
+   can-i-claim-my-super-myself-for-free, dasp-nat-7204-application-form,
+   how-much-is-super-taxed-when-leaving-australia, india, indonesia, thailand, malaysia.
+   Fix those with their next refresh (href only, no date bump unless facts moved).
 5. **Rank tracking**: watch these in Ahrefs/GSC, `dasp`, `dasp online application`,
    `dasp tax calculator`, `withdraw super leaving australia`, `claim superannuation leaving australia`,
    `superannuation refund calculator`. KD is 0–3; expect movement within weeks of indexing.
@@ -121,6 +137,16 @@ contexts (per James's positioning call). Honesty is the differentiator against p
 10. **SERP check** (from the research's next-step note): confirm who ranks for
     `dasp online application` and `withdraw super leaving australia`, if ALITAX/Y&S hold them,
     study their gaps (neither has a no-win-no-fee guarantee or a flat fee).
+    **Checked 6 Oct 2026 (Ahrefs SERP overview, AU).** Neither named agent holds either SERP;
+    in fact no agent of any kind is in the top 10 of either. `dasp online application`
+    (SERP of 7 Sep 2026): the ATO application portal is 1, the ATO DASP page 2, then
+    AustralianSuper 3, ART 5, a stray 2014 form PDF on a DR 1 site at 6, HESTA 9, Hostplus 10.
+    `withdraw super leaving australia` (SERP of 25 Aug 2026): ATO DASP page 1, AustralianSuper 3,
+    ART 5, ATO portal 6, Aware 7, Hostplus 8, then two small sites at 9 and 10, one a DR 9 blog,
+    which confirms the low difficulty. Read: the gap is exactly the one the money pages were
+    built for (done-for-you, flat fee, no-super-no-fee); nothing to copy from competitors because
+    none rank. /dasp-online-application and /claim-super-leaving-australia were not yet in either
+    top 10 on those SERP dates; re-check after GSC indexing requests (item 1) have had time to work.
 11. **Per-fund pages: demand-checked 29 Sep 2026, and the answer is ONE page, not a set.**
     The competitor-style "claim your REST/HESTA/AMP super" roadmap idea does not survive
     contact with the data. Ahrefs on fund + DASP phrasings (AU):
