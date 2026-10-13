@@ -90,6 +90,44 @@ contexts (per James's positioning call). Honesty is the differentiator against p
    can-i-claim-my-super-myself-for-free, dasp-nat-7204-application-form,
    how-much-is-super-taxed-when-leaving-australia, india, indonesia, thailand, malaysia.
    Fix those with their next refresh (href only, no date bump unless facts moved).
+   **Refresh run, 13 Oct 2026** (September cohort: india, indonesia, thailand, malaysia,
+   australiansuper; plus the queued href migration). The dead ATO URL is now fixed on all 11
+   remaining pages; zero instances of the old compassionate-grounds path remain anywhere
+   (href-only on the 7 non-cohort pages, no date bumps there). The live canonical was
+   re-confirmed two ways: it ranks at position 2 of the `dasp online application` SERP
+   (Ahrefs, 7 Sep 2026 SERP) and a 10 Oct 2026 Wayback snapshot of it returns 200 with the
+   full rates table. Cohort facts re-verified against Home Affairs' live caps page
+   (fetched 13 Oct): India 462 still 1,000 by ballot; Thailand still 2,000 and open;
+   Indonesia still 5,000 (equal with China) but NEW: first Work and Holiday applications
+   from Indonesians now run through a ballot, registrations expected to open later in 2026,
+   page updated; Malaysia still 1,100 but the pause claim was stale, Home Affairs shows
+   lodgements open again, page updated. AustralianSuper facts re-verified against the fund's
+   page and factsheet ($5,000+ balance means certified passport copy dated within 6 months;
+   10 to 14 business days processing): unchanged. All five cohort pages date-bumped to
+   13 Oct 2026 (all carried a substantive correction, see the ATO-held item below);
+   sitemap lastmod updated to match.
+   **CORRECTION FOUND 13 Oct 2026, finish site-wide next: the "ATO-held super is taxed at
+   65% whatever visa you held" claim is wrong.** Verified against the current ATO DASP page
+   (Wayback snapshot of 10 Oct 2026: "If you have never held a WHM visa – the DASP ordinary
+   tax rates apply", and ATO payment summaries carry an 'H' indicator only when the WHM rate
+   was applied) and against the Superannuation (Departing Australia Superannuation Payments
+   Tax) Act 2007 s 5 (65% replaces 35/45 only where the payment includes contributions made
+   while the person held a WHM visa; there is no unclaimed-money 65%). The honest six-month
+   urgency that replaces it, straight from the ATO page: ATO-held super stops earning fund
+   returns, and the ATO pays it only by EFT to an Australian bank account in the claimant's
+   name or by cheque (no international transfer), which bites once the Australian account is
+   closed. Fixed on the five cohort pages (FAQ JSON-LD and visible text together, rates
+   re-sourced to the ATO line). **Still carrying the wrong claim: index,
+   dasp-online-application, claim-super-from, claim-super-leaving-australia (check), brazil,
+   philippines, visas, dasp-calculator (including the deadline-checker tool and its
+   pre-computed matrix, so scripts/build-calculator-matrix.py must move with it),
+   dasp-processing-time, how-much-is-super-taxed-when-leaving-australia,
+   can-i-claim-tax-back-on-super-withdrawal.** Two related phrasings to sweep in the same
+   pass: "Your fund or the ATO sends the payment internationally" (ATO-held super cannot be
+   paid internationally; still on brazil and claim-super-from) and "taxed at 35% ... while
+   the money is still with your fund" (still on philippines and visa-482). This is the top
+   priority for the next run: a tax agent's site must not carry a wrong tax claim, and the
+   fix is also a better sales argument because it is true.
 5. **Rank tracking**: watch these in Ahrefs/GSC, `dasp`, `dasp online application`,
    `dasp tax calculator`, `withdraw super leaving australia`, `claim superannuation leaving australia`,
    `superannuation refund calculator`. KD is 0–3; expect movement within weeks of indexing.
@@ -147,6 +185,17 @@ contexts (per James's positioning call). Honesty is the differentiator against p
     built for (done-for-you, flat fee, no-super-no-fee); nothing to copy from competitors because
     none rank. /dasp-online-application and /claim-super-leaving-australia were not yet in either
     top 10 on those SERP dates; re-check after GSC indexing requests (item 1) have had time to work.
+    **Re-checked 13 Oct 2026 (Ahrefs SERP overview, AU).** daspa.com.au is in neither top 10
+    yet. `dasp online application`: Ahrefs still serves the 7 Sep 2026 SERP (unchanged since
+    the last check: ATO portal 1, ATO DASP page 2, AustralianSuper 3, ART 5, the 2014 PDF 6,
+    ATO portal variant 8, HESTA 9, Hostplus 10), so this SERP has not been recrawled since
+    before the GSC indexing requests; nothing can be concluded from it yet. `withdraw super
+    leaving australia`: fresh SERP of 12 Oct 2026 and it has churned hard, which confirms the
+    low difficulty: Netwealth help-desk article 1, ATO community threads 4, 5 and 10, Reddit 6,
+    a Facebook post 7, a small industry-fund page 8, the ATO payment-summary instructions 9
+    (positions 2 and 3 went to SERP features). Forums and help-desk pages holding half the
+    top 10 is exactly the SERP a purpose-built money page beats; still no agent of any kind
+    present. Re-check both again next run.
 11. **Per-fund pages: demand-checked 29 Sep 2026, and the answer is ONE page, not a set.**
     The competitor-style "claim your REST/HESTA/AMP super" roadmap idea does not survive
     contact with the data. Ahrefs on fund + DASP phrasings (AU):
