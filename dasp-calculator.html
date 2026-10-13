@@ -46,7 +46,7 @@
         {
           "@type": "Question",
           "name": "How much tax is taken out of a DASP?",
-          "acceptedAnswer": { "@type": "Answer", "text": "DASP tax is set by legislation: 65% for working holiday makers (subclass 417 and 462), 35% on the taxed element for other temporary visas (such as 482 and student 500), 45% on any untaxed element, and 65% on super already transferred to the ATO as unclaimed money, regardless of visa. The calculator applies these rates automatically." }
+          "acceptedAnswer": { "@type": "Answer", "text": "DASP tax is set by legislation: 65% for working holiday makers (subclass 417 and 462), 35% on the taxed element for other temporary visas (such as 482 and student 500), and 45% on any untaxed element. The rate follows the visa you held, even for super already transferred to the ATO as unclaimed money. The calculator applies these rates automatically." }
         },
         {
           "@type": "Question",
@@ -66,7 +66,7 @@
         {
           "@type": "Question",
           "name": "What happens to my super 6 months after I leave Australia?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Once you've departed and your visa has ended, your fund must transfer your balance to the ATO as unclaimed super money, usually within about six months. ATO-held super is taxed at 65% when paid as a DASP regardless of visa, so non-working-holiday visa holders nearly double their tax by waiting." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Once you've departed and your visa has ended, your fund must transfer your balance to the ATO as unclaimed super money, usually within about six months. The tax rate does not change, it still follows the visa you held, but ATO-held super stops earning fund returns and the ATO pays it only to an Australian bank account in your name or by cheque, no international transfer." }
         },
         {
           "@type": "Question",
@@ -123,8 +123,8 @@
   <div class="wrap-narrow">
 
     <div class="answer-first">
-      <p><b>How much of my Australian super will I get back? After DASP tax, working holiday makers (417/462) keep 35% of their balance, and most other temporary visa holders (482, student 500) keep 65% of the taxed element</b>, but only while the super is still with the fund. Once it transfers to the ATO as unclaimed money (about six months after you leave), the tax is 65% for everyone. The calculators below apply the current rates for you.</p>
-      <div class="src"><span>Source: <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">Australian Taxation Office · DASP</a></span><span>Last updated: 8 July 2026</span></div>
+      <p><b>How much of my Australian super will I get back? After DASP tax, working holiday makers (417/462) keep 35% of their balance, and most other temporary visa holders (482, student 500) keep 65% of the taxed element.</b> The rate follows the visa you held, even after the super transfers to the ATO as unclaimed money (about six months after you leave); what changes at the ATO is that the balance stops earning fund returns and is paid only to an Australian bank account in your name or by cheque. The calculators below apply the current rates for you.</p>
+      <div class="src"><span>Source: <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">Australian Taxation Office · DASP</a></span><span>Last updated: 14 October 2026</span></div>
     </div>
 
     <!-- ============ 1. main DASP calculator ============ -->
@@ -144,7 +144,7 @@
       <div class="field"><label class="lab">Where is your super right now?</label>
         <div class="seg" role="radiogroup" aria-label="Super location">
           <label><input type="radio" name="c-where" value="fund" checked>Still with my fund<small>left less than ~6 months ago</small></label>
-          <label><input type="radio" name="c-where" value="ato">Transferred to the ATO<small>or left 6+ months ago: 65%</small></label>
+          <label><input type="radio" name="c-where" value="ato">Transferred to the ATO<small>or left 6+ months ago</small></label>
         </div>
       </div>
 
@@ -161,7 +161,7 @@
         <div class="res-net"><span class="k">Paid to your bank</span><span class="v" id="r-net">$1,810</span></div>
         <div class="kept-bar"><i id="r-bar" style="width:32%"></i></div>
         <div class="kept-lab" id="r-kept">You keep about 32% of your balance</div>
-        <div class="warn hidden" id="r-warn-ato">Your super is (or soon will be) ATO-held, so the 65% rate applies regardless of visa. <span id="r-warn-detail"></span></div>
+        <div class="warn hidden" id="r-warn-ato">Your super is (or soon will be) ATO-held. The tax rate doesn't change, it still follows your visa. <span id="r-warn-detail"></span></div>
       </div>
       <div style="margin-top:14px"><a class="btn" href="/claim">Claim this super · 5-minute form</a></div>
     </div>
@@ -195,7 +195,7 @@
     <!-- ============ 3. deadline checker ============ -->
     <div class="calc-card" id="deadline">
       <h2>3 · The 6-month deadline checker</h2>
-      <p class="sub">Funds must hand unclaimed balances to the ATO roughly six months after you leave and your visa ends, and ATO-held super is taxed at 65% for everyone.</p>
+      <p class="sub">Funds must hand unclaimed balances to the ATO roughly six months after you leave and your visa ends. The rate stays the same, but ATO-held super stops earning fund returns and pays only to an Australian bank account in your name or by cheque.</p>
 
       <div class="field" style="max-width:320px"><label class="lab" for="d-left">When did you leave Australia (or when will you)?</label>
         <input type="month" id="d-left">
@@ -216,15 +216,15 @@
           <tr><td>Working Holiday / Work &amp; Holiday (417, 462), super still with fund</td><td>65%</td><td>35%</td></tr>
           <tr><td>Other temporary visas (482, 500, 485…), taxed element, super with fund</td><td>35%</td><td>65%</td></tr>
           <tr><td>Untaxed element (rare, mainly some public-sector schemes)</td><td>45%</td><td>55%</td></tr>
-          <tr><td>Super already transferred to the ATO as unclaimed money. <b>Any visa</b></td><td>65%</td><td>35%</td></tr>
+          <tr><td>Super already transferred to the ATO as unclaimed money</td><td>Unchanged, follows your visa</td><td>as above</td></tr>
         </tbody>
       </table></div>
-      <p>The rates are set by legislation and withheld automatically by your fund or the ATO when the DASP is paid, no agent, including us, can change them. What you <em>can</em> control: claiming before the ATO transfer (the single biggest lever if you were on a 482 or student visa, see the deadline checker above), and making sure every account is found so nothing is left behind. Want the rates explained rather than computed? Read <a href="/how-much-is-super-taxed-when-leaving-australia">how much super is taxed when leaving Australia</a>. Already been paid and think the wrong rate was taken? See <a href="/can-i-claim-tax-back-on-super-withdrawal">can I claim tax back on a super withdrawal</a>. Wondering when the money actually lands? See <a href="/dasp-processing-time">DASP processing time</a>.</p>
+      <p>The rates are set by legislation and withheld automatically by your fund or the ATO when the DASP is paid, no agent, including us, can change them (<a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">source: ATO, DASP</a>). The rate doesn't change when your super moves to the ATO, but the move still costs you: ATO-held super stops earning fund returns and is paid only to an Australian bank account in your name or by cheque (see the deadline checker above). What you <em>can</em> control: claiming while the money is still with your fund, and making sure every account is found so nothing is left behind. Want the rates explained rather than computed? Read <a href="/how-much-is-super-taxed-when-leaving-australia">how much super is taxed when leaving Australia</a>. Already been paid and think the wrong rate was taken? See <a href="/can-i-claim-tax-back-on-super-withdrawal">can I claim tax back on a super withdrawal</a>. Wondering when the money actually lands? See <a href="/dasp-processing-time">DASP processing time</a>.</p>
 
       <h2>Worked examples</h2>
       <ul>
         <li><b>Backpacker, 417, $5,600 with one fund:</b> 65% tax = $3,640 withheld → $1,960 paid, about $1,810 after our fee.</li>
-        <li><b>Nurse, 482, $20,000 with her fund:</b> 35% tax = $7,000 withheld → $13,000 paid, about $12,850 after the fee. The same balance claimed <em>after</em> the ATO transfer: $7,000 paid. Waiting costs her $6,000.</li>
+        <li><b>Nurse, 482, $20,000 with her fund:</b> 35% tax = $7,000 withheld → $13,000 paid, about $12,850 after the fee. The same balance claimed <em>after</em> the ATO transfer is still taxed at 35%, but it has stopped earning returns and the ATO pays only to an Australian account in her name or by cheque.</li>
         <li><b>Student, 500, $2,400 across three part-time-job funds:</b> 35% tax = $840 → $1,560 paid, about $1,410 after the one flat fee (it covers all three funds).</li>
       </ul>
 
@@ -233,21 +233,21 @@
       <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $150 fee, so it is the number you would actually see. Find the row nearest your balance.</p>
       <div class="table-scroll">
       <table>
-        <thead><tr><th>Your balance</th><th>Working holiday<br><small>417 or 462, 65%</small></th><th>Other temporary visa<br><small>482 or 500, 35%</small></th><th>Already at the ATO<br><small>any visa, 65%</small></th></tr></thead>
+        <thead><tr><th>Your balance</th><th>Working holiday<br><small>417 or 462, 65%</small></th><th>Other temporary visa<br><small>482 or 500, 35%</small></th></tr></thead>
         <tbody>
-<tr><td><b>$1,000</b></td><td>$200</td><td>$500</td><td>$200</td></tr>
-<tr><td><b>$2,500</b></td><td>$725</td><td>$1,475</td><td>$725</td></tr>
-<tr><td><b>$5,000</b></td><td>$1,600</td><td>$3,100</td><td>$1,600</td></tr>
-<tr><td><b>$7,500</b></td><td>$2,475</td><td>$4,725</td><td>$2,475</td></tr>
-<tr><td><b>$10,000</b></td><td>$3,350</td><td>$6,350</td><td>$3,350</td></tr>
-<tr><td><b>$15,000</b></td><td>$5,100</td><td>$9,600</td><td>$5,100</td></tr>
-<tr><td><b>$20,000</b></td><td>$6,850</td><td>$12,850</td><td>$6,850</td></tr>
-<tr><td><b>$30,000</b></td><td>$10,350</td><td>$19,350</td><td>$10,350</td></tr>
-<tr><td><b>$50,000</b></td><td>$17,350</td><td>$32,350</td><td>$17,350</td></tr>
+<tr><td><b>$1,000</b></td><td>$200</td><td>$500</td></tr>
+<tr><td><b>$2,500</b></td><td>$725</td><td>$1,475</td></tr>
+<tr><td><b>$5,000</b></td><td>$1,600</td><td>$3,100</td></tr>
+<tr><td><b>$7,500</b></td><td>$2,475</td><td>$4,725</td></tr>
+<tr><td><b>$10,000</b></td><td>$3,350</td><td>$6,350</td></tr>
+<tr><td><b>$15,000</b></td><td>$5,100</td><td>$9,600</td></tr>
+<tr><td><b>$20,000</b></td><td>$6,850</td><td>$12,850</td></tr>
+<tr><td><b>$30,000</b></td><td>$10,350</td><td>$19,350</td></tr>
+<tr><td><b>$50,000</b></td><td>$17,350</td><td>$32,350</td></tr>
         </tbody>
       </table>
       </div>
-      <p style="font-size:13px;color:var(--muted)">Rates are legislated and withheld by your fund or the ATO. Figures assume the whole balance is a taxed element, which is the normal case; a rare untaxed element is withheld at 45%. Amounts are rounded to the nearest dollar.</p>
+      <p style="font-size:13px;color:var(--muted)">Rates are legislated and withheld by your fund or the ATO, and they are the same whether the super is still with your fund or already ATO-held: the rate follows the visa you held. Figures assume the whole balance is a taxed element, which is the normal case; a rare untaxed element is withheld at 45%. Amounts are rounded to the nearest dollar.</p>
 
       <h3>No idea what your balance is? Work back from your wages</h3>
       <p>Super is paid on top of your wages at a rate set by law, so your gross Australian earnings give a usable estimate of what should be sitting in a fund somewhere. This is before DASP tax; put the result into the calculator above to see what you would keep.</p>
@@ -271,7 +271,7 @@
 
       <h2>Calculator questions</h2>
       <div class="faq" style="margin-top:14px">
-        <details><summary>How much tax is taken out of a DASP?</summary><div class="a"><p>65% for working holiday makers (417/462), 35% on the taxed element for other temporary visas, 45% on any untaxed element, and 65% on ATO-held unclaimed super regardless of visa. The calculator applies these automatically.</p></div></details>
+        <details><summary>How much tax is taken out of a DASP?</summary><div class="a"><p>65% for working holiday makers (417/462), 35% on the taxed element for other temporary visas, 45% on any untaxed element. The rate follows the visa you held, even for super already transferred to the ATO as unclaimed money. The calculator applies these automatically.</p></div></details>
         <details><summary>Why is the working holiday rate 65%?</summary><div class="a"><p>Parliament set a special 65% DASP rate for working holiday makers from 1 July 2017. No agent can reduce it. Anyone implying otherwise should be avoided. What you control is timing, and making sure every account is found.</p></div></details>
         <details><summary>How accurate is this?</summary><div class="a"><p>It applies the current legislated rates to the balance you enter, treated as a taxed element. Which is what nearly all employer-paid super is. Your fund calculates the exact components at payment time, so treat results as a close estimate, not a quote.</p></div></details>
         <details><summary>How do I find my real balance?</summary><div class="a"><p>Your fund's app or last statement is the quickest way. Multiple jobs usually mean multiple funds, and money may already be at the ATO, finding every account in your name is part of every DASPA claim, included in the flat fee.</p></div></details>
@@ -363,12 +363,12 @@
     var atoHeld = document.querySelector('input[name=c-where]:checked').value === 'ato';
     var withFee = document.getElementById('c-fee').checked;
     var bal = num(cBal);
-    var rate = atoHeld ? 0.65 : RATES[visa];
+    var rate = RATES[visa];
     var tax = bal * rate;
     var net = Math.max(0, bal - tax - (withFee ? FEE : 0));
 
     document.getElementById('r-bal').textContent = aud.format(bal);
-    document.getElementById('r-tax-label').textContent = 'DASP tax withheld (' + Math.round(rate * 100) + '%' + (atoHeld ? ', ATO-held' : '') + ')';
+    document.getElementById('r-tax-label').textContent = 'DASP tax withheld (' + Math.round(rate * 100) + '%)';
     document.getElementById('r-tax').textContent = '−' + aud.format(tax);
     document.getElementById('r-fee-row').style.display = withFee ? '' : 'none';
     document.getElementById('r-net').textContent = aud.format(net);
@@ -377,13 +377,9 @@
     document.getElementById('r-kept').textContent = 'You keep about ' + kept + '% of your balance';
 
     var warn = document.getElementById('r-warn-ato');
-    if (atoHeld && RATES[visa] === 0.35) {
+    if (atoHeld) {
       warn.classList.remove('hidden');
-      document.getElementById('r-warn-detail').textContent =
-        'If it were still with your fund you would keep ' + aud.format(bal * 0.65 - (withFee ? FEE : 0)) + '. This is why claiming before the transfer matters on a ' + visa + '.';
-    } else if (atoHeld) {
-      warn.classList.remove('hidden');
-      document.getElementById('r-warn-detail').textContent = 'For working holiday visas the rate is 65% either way, but ATO-held money earns only CPI interest, so there is still no upside in waiting.';
+      document.getElementById('r-warn-detail').textContent = 'What changes: the balance stops earning fund returns, and the ATO pays only to an Australian bank account in your name or by cheque, no international transfer.';
     } else {
       warn.classList.add('hidden');
     }
@@ -427,9 +423,9 @@
       var daysLeft = Math.round((transfer - now) / 86400000);
       msg.innerHTML = 'You left around <b>' + left.toLocaleDateString('en-AU', months) + '</b>, so your fund is due to transfer your super to the ATO from about <b>' + transfer.toLocaleDateString('en-AU', months) + '</b>, roughly <b>' + daysLeft + ' days from now</b>.';
       warn.classList.remove('hidden');
-      warn.textContent = 'If you were on a 482, 500 or another non-working-holiday visa, claiming before the transfer keeps the tax at 35% instead of 65%. That is the whole ballgame. Start now.';
+      warn.textContent = 'The tax rate follows your visa either way, but claiming before the transfer keeps the balance earning fund returns and means the payment can go to an overseas account. ATO-held super pays only to an Australian bank account in your name or by cheque. Start now.';
     } else {
-      msg.innerHTML = 'You left around <b>' + left.toLocaleDateString('en-AU', months) + '</b>. Your super has most likely already been transferred to the ATO as unclaimed money. It is still 100% claimable (we search ATO-held money on every claim), taxed at 65% when paid.';
+      msg.innerHTML = 'You left around <b>' + left.toLocaleDateString('en-AU', months) + '</b>. Your super has most likely already been transferred to the ATO as unclaimed money. It is still 100% claimable (we search ATO-held money on every claim) and the tax rate still follows the visa you held; note the ATO pays only to an Australian bank account in your name or by cheque.';
       warn.classList.add('hidden');
     }
   });
