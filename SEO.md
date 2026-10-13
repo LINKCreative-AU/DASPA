@@ -127,7 +127,36 @@ contexts (per James's positioning call). Honesty is the differentiator against p
    paid internationally; still on brazil and claim-super-from) and "taxed at 35% ... while
    the money is still with your fund" (still on philippines and visa-482). This is the top
    priority for the next run: a tax agent's site must not carry a wrong tax claim, and the
-   fix is also a better sales argument because it is true.
+   fix is also a better sales argument because it is true. *(Done, see the 14 Oct entry.)*
+   **Sweep completed, 14 Oct 2026: the wrong ATO-held 65% claim is gone site-wide.**
+   Fixed with visible text, FAQ JSON-LD and date stamps moving together, and every
+   corrected rate statement kept beside its ATO source line: index, dasp-online-application,
+   claim-super-from, claim-super-leaving-australia, brazil (page AND
+   scripts/build-brazil.py, which also still carried the dead ATO URL), philippines, visas,
+   dasp-processing-time, how-much-is-super-taxed-when-leaving-australia,
+   can-i-claim-tax-back-on-super-withdrawal (its "ATO at 65%? Not an error" FAQ is now
+   inverted: for a never-WHM claimant a 65% withholding on ATO-held money CAN be a genuine
+   withholding error worth pursuing), dasp-calculator (answer-first, JSON-LD, the payout
+   script no longer switches to 0.65 when "Transferred to the ATO" is selected, the ATO-held
+   warning and all three deadline-checker messages now carry the honest urgency, and the
+   crawlable matrix was regenerated without its "already at the ATO" column via
+   scripts/build-calculator-matrix.py, which now replaces the section in place on re-runs),
+   visa-482, visa-500, faq, pricing, can-i-claim-my-super-myself-for-free and spain.
+   The WHM-audience pages (uk, ireland, france, italy, visa-417) stated "ATO-held is taxed
+   at 65%", true for their readers but attributed to the wrong cause; reworded to attribute
+   the 65% to the working holiday visa, clarification only, so no date bump there. The nine
+   noindex language pages carried the claim verbatim in Japanese, Korean and Chinese;
+   scripts/build-language-pages.py was corrected and all nine regenerated (still noindex,
+   still awaiting native sign-off). Both entangled phrasings are gone: "Your fund or the
+   ATO sends the payment internationally" (brazil, claim-super-from; softer variants on
+   index and philippines also tightened) and "35% ... while the money is still with your
+   fund" (philippines, visa-482, visa-500 and the how-much page). "Last updated" bumped to
+   14 October 2026 and sitemap lastmod to 2026-10-14 on the 17 pages whose stated facts
+   changed. Grep proof at completion: zero matches site-wide for "whatever visa you
+   held/were on" (rate context), "whichever visa you held", "regardless of visa",
+   "65% for everyone", "rate becomes 65", "Your fund or the ATO sends the payment
+   internationally", and the ja/ko/zh-tw equivalents (ビザを問わず / 一律 65 /
+   비자와 관계없이 / 不分簽證).
 5. **Rank tracking**: watch these in Ahrefs/GSC, `dasp`, `dasp online application`,
    `dasp tax calculator`, `withdraw super leaving australia`, `claim superannuation leaving australia`,
    `superannuation refund calculator`. KD is 0–3; expect movement within weeks of indexing.

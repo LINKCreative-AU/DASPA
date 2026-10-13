@@ -34,7 +34,7 @@ ICON = re.search(r'<link rel="icon"[^>]*>', tpl).group(0)
 PRELOAD = re.search(r'<link rel="preload"[^>]*>', tpl).group(0)
 
 ATO = ("https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/"
-       "withdrawing-and-using-your-super/early-access-to-super/access-on-compassionate-grounds/"
+       "temporary-residents-and-superannuation/"
        "departing-australia-superannuation-payment-dasp")
 CAPS = "https://immi.homeaffairs.gov.au/what-we-do/whm-program/status-of-country-caps"
 
@@ -58,9 +58,12 @@ FAQ = [
      "leaves a balance worth several thousand dollars, spread across however many employers you "
      "had. There is no minimum balance for a DASP."),
     ("Can the money be paid into a Brazilian bank account?",
-     "Yes. Your fund or the ATO sends the payment internationally using your bank's SWIFT/BIC "
-     "details, so a Banco do Brasil, Itau, Bradesco, Caixa or Nubank account all work. It arrives "
-     "in Australian dollars and your own bank converts it to reais at its own rate."),
+     "Yes. Your fund sends the payment internationally using your bank's SWIFT/BIC details, so a "
+     "Banco do Brasil, Itau, Bradesco, Caixa or Nubank account all work, provided the account is "
+     "in your own name and accepts international transfers. It arrives in Australian dollars and "
+     "your own bank converts it to reais at its own rate. Super already transferred to the ATO is "
+     "paid differently, only to an Australian bank account in your name or by cheque, one more "
+     "reason to claim before the six-month transfer."),
     ("Do I need my documents notarised at a cartorio?",
      "Not through us. Identity is verified electronically with your passport and a selfie, so "
      "there is no cartorio, no consulate appointment and no certified copies. Some funds ask for "
@@ -69,9 +72,10 @@ FAQ = [
     ("I studied in Australia years ago. Is it too late?",
      "No. There is no deadline for claiming a DASP and the money is still yours. What the delay "
      "changes is where it sits: six months after your visa ended and you departed, funds must hand "
-     "the balance to the ATO, and ATO-held super is taxed at 65% whatever visa you held. For a "
-     "student visa that is the difference between 35% and 65%, so it is worth checking sooner "
-     "rather than later."),
+     "the balance to the ATO as unclaimed super. The tax rate does not change, it still follows "
+     "the visa you held, but ATO-held super stops earning fund returns and the ATO pays it only "
+     "to an Australian bank account in your name or by cheque. Claiming while the money is still "
+     "with the fund is simpler, so it is worth checking sooner rather than later."),
     ("Will Brazil tax the payment when it arrives?",
      "The payment has already been taxed in Australia at the legislated rate. How Receita Federal "
      "treats the receipt is a Brazilian question and we are not licensed to advise on it. We "
@@ -95,14 +99,13 @@ BODY = """<div class="answer-first">
 <tbody>
 <tr><td>Student 500, or skilled 482 (taxed element)</td><td>35%</td><td>65%</td></tr>
 <tr><td>Work and Holiday 462, the capped programme</td><td>65%</td><td>35%</td></tr>
-<tr><td>Any visa, once the money has moved to the ATO</td><td>65%</td><td>35%</td></tr>
 </tbody>
 </table>
 </div>
 
-<h2>The six-month clock costs Brazilians more than most</h2>
-<p>Six months after your visa ends and you have left, your fund must hand your balance to the ATO as unclaimed super. From that moment it is taxed at 65% <b>regardless of which visa you held</b>.</p>
-<p>For a British or Irish backpacker on a 417 that transfer changes nothing, because they were paying 65% either way. For a Brazilian who studied here on a 500, it is the difference between keeping 65% of the balance and keeping 35% of it. On a balance of A$10,000 that is roughly A$3,000 that stops being yours. If you are inside the six months, that timing is the single most valuable thing you control.</p>
+<h2>The six-month clock still matters</h2>
+<p>Six months after your visa ends and you have left, your fund must hand your balance to the ATO as unclaimed super. The tax rate does not change when that happens: ATO-held super is still taxed by the visa you held, 35% on the taxed element for students and skilled workers and 65% for working holiday makers (<a href="__ATO__" target="_blank" rel="noopener">source: ATO, DASP</a>).</p>
+<p>What changes is everything around the rate. The balance stops earning fund returns, and the ATO pays ATO-held super only to an Australian bank account in your name or by cheque, where a fund can send the money to a Brazilian account. Most people have closed their Australian account by the time they get to the claim. If you are inside the six months, the same claim is simpler and pays to where you actually bank.</p>
 <p>Run your own numbers on the <a href="/dasp-calculator">DASP tax calculator</a>, which shows both rates side by side.</p>
 
 <h2>Part-time study work still adds up</h2>

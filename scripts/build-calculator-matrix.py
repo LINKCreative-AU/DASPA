@@ -16,7 +16,12 @@ ROOT = os.environ.get("DASPA_ROOT", r"C:\dev\daspa-site")
 PAGE = os.path.join(ROOT, "dasp-calculator.html")
 
 FEE = 150.00                      # matches FEE in the page script
-WHM, OTHER, ATO_HELD = 0.65, 0.35, 0.65
+# Corrected 13 Oct 2026: ATO-held super carries NO separate rate. Per the ATO's
+# DASP page and s 5 of the Superannuation (DASP Tax) Act 2007, 65% applies only
+# where the payment includes working-holiday-period contributions; a never-WHM
+# claimant stays at the ordinary rates even on ATO-held money. The matrix
+# therefore has no "already at the ATO" column: the rate follows the visa.
+WHM, OTHER = 0.65, 0.35
 BANDS = [1000, 2500, 5000, 7500, 10000, 15000, 20000, 30000, 50000]
 SG = [("0.115", "11.5%", "2023 to 2025"), ("0.12", "12%", "July 2025 onwards")]
 WAGES = [5000, 10000, 20000, 30000, 45000, 60000]
@@ -37,8 +42,8 @@ assert round(net(20000, OTHER)) == 12850, round(net(20000, OTHER))
 assert round(net(2400, OTHER)) == 1410, round(net(2400, OTHER))
 
 rows = "\n".join(
-    "<tr><td><b>%s</b></td><td>%s</td><td>%s</td><td>%s</td></tr>"
-    % (money(b), money(net(b, WHM)), money(net(b, OTHER)), money(net(b, ATO_HELD)))
+    "<tr><td><b>%s</b></td><td>%s</td><td>%s</td></tr>"
+    % (money(b), money(net(b, WHM)), money(net(b, OTHER)))
     for b in BANDS)
 
 wage_rows = "\n".join(
@@ -51,13 +56,13 @@ SECTION = """
       <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $150 fee, so it is the number you would actually see. Find the row nearest your balance.</p>
       <div class="table-scroll">
       <table>
-        <thead><tr><th>Your balance</th><th>Working holiday<br><small>417 or 462, 65%</small></th><th>Other temporary visa<br><small>482 or 500, 35%</small></th><th>Already at the ATO<br><small>any visa, 65%</small></th></tr></thead>
+        <thead><tr><th>Your balance</th><th>Working holiday<br><small>417 or 462, 65%</small></th><th>Other temporary visa<br><small>482 or 500, 35%</small></th></tr></thead>
         <tbody>
 __ROWS__
         </tbody>
       </table>
       </div>
-      <p style="font-size:13px;color:var(--muted)">Rates are legislated and withheld by your fund or the ATO. Figures assume the whole balance is a taxed element, which is the normal case; a rare untaxed element is withheld at 45%. Amounts are rounded to the nearest dollar.</p>
+      <p style="font-size:13px;color:var(--muted)">Rates are legislated and withheld by your fund or the ATO, and they are the same whether the super is still with your fund or already ATO-held: the rate follows the visa you held. Figures assume the whole balance is a taxed element, which is the normal case; a rare untaxed element is withheld at 45%. Amounts are rounded to the nearest dollar.</p>
 
       <h3>No idea what your balance is? Work back from your wages</h3>
       <p>Super is paid on top of your wages at a rate set by law, so your gross Australian earnings give a usable estimate of what should be sitting in a fund somewhere. This is before DASP tax; put the result into the calculator above to see what you would keep.</p>
@@ -75,15 +80,20 @@ __WAGEROWS__
 with open(PAGE, encoding="utf-8", newline="") as fh:
     t = fh.read()
 
-assert 'id="matrix"' not in t, "already inserted"
 anchor = "      <h2>More detail for your visa</h2>"
 assert anchor in t, "anchor not found"
-t = t.replace(anchor, SECTION + "\n" + anchor, 1)
+if 'id="matrix"' in t:
+    # Replace the existing section in place (from its heading to the anchor).
+    start = t.index('      <h2 id="matrix">')
+    end = t.index(anchor)
+    t = t[:start] + SECTION.lstrip("\n") + "\n" + t[end:]
+else:
+    t = t.replace(anchor, SECTION + "\n" + anchor, 1)
 
 with open(PAGE, "w", encoding="utf-8", newline="") as fh:
     fh.write(t)
 
-print("matrix inserted: %d balance rows, %d wage rows" % (len(BANDS), len(WAGES)))
+print("matrix written: %d balance rows, %d wage rows" % (len(BANDS), len(WAGES)))
 for b in (5000, 20000):
-    print("  %s -> whm %s | other %s | ato %s"
-          % (money(b), money(net(b, WHM)), money(net(b, OTHER)), money(net(b, ATO_HELD))))
+    print("  %s -> whm %s | other %s"
+          % (money(b), money(net(b, WHM)), money(net(b, OTHER))))
