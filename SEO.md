@@ -157,6 +157,37 @@ contexts (per James's positioning call). Honesty is the differentiator against p
    "65% for everyone", "rate becomes 65", "Your fund or the ATO sends the payment
    internationally", and the ja/ko/zh-tw equivalents (ビザを問わず / 一律 65 /
    비자와 관계없이 / 不分簽證).
+   **Refresh run, 20 Oct 2026** (October cohort, the question posts and money pages:
+   dasp-processing-time, how-much-is-super-taxed-when-leaving-australia,
+   can-i-claim-tax-back-on-super-withdrawal, can-i-claim-my-super-myself-for-free,
+   dasp-online-application, dasp-nat-7204-application-form, visas, faq). Every stated
+   figure re-verified by web search against the ATO's live pages (web.archive.org was
+   unreachable from the workstation this run, so no Wayback snapshots; the ATO pages
+   themselves 403 direct fetches, verification ran on ATO content surfaced in search).
+   Verified unchanged: DASP rates (65 WHM including associated bridging visas, 35
+   taxed element, 45 untaxed, tax-free component 0%, the rate follows the visa for
+   ATO-held money, WHM rate in force since 1 July 2017); both 28-day standards and
+   what starts each clock; the $5,000 Certification of Immigration Status threshold
+   with the certified-copies alternative under $5,000; the six-month unclaimed-money
+   transfer and the Australian-account-or-cheque payment limit on ATO-held super;
+   DASP as a final tax, non-assessable non-exempt, never in a return; the
+   withholding-error refund split (fund must action a request made before the end of
+   the financial year the tax was withheld, ATO in writing after, ss 18-65/18-70
+   Sch 1 TAA); NAT 7204's name and fund-direct purpose; TFN optional; NZ citizens
+   excluded from DASP but eligible for the trans-Tasman KiwiSaver transfer; the $150
+   flat fee matches pricing.html. ONE stated figure was wrong: dasp-processing-time
+   gave the overseas line's 8am-5pm AEST hours for BOTH ATO phone lines; the domestic
+   super line 13 10 20 actually runs 8am-6pm weekdays (ATO contact page). Fixed in
+   the body, FAQ JSON-LD and visible FAQ together, date bumped to 20 Oct 2026 and
+   sitemap lastmod to match, on that page only. Also fixed, metadata only, no date
+   bumps: four pages' Article dateModified in JSON-LD had not moved with their 14 Oct
+   visible stamps (dasp-processing-time and claim-super-leaving-australia sat at
+   2026-09-23; how-much and can-i-claim-tax-back at 2026-07-21); each synced to the
+   date its facts last changed. dasp-nat-7204-application-form honestly keeps its
+   13 July date: nothing stated on it has moved. All eight cohort pages are now
+   fully re-verified as of 20 Oct 2026; next-oldest cohort for re-verification is
+   the one refreshed 6 Oct (uk, ireland, germany, france, italy, spain, philippines,
+   brazil, the visa pages, dasp-calculator), due early November.
 5. **Rank tracking**: watch these in Ahrefs/GSC, `dasp`, `dasp online application`,
    `dasp tax calculator`, `withdraw super leaving australia`, `claim superannuation leaving australia`,
    `superannuation refund calculator`. KD is 0–3; expect movement within weeks of indexing.
@@ -225,6 +256,18 @@ contexts (per James's positioning call). Honesty is the differentiator against p
     (positions 2 and 3 went to SERP features). Forums and help-desk pages holding half the
     top 10 is exactly the SERP a purpose-built money page beats; still no agent of any kind
     present. Re-check both again next run.
+    **Re-checked 20 Oct 2026 (Ahrefs SERP overview, AU).** daspa.com.au is in neither
+    top 10. `dasp online application`: Ahrefs still serves the 7 Sep 2026 SERP, the
+    third run in a row, so nothing after the GSC indexing requests is visible here;
+    the top 10 reads as before (ATO portal 1, ATO DASP page 2, AustralianSuper 3,
+    ART 5, the 2014 PDF 6, an AI Overview at 7, ATO portal variant 8, HESTA 9,
+    Hostplus 10). `withdraw super leaving australia`: Ahrefs serves the same
+    12 Oct 2026 SERP as the last check (Netwealth help desk 1, AI Overview 2,
+    ATO community threads 4, 5 and 10, Reddit 6, a Facebook post 7, a small industry
+    fund 8, ATO payment-summary instructions 9). Read unchanged: churny, forum-heavy,
+    no agent anywhere, exactly the SERP a purpose-built money page beats once
+    indexed. If the `dasp online application` SERP is still the 7 Sep crawl next
+    run, stop waiting on Ahrefs and read position from GSC instead.
 11. **Per-fund pages: demand-checked 29 Sep 2026, and the answer is ONE page, not a set.**
     The competitor-style "claim your REST/HESTA/AMP super" roadmap idea does not survive
     contact with the data. Ahrefs on fund + DASP phrasings (AU):
