@@ -225,9 +225,12 @@ contexts (per James's positioning call). Honesty is the differentiator against p
    than the language set, and carries no translation risk. It is the one country page that
    leads with **35%, not 65%**: Home Affairs caps the Work and Holiday (462) arrangement with
    Brazil at 500 grants a year, so most Brazilians who worked here were on a student 500 or a
-   skilled 482. That also makes the six-month ATO transfer cost them far more than it costs a
-   European backpacker, because it takes them from 35% to 65% rather than 65% to 65%.
-   Still unexplored: India 150/mo and Indonesia 90/mo, both with no page.
+   skilled 482. (An earlier version of this note claimed the six-month ATO transfer takes a
+   non-WHM claimant from 35% to 65% — that was WRONG and was corrected site-wide on 14 Oct
+   2026, PRs #36/#37: the rate follows the visa held, and ATO-held super keeps the same rate.
+   The real transfer cost is lost fund returns and the AU-account/cheque-only payment route.)
+   India (PR #14) and Indonesia (PR #15) have since shipped — no country gaps remain; see
+   roadmap item 11 for the fund-page demand table.
 8. **Question posts** feeding the guide: "how much is super taxed when leaving Australia",
    "can I claim tax back on super withdrawal", "DASP processing time 2026", one page per
    question cluster, answer-first, interlinked.
