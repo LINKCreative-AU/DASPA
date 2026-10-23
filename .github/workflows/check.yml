@@ -24,6 +24,18 @@ jobs:
       - name: Pre-flight checks
         run: python scripts/check.py
 
+      # The page audit from the Online Services kit: schema parses, FAQ text
+      # matches what the page shows, og tags mirror their meta twins, favicon,
+      # canonical, H1, alt text, title and description length bands.
+      - name: Page audit
+        run: node scripts/audit.mjs
+
+      # FAQPage is generated from each page's visible <details>. Without this
+      # the 30 drifted entries fixed on 23 October 2026 can come straight back,
+      # because nothing else compares the two.
+      - name: FAQ schema matches the page
+        run: node scripts/sync-faq-schema.mjs --check
+
       # The webhook's refund and dispute branches cannot be reached by clicking
       # through the site, so they are only ever covered here.
       - name: Webhook tests

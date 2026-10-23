@@ -38,7 +38,12 @@ for (const f of files) {
        7), and flagging them every run trains people to ignore the audit. */
     if (!graph.length && !noindex) E('no @graph');
 
-    const faqNode = graph.find(n => n['@type'] === 'FAQPage');
+    /* Bare or in a graph. Nine pages here carry a top-level FAQPage object
+       with no @graph, and looking only inside the graph meant their FAQ text
+       was never compared against the page at all. That is how six of them
+       came to declare questions the page does not show. */
+    const faqNode = graph.find(n => n['@type'] === 'FAQPage')
+      || (data['@type'] === 'FAQPage' ? data : null);
     const visible = [];
     /* Whitespace-tolerant on purpose. abnassist ships its <details> minified
        onto one line, DASPA pretty-prints them, and a regex written against the
@@ -50,6 +55,14 @@ for (const f of files) {
     while ((m = re.exec(h))) visible.push([decode(m[1]), decode(stripSrc(m[2])).replace(/\s+/g, ' ')]);
 
     if (visible.length && !faqNode && !noindex) E(`${visible.length} <details> but no FAQPage`);
+    /* A FAQPage node is compared wherever it is found, noindex or not. The
+       noindex exemption above is about not DEMANDING schema on a page that is
+       not indexed. It is not licence for schema that is already there to
+       describe content the page does not have: six of the nine language pages
+       carry 3 or 4 questions against zero <details>, and they are scheduled to
+       come out of noindex once a native reader signs off. Hidden by the
+       exemption until 23 October 2026. */
+    if (faqNode && !visible.length) E(`FAQPage declares ${faqNode.mainEntity.length} question(s) and the page shows none`);
     if (faqNode) {
       const s = faqNode.mainEntity.map(q => [q.name, q.acceptedAnswer.text]);
       if (s.length !== visible.length) E(`FAQ count schema ${s.length} vs visible ${visible.length}`);

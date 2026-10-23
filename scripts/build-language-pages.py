@@ -43,7 +43,13 @@ with open(SRC, encoding="utf-8", newline="") as fh:
 HEADER = re.search(r'<header class="site">.*?</header>', tpl, re.S).group(0)
 FOOTER = re.search(r'<footer class="site">.*?</footer>', tpl, re.S).group(0)
 TAIL = re.search(r'</footer>\s*(.*?)</body>', tpl, re.S).group(1).strip()
-ICON = re.search(r'<link rel="icon"[^>]*>', tpl).group(0)
+# The whole favicon block, not just the first line of it. The site moved from
+# a single inline data: URI to four links (ico, svg, 192 png, apple-touch) on
+# 23 October 2026, and a regex matching one <link rel="icon"> silently kept the
+# .ico and dropped the rest, so regenerating quietly undid the fix on all nine
+# language pages. Matches the run of icon links wherever it starts.
+ICON = re.search(
+    r'(?:<link rel="(?:icon|apple-touch-icon)"[^>]*>\s*)+', tpl).group(0).strip()
 PRELOAD = re.search(r'<link rel="preload"[^>]*>', tpl).group(0)
 
 # ---------------------------------------------------------------------------
@@ -558,6 +564,38 @@ def jstr(s):
     return '"%s"' % s.replace("\\", "\\\\").replace('"', '\\"')
 
 
+DETAILS_RE = re.compile(
+    r"<details[^>]*>\s*<summary[^>]*>(.*?)</summary>\s*<div[^>]*>(.*?)</div>\s*</details>",
+    re.S)
+
+
+def faq_schema(body, lang):
+    """FAQPage built from the <details> the page renders, or nothing at all.
+
+    Returning an empty string where there are no questions is the point. The
+    old template emitted a FAQPage unconditionally, so six pages shipped
+    structured data describing questions a reader could not see. Schema that
+    does not match the page is worse than no schema: it is the thing Google
+    issues manual actions for, and these pages are queued to come out of
+    noindex once a native reader signs the copy off.
+    """
+    def plain(s):
+        return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", s)).strip()
+
+    qs = [(plain(q), plain(a)) for q, a in DETAILS_RE.findall(body)]
+    qs = [(q, a) for q, a in qs if q and a]
+    if not qs:
+        return ""
+
+    items = ",\n".join(
+        '  {\n   "@type": "Question",\n   "name": %s,\n'
+        '   "acceptedAnswer": { "@type": "Answer", "text": %s }\n  }' % (jstr(q), jstr(a))
+        for q, a in qs)
+    return ('<script type="application/ld+json">\n{\n "@context": "https://schema.org",\n'
+            ' "@type": "FAQPage",\n "inLanguage": "%s",\n "mainEntity": [\n%s\n ]\n}\n</script>\n'
+            % (lang, items))
+
+
 PAYOUT_HEAD = {
     "zh-tw": ("退休金餘額", "打工度假 417 · 462", "其他臨時簽證 482 · 500"),
     "ja": ("残高", "ワーキングホリデー 417 · 462", "その他の一時滞在ビザ 482 · 500"),
@@ -619,17 +657,7 @@ TEMPLATE = """<!DOCTYPE html>
 {icon}
 {preload}
 <link rel="stylesheet" href="/assets/site.css">
-<script type="application/ld+json">
-{{
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "inLanguage": "{lang}",
- "mainEntity": [
-{faq}
- ]
-}}
-</script>
-</head>
+{schema}</head>
 <body>
 {header}
 <section class="page-hero">
@@ -673,15 +701,20 @@ for p in PAGES:
     body = (p["body"]
             .replace("__RATE_TABLE__", rate_table(lang))
             .replace("__PAYOUT_TABLE__", payout_table(PAYOUT_HEAD[lang])))
-    faq = ",\n".join(
-        '  {\n   "@type": "Question",\n   "name": %s,\n   "acceptedAnswer": { "@type": "Answer", "text": %s }\n  }'
-        % (jstr(q), jstr(a)) for q, a in p["faq"])
+    # FAQPage is built from the <details> this page actually renders, never
+    # from p["faq"]. Those were two independent sources and they drifted in
+    # every direction: ja, ja-calculator, ja-refund, zh-tw, zh-tw-apply and
+    # zh-tw-calculator each declared 3 or 4 questions with no <details> on the
+    # page at all, and ja-faq, ko and zh-tw-faq declared 4 against 15, 7 and
+    # 15. Nobody saw it because the pages are noindex, and they are scheduled
+    # to come out of noindex after native sign-off.
+    schema = faq_schema(body, meta["lang"])
     cta_h, cta_p, cta_btn = CTA[lang]
 
     html = TEMPLATE.format(
         slug=p["slug"], lang=meta["lang"], locale=meta["locale"], title=p["title"],
         desc=p["desc"], ogt=p["title"].replace(" | DASPA", ""),
-        hreflang=hreflang_for(p), icon=ICON, preload=PRELOAD, faq=faq,
+        hreflang=hreflang_for(p), icon=ICON, preload=PRELOAD, schema=schema,
         header=HEADER, footer=FOOTER, tail=TAIL, crumb=meta["crumb"], nav=nav,
         h1=p["h1"], sub=p["sub"], body=body, governs=GOVERNS[lang],
         cta_h=cta_h, cta_p=cta_p, cta_btn=cta_btn)
@@ -702,9 +735,14 @@ LANDING.append('<link rel="alternate" hreflang="x-default" href="https://daspa.c
 home = os.path.join(ROOT, "index.html")
 with open(home, encoding="utf-8", newline="") as fh:
     t = fh.read()
-t2 = re.sub(r'\n<link rel="alternate" hreflang="[^"]*" href="[^"]*">', "", t)
+# Strip and rewrite using the file's own line endings. The regex used to match
+# "\n<link ...>" only, so on a CRLF homepage it removed the \n and left the \r
+# behind: five orphan carriage returns accumulated on the canonical line, one
+# per hreflang, every time this ran.
+eol = "\r\n" if "\r\n" in t else "\n"
+t2 = re.sub(r'\r?\n<link rel="alternate" hreflang="[^"]*" href="[^"]*">', "", t)
 m = re.search(r'<link rel="canonical"[^>]*>', t2)
-t2 = t2[:m.end()] + "\n" + "\n".join(LANDING) + t2[m.end():]
+t2 = t2[:m.end()] + eol + eol.join(LANDING) + t2[m.end():]
 if t2 != t:
     with open(home, "w", encoding="utf-8", newline="") as fh:
         fh.write(t2)
