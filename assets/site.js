@@ -157,7 +157,7 @@ function initQuiz() {
   }
 
   function showFail(f) {
-    var html = '<div class="result fail"><div class="qnum">Our honest answer</div><h3>' + f.title + '</h3><p>' + f.body + '</p>';
+    var html = '<div class="result fail"><div class="qnum">Our answer</div><h3>' + f.title + '</h3><p>' + f.body + '</p>';
     if (f.cta) html += '<a class="btn" href="' + f.cta.href + '">' + f.cta.label + '</a> ';
     html += '<a class="btn ghost" href="#" data-wa>Ask us on WhatsApp</a>' +
       '<p style="margin-top:14px"><button type="button" class="q-back">← Start the check again</button></p></div>';
