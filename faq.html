@@ -26,127 +26,148 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
+ "@graph": [
   {
-   "@type": "Question",
-   "name": "Can I do this myself for free?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes. The ATO provides a free DASP online application system at ato.gov.au and you’re welcome to use it. The tax outcome is identical. People hire us to find every account (including ATO-held money), avoid certified-document runarounds from overseas, fix rejections, and have a registered agent handle everything for a flat $150. Our full honest comparison is at /can-i-claim-my-super-myself-for-free."
-   }
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "DASP Questions",
+     "item": "https://daspa.com.au/faq"
+    }
+   ]
   },
   {
-   "@type": "Question",
-   "name": "What exactly is a DASP?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "A Departing Australia Superannuation Payment, the legal mechanism for former temporary visa holders to withdraw their entire super balance after leaving Australia, once their visa has expired or been cancelled. It’s paid by your fund (or the ATO for unclaimed money) with tax withheld at legislated rates."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Am I eligible?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Broadly: you held a temporary visa (working holiday, student, skilled and most others), you’ve left Australia, and the visa has expired or been cancelled. Australian and NZ citizens and permanent residents aren’t eligible. Our 60-second check on the homepage walks through it, with honest fail answers."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "How much tax comes out?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "65% if you held a working holiday visa (417/462); 35% on the taxed element (45% on any untaxed element) for other temporary visas. The rate follows the visa you held, even for super already transferred to the ATO as unclaimed money. The rates are legislated; no agent can change them."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "How long does it take?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Our form takes about 5 minutes and identity verification a couple more. We typically lodge within one business day of your ID clearing, and the ATO and funds typically pay within 28 days of a complete application. Complications (name mismatches, fund queries) can add time. Handling them is included."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "I don’t know my super fund. Or how many I have.",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Completely normal, default funds mean most travellers never chose one. We search every fund holding money in your name, plus ATO-held unclaimed super, as part of the flat fee."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Do I need my TFN?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "It’s optional but genuinely helpful, the TFN lets us match every account and any ATO-held money reliably. No TFN? We can still proceed with your passport and visa details."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Can the money be paid outside Australia?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes, to your own account anywhere, via SWIFT/BIC for international banks. The fund or ATO pays you directly; we never hold client money."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "What happens if I never claim?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "About six months after you leave and your visa ends, funds must transfer balances to the ATO as unclaimed super money. It stays yours forever and the tax rate does not change, it still follows the visa you held. What changes: the balance stops earning fund returns, and the ATO pays it only to an Australian bank account in your name or by cheque, which is hard once your Australian account is closed."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Is my identity data safe?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Identity verification is powered by Stripe Identity, a dedicated identity-verification platform, your passport, selfie and biometric checks are processed in their secure environment, not emailed around. Details are in our privacy policy."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Who are you, actually?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "DASPA is operated by Australian Registration Office Pty Ltd (ABN 58 645 964 156), Registered Tax Agent 26076969, the team behind ABN Assist. Verify us any time on the Tax Practitioners Board public register (footer link on every page)."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Is the fee refundable? (Yes, no super, no fee)",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "No super, no fee: if we can’t recover any super for you, or we can’t lodge your claim, the $150 is refunded in full. We only get paid when you do."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Is the fee tax deductible?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Registered tax agent fees for managing your tax affairs are generally deductible, most clients claim it in their final Australian tax return."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Can I claim insurance or other benefits from my old fund too?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "A DASP closes the account and any insurance inside it ends. If you think you have an insurance claim (e.g. for an injury while covered), get advice before lodging the DASP. Message us and we’ll flag the timing considerations honestly."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "What if I might come back to Australia permanently?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Think twice, a DASP permanently withdraws the money, and super held to retirement is taxed far more favourably. We lodge claims; we don’t give financial advice. If PR is a real prospect, talk to a licensed adviser first."
-   }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Can I do this myself for free?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. The ATO provides a free DASP online application system at ato.gov.au and you’re welcome to use it. The tax outcome is identical. People hire us to find every account (including ATO-held money), avoid certified-document runarounds from overseas, fix rejections, and have a registered agent handle everything for a flat $150. Our full honest comparison is at /can-i-claim-my-super-myself-for-free."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What exactly is a DASP?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "A Departing Australia Superannuation Payment, the legal mechanism for former temporary visa holders to withdraw their entire super balance after leaving Australia, once their visa has expired or been cancelled. It’s paid by your fund (or the ATO for unclaimed money) with tax withheld at legislated rates."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Am I eligible?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Broadly: you held a temporary visa (working holiday, student, skilled and most others), you’ve left Australia, and the visa has expired or been cancelled. Australian and NZ citizens and permanent residents aren’t eligible. Our 60-second check on the homepage walks through it, with honest fail answers."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How much tax comes out?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "65% if you held a working holiday visa (417/462); 35% on the taxed element (45% on any untaxed element) for other temporary visas. The rate follows the visa you held, even for super already transferred to the ATO as unclaimed money. The rates are legislated; no agent can change them."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How long does it take?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Our form takes about 5 minutes and identity verification a couple more. We typically lodge within one business day of your ID clearing, and the ATO and funds typically pay within 28 days of a complete application. Complications (name mismatches, fund queries) can add time. Handling them is included."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I don’t know my super fund. Or how many I have.",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Completely normal, default funds mean most travellers never chose one. We search every fund holding money in your name, plus ATO-held unclaimed super, as part of the flat fee."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Do I need my TFN?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "It’s optional but genuinely helpful, the TFN lets us match every account and any ATO-held money reliably. No TFN? We can still proceed with your passport and visa details."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can the money be paid outside Australia?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes, to your own account anywhere, via SWIFT/BIC for international banks. The fund or ATO pays you directly; we never hold client money."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What happens if I never claim?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "About six months after you leave and your visa ends, funds must transfer balances to the ATO as unclaimed super money. It stays yours forever and the tax rate does not change, it still follows the visa you held. What changes: the balance stops earning fund returns, and the ATO pays it only to an Australian bank account in your name or by cheque, which is hard once your Australian account is closed."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is my identity data safe?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Identity verification is powered by Stripe Identity, a dedicated identity-verification platform, your passport, selfie and biometric checks are processed in their secure environment, not emailed around. Details are in our privacy policy."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Who are you, actually?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "DASPA is operated by Australian Registration Office Pty Ltd (ABN 58 645 964 156), Registered Tax Agent 26076969, the team behind ABN Assist. Verify us any time on the Tax Practitioners Board public register (footer link on every page)."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is the fee refundable? (Yes, no super, no fee)",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No super, no fee: if we can’t recover any super for you, or we can’t lodge your claim, the $150 is refunded in full. We only get paid when you do."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is the fee tax deductible?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Registered tax agent fees for managing your tax affairs are generally deductible, most clients claim it in their final Australian tax return."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I claim insurance or other benefits from my old fund too?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "A DASP closes the account and any insurance inside it ends. If you think you have an insurance claim (e.g. for an injury while covered), get advice before lodging the DASP. Message us and we’ll flag the timing considerations honestly."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if I might come back to Australia permanently?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Think twice, a DASP permanently withdraws the money, and super held to retirement is taxed far more favourably. We lodge claims; we don’t give financial advice. If PR is a real prospect, talk to a licensed adviser first."
+     }
+    }
+   ]
   }
  ]
 }

@@ -72,14 +72,22 @@ for (const f of files) {
      and nothing else. */
   const BRAND = ' | DASPA';
   const titleNoBrand = title.endsWith(BRAND) ? title.slice(0, -BRAND.length) : title;
-  if (ogT !== title && ogT !== titleNoBrand) E('og:title is neither <title> nor <title> minus the brand suffix');
-  if (ogD !== desc) E('og:description !== meta description');
+  /* og tags are social-sharing presentation, so they only apply to a page
+     meant to be shared. The five noindex pages here are steps inside a paid
+     flow: /claim, /confirmation, /upload-form, /verify and /verify-id. Two of
+     them handle identity documents, and giving an ID upload page an inviting
+     1200x630 card would be worse than giving it none. Treated as
+     not-applicable, the same way schema already is above. If any of these ever
+     becomes a page we want shared, it needs the full set and this exemption
+     needs revisiting. */
+  if (!noindex && ogT !== title && ogT !== titleNoBrand) E('og:title is neither <title> nor <title> minus the brand suffix');
+  if (!noindex && ogD !== desc) E('og:description !== meta description');
   if (/[<>]/.test(ogT || '') || /[<>]/.test(ogD || '')) E('tag injected into og: attribute');
   if ((h.match(/<link rel="canonical"/g) || []).length !== 1) E('canonical count != 1');
   if (!/<link rel="icon" href="\/favicon\.ico"/.test(h)) E('no favicon.ico link');
   if (/rel="icon" href="data:/.test(h)) E('favicon is an inline data: URI, which Google cannot fetch');
-  if (!/og:image/.test(h)) E('no og:image');
-  if (!/twitter:card/.test(h)) E('no twitter:card');
+  if (!noindex && !/og:image/.test(h)) E('no og:image');
+  if (!noindex && !/twitter:card/.test(h)) E('no twitter:card');
   // Fonts are self-hosted. The preload is what makes that fast: without it the
   // font is only discovered once site.css has been fetched and parsed, which is
   // the request chain self-hosting was meant to remove. Catch a page that loses
@@ -96,7 +104,18 @@ for (const f of files) {
   if (h1s.length !== 1) E(`${h1s.length} H1`);
   // Legal pages legitimately run short ("Privacy Policy."); the importer damage
   // this catches was one-word H1s on indexable content pages.
-  else if (!noindex && h1s[0].split(/\s+/).length < 3) E(`H1 truncated: "${h1s[0]}"`);
+  /* The damage this catches is a WordPress importer that split the heading on
+     its first space, leaving <h1>Do</h1> and <h1>Fuel</h1>. That is always a
+     single word. Two-word headings like "Privacy Policy" and "Terms of
+     Service" are complete titles, and flagging them every run is how a guard
+     gets ignored. One word, or an H1 that is a strict prefix of the title and
+     less than half its length, which is what a real truncation looks like. */
+  else if (!noindex) {
+    const w = h1s[0].split(/\s+/).length;
+    const titlePlain = decode(title).replace(/\s*\|.*$/, '').trim();
+    const looksCut = titlePlain.startsWith(h1s[0]) && h1s[0].length < titlePlain.length / 2;
+    if (w < 2 || looksCut) E(`H1 truncated: "${h1s[0]}"`);
+  }
 
   if (/Posts navigation|Recent Posts|Powered by/.test(h)) E('WordPress carcass in body');
   if (/&amp;(hellip|nbsp|amp|#\d+);/.test(h)) E('double-escaped entity');

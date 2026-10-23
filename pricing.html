@@ -26,39 +26,60 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
+ "@graph": [
   {
-   "@type": "Question",
-   "name": "Are there really no other charges?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "None from us. Your own bank may charge an inbound international transfer fee or apply its exchange rate, that’s between you and your bank; we have no part in it."
-   }
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "DASPA",
+     "item": "https://daspa.com.au/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Pricing",
+     "item": "https://daspa.com.au/pricing"
+    }
+   ]
   },
   {
-   "@type": "Question",
-   "name": "What if you can’t find any super in my name?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "No super, no fee, if our search finds nothing claimable, the $150 is refunded in full. We don’t keep money for lodging nothing."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Is GST charged if I’m overseas?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "No. A DASP can only be claimed once you have left Australia and your visa has ceased, so our service is supplied to someone outside Australia. That makes it a GST-free export, and $150 is the whole fee. Your invoice shows no GST because none is charged."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Do you charge more for multiple funds?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "No. One fee covers every fund plus ATO-held money. Multiple funds is the normal case, not an upsell."
-   }
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Are there really no other charges?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "None from us. Your own bank may charge an inbound international transfer fee or apply its exchange rate, that’s between you and your bank; we have no part in it."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if you can’t find any super in my name?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Then you pay nothing, no super, no fee. We tell you what we found (or didn’t) and refund the $150 in full. We don’t keep money for lodging nothing."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is GST charged if I’m overseas?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. A DASP can only be claimed once you have left Australia and your visa has ceased, so our service is supplied to someone outside Australia. That makes it a GST-free export, and $150 is the whole fee. Your invoice shows no GST because none is charged."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Do you charge more for multiple funds?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. One fee covers every fund plus ATO-held money. Multiple funds is the normal case, not an upsell."
+     }
+    }
+   ]
   }
  ]
 }
