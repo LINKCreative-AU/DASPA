@@ -128,9 +128,9 @@ header.site .btn.start{font-size:13.5px;padding:10px 14px;border-radius:99px;fle
 main.page{padding:34px 0 54px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
 .card + .card{margin-top:16px}
-section.band{padding:44px 0}
-section.band h2,.prose h2{font-size:clamp(21px,4vw,27px);font-weight:700;line-height:1.2;margin-bottom:8px}
-section.band .band-sub{color:var(--muted);font-size:15px;margin-bottom:22px;max-width:620px}
+section.page-band{padding:44px 0}
+section.page-band h2,.prose h2{font-size:clamp(21px,4vw,27px);font-weight:700;line-height:1.2;margin-bottom:8px}
+section.page-band .page-band-sub{color:var(--muted);font-size:15px;margin-bottom:22px;max-width:620px}
 .prose h2{margin:26px 0 8px}
 .prose h3{font-size:18px;font-weight:700;margin:20px 0 6px}
 .prose p{margin-bottom:12px;font-size:15.5px}

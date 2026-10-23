@@ -113,7 +113,7 @@ def card(headline, kicker, path):
 CARDS = {
  "index": ("Left Australia? Your super can come with you.", "Every fund, plus ATO-held super. Flat fee, no super no fee."),
  "dasp-calculator": ("What will you actually get back?", "Payout calculator, balance estimator and the six-month deadline check."),
- "dasp-online-application": ("Apply for your DASP online in five minutes", "Two ways to lodge, compared honestly. No paper forms."),
+ "dasp-online-application": ("Apply for your DASP online in five minutes", "Two ways to lodge, compared. No paper forms."),
  "claim-super-leaving-australia": ("How to claim your super when leaving Australia", "The 2026 guide: eligibility, rates, timing and claiming from abroad."),
  "how-much-is-super-taxed-when-leaving-australia": ("How much is super taxed when you leave?", "The 2026 rate table, worked in dollars, and the trap that raises it."),
  "dasp-processing-time": ("How long does a DASP actually take?", "What starts the clock, what stalls it, and how to chase a slow claim."),
@@ -137,7 +137,7 @@ CARDS = {
  "indonesia": ("Claim your Australian super from Indonesia", "Work and Holiday 462 or student 500: your visa sets the rate."),
  "thailand": ("Claim your Australian super from Thailand", "The Work and Holiday money is still yours, and worth claiming."),
  "malaysia": ("Claim your Australian super from Malaysia", "Student, graduate and skilled visas pay the lower rate."),
- "visa-417": ("Claim your super after a 417 working holiday", "What backpackers have waiting, and an honest word on the rate."),
+ "visa-417": ("Claim your super after a 417 working holiday", "What backpackers have waiting, and a straight word on the rate."),
  "visa-462": ("Claim your super after a 462 work and holiday", "Same rules as the 417, and the same money left behind."),
  "visa-482": ("Claim your super after a 482 skilled visa", "The largest balances, and the most to lose by waiting."),
  "visa-500": ("Claim your super after a student visa", "Part-time job super that students never knew they had."),

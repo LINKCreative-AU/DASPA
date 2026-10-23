@@ -125,7 +125,7 @@ BODY = """<div class="answer-first">
   <li><b>A registered tax agent lodges it.</b> We search every fund plus ATO-held money, prepare the application and chase it through.</li>
   <li><b>The money reaches your account.</b> Paid by the fund or the ATO directly to you, typically within about 28 days of a complete application.</li>
 </ul>
-<p>One flat fee of $150 covers all of it, however many funds you turn out to have, and it is refunded in full if we recover nothing. If your situation is simple, the ATO also runs a free DASP application system you are welcome to use; there is an honest comparison on <a href="/can-i-claim-my-super-myself-for-free">doing it yourself for free</a>.</p>
+<p>One flat fee of $150 covers all of it, however many funds you turn out to have, and it is refunded in full if we recover nothing. If your situation is simple, the ATO also runs a free DASP application system you are welcome to use; there is a full comparison on <a href="/can-i-claim-my-super-myself-for-free">doing it yourself for free</a>.</p>
 
 <h2>Common questions</h2>
 __FAQS__"""
