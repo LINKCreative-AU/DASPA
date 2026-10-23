@@ -31,15 +31,25 @@ for (const f of files) {
     let data;
     try { data = JSON.parse(json); } catch (e) { E(`JSON-LD invalid: ${e.message}`); continue; }
     const graph = data['@graph'] || [];
-    if (!graph.length) E('no @graph');
+    /* A noindexed page is allowed a bare node or no graph at all: it is not
+       going in the index, so the breadcrumb and the rich result buy nothing.
+       DASPA's nine language pages are deliberately noindex until a native
+       reader signs off the copy and validates the target queries (SEO.md item
+       7), and flagging them every run trains people to ignore the audit. */
+    if (!graph.length && !noindex) E('no @graph');
 
     const faqNode = graph.find(n => n['@type'] === 'FAQPage');
     const visible = [];
-    const re = /<details[^>]*><summary[^>]*>([\s\S]*?)<\/summary><div[^>]*>([\s\S]*?)<\/div><\/details>/g;
+    /* Whitespace-tolerant on purpose. abnassist ships its <details> minified
+       onto one line, DASPA pretty-prints them, and a regex written against the
+       first silently matches nothing on the second: the audit then reports
+       "schema 9 vs visible 0" and looks like a rich-results violation when
+       nothing is wrong. Allow the gaps and both sites parse. */
+    const re = /<details[^>]*>\s*<summary[^>]*>([\s\S]*?)<\/summary>\s*<div[^>]*>([\s\S]*?)<\/div>\s*<\/details>/g;
     let m;
     while ((m = re.exec(h))) visible.push([decode(m[1]), decode(stripSrc(m[2])).replace(/\s+/g, ' ')]);
 
-    if (visible.length && !faqNode) E(`${visible.length} <details> but no FAQPage`);
+    if (visible.length && !faqNode && !noindex) E(`${visible.length} <details> but no FAQPage`);
     if (faqNode) {
       const s = faqNode.mainEntity.map(q => [q.name, q.acceptedAnswer.text]);
       if (s.length !== visible.length) E(`FAQ count schema ${s.length} vs visible ${visible.length}`);
