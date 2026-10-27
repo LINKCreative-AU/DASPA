@@ -188,6 +188,32 @@ contexts (per James's positioning call). Honesty is the differentiator against p
    fully re-verified as of 20 Oct 2026; next-oldest cohort for re-verification is
    the one refreshed 6 Oct (uk, ireland, germany, france, italy, spain, philippines,
    brazil, the visa pages, dasp-calculator), due early November.
+   **Refresh run, 27 Oct 2026** (the 6 Oct cohort: uk, ireland, germany, france, italy,
+   spain, philippines, brazil, visa-417/462/482/500, dasp-calculator). Every stated figure
+   re-verified by web search (Home Affairs and ATO still 403 direct fetches and
+   web.archive.org is still unreachable from the workstation, so verification ran on
+   official content surfaced in search plus two independent FX APIs). Verified unchanged:
+   DASP rates (65 WHM / 35 taxed / 45 untaxed / 0 tax-free, rate follows the visa,
+   ATO-held keeps the same rate; no sign of a 2026-27 change); Brazil 462 still capped at
+   500 and STILL PAUSED (Home Affairs caps page as updated 12 Oct 2026: only Brazil and
+   Mongolia paused, 23 countries reopened after the August program-year-rollover pause,
+   so brazil.html's pause claim survives the churn); Spain 462 still age 18 to 30 with an
+   annual quota (3,400) and spain.html still carries no open/paused status claim, correct
+   since Spain's status flipped twice this quarter; 417 age-35 list still includes France
+   and Italy (also UK, Ireland, Canada, Germany, Denmark, Finland, South Korea; the
+   1 July 2026 change made age a validity criterion at lodgement, which no page
+   contradicts); 482 renamed Skills in Demand already handled on visa-482; visa-500's
+   figures are worked examples, not program claims; SG 12% from July 2025 in the
+   calculator; $5,000 certified-ID threshold; six-month rule; both 28-day standards.
+   ONE figure moved: the euro conversions were stale. AUD/EUR is ≈ 0.63 (frankfurter/ECB
+   and open.er-api, both 27 Oct; the ≈ 0.56 recorded on 6 Oct does not match ECB history,
+   which had 0.62 that day, so €1,000 was wrong when written). Fixed: germany, france,
+   italy and spain now say "$1,800 (≈ €1,100)" (was €1,000), and ireland's flat-fee line
+   says "about €95" (was €85, fixed in FAQ JSON-LD and visible text together). Those five
+   pages date-bumped to 27 Oct 2026 and sitemap lastmod to match; uk, philippines, brazil,
+   the four visa pages and dasp-calculator verified unchanged, no date bumps (honest
+   dating). Next-oldest cohort: the 13 Oct set (india, indonesia, thailand, malaysia,
+   australiansuper), due mid-November; the 14 Oct sweep pages follow.
 5. **Rank tracking**: watch these in Ahrefs/GSC, `dasp`, `dasp online application`,
    `dasp tax calculator`, `withdraw super leaving australia`, `claim superannuation leaving australia`,
    `superannuation refund calculator`. KD is 0–3; expect movement within weeks of indexing.
@@ -271,6 +297,28 @@ contexts (per James's positioning call). Honesty is the differentiator against p
     no agent anywhere, exactly the SERP a purpose-built money page beats once
     indexed. If the `dasp online application` SERP is still the 7 Sep crawl next
     run, stop waiting on Ahrefs and read position from GSC instead.
+    **Re-checked 27 Oct 2026, and the GSC fallback finally shows the real picture.**
+    Ahrefs still serves the 7 Sep SERP for `dasp online application` (fourth run in a
+    row) and the 12 Oct SERP for `withdraw super leaving australia` (unchanged read:
+    churny, forum-heavy, no agent anywhere). But the Ahrefs GSC connection for the
+    daspa.com.au project (id 10270064) is live and says: **/dasp-online-application is
+    already on page 1 for `dasp online application`**, average position 8.6 over the
+    last 30 days (425 impressions, 2 clicks), weekly position 7.5 to 10.8 since
+    mid-August, so the stale Ahrefs SERP has been hiding a ranking we already hold.
+    The long tail around it also ranks: `dasp online application system` 10.5 (153
+    impressions), `ato dasp online application` 8.7 (80), `dasp online` 11.6 (73),
+    `dasp online application login` 10.1. Elsewhere: `dasp processing time` position
+    5.1, `find my super free` position 1.1, `how to claim super` 6.25 (36 impressions),
+    `nat 7204 form` 6.2, `dasp application form` 8.6. **`withdraw super leaving
+    australia` has ZERO GSC impressions**, the guide is not surfacing for its head
+    term at all; its cluster shows only stray impressions (`superannuation claim
+    leaving australia` position 2 on one impression). That is the gap to work next:
+    the page ranks for nothing it was built for while lower-priority pages rank top 10.
+    Emerging queries checked for a page opportunity: `dasp licensing/licence/license`
+    (~440 impressions combined, position 50+) is the Defence Aviation Safety Program
+    crowd, off-intent, do not chase. No demand-backed new-page opportunity this run;
+    the next lever is CTR (position 8.6 is earning 0.5% CTR on the money term, title
+    and meta description are the live levers) and the guide's non-ranking.
 11. **Per-fund pages: demand-checked 29 Sep 2026, and the answer is ONE page, not a set.**
     The competitor-style "claim your REST/HESTA/AMP super" roadmap idea does not survive
     contact with the data. Ahrefs on fund + DASP phrasings (AU):
