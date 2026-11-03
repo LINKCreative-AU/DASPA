@@ -214,6 +214,49 @@ contexts (per James's positioning call). Honesty is the differentiator against p
    the four visa pages and dasp-calculator verified unchanged, no date bumps (honest
    dating). Next-oldest cohort: the 13 Oct set (india, indonesia, thailand, malaysia,
    australiansuper), due mid-November; the 14 Oct sweep pages follow.
+   **Queue run, 3 Nov 2026** (the two jobs recorded 27 Oct).
+   **(a) /claim-super-leaving-australia's zero visibility is an INDEXING problem, not an
+   intent mismatch, so its copy was deliberately NOT touched.** The GSC data
+   (Ahrefs GSC connection, project 10270064) shows the page with zero impressions for ANY
+   query over the site's entire history (13 Jul to 2 Nov 2026): it does not appear in the
+   GSC pages table at all, while even /terms (12 impressions) and /brazil (1) do. A page
+   that had been indexed for four months would have recorded at least stray impressions.
+   Everything we control checks out clean (verified 3 Nov against the live site): no
+   noindex in the page or in an X-Robots-Tag header, canonical self-referencing,
+   robots.txt $-anchored so `Disallow: /claim$` does not catch it, listed in sitemap.xml,
+   44 pages link to it internally, and the URL serves 200 on Vercel. Conclusion: Google
+   has either never indexed the URL or has folded it into another URL as its chosen
+   canonical; only GSC's URL Inspection can say which, and no title rewrite fixes a page
+   that is not in the index (it would only reset the freshness clock for nothing).
+   **JAMES, GSC action: URL Inspection on
+   https://daspa.com.au/claim-super-leaving-australia, read the verdict (expect
+   "Crawled - currently not indexed", "Discovered - currently not indexed" or
+   "Duplicate, Google chose different canonical"), hit Request indexing, and note the
+   verdict in this file.** If the verdict is the duplicate one, the chosen canonical it
+   names decides the next move; bring that to the next run before anyone edits the page.
+   **(b) CTR pass on /dasp-online-application shipped** (position 8.6, 425 impressions,
+   0.5% CTR over the prior 30 days; title and meta are the live levers at that position).
+   Title: "DASP Online Application: How to Apply | DASPA" became
+   "DASP Online Application: Lodged for You, Flat $150 | DASPA" (58 chars; the SERP is
+   the ATO portal, the ATO DASP page and super funds, none of which show a price or a
+   done-for-you, so the flat fee is the one differentiator a snippet can carry).
+   Meta description became "Lodge your DASP online application in about 5 minutes: a
+   registered tax agent finds every fund, lodges and chases the claim for a flat $150,
+   no super, no fee." (158 chars, names the job, promises what the SERP cannot show,
+   answers nothing). og:title and og:description moved with them; every claim in both
+   is already on the page (5 minutes, all-funds search, agent lodges, $150 flat,
+   refunded in full if no super is recovered). H1 unchanged, so the OG card headline
+   (set separately in scripts/build-og.py) did not need regenerating. Title/meta count
+   as substance: "Last updated" bumped to 3 November 2026 and sitemap lastmod to match,
+   on that page only. Measure CTR against the 0.5% baseline in two to three weeks.
+   Emerging, noted not started: `dasp calculator` and `dasp tax calculator` impressions
+   now land on /how-much-is-super-taxed-when-leaving-australia as top URL, not
+   /dasp-calculator (which logged only 96 impressions in four months, top keyword
+   "daspa"), possible cannibalisation or a second weakly-indexed page, check
+   /dasp-calculator in URL Inspection while in GSC; and `tax on departing australia
+   superannuation payment` (147 impressions at position 81) is a phrasing the how-much
+   page could own once it climbs. The `dasp licensing/licence` crowd (660+ impressions,
+   position 57+) remains the off-intent Defence Aviation crowd, still do not chase.
 5. **Rank tracking**: watch these in Ahrefs/GSC, `dasp`, `dasp online application`,
    `dasp tax calculator`, `withdraw super leaving australia`, `claim superannuation leaving australia`,
    `superannuation refund calculator`. KD is 0–3; expect movement within weeks of indexing.
@@ -319,6 +362,10 @@ contexts (per James's positioning call). Honesty is the differentiator against p
     crowd, off-intent, do not chase. No demand-backed new-page opportunity this run;
     the next lever is CTR (position 8.6 is earning 0.5% CTR on the money term, title
     and meta description are the live levers) and the guide's non-ranking.
+    **Both worked 3 Nov 2026, see the queue run under item 4:** the guide's
+    non-ranking diagnosed as an indexing problem (zero GSC impressions for any query,
+    ever; James has a URL Inspection action), and the CTR title/meta pass shipped on
+    /dasp-online-application.
 11. **Per-fund pages: demand-checked 29 Sep 2026, and the answer is ONE page, not a set.**
     The competitor-style "claim your REST/HESTA/AMP super" roadmap idea does not survive
     contact with the data. Ahrefs on fund + DASP phrasings (AU):
