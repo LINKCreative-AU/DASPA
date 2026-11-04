@@ -9,6 +9,23 @@ const db = require('./_lib/supabase');
 const email = require('./_lib/email');
 const { stripeHeaders } = require('./_lib/stripe');
 const { clientIp } = require('./_lib/guard');
+const { sanctioned } = require('./_lib/manual-only');
+
+/* Online claims are for adults. Decided 4 November 2026: Australia has no
+   single minimum working age (each state sets its own), Stripe Identity cannot
+   verify anyone under 16, under-18s only earn super guarantee in weeks they
+   work more than 30 hours for one employer, and a minor giving a tax agent
+   written authority to act is a question nobody needs to answer at checkout.
+   Under-18s are pointed to the team instead. claim.html enforces the same. */
+const MIN_AGE = 18;
+function ageOn(dob, now) {
+  const d = new Date(`${String(dob).slice(0, 10)}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return Infinity; // unreadable: let the team see it, do not block on it
+  let age = now.getUTCFullYear() - d.getUTCFullYear();
+  const m = now.getUTCMonth() - d.getUTCMonth();
+  if (m < 0 || (m === 0 && now.getUTCDate() < d.getUTCDate())) age--;
+  return age;
+}
 
 /* Where Vercel's edge thinks this request came from, as a two-letter ISO 3166-1
    code. https://vercel.com/docs/headers/request-headers
@@ -62,6 +79,17 @@ module.exports = async (req, res) => {
     const claim = await db.getClaim(claimId);
     if (!claim) return res.status(404).json({ error: 'claim not found' });
     if (claim.payment_status === 'paid') return res.status(409).json({ error: 'already paid' });
+
+    /* The form blocks both of these before the row is written, but the row is
+       written straight to Supabase from the browser, so the form is not the
+       control. This is: no Checkout Session, so no charge, for a claimant we
+       could never complete. */
+    if (sanctioned(claim.passport_country)) {
+      return res.status(403).json({ error: 'We cannot take a claim for this passport country.', reason: 'country_not_supported' });
+    }
+    if (claim.date_of_birth && ageOn(claim.date_of_birth, new Date()) < MIN_AGE) {
+      return res.status(403).json({ error: `Online claims are for people aged ${MIN_AGE} and over.`, reason: 'under_age' });
+    }
 
     const firstAttempt = !claim.stripe_session_id;
 

@@ -50,8 +50,8 @@
             <input type="text" id="other_names" name="other_names"></div>
           <div class="row2">
             <div class="field"><label for="date_of_birth">Date of birth</label>
-              <input type="date" id="date_of_birth" name="date_of_birth" autocomplete="bday" required>
-              <div class="err">Please enter your date of birth.</div></div>
+              <input type="date" id="date_of_birth" name="date_of_birth" autocomplete="bday" min="1920-01-01" required>
+              <div class="err" id="dob-err">Please enter your date of birth.</div></div>
             <div class="field"><label for="phone">Phone <span class="why">with country code, e.g. +44…</span></label>
               <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+44 7… " required>
               <div class="err">Please enter your phone number including country code.</div></div>
@@ -68,11 +68,261 @@
               <input type="text" id="passport_number" name="passport_number" autocapitalize="characters" required>
               <div class="err">Please enter your passport number.</div></div>
             <div class="field"><label for="passport_country">Country of issue</label>
-              <input type="text" id="passport_country" name="passport_country" autocomplete="country-name" required>
-              <div class="err">Please enter the country that issued your passport.</div></div>
+              <select id="passport_country" name="passport_country" autocomplete="country-name" required>
+                <option value="">Choose…</option>
+                <option value="Afghanistan" data-cc="AF">Afghanistan</option>
+                <option value="Åland Islands" data-cc="AX">Åland Islands</option>
+                <option value="Albania" data-cc="AL">Albania</option>
+                <option value="Algeria" data-cc="DZ">Algeria</option>
+                <option value="American Samoa" data-cc="AS">American Samoa</option>
+                <option value="Andorra" data-cc="AD">Andorra</option>
+                <option value="Angola" data-cc="AO">Angola</option>
+                <option value="Anguilla" data-cc="AI">Anguilla</option>
+                <option value="Antigua &amp; Barbuda" data-cc="AG">Antigua &amp; Barbuda</option>
+                <option value="Argentina" data-cc="AR">Argentina</option>
+                <option value="Armenia" data-cc="AM">Armenia</option>
+                <option value="Aruba" data-cc="AW">Aruba</option>
+                <option value="Australia" data-cc="AU">Australia</option>
+                <option value="Austria" data-cc="AT">Austria</option>
+                <option value="Azerbaijan" data-cc="AZ">Azerbaijan</option>
+                <option value="Bahamas" data-cc="BS">Bahamas</option>
+                <option value="Bahrain" data-cc="BH">Bahrain</option>
+                <option value="Bangladesh" data-cc="BD">Bangladesh</option>
+                <option value="Barbados" data-cc="BB">Barbados</option>
+                <option value="Belarus" data-cc="BY">Belarus</option>
+                <option value="Belgium" data-cc="BE">Belgium</option>
+                <option value="Belize" data-cc="BZ">Belize</option>
+                <option value="Benin" data-cc="BJ">Benin</option>
+                <option value="Bermuda" data-cc="BM">Bermuda</option>
+                <option value="Bhutan" data-cc="BT">Bhutan</option>
+                <option value="Bolivia" data-cc="BO">Bolivia</option>
+                <option value="Bosnia &amp; Herzegovina" data-cc="BA">Bosnia &amp; Herzegovina</option>
+                <option value="Botswana" data-cc="BW">Botswana</option>
+                <option value="Brazil" data-cc="BR">Brazil</option>
+                <option value="British Virgin Islands" data-cc="VG">British Virgin Islands</option>
+                <option value="Brunei" data-cc="BN">Brunei</option>
+                <option value="Bulgaria" data-cc="BG">Bulgaria</option>
+                <option value="Burkina Faso" data-cc="BF">Burkina Faso</option>
+                <option value="Burundi" data-cc="BI">Burundi</option>
+                <option value="Cambodia" data-cc="KH">Cambodia</option>
+                <option value="Cameroon" data-cc="CM">Cameroon</option>
+                <option value="Canada" data-cc="CA">Canada</option>
+                <option value="Cape Verde" data-cc="CV">Cape Verde</option>
+                <option value="Caribbean Netherlands" data-cc="BQ">Caribbean Netherlands</option>
+                <option value="Cayman Islands" data-cc="KY">Cayman Islands</option>
+                <option value="Central African Republic" data-cc="CF">Central African Republic</option>
+                <option value="Chad" data-cc="TD">Chad</option>
+                <option value="Chile" data-cc="CL">Chile</option>
+                <option value="China" data-cc="CN">China</option>
+                <option value="Christmas Island" data-cc="CX">Christmas Island</option>
+                <option value="Cocos (Keeling) Islands" data-cc="CC">Cocos (Keeling) Islands</option>
+                <option value="Colombia" data-cc="CO">Colombia</option>
+                <option value="Comoros" data-cc="KM">Comoros</option>
+                <option value="Congo - Brazzaville" data-cc="CG">Congo - Brazzaville</option>
+                <option value="Congo - Kinshasa" data-cc="CD">Congo - Kinshasa</option>
+                <option value="Cook Islands" data-cc="CK">Cook Islands</option>
+                <option value="Costa Rica" data-cc="CR">Costa Rica</option>
+                <option value="Côte d’Ivoire" data-cc="CI">Côte d’Ivoire</option>
+                <option value="Croatia" data-cc="HR">Croatia</option>
+                <option value="Cuba" data-cc="CU">Cuba</option>
+                <option value="Curaçao" data-cc="CW">Curaçao</option>
+                <option value="Cyprus" data-cc="CY">Cyprus</option>
+                <option value="Czechia" data-cc="CZ">Czechia</option>
+                <option value="Denmark" data-cc="DK">Denmark</option>
+                <option value="Djibouti" data-cc="DJ">Djibouti</option>
+                <option value="Dominica" data-cc="DM">Dominica</option>
+                <option value="Dominican Republic" data-cc="DO">Dominican Republic</option>
+                <option value="Ecuador" data-cc="EC">Ecuador</option>
+                <option value="Egypt" data-cc="EG">Egypt</option>
+                <option value="El Salvador" data-cc="SV">El Salvador</option>
+                <option value="Equatorial Guinea" data-cc="GQ">Equatorial Guinea</option>
+                <option value="Eritrea" data-cc="ER">Eritrea</option>
+                <option value="Estonia" data-cc="EE">Estonia</option>
+                <option value="Eswatini" data-cc="SZ">Eswatini</option>
+                <option value="Ethiopia" data-cc="ET">Ethiopia</option>
+                <option value="Falkland Islands" data-cc="FK">Falkland Islands</option>
+                <option value="Faroe Islands" data-cc="FO">Faroe Islands</option>
+                <option value="Fiji" data-cc="FJ">Fiji</option>
+                <option value="Finland" data-cc="FI">Finland</option>
+                <option value="France" data-cc="FR">France</option>
+                <option value="French Guiana" data-cc="GF">French Guiana</option>
+                <option value="French Polynesia" data-cc="PF">French Polynesia</option>
+                <option value="Gabon" data-cc="GA">Gabon</option>
+                <option value="Gambia" data-cc="GM">Gambia</option>
+                <option value="Georgia" data-cc="GE">Georgia</option>
+                <option value="Germany" data-cc="DE">Germany</option>
+                <option value="Ghana" data-cc="GH">Ghana</option>
+                <option value="Gibraltar" data-cc="GI">Gibraltar</option>
+                <option value="Greece" data-cc="GR">Greece</option>
+                <option value="Greenland" data-cc="GL">Greenland</option>
+                <option value="Grenada" data-cc="GD">Grenada</option>
+                <option value="Guadeloupe" data-cc="GP">Guadeloupe</option>
+                <option value="Guam" data-cc="GU">Guam</option>
+                <option value="Guatemala" data-cc="GT">Guatemala</option>
+                <option value="Guernsey" data-cc="GG">Guernsey</option>
+                <option value="Guinea" data-cc="GN">Guinea</option>
+                <option value="Guinea-Bissau" data-cc="GW">Guinea-Bissau</option>
+                <option value="Guyana" data-cc="GY">Guyana</option>
+                <option value="Haiti" data-cc="HT">Haiti</option>
+                <option value="Honduras" data-cc="HN">Honduras</option>
+                <option value="Hong Kong SAR China" data-cc="HK">Hong Kong SAR China</option>
+                <option value="Hungary" data-cc="HU">Hungary</option>
+                <option value="Iceland" data-cc="IS">Iceland</option>
+                <option value="India" data-cc="IN">India</option>
+                <option value="Indonesia" data-cc="ID">Indonesia</option>
+                <option value="Iran" data-cc="IR">Iran</option>
+                <option value="Iraq" data-cc="IQ">Iraq</option>
+                <option value="Ireland" data-cc="IE">Ireland</option>
+                <option value="Isle of Man" data-cc="IM">Isle of Man</option>
+                <option value="Israel" data-cc="IL">Israel</option>
+                <option value="Italy" data-cc="IT">Italy</option>
+                <option value="Jamaica" data-cc="JM">Jamaica</option>
+                <option value="Japan" data-cc="JP">Japan</option>
+                <option value="Jersey" data-cc="JE">Jersey</option>
+                <option value="Jordan" data-cc="JO">Jordan</option>
+                <option value="Kazakhstan" data-cc="KZ">Kazakhstan</option>
+                <option value="Kenya" data-cc="KE">Kenya</option>
+                <option value="Kiribati" data-cc="KI">Kiribati</option>
+                <option value="Kosovo" data-cc="XK">Kosovo</option>
+                <option value="Kuwait" data-cc="KW">Kuwait</option>
+                <option value="Kyrgyzstan" data-cc="KG">Kyrgyzstan</option>
+                <option value="Laos" data-cc="LA">Laos</option>
+                <option value="Latvia" data-cc="LV">Latvia</option>
+                <option value="Lebanon" data-cc="LB">Lebanon</option>
+                <option value="Lesotho" data-cc="LS">Lesotho</option>
+                <option value="Liberia" data-cc="LR">Liberia</option>
+                <option value="Libya" data-cc="LY">Libya</option>
+                <option value="Liechtenstein" data-cc="LI">Liechtenstein</option>
+                <option value="Lithuania" data-cc="LT">Lithuania</option>
+                <option value="Luxembourg" data-cc="LU">Luxembourg</option>
+                <option value="Macao SAR China" data-cc="MO">Macao SAR China</option>
+                <option value="Madagascar" data-cc="MG">Madagascar</option>
+                <option value="Malawi" data-cc="MW">Malawi</option>
+                <option value="Malaysia" data-cc="MY">Malaysia</option>
+                <option value="Maldives" data-cc="MV">Maldives</option>
+                <option value="Mali" data-cc="ML">Mali</option>
+                <option value="Malta" data-cc="MT">Malta</option>
+                <option value="Marshall Islands" data-cc="MH">Marshall Islands</option>
+                <option value="Martinique" data-cc="MQ">Martinique</option>
+                <option value="Mauritania" data-cc="MR">Mauritania</option>
+                <option value="Mauritius" data-cc="MU">Mauritius</option>
+                <option value="Mayotte" data-cc="YT">Mayotte</option>
+                <option value="Mexico" data-cc="MX">Mexico</option>
+                <option value="Micronesia" data-cc="FM">Micronesia</option>
+                <option value="Moldova" data-cc="MD">Moldova</option>
+                <option value="Monaco" data-cc="MC">Monaco</option>
+                <option value="Mongolia" data-cc="MN">Mongolia</option>
+                <option value="Montenegro" data-cc="ME">Montenegro</option>
+                <option value="Montserrat" data-cc="MS">Montserrat</option>
+                <option value="Morocco" data-cc="MA">Morocco</option>
+                <option value="Mozambique" data-cc="MZ">Mozambique</option>
+                <option value="Myanmar (Burma)" data-cc="MM">Myanmar (Burma)</option>
+                <option value="Namibia" data-cc="NA">Namibia</option>
+                <option value="Nauru" data-cc="NR">Nauru</option>
+                <option value="Nepal" data-cc="NP">Nepal</option>
+                <option value="Netherlands" data-cc="NL">Netherlands</option>
+                <option value="New Caledonia" data-cc="NC">New Caledonia</option>
+                <option value="New Zealand" data-cc="NZ">New Zealand</option>
+                <option value="Nicaragua" data-cc="NI">Nicaragua</option>
+                <option value="Niger" data-cc="NE">Niger</option>
+                <option value="Nigeria" data-cc="NG">Nigeria</option>
+                <option value="Niue" data-cc="NU">Niue</option>
+                <option value="Norfolk Island" data-cc="NF">Norfolk Island</option>
+                <option value="North Korea" data-cc="KP">North Korea</option>
+                <option value="North Macedonia" data-cc="MK">North Macedonia</option>
+                <option value="Northern Mariana Islands" data-cc="MP">Northern Mariana Islands</option>
+                <option value="Norway" data-cc="NO">Norway</option>
+                <option value="Oman" data-cc="OM">Oman</option>
+                <option value="Pakistan" data-cc="PK">Pakistan</option>
+                <option value="Palau" data-cc="PW">Palau</option>
+                <option value="Palestinian Territories" data-cc="PS">Palestinian Territories</option>
+                <option value="Panama" data-cc="PA">Panama</option>
+                <option value="Papua New Guinea" data-cc="PG">Papua New Guinea</option>
+                <option value="Paraguay" data-cc="PY">Paraguay</option>
+                <option value="Peru" data-cc="PE">Peru</option>
+                <option value="Philippines" data-cc="PH">Philippines</option>
+                <option value="Pitcairn Islands" data-cc="PN">Pitcairn Islands</option>
+                <option value="Poland" data-cc="PL">Poland</option>
+                <option value="Portugal" data-cc="PT">Portugal</option>
+                <option value="Puerto Rico" data-cc="PR">Puerto Rico</option>
+                <option value="Qatar" data-cc="QA">Qatar</option>
+                <option value="Réunion" data-cc="RE">Réunion</option>
+                <option value="Romania" data-cc="RO">Romania</option>
+                <option value="Russia" data-cc="RU">Russia</option>
+                <option value="Rwanda" data-cc="RW">Rwanda</option>
+                <option value="Samoa" data-cc="WS">Samoa</option>
+                <option value="San Marino" data-cc="SM">San Marino</option>
+                <option value="São Tomé &amp; Príncipe" data-cc="ST">São Tomé &amp; Príncipe</option>
+                <option value="Saudi Arabia" data-cc="SA">Saudi Arabia</option>
+                <option value="Senegal" data-cc="SN">Senegal</option>
+                <option value="Serbia" data-cc="RS">Serbia</option>
+                <option value="Seychelles" data-cc="SC">Seychelles</option>
+                <option value="Sierra Leone" data-cc="SL">Sierra Leone</option>
+                <option value="Singapore" data-cc="SG">Singapore</option>
+                <option value="Sint Maarten" data-cc="SX">Sint Maarten</option>
+                <option value="Slovakia" data-cc="SK">Slovakia</option>
+                <option value="Slovenia" data-cc="SI">Slovenia</option>
+                <option value="Solomon Islands" data-cc="SB">Solomon Islands</option>
+                <option value="Somalia" data-cc="SO">Somalia</option>
+                <option value="South Africa" data-cc="ZA">South Africa</option>
+                <option value="South Korea" data-cc="KR">South Korea</option>
+                <option value="South Sudan" data-cc="SS">South Sudan</option>
+                <option value="Spain" data-cc="ES">Spain</option>
+                <option value="Sri Lanka" data-cc="LK">Sri Lanka</option>
+                <option value="St. Barthélemy" data-cc="BL">St. Barthélemy</option>
+                <option value="St. Helena" data-cc="SH">St. Helena</option>
+                <option value="St. Kitts &amp; Nevis" data-cc="KN">St. Kitts &amp; Nevis</option>
+                <option value="St. Lucia" data-cc="LC">St. Lucia</option>
+                <option value="St. Martin" data-cc="MF">St. Martin</option>
+                <option value="St. Pierre &amp; Miquelon" data-cc="PM">St. Pierre &amp; Miquelon</option>
+                <option value="St. Vincent &amp; Grenadines" data-cc="VC">St. Vincent &amp; Grenadines</option>
+                <option value="Sudan" data-cc="SD">Sudan</option>
+                <option value="Suriname" data-cc="SR">Suriname</option>
+                <option value="Sweden" data-cc="SE">Sweden</option>
+                <option value="Switzerland" data-cc="CH">Switzerland</option>
+                <option value="Syria" data-cc="SY">Syria</option>
+                <option value="Taiwan" data-cc="TW">Taiwan</option>
+                <option value="Tajikistan" data-cc="TJ">Tajikistan</option>
+                <option value="Tanzania" data-cc="TZ">Tanzania</option>
+                <option value="Thailand" data-cc="TH">Thailand</option>
+                <option value="Timor-Leste" data-cc="TL">Timor-Leste</option>
+                <option value="Togo" data-cc="TG">Togo</option>
+                <option value="Tokelau" data-cc="TK">Tokelau</option>
+                <option value="Tonga" data-cc="TO">Tonga</option>
+                <option value="Trinidad &amp; Tobago" data-cc="TT">Trinidad &amp; Tobago</option>
+                <option value="Tunisia" data-cc="TN">Tunisia</option>
+                <option value="Türkiye" data-cc="TR">Türkiye</option>
+                <option value="Turkmenistan" data-cc="TM">Turkmenistan</option>
+                <option value="Turks &amp; Caicos Islands" data-cc="TC">Turks &amp; Caicos Islands</option>
+                <option value="Tuvalu" data-cc="TV">Tuvalu</option>
+                <option value="U.S. Outlying Islands" data-cc="UM">U.S. Outlying Islands</option>
+                <option value="U.S. Virgin Islands" data-cc="VI">U.S. Virgin Islands</option>
+                <option value="Uganda" data-cc="UG">Uganda</option>
+                <option value="Ukraine" data-cc="UA">Ukraine</option>
+                <option value="United Arab Emirates" data-cc="AE">United Arab Emirates</option>
+                <option value="United Kingdom" data-cc="GB">United Kingdom</option>
+                <option value="United States" data-cc="US">United States</option>
+                <option value="Uruguay" data-cc="UY">Uruguay</option>
+                <option value="Uzbekistan" data-cc="UZ">Uzbekistan</option>
+                <option value="Vanuatu" data-cc="VU">Vanuatu</option>
+                <option value="Vatican City" data-cc="VA">Vatican City</option>
+                <option value="Venezuela" data-cc="VE">Venezuela</option>
+                <option value="Vietnam" data-cc="VN">Vietnam</option>
+                <option value="Wallis &amp; Futuna" data-cc="WF">Wallis &amp; Futuna</option>
+                <option value="Western Sahara" data-cc="EH">Western Sahara</option>
+                <option value="Yemen" data-cc="YE">Yemen</option>
+                <option value="Zambia" data-cc="ZM">Zambia</option>
+                <option value="Zimbabwe" data-cc="ZW">Zimbabwe</option>
+              </select>
+              <div class="err" id="passport-country-err">Please choose the country that issued your passport.</div></div>
           </div>
+          <!-- Both notes key off data-cc on the chosen option. The rules themselves
+               live in api/_lib/manual-only.js, and create-checkout refuses a
+               sanctioned passport whatever this page does. -->
+          <div class="note hidden" id="passport-manual-note"><b>We'll verify your identity by hand.</b> Our usual identity check (a passport photo and a selfie, run by Stripe) isn't available for passports from your country of issue. Nothing changes for you until after payment: one of our team will then ask for a photo of your passport and confirm your identity personally, at no extra cost.</div>
+          <div class="stop hidden" id="passport-blocked-note"><b>We can't take a claim for this passport online.</b> Sanctions rules mean our payment and identity providers can't serve passports from this country, so please don't continue. You can still claim your super yourself, free, through the ATO's <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">DASP online application</a>.</div>
           <div class="row2">
-            <div class="field"><label for="visa_subclass">Visa you held in Australia</label>
+            <div class="field"><label for="visa_subclass">Your last visa in Australia <span class="why">the one you held when you left</span></label>
               <select id="visa_subclass" name="visa_subclass" required>
                 <option value="">Choose…</option>
                 <option value="417">Working Holiday (417)</option>
@@ -98,17 +348,24 @@
             <div class="err">Please pick the closest answer, “not sure” is fine.</div>
             <div class="note hidden" id="visa-active-note">A DASP can only be paid once the visa has ended. No problem. We'll tell you whether Home Affairs will cancel it on request, which depends on the subclass, and what to do if it will not.</div>
           </div>
-          <!-- Asked separately from the dropdown on purpose. The dropdown records one
-               visa; the ATO checks with Home Affairs whether the client EVER held a 417
-               or 462, and the fund sets the tax rate from that. Someone who arrived on a
-               417 and left on a 482 answers "482" above and "yes" here. -->
-          <div class="field"><label class="lab">Have you <b>ever</b> held a Working Holiday (417) or Work and Holiday (462) visa? <span class="why">at any time, not only your last visa</span></label>
-            <div class="seg">
-              <label><input type="radio" name="whm_ever_held" value="yes" required>Yes</label>
-              <label><input type="radio" name="whm_ever_held" value="no">No</label>
-              <label><input type="radio" name="whm_ever_held" value="unsure">Not sure</label>
+          <!-- The dropdown records one visa. The ATO checks with Home Affairs whether
+               the client EVER held a 417 or 462, and the fund sets the tax rate from
+               that, so the earlier visas matter. Someone who arrived on a 417 and left
+               on a 482 picks 482 above and ticks 417 here. No dates: Home Affairs gives
+               the ATO the visa history, and the ATO's online system does not ask.
+               whm_ever_held is worked out from both answers on submit. -->
+          <div class="field" id="other-visas-field"><label class="lab">Did you hold any <b>other</b> visa in Australia before that? <span class="why">tick all that apply</span></label>
+            <div class="checks">
+              <label class="check"><input type="checkbox" name="other_visas" value="417"><span>Working Holiday (417)</span></label>
+              <label class="check"><input type="checkbox" name="other_visas" value="462"><span>Work and Holiday (462)</span></label>
+              <label class="check"><input type="checkbox" name="other_visas" value="482"><span>Skilled, TSS / Skills in Demand (482)</span></label>
+              <label class="check"><input type="checkbox" name="other_visas" value="500"><span>Student (500)</span></label>
+              <label class="check"><input type="checkbox" name="other_visas" value="485"><span>Temporary Graduate (485)</span></label>
+              <label class="check"><input type="checkbox" name="other_visas" value="other"><span>Another visa</span></label>
+              <label class="check"><input type="checkbox" name="other_visas" value="none" data-only><span><b>No</b>, just the one</span></label>
+              <label class="check"><input type="checkbox" name="other_visas" value="unsure" data-only><span><b>Not sure</b></span></label>
             </div>
-            <div class="err">Please pick one, “not sure” is fine.</div>
+            <div class="err">Please tick at least one, “not sure” is fine.</div>
           </div>
         </fieldset>
 
@@ -120,6 +377,7 @@
               <button type="button" id="tfn-eye" aria-label="Show or hide TFN" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;padding:8px;color:var(--muted)">👁</button>
             </div>
             <div class="err">A TFN is 8–9 digits, or leave it blank.</div></div>
+          <div class="note hidden" id="tfn-missing-note"><b>No TFN? Your claim can take longer.</b> The ATO warns processing may be delayed without one, and we have to find each of your super accounts by other details, so super the ATO already holds for you can be missed. If you can find it on a payslip, tax return or ATO letter, add it here.</div>
           <div class="note">🔒 <b>Your TFN is protected:</b> masked on screen as you type, encrypted in transit (TLS) and encrypted at rest in our secure database. It's optional, but it's the most reliable way to find <b>every</b> account in your name, including super already moved to the ATO, and it's collected under taxation law solely for your claim (see our <a href="/privacy" target="_blank">privacy policy</a>).</div>
         </fieldset>
 
@@ -137,7 +395,8 @@
           </div>
           <div class="field"><label for="employment_history">Where did you work in Australia? <span class="why">employer names and rough dates, one per line</span></label>
             <textarea id="employment_history" name="employment_history" placeholder="e.g. Sunny Farms, Bundaberg, Mar–Aug 2022&#10;City Cafe Pty Ltd, Sydney, Sep 2022–Feb 2023"></textarea>
-            <div class="note">Optional, but it is how your fund confirms an account is yours, especially if you don't know the fund. Business names from your payslips are perfect.</div></div>
+            <div class="err">If you don't know your fund, we need your employers to claim it. Business names and rough dates are enough.</div>
+            <div class="note" id="employment-note">Optional if you know your fund. It is how your fund confirms an account is yours. Business names from your payslips are perfect.</div></div>
         </fieldset>
 
         <fieldset>
@@ -264,6 +523,8 @@
           on a DASP claim.
         </div>
 
+        <div class="stop hidden" id="submit-refused"></div>
+
         <div class="stop hidden" id="submit-error">Something went wrong sending your form. Nothing was charged. Please try again, or <a href="mailto:claims@daspa.com.au">email us at claims@daspa.com.au</a> and a human will sort it.</div>
       </div>
 
@@ -375,12 +636,73 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     document.getElementById('au-prev-fields').classList.toggle('hidden', !auPrevToggle.checked);
   });
 
-  // a 417 or 462 in the dropdown answers the "ever held" question for them
-  document.getElementById('visa_subclass').addEventListener('change', function (e) {
-    if (e.target.value === '417' || e.target.value === '462') {
-      form.querySelector('input[name=whm_ever_held][value=yes]').checked = true;
-    }
+  // other visas: "No" and "Not sure" stand alone, so ticking one clears the rest
+  var otherVisaBoxes = form.querySelectorAll('input[name=other_visas]');
+  otherVisaBoxes.forEach(function (box) {
+    box.addEventListener('change', function () {
+      if (!box.checked) return;
+      otherVisaBoxes.forEach(function (o) {
+        if (o !== box && (box.hasAttribute('data-only') || o.hasAttribute('data-only'))) o.checked = false;
+      });
+    });
   });
+  function otherVisas() {
+    return Array.prototype.map.call(form.querySelectorAll('input[name=other_visas]:checked'), function (b) { return b.value; });
+  }
+  /* Ever held a 417 or 462, which the ATO visa screen reports back from Home
+     Affairs. Yes if either answer names one; not sure if they ticked not sure;
+     otherwise no. */
+  function whmEverHeld() {
+    var all = otherVisas().concat([document.getElementById('visa_subclass').value]);
+    if (all.indexOf('417') !== -1 || all.indexOf('462') !== -1) return 'yes';
+    if (all.indexOf('unsure') !== -1) return 'unsure';
+    return 'no';
+  }
+
+  // date of birth: 18 or over (api/create-checkout.js holds the same line)
+  var MIN_AGE = 18;
+  var dob = document.getElementById('date_of_birth');
+  var today = new Date();
+  var latest = new Date(today.getFullYear() - MIN_AGE, today.getMonth(), today.getDate());
+  dob.max = latest.getFullYear() + '-' + String(latest.getMonth() + 1).padStart(2, '0') + '-' + String(latest.getDate()).padStart(2, '0');
+  function dobProblem() {
+    if (!dob.value) return 'Please enter your date of birth.';
+    if (dob.value > dob.max) return 'Online claims are for people aged ' + MIN_AGE + ' and over. If you are younger, email claims@daspa.com.au and we will help.';
+    if (dob.value < dob.min) return 'Please check the year of your date of birth.';
+    return '';
+  }
+
+  // passport country: manual identity check for some, no claim at all for others
+  var MANUAL_CC = ['CN', 'HK', 'MO', 'RU'];
+  var BLOCKED_CC = ['CU', 'IR', 'KP', 'SY'];
+  var passportCountry = document.getElementById('passport_country');
+  function passportCc() {
+    var o = passportCountry.options[passportCountry.selectedIndex];
+    return (o && o.getAttribute('data-cc')) || '';
+  }
+  passportCountry.addEventListener('change', function () {
+    var cc = passportCc();
+    document.getElementById('passport-manual-note').classList.toggle('hidden', MANUAL_CC.indexOf(cc) === -1);
+    document.getElementById('passport-blocked-note').classList.toggle('hidden', BLOCKED_CC.indexOf(cc) === -1);
+  });
+
+  // no TFN: say what it costs, once they have looked at the field and left it empty
+  var tfnField = document.getElementById('tfn');
+  function tfnNote() {
+    document.getElementById('tfn-missing-note').classList.toggle('hidden', tfnField.value.trim() !== '');
+  }
+  tfnField.addEventListener('blur', tfnNote);
+  tfnField.addEventListener('input', function () { if (tfnField.value.trim()) tfnNote(); });
+
+  // employers become required when the fund is unknown
+  function employmentRequired() {
+    var req = fundUnknown.checked;
+    document.getElementById('employment_history').required = req;
+    document.getElementById('employment-note').textContent = req
+      ? 'Needed because you don\'t know your fund. Your fund uses it to confirm an account is yours. Business names from your payslips are perfect.'
+      : 'Optional if you know your fund. It is how your fund confirms an account is yours. Business names from your payslips are perfect.';
+  }
+  fundUnknown.addEventListener('change', employmentRequired);
 
   // gentle heads-up if visa still active
   form.querySelectorAll('input[name=visa_status]').forEach(function (r) {
@@ -445,7 +767,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     var bad = false;
     form.querySelectorAll('.field.invalid').forEach(function (f) { f.classList.remove('invalid'); });
 
-    form.querySelectorAll('input[required], select[required]').forEach(function (el) {
+    form.querySelectorAll('input[required], select[required], textarea[required]').forEach(function (el) {
       if (el.type === 'checkbox' || el.type === 'radio') return;
       if (setInvalid(el, !el.value.trim())) bad = true;
     });
@@ -455,12 +777,28 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     var tfnDigits = tfn.value.replace(/\D/g, '');
     if (setInvalid(tfn, tfn.value.trim() !== '' && (tfnDigits.length < 8 || tfnDigits.length > 9))) bad = true;
 
-    ['visa_status', 'whm_ever_held'].forEach(function (name) {
-      if (!form.querySelector('input[name=' + name + ']:checked')) {
-        form.querySelector('input[name=' + name + ']').closest('.field').classList.add('invalid');
-        bad = true;
-      }
-    });
+    if (!form.querySelector('input[name=visa_status]:checked')) {
+      form.querySelector('input[name=visa_status]').closest('.field').classList.add('invalid');
+      bad = true;
+    }
+    if (!otherVisas().length) {
+      document.getElementById('other-visas-field').classList.add('invalid');
+      bad = true;
+    }
+
+    var dobMsg = dobProblem();
+    document.getElementById('dob-err').textContent = dobMsg || 'Please enter your date of birth.';
+    if (setInvalid(dob, !!dobMsg)) bad = true;
+
+    // a sanctioned passport cannot go any further; the notice already says why
+    var blocked = BLOCKED_CC.indexOf(passportCc()) !== -1;
+    document.getElementById('passport-country-err').textContent = blocked
+      ? 'We can\'t take a claim for this passport online, see below.'
+      : 'Please choose the country that issued your passport.';
+    if (blocked) {
+      setInvalid(passportCountry, true);
+      bad = true;
+    }
 
     var auPc = document.getElementById('au_address_postcode');
     if (setInvalid(auPc, !/^\d{4}$/.test(auPc.value.trim()))) bad = true;
@@ -492,6 +830,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     document.getElementById('submit-error').classList.add('hidden');
+    document.getElementById('submit-refused').classList.add('hidden');
     if (!validate()) {
       var firstBad = form.querySelector('.field.invalid, .err[style*="block"]');
       if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -531,7 +870,8 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       bank_bsb: intl ? null : v('bank_bsb'),
       bank_address: intl ? v('bank_address') : null,
       bank_currency: intl && v('bank_currency') ? v('bank_currency').trim().toUpperCase() : null,
-      whm_ever_held: form.querySelector('input[name=whm_ever_held]:checked').value,
+      other_visas: otherVisas(),
+      whm_ever_held: whmEverHeld(),
       other_names: v('other_names'),
       employment_history: v('employment_history'),
       au_address_line: v('au_address_line'),
@@ -580,6 +920,17 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
         document.getElementById('payments-closed').classList.remove('hidden');
         btn.disabled = true;
         btn.textContent = 'New claims paused';
+        return;
+      }
+      /* Refused for a reason the client can act on (under 18, or a passport we
+         cannot serve). The form normally catches both first; this covers a
+         form that did not. */
+      if (co.status === 403 && data && (data.reason === 'under_age' || data.reason === 'country_not_supported')) {
+        var sr = document.getElementById('submit-refused');
+        sr.textContent = data.error + ' Nothing has been charged. Email claims@daspa.com.au if you think this is wrong.';
+        sr.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Continue to payment →';
         return;
       }
       if (!co.ok || !data.url) throw new Error(data.error || 'checkout failed');

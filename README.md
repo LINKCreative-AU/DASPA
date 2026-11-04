@@ -44,7 +44,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    `claim.html` and `api/claims-sweep.js` that use it. It adds the fields the
    ATO's DASP intermediary screens ask for and the form did not collect: the
    most recent Australian address (required by the ATO), a previous one, other
-   names, a second overseas address line, "ever held a 417 or 462", employers
+   names, a second overseas address line, the earlier visas and whether any was a 417 or 462, employers
    and dates, and the bank address and currency for an international transfer.
    It restates anon's column-level INSERT grant with the new columns. Deployed
    the other way round, the form 400s for every client and the sweep's redaction

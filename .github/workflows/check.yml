@@ -114,3 +114,9 @@ jobs:
       # on "Stripe is still checking" for three weeks having submitted nothing.
       - name: Verification state tests
         run: node tests/identity-pending-split.mjs
+
+      # Sanctioned passports and under-18s are refused before Stripe is called.
+      # The form blocks both too, but the form writes straight to Supabase, so
+      # this endpoint is the control.
+      - name: Checkout refusals
+        run: node tests/checkout-refusals.mjs

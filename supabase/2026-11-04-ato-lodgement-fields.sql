@@ -19,7 +19,9 @@
 --     to that question, across the client's whole visa history, not only the
 --     last visa. The form's visa dropdown records one visa, so a client who
 --     arrived on a 417 and left on a 482 says "482" and the team cannot tell
---     whether Home Affairs' "never held a WHM visa" is right. If it is wrong
+--     whether Home Affairs' "never held a WHM visa" is right. The form now
+--     asks for the earlier visas as well (other_visas) and stores whether any
+--     of them is a 417 or 462 (whm_ever_held). If Home Affairs' answer is wrong
 --     the ATO says do not submit: the fund sets the tax rate from that answer
 --     (65% for WHM, 35% otherwise on the taxed element), and lodging on visa
 --     information we know to be wrong is a reasonable-care problem for a
@@ -56,6 +58,7 @@ end $$;
 -- ------------------------------------------------------------- 1. columns
 alter table public.claims
   add column if not exists whm_ever_held text,
+  add column if not exists other_visas text[],
   add column if not exists other_names text,
   add column if not exists address_line2 text,
   add column if not exists au_address_line text,
@@ -90,6 +93,10 @@ comment on column public.claims.whm_ever_held is
   'their whole visa history. Compare with the ATO visa screen, which reports '
   'Home Affairs'' answer to the same question. If they disagree, do not '
   'submit: email DASPmail@ato.gov.au.';
+comment on column public.claims.other_visas is
+  'Visas held in Australia before the last one (visa_subclass), as ticked on '
+  'the form: subclass numbers, or other, none, unsure. No dates: Home Affairs '
+  'supplies the visa history to the ATO.';
 comment on column public.claims.au_address_line is
   'Most recent Australian postal address, line 1. Required by the ATO DASP '
   'contact screen together with state and postcode.';
@@ -113,7 +120,7 @@ grant insert (
   bank_type, bank_account_name, bank_name, bank_swift, bank_bsb, bank_account_number,
   address_line, address_city, address_region, address_postcode, address_country,
   authority_accepted_at, identity_consent_at,
-  whm_ever_held, other_names, address_line2,
+  whm_ever_held, other_visas, other_names, address_line2,
   au_address_line, au_address_suburb, au_address_state, au_address_postcode,
   au_prev_address_line, au_prev_address_suburb, au_prev_address_state, au_prev_address_postcode,
   employment_history, bank_address, bank_currency
@@ -127,7 +134,7 @@ begin
 end $$;
 
 -- ------------------------------------------------------------------ 3. check
--- Expect 42 columns, the 28 from before plus the 14 above.
+-- Expect 43 columns, the 28 from before plus the 15 above.
 select count(*) as anon_insert_columns
 from information_schema.column_privileges
 where table_schema = 'public' and table_name = 'claims'

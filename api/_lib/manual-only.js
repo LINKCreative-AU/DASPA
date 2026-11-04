@@ -43,4 +43,32 @@ function manualOnly(country) {
   return MANUAL_ONLY.some((re) => re.test(c));
 }
 
-module.exports = { manualOnly };
+/* Passports we cannot take at all, which is a different thing from manual-only.
+
+   Stripe's Identity use-case terms (docs.stripe.com/identity/use-cases, read
+   4 November 2026) bar verifying anyone linked with Cuba, Iran, North Korea or
+   Syria, and the same countries are on Stripe's restricted list for taking
+   payment, so there is no manual route either: we could not charge the fee.
+   China and Russia are manual-only because Stripe can still take their payment.
+
+   The same terms also name the Crimea, Donetsk and Luhansk regions. A passport
+   country cannot express a region, so those are not caught here; a Ukrainian
+   passport is fine.
+
+   The claim form now picks the country from a list (names from the browser's
+   Intl region names, e.g. "North Korea"), but older rows and any hand-typed
+   value are free text, so this matches spellings rather than one string. */
+const SANCTIONED = [
+  /\bcuba\b/, /\bcub\b/,
+  /\biran\b/, /\birn\b/, /islamic republic of iran/,
+  /\bnorth korea\b/, /\bdprk\b/, /\bprk\b/, /democratic people'?s republic of korea/,
+  /\bsyria\b/, /\bsyrian\b/, /\bsyr\b/,
+];
+
+function sanctioned(country) {
+  const c = String(country || '').toLowerCase().trim();
+  if (!c) return false;
+  return SANCTIONED.some((re) => re.test(c));
+}
+
+module.exports = { manualOnly, sanctioned };
