@@ -322,7 +322,7 @@
           <div class="note hidden" id="passport-manual-note"><b>We'll verify your identity by hand.</b> Our usual identity check (a passport photo and a selfie, run by Stripe) isn't available for passports from your country of issue. Nothing changes for you until after payment: one of our team will then ask for a photo of your passport and confirm your identity personally, at no extra cost.</div>
           <div class="stop hidden" id="passport-blocked-note"><b>We can't take a claim for this passport online.</b> Sanctions rules mean our payment and identity providers can't serve passports from this country, so please don't continue. You can still claim your super yourself, free, through the ATO's <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">DASP online application</a>.</div>
           <div class="row2">
-            <div class="field"><label for="visa_subclass">Your last visa in Australia <span class="why">the one you held when you left</span></label>
+            <div class="field"><label for="visa_subclass">Visa when you left Australia</label>
               <select id="visa_subclass" name="visa_subclass" required>
                 <option value="">Choose…</option>
                 <option value="417">Working Holiday (417)</option>
@@ -372,13 +372,13 @@
         <fieldset>
           <div class="fs-title">Tax file number <span style="text-transform:none;color:var(--muted)">(optional)</span></div>
           <div class="field"><label for="tfn">TFN. Leave blank if you don't have it <span class="why" id="tfn-status" style="float:right;color:var(--green);font-weight:700;transition:opacity .3s;opacity:0">🔒 encrypted</span></label>
-            <div style="position:relative">
-              <input type="password" id="tfn" name="tfn" inputmode="numeric" placeholder="9 digits" autocomplete="off" style="padding-right:52px">
-              <button type="button" id="tfn-eye" aria-label="Show or hide TFN" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;padding:8px;color:var(--muted)">👁</button>
-            </div>
-            <div class="err">A TFN is 8–9 digits, or leave it blank.</div></div>
+            <!-- Plain text, not a password field: the client needs to see the digits
+                 to type them correctly, and a password field makes the browser offer to
+                 save the TFN as a password. -->
+            <input type="text" id="tfn" name="tfn" inputmode="numeric" placeholder="123 456 789" autocomplete="off" spellcheck="false" maxlength="11">
+            <div class="err" id="tfn-err">That doesn't look like a valid TFN. Check each digit, or leave it blank.</div></div>
           <div class="note hidden" id="tfn-missing-note"><b>No TFN? Your claim can take longer.</b> The ATO warns processing may be delayed without one, and we have to find each of your super accounts by other details, so super the ATO already holds for you can be missed. If you can find it on a payslip, tax return or ATO letter, add it here.</div>
-          <div class="note">🔒 <b>Your TFN is protected:</b> masked on screen as you type, encrypted in transit (TLS) and encrypted at rest in our secure database. It's optional, but it's the most reliable way to find <b>every</b> account in your name, including super already moved to the ATO, and it's collected under taxation law solely for your claim (see our <a href="/privacy" target="_blank">privacy policy</a>).</div>
+          <div class="note">🔒 <b>Your TFN is protected:</b> encrypted in transit (TLS) and encrypted at rest in our secure database. It's optional, but it's the most reliable way to find <b>every</b> account in your name, including super already moved to the ATO, and it's collected under taxation law solely for your claim (see our <a href="/privacy" target="_blank">privacy policy</a>).</div>
         </fieldset>
 
         <fieldset>
@@ -391,7 +391,7 @@
               <div class="field"><label for="fund_member_number">Member number <span class="why">if you have it</span></label>
                 <input type="text" id="fund_member_number" name="fund_member_number"></div>
             </div>
-            <div class="note">Know of more than one fund? Enter the main one, we search for all of them anyway.</div>
+            <div class="note">Know of more than one fund? Enter the main one, we search for all of them anyway. If we find others, we'll ask you for their member numbers: funds confirm an account is yours with them, and a claim without one can take longer.</div>
           </div>
           <div class="field"><label for="employment_history">Where did you work in Australia? <span class="why">employer names and rough dates, one per line</span></label>
             <textarea id="employment_history" name="employment_history" placeholder="e.g. Sunny Farms, Bundaberg, Mar–Aug 2022&#10;City Cafe Pty Ltd, Sydney, Sep 2022–Feb 2023"></textarea>
@@ -969,14 +969,12 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     });
   });
 
-  // TFN: masked input with show/hide, plus a live "encrypted" indicator
+  // TFN: shown in groups of three once typed, plus a live "encrypted" indicator
   var tfnInput = document.getElementById('tfn');
-  var tfnEye = document.getElementById('tfn-eye');
   var tfnStatus = document.getElementById('tfn-status');
-  tfnEye.addEventListener('click', function () {
-    var showing = tfnInput.type === 'text';
-    tfnInput.type = showing ? 'password' : 'text';
-    tfnEye.textContent = showing ? '👁' : '🙈';
+  tfnInput.addEventListener('blur', function () {
+    var d = tfnInput.value.replace(/\s/g, '');
+    if (/^\d{9}$/.test(d)) tfnInput.value = d.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
   });
   tfnInput.addEventListener('input', function () {
     tfnStatus.style.opacity = tfnInput.value.trim() ? '1' : '0';
@@ -1017,6 +1015,21 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     document.getElementById('addr-hint').textContent = '';
   }
 
+  /* The TFN check digit: weights 1,4,3,7,5,8,6,9,10, and the weighted sum of a
+     valid 9-digit TFN divides by 11. Not published by the ATO as such, but it is
+     the rule every validator uses, and all four TFNs on file on 4 November 2026
+     passed it. Some older TFNs have 8 digits; their weighting is less certain,
+     so those are checked for length only rather than risk refusing a real one. */
+  function tfnLooksValid(raw) {
+    var d = String(raw).replace(/\s/g, '');
+    if (!/^\d+$/.test(d)) return false;
+    if (d.length === 8) return true;
+    if (d.length !== 9) return false;
+    var w = [1, 4, 3, 7, 5, 8, 6, 9, 10], sum = 0;
+    for (var i = 0; i < 9; i++) sum += w[i] * +d[i];
+    return sum % 11 === 0;
+  }
+
   function setInvalid(el, bad) {
     var f = el.closest('.field');
     if (f) f.classList.toggle('invalid', bad);
@@ -1034,8 +1047,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     var email = document.getElementById('email');
     if (setInvalid(email, !/^\S+@\S+\.\S+$/.test(email.value))) bad = true;
     var tfn = document.getElementById('tfn');
-    var tfnDigits = tfn.value.replace(/\D/g, '');
-    if (setInvalid(tfn, tfn.value.trim() !== '' && (tfnDigits.length < 8 || tfnDigits.length > 9))) bad = true;
+    if (setInvalid(tfn, tfn.value.trim() !== '' && !tfnLooksValid(tfn.value))) bad = true;
 
     if (!form.querySelector('input[name=visa_status]:checked')) {
       form.querySelector('input[name=visa_status]').closest('.field').classList.add('invalid');
@@ -1126,7 +1138,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       visa_subclass: v('visa_subclass'),
       date_departed: v('date_departed'),
       visa_status: form.querySelector('input[name=visa_status]:checked').value,
-      tfn: v('tfn') || null,
+      tfn: (v('tfn') || '').replace(/\s/g, '') || null,
       fund_unknown: fundUnknown.checked,
       fund_name: fundUnknown.checked ? null : v('fund_name'),
       fund_member_number: fundUnknown.checked ? null : v('fund_member_number'),
