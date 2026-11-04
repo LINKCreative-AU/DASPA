@@ -71,6 +71,20 @@ function sanctioned(country) {
   return SANCTIONED.some((re) => re.test(c));
 }
 
+/* Passports whose holders cannot get a DASP at all. A DASP is for former
+   temporary residents; the ATO excludes Australian and New Zealand citizens
+   (and Australian permanent residents) by citizenship, whatever visa a New
+   Zealander lived on. A New Zealander's route is a trans-Tasman transfer to a
+   KiwiSaver provider instead. Decided with Juan, 4 November 2026: both are
+   blocked at the form and refused at checkout. Returns 'AU', 'NZ' or null. */
+function ineligiblePassport(country) {
+  const c = String(country || '').toLowerCase().trim();
+  if (!c) return null;
+  if (/\bnew zealand\b|\baotearoa\b|^nzl?$/.test(c)) return 'NZ';
+  if (/\baustralian?\b|^aus?$/.test(c)) return 'AU';
+  return null;
+}
+
 /* Claim-level versions, checking where the client lives as well as who issued
    the passport. Stripe's wording is "linked directly or indirectly", and a
    French passport holder living in Shanghai is linked with China whatever the
@@ -88,4 +102,4 @@ function why(claim, test) {
 const manualOnlyReason = (claim) => why(claim, manualOnly);
 const sanctionedReason = (claim) => why(claim, sanctioned);
 
-module.exports = { manualOnly, sanctioned, manualOnlyReason, sanctionedReason };
+module.exports = { manualOnly, sanctioned, manualOnlyReason, sanctionedReason, ineligiblePassport };

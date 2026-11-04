@@ -9,7 +9,7 @@ const db = require('./_lib/supabase');
 const email = require('./_lib/email');
 const { stripeHeaders } = require('./_lib/stripe');
 const { clientIp } = require('./_lib/guard');
-const { sanctionedReason } = require('./_lib/manual-only');
+const { sanctionedReason, ineligiblePassport } = require('./_lib/manual-only');
 
 /* Online claims are for adults. Decided 4 November 2026: Australia has no
    single minimum working age (each state sets its own), Stripe Identity cannot
@@ -84,6 +84,15 @@ module.exports = async (req, res) => {
        written straight to Supabase from the browser, so the form is not the
        control. This is: no Checkout Session, so no charge, for a claimant we
        could never complete. */
+    const ineligible = ineligiblePassport(claim.passport_country);
+    if (ineligible) {
+      return res.status(403).json({
+        error: ineligible === 'NZ'
+          ? 'New Zealand citizens cannot claim a DASP. Your Australian super can usually be transferred to a KiwiSaver provider instead.'
+          : 'Australian citizens cannot claim a DASP. It is only for people who were in Australia on a temporary visa.',
+        reason: 'not_eligible',
+      });
+    }
     if (sanctionedReason(claim)) {
       return res.status(403).json({ error: 'We cannot take a claim for this passport or country of residence.', reason: 'country_not_supported' });
     }

@@ -328,6 +328,8 @@
                live in api/_lib/manual-only.js, and create-checkout refuses a
                sanctioned passport whatever this page does. -->
           <div class="note hidden" id="passport-manual-note"><b>We'll verify your identity by hand.</b> Our usual identity check (a passport photo and a selfie, run by Stripe) isn't available for passports from your country of issue. Nothing changes for you until after payment: one of our team will then ask for a photo of your passport and confirm your identity personally, at no extra cost.</div>
+          <div class="stop hidden" id="passport-au-note"><b>Australian citizens can't claim a DASP.</b> It is only for people who were in Australia on a temporary visa, so please don't continue. If you think this is wrong for you, email <a href="mailto:claims@daspa.com.au">claims@daspa.com.au</a> and we'll check.</div>
+          <div class="stop hidden" id="passport-nz-note"><b>New Zealand citizens can't claim a DASP</b>, whatever visa you held in Australia, so please don't continue. Your Australian super can usually be transferred to a KiwiSaver provider instead: see the ATO's <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/foreign-super-funds/trans-tasman-retirement-savings-transfers" target="_blank" rel="noopener">trans-Tasman transfers</a> page.</div>
           <div class="stop hidden" id="passport-blocked-note"><b>We can't take a claim for this passport online.</b> Sanctions rules mean our payment and identity providers can't serve passports from this country, so please don't continue. You can still claim your super yourself, free, through the ATO's <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">DASP online application</a>.</div>
           <div class="row2">
             <div class="field"><label for="visa_subclass">Visa when you left Australia</label>
@@ -939,6 +941,8 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
   // passport country: manual identity check for some, no claim at all for others
   var MANUAL_CC = ['CN', 'HK', 'MO', 'RU'];
   var BLOCKED_CC = ['CU', 'IR', 'KP', 'SY'];
+  // not eligible for a DASP at all (api/_lib/manual-only.js ineligiblePassport)
+  var INELIGIBLE_CC = ['AU', 'NZ'];
   /* Checked for the passport AND the country they live in: Stripe's terms say
      "linked directly or indirectly". Each select shows its own note, and the
      address note stays quiet when the passport note already says the same. */
@@ -955,6 +959,8 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     var aManual = MANUAL_CC.indexOf(a) !== -1, aBlocked = BLOCKED_CC.indexOf(a) !== -1;
     document.getElementById('passport-manual-note').classList.toggle('hidden', !pManual || aBlocked);
     document.getElementById('passport-blocked-note').classList.toggle('hidden', !pBlocked);
+    document.getElementById('passport-au-note').classList.toggle('hidden', p !== 'AU');
+    document.getElementById('passport-nz-note').classList.toggle('hidden', p !== 'NZ');
     document.getElementById('address-manual-note').classList.toggle('hidden', !aManual || pManual || pBlocked);
     document.getElementById('address-blocked-note').classList.toggle('hidden', !aBlocked || pBlocked);
   }
@@ -1084,9 +1090,9 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     if (setInvalid(dob, !!dobMsg)) bad = true;
 
     // a sanctioned passport cannot go any further; the notice already says why
-    var blocked = BLOCKED_CC.indexOf(passportCc()) !== -1;
+    var blocked = BLOCKED_CC.indexOf(passportCc()) !== -1 || INELIGIBLE_CC.indexOf(passportCc()) !== -1;
     document.getElementById('passport-country-err').textContent = blocked
-      ? 'We can\'t take a claim for this passport online, see below.'
+      ? 'We can\'t take a claim for this passport, see below.'
       : 'Please choose the country that issued your passport.';
     if (blocked) {
       setInvalid(passportCountry, true);
@@ -1246,7 +1252,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       /* Refused for a reason the client can act on (under 18, or a passport we
          cannot serve). The form normally catches both first; this covers a
          form that did not. */
-      if (co.status === 403 && data && (data.reason === 'under_age' || data.reason === 'country_not_supported')) {
+      if (co.status === 403 && data && (data.reason === 'under_age' || data.reason === 'country_not_supported' || data.reason === 'not_eligible')) {
         var sr = document.getElementById('submit-refused');
         sr.textContent = data.error + ' Nothing has been charged. Email claims@daspa.com.au if you think this is wrong.';
         sr.classList.remove('hidden');

@@ -5,6 +5,8 @@
 //     the claim row is written straight to Supabase from the browser, so the
 //     form is not the control.
 //   - anyone under 18, decided 4 November 2026 (see MIN_AGE in the handler).
+//   - Australian and New Zealand passports: citizens of either cannot get a
+//     DASP at all, so taking the fee would only mean refunding it.
 //
 // And the two that must NOT be refused: China and Russia are manual-only
 // identity checks, not blocked, and Taiwan is neither.
@@ -78,6 +80,14 @@ for (const c of ['China', 'Russia', 'Hong Kong SAR China', 'Macao SAR China', 'T
   eq(`${c} passport goes through to payment`, r.code, 200);
 }
 
+for (const [c, who] of [['Australia', 'Australian'], ['New Zealand', 'New Zealand']]) {
+  const r = await checkout({ passport_country: c });
+  eq(`${c} passport is refused`, r.code, 403);
+  eq(`${c} refusal says not eligible`, r.payload && r.payload.reason, 'not_eligible');
+  eq(`${c} refusal names the citizenship`, (r.payload.error || '').startsWith(`${who} citizens`), true);
+  eq(`${c} never reaches Stripe`, stripeCalls, 0);
+}
+eq('Austria is not caught by the Australia rule', (await checkout({ passport_country: 'Austria' })).code, 200);
 {
   const r = await checkout({ passport_country: 'Germany', address_country: 'Iran' });
   eq('a German passport living in Iran is refused', r.code, 403);
