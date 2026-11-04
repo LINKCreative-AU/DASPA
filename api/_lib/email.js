@@ -137,6 +137,10 @@ const opsRef = (c) =>
   [`Claim id:  ${c.id}`,
    c.order_number ? `Order:     ${c.order_number}` : null,
    `Name:      ${c.full_name || '(not given)'}`,
+   /* Split as the ATO asks for it, when the claim has the split (from
+      4 November 2026). Older claims only have the line above. */
+   c.family_name ? `  Family:  ${c.family_name}` : null,
+   c.family_name ? `  Given:   ${c.given_names || '(none, single-name passport)'}` : null,
    `Email:     ${c.email || '(not given)'}`,
    c.phone ? `Phone:     ${c.phone}` : null,
    c.date_of_birth ? `Born:      ${c.date_of_birth}` : null,

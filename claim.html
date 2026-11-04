@@ -43,9 +43,17 @@
 
         <fieldset>
           <div class="fs-title">About you</div>
-          <div class="field"><label for="full_name">Full name <span class="why">exactly as in your passport</span></label>
-            <input type="text" id="full_name" name="full_name" autocomplete="name" required>
-            <div class="err">Please enter your full name as shown in your passport.</div></div>
+          <!-- Split the way the ATO's DASP application asks for it. full_name is still
+               saved (given names then family name) because emails, invoices and the
+               team alert all read it. -->
+          <div class="row2">
+            <div class="field"><label for="given_names">Given names <span class="why">first and middle, as in your passport</span></label>
+              <input type="text" id="given_names" name="given_names" autocomplete="given-name">
+              <div class="note" style="margin-top:6px">Only one name in your passport? Leave this blank and put it under family name.</div></div>
+            <div class="field"><label for="family_name">Family name <span class="why">surname, as in your passport</span></label>
+              <input type="text" id="family_name" name="family_name" autocomplete="family-name" required>
+              <div class="err">Please enter your family name exactly as in your passport.</div></div>
+          </div>
           <div class="field"><label for="other_names">Other names you've used <span class="why">optional, e.g. a maiden name or a different spelling at work</span></label>
             <input type="text" id="other_names" name="other_names"></div>
           <div class="row2">
@@ -335,8 +343,8 @@
               </select>
               <div class="err">Please choose the visa you held.</div></div>
             <div class="field"><label for="date_departed">Date you left Australia <span class="why">approximate is fine</span></label>
-              <input type="date" id="date_departed" name="date_departed" required>
-              <div class="err">Please enter (roughly) when you departed.</div></div>
+              <input type="date" id="date_departed" name="date_departed" min="1990-01-01" required>
+              <div class="err" id="departed-err">Please enter (roughly) when you departed.</div></div>
           </div>
           <div class="field"><label class="lab">Has that visa expired or been cancelled?</label>
             <div class="seg">
@@ -472,7 +480,6 @@
                 <option value="Argentina" data-cc="AR">Argentina</option>
                 <option value="Armenia" data-cc="AM">Armenia</option>
                 <option value="Aruba" data-cc="AW">Aruba</option>
-                <option value="Australia" data-cc="AU">Australia</option>
                 <option value="Austria" data-cc="AT">Austria</option>
                 <option value="Azerbaijan" data-cc="AZ">Azerbaijan</option>
                 <option value="Bahamas" data-cc="BS">Bahamas</option>
@@ -912,6 +919,16 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
   var today = new Date();
   var latest = new Date(today.getFullYear() - MIN_AGE, today.getMonth(), today.getDate());
   dob.max = latest.getFullYear() + '-' + String(latest.getMonth() + 1).padStart(2, '0') + '-' + String(latest.getDate()).padStart(2, '0');
+  // departure date: you can only claim once you have left
+  var departed = document.getElementById('date_departed');
+  departed.max = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  function departedProblem() {
+    if (!departed.value) return 'Please enter (roughly) when you departed.';
+    if (departed.value > departed.max) return 'A DASP can only be claimed once you have left Australia. Come back after you leave, or email claims@daspa.com.au if you are leaving soon.';
+    if (departed.value < departed.min) return 'Please check the year you left.';
+    return '';
+  }
+
   function dobProblem() {
     if (!dob.value) return 'Please enter your date of birth.';
     if (dob.value > dob.max) return 'Online claims are for people aged ' + MIN_AGE + ' and over. If you are younger, email claims@daspa.com.au and we will help.';
@@ -1058,6 +1075,10 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       bad = true;
     }
 
+    var depMsg = departedProblem();
+    document.getElementById('departed-err').textContent = depMsg || 'Please enter (roughly) when you departed.';
+    if (setInvalid(departed, !!depMsg)) bad = true;
+
     var dobMsg = dobProblem();
     document.getElementById('dob-err').textContent = dobMsg || 'Please enter your date of birth.';
     if (setInvalid(dob, !!dobMsg)) bad = true;
@@ -1107,6 +1128,24 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     return !bad;
   }
 
+  /* The same checks as on submit, run when the client leaves the field, so a
+     mistyped TFN or an impossible date shows straight away. An empty field is
+     not flagged here; required fields are only enforced on submit. */
+  document.getElementById('tfn').addEventListener('blur', function (e) {
+    var t = e.target;
+    setInvalid(t, t.value.trim() !== '' && !tfnLooksValid(t.value));
+  });
+  dob.addEventListener('blur', function () {
+    var m = dob.value ? dobProblem() : '';
+    if (m) document.getElementById('dob-err').textContent = m;
+    setInvalid(dob, !!m);
+  });
+  departed.addEventListener('blur', function () {
+    var m = departed.value ? departedProblem() : '';
+    if (m) document.getElementById('departed-err').textContent = m;
+    setInvalid(departed, !!m);
+  });
+
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     document.getElementById('submit-error').classList.add('hidden');
@@ -1129,7 +1168,9 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
 
     var record = {
       id: id,
-      full_name: v('full_name'),
+      given_names: (v('given_names') || '').trim() || null,
+      family_name: (v('family_name') || '').trim(),
+      full_name: [v('given_names'), v('family_name')].map(function (x) { return (x || '').trim(); }).filter(Boolean).join(' '),
       date_of_birth: v('date_of_birth'),
       email: v('email'),
       phone: v('phone'),
