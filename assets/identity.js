@@ -130,7 +130,7 @@
       step: 'Step 2: Needs a manual check', kind: 'todo',
       title: 'We will verify your identity by hand',
       paras: [
-        'The automated check cannot be used for documents issued by your country, so one of our team will do it manually instead. This is not a problem with your claim.',
+        'The automated check cannot be used for your passport or the country you live in, so one of our team will do it manually instead. This is not a problem with your claim.',
         'We will email you with what we need and how to send it securely. There is nothing for you to do right now.',
       ],
       after: [mailLine('Rather get started? Email us.', subject('Manual identity verification'))],

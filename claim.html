@@ -458,9 +458,256 @@
             <div class="field"><label for="address_postcode">Postcode / ZIP</label>
               <input type="text" id="address_postcode" name="address_postcode"></div>
             <div class="field"><label for="address_country">Country</label>
-              <input type="text" id="address_country" name="address_country" autocomplete="country-name" required>
-              <div class="err">Please enter the country you're in now.</div></div>
+              <select id="address_country" name="address_country" autocomplete="country-name" required>
+                <option value="">Choose…</option>
+                <option value="Afghanistan" data-cc="AF">Afghanistan</option>
+                <option value="Åland Islands" data-cc="AX">Åland Islands</option>
+                <option value="Albania" data-cc="AL">Albania</option>
+                <option value="Algeria" data-cc="DZ">Algeria</option>
+                <option value="American Samoa" data-cc="AS">American Samoa</option>
+                <option value="Andorra" data-cc="AD">Andorra</option>
+                <option value="Angola" data-cc="AO">Angola</option>
+                <option value="Anguilla" data-cc="AI">Anguilla</option>
+                <option value="Antigua &amp; Barbuda" data-cc="AG">Antigua &amp; Barbuda</option>
+                <option value="Argentina" data-cc="AR">Argentina</option>
+                <option value="Armenia" data-cc="AM">Armenia</option>
+                <option value="Aruba" data-cc="AW">Aruba</option>
+                <option value="Australia" data-cc="AU">Australia</option>
+                <option value="Austria" data-cc="AT">Austria</option>
+                <option value="Azerbaijan" data-cc="AZ">Azerbaijan</option>
+                <option value="Bahamas" data-cc="BS">Bahamas</option>
+                <option value="Bahrain" data-cc="BH">Bahrain</option>
+                <option value="Bangladesh" data-cc="BD">Bangladesh</option>
+                <option value="Barbados" data-cc="BB">Barbados</option>
+                <option value="Belarus" data-cc="BY">Belarus</option>
+                <option value="Belgium" data-cc="BE">Belgium</option>
+                <option value="Belize" data-cc="BZ">Belize</option>
+                <option value="Benin" data-cc="BJ">Benin</option>
+                <option value="Bermuda" data-cc="BM">Bermuda</option>
+                <option value="Bhutan" data-cc="BT">Bhutan</option>
+                <option value="Bolivia" data-cc="BO">Bolivia</option>
+                <option value="Bosnia &amp; Herzegovina" data-cc="BA">Bosnia &amp; Herzegovina</option>
+                <option value="Botswana" data-cc="BW">Botswana</option>
+                <option value="Brazil" data-cc="BR">Brazil</option>
+                <option value="British Virgin Islands" data-cc="VG">British Virgin Islands</option>
+                <option value="Brunei" data-cc="BN">Brunei</option>
+                <option value="Bulgaria" data-cc="BG">Bulgaria</option>
+                <option value="Burkina Faso" data-cc="BF">Burkina Faso</option>
+                <option value="Burundi" data-cc="BI">Burundi</option>
+                <option value="Cambodia" data-cc="KH">Cambodia</option>
+                <option value="Cameroon" data-cc="CM">Cameroon</option>
+                <option value="Canada" data-cc="CA">Canada</option>
+                <option value="Cape Verde" data-cc="CV">Cape Verde</option>
+                <option value="Caribbean Netherlands" data-cc="BQ">Caribbean Netherlands</option>
+                <option value="Cayman Islands" data-cc="KY">Cayman Islands</option>
+                <option value="Central African Republic" data-cc="CF">Central African Republic</option>
+                <option value="Chad" data-cc="TD">Chad</option>
+                <option value="Chile" data-cc="CL">Chile</option>
+                <option value="China" data-cc="CN">China</option>
+                <option value="Christmas Island" data-cc="CX">Christmas Island</option>
+                <option value="Cocos (Keeling) Islands" data-cc="CC">Cocos (Keeling) Islands</option>
+                <option value="Colombia" data-cc="CO">Colombia</option>
+                <option value="Comoros" data-cc="KM">Comoros</option>
+                <option value="Congo - Brazzaville" data-cc="CG">Congo - Brazzaville</option>
+                <option value="Congo - Kinshasa" data-cc="CD">Congo - Kinshasa</option>
+                <option value="Cook Islands" data-cc="CK">Cook Islands</option>
+                <option value="Costa Rica" data-cc="CR">Costa Rica</option>
+                <option value="Côte d’Ivoire" data-cc="CI">Côte d’Ivoire</option>
+                <option value="Croatia" data-cc="HR">Croatia</option>
+                <option value="Cuba" data-cc="CU">Cuba</option>
+                <option value="Curaçao" data-cc="CW">Curaçao</option>
+                <option value="Cyprus" data-cc="CY">Cyprus</option>
+                <option value="Czechia" data-cc="CZ">Czechia</option>
+                <option value="Denmark" data-cc="DK">Denmark</option>
+                <option value="Djibouti" data-cc="DJ">Djibouti</option>
+                <option value="Dominica" data-cc="DM">Dominica</option>
+                <option value="Dominican Republic" data-cc="DO">Dominican Republic</option>
+                <option value="Ecuador" data-cc="EC">Ecuador</option>
+                <option value="Egypt" data-cc="EG">Egypt</option>
+                <option value="El Salvador" data-cc="SV">El Salvador</option>
+                <option value="Equatorial Guinea" data-cc="GQ">Equatorial Guinea</option>
+                <option value="Eritrea" data-cc="ER">Eritrea</option>
+                <option value="Estonia" data-cc="EE">Estonia</option>
+                <option value="Eswatini" data-cc="SZ">Eswatini</option>
+                <option value="Ethiopia" data-cc="ET">Ethiopia</option>
+                <option value="Falkland Islands" data-cc="FK">Falkland Islands</option>
+                <option value="Faroe Islands" data-cc="FO">Faroe Islands</option>
+                <option value="Fiji" data-cc="FJ">Fiji</option>
+                <option value="Finland" data-cc="FI">Finland</option>
+                <option value="France" data-cc="FR">France</option>
+                <option value="French Guiana" data-cc="GF">French Guiana</option>
+                <option value="French Polynesia" data-cc="PF">French Polynesia</option>
+                <option value="Gabon" data-cc="GA">Gabon</option>
+                <option value="Gambia" data-cc="GM">Gambia</option>
+                <option value="Georgia" data-cc="GE">Georgia</option>
+                <option value="Germany" data-cc="DE">Germany</option>
+                <option value="Ghana" data-cc="GH">Ghana</option>
+                <option value="Gibraltar" data-cc="GI">Gibraltar</option>
+                <option value="Greece" data-cc="GR">Greece</option>
+                <option value="Greenland" data-cc="GL">Greenland</option>
+                <option value="Grenada" data-cc="GD">Grenada</option>
+                <option value="Guadeloupe" data-cc="GP">Guadeloupe</option>
+                <option value="Guam" data-cc="GU">Guam</option>
+                <option value="Guatemala" data-cc="GT">Guatemala</option>
+                <option value="Guernsey" data-cc="GG">Guernsey</option>
+                <option value="Guinea" data-cc="GN">Guinea</option>
+                <option value="Guinea-Bissau" data-cc="GW">Guinea-Bissau</option>
+                <option value="Guyana" data-cc="GY">Guyana</option>
+                <option value="Haiti" data-cc="HT">Haiti</option>
+                <option value="Honduras" data-cc="HN">Honduras</option>
+                <option value="Hong Kong SAR China" data-cc="HK">Hong Kong SAR China</option>
+                <option value="Hungary" data-cc="HU">Hungary</option>
+                <option value="Iceland" data-cc="IS">Iceland</option>
+                <option value="India" data-cc="IN">India</option>
+                <option value="Indonesia" data-cc="ID">Indonesia</option>
+                <option value="Iran" data-cc="IR">Iran</option>
+                <option value="Iraq" data-cc="IQ">Iraq</option>
+                <option value="Ireland" data-cc="IE">Ireland</option>
+                <option value="Isle of Man" data-cc="IM">Isle of Man</option>
+                <option value="Israel" data-cc="IL">Israel</option>
+                <option value="Italy" data-cc="IT">Italy</option>
+                <option value="Jamaica" data-cc="JM">Jamaica</option>
+                <option value="Japan" data-cc="JP">Japan</option>
+                <option value="Jersey" data-cc="JE">Jersey</option>
+                <option value="Jordan" data-cc="JO">Jordan</option>
+                <option value="Kazakhstan" data-cc="KZ">Kazakhstan</option>
+                <option value="Kenya" data-cc="KE">Kenya</option>
+                <option value="Kiribati" data-cc="KI">Kiribati</option>
+                <option value="Kosovo" data-cc="XK">Kosovo</option>
+                <option value="Kuwait" data-cc="KW">Kuwait</option>
+                <option value="Kyrgyzstan" data-cc="KG">Kyrgyzstan</option>
+                <option value="Laos" data-cc="LA">Laos</option>
+                <option value="Latvia" data-cc="LV">Latvia</option>
+                <option value="Lebanon" data-cc="LB">Lebanon</option>
+                <option value="Lesotho" data-cc="LS">Lesotho</option>
+                <option value="Liberia" data-cc="LR">Liberia</option>
+                <option value="Libya" data-cc="LY">Libya</option>
+                <option value="Liechtenstein" data-cc="LI">Liechtenstein</option>
+                <option value="Lithuania" data-cc="LT">Lithuania</option>
+                <option value="Luxembourg" data-cc="LU">Luxembourg</option>
+                <option value="Macao SAR China" data-cc="MO">Macao SAR China</option>
+                <option value="Madagascar" data-cc="MG">Madagascar</option>
+                <option value="Malawi" data-cc="MW">Malawi</option>
+                <option value="Malaysia" data-cc="MY">Malaysia</option>
+                <option value="Maldives" data-cc="MV">Maldives</option>
+                <option value="Mali" data-cc="ML">Mali</option>
+                <option value="Malta" data-cc="MT">Malta</option>
+                <option value="Marshall Islands" data-cc="MH">Marshall Islands</option>
+                <option value="Martinique" data-cc="MQ">Martinique</option>
+                <option value="Mauritania" data-cc="MR">Mauritania</option>
+                <option value="Mauritius" data-cc="MU">Mauritius</option>
+                <option value="Mayotte" data-cc="YT">Mayotte</option>
+                <option value="Mexico" data-cc="MX">Mexico</option>
+                <option value="Micronesia" data-cc="FM">Micronesia</option>
+                <option value="Moldova" data-cc="MD">Moldova</option>
+                <option value="Monaco" data-cc="MC">Monaco</option>
+                <option value="Mongolia" data-cc="MN">Mongolia</option>
+                <option value="Montenegro" data-cc="ME">Montenegro</option>
+                <option value="Montserrat" data-cc="MS">Montserrat</option>
+                <option value="Morocco" data-cc="MA">Morocco</option>
+                <option value="Mozambique" data-cc="MZ">Mozambique</option>
+                <option value="Myanmar (Burma)" data-cc="MM">Myanmar (Burma)</option>
+                <option value="Namibia" data-cc="NA">Namibia</option>
+                <option value="Nauru" data-cc="NR">Nauru</option>
+                <option value="Nepal" data-cc="NP">Nepal</option>
+                <option value="Netherlands" data-cc="NL">Netherlands</option>
+                <option value="New Caledonia" data-cc="NC">New Caledonia</option>
+                <option value="New Zealand" data-cc="NZ">New Zealand</option>
+                <option value="Nicaragua" data-cc="NI">Nicaragua</option>
+                <option value="Niger" data-cc="NE">Niger</option>
+                <option value="Nigeria" data-cc="NG">Nigeria</option>
+                <option value="Niue" data-cc="NU">Niue</option>
+                <option value="Norfolk Island" data-cc="NF">Norfolk Island</option>
+                <option value="North Korea" data-cc="KP">North Korea</option>
+                <option value="North Macedonia" data-cc="MK">North Macedonia</option>
+                <option value="Northern Mariana Islands" data-cc="MP">Northern Mariana Islands</option>
+                <option value="Norway" data-cc="NO">Norway</option>
+                <option value="Oman" data-cc="OM">Oman</option>
+                <option value="Pakistan" data-cc="PK">Pakistan</option>
+                <option value="Palau" data-cc="PW">Palau</option>
+                <option value="Palestinian Territories" data-cc="PS">Palestinian Territories</option>
+                <option value="Panama" data-cc="PA">Panama</option>
+                <option value="Papua New Guinea" data-cc="PG">Papua New Guinea</option>
+                <option value="Paraguay" data-cc="PY">Paraguay</option>
+                <option value="Peru" data-cc="PE">Peru</option>
+                <option value="Philippines" data-cc="PH">Philippines</option>
+                <option value="Pitcairn Islands" data-cc="PN">Pitcairn Islands</option>
+                <option value="Poland" data-cc="PL">Poland</option>
+                <option value="Portugal" data-cc="PT">Portugal</option>
+                <option value="Puerto Rico" data-cc="PR">Puerto Rico</option>
+                <option value="Qatar" data-cc="QA">Qatar</option>
+                <option value="Réunion" data-cc="RE">Réunion</option>
+                <option value="Romania" data-cc="RO">Romania</option>
+                <option value="Russia" data-cc="RU">Russia</option>
+                <option value="Rwanda" data-cc="RW">Rwanda</option>
+                <option value="Samoa" data-cc="WS">Samoa</option>
+                <option value="San Marino" data-cc="SM">San Marino</option>
+                <option value="São Tomé &amp; Príncipe" data-cc="ST">São Tomé &amp; Príncipe</option>
+                <option value="Saudi Arabia" data-cc="SA">Saudi Arabia</option>
+                <option value="Senegal" data-cc="SN">Senegal</option>
+                <option value="Serbia" data-cc="RS">Serbia</option>
+                <option value="Seychelles" data-cc="SC">Seychelles</option>
+                <option value="Sierra Leone" data-cc="SL">Sierra Leone</option>
+                <option value="Singapore" data-cc="SG">Singapore</option>
+                <option value="Sint Maarten" data-cc="SX">Sint Maarten</option>
+                <option value="Slovakia" data-cc="SK">Slovakia</option>
+                <option value="Slovenia" data-cc="SI">Slovenia</option>
+                <option value="Solomon Islands" data-cc="SB">Solomon Islands</option>
+                <option value="Somalia" data-cc="SO">Somalia</option>
+                <option value="South Africa" data-cc="ZA">South Africa</option>
+                <option value="South Korea" data-cc="KR">South Korea</option>
+                <option value="South Sudan" data-cc="SS">South Sudan</option>
+                <option value="Spain" data-cc="ES">Spain</option>
+                <option value="Sri Lanka" data-cc="LK">Sri Lanka</option>
+                <option value="St. Barthélemy" data-cc="BL">St. Barthélemy</option>
+                <option value="St. Helena" data-cc="SH">St. Helena</option>
+                <option value="St. Kitts &amp; Nevis" data-cc="KN">St. Kitts &amp; Nevis</option>
+                <option value="St. Lucia" data-cc="LC">St. Lucia</option>
+                <option value="St. Martin" data-cc="MF">St. Martin</option>
+                <option value="St. Pierre &amp; Miquelon" data-cc="PM">St. Pierre &amp; Miquelon</option>
+                <option value="St. Vincent &amp; Grenadines" data-cc="VC">St. Vincent &amp; Grenadines</option>
+                <option value="Sudan" data-cc="SD">Sudan</option>
+                <option value="Suriname" data-cc="SR">Suriname</option>
+                <option value="Sweden" data-cc="SE">Sweden</option>
+                <option value="Switzerland" data-cc="CH">Switzerland</option>
+                <option value="Syria" data-cc="SY">Syria</option>
+                <option value="Taiwan" data-cc="TW">Taiwan</option>
+                <option value="Tajikistan" data-cc="TJ">Tajikistan</option>
+                <option value="Tanzania" data-cc="TZ">Tanzania</option>
+                <option value="Thailand" data-cc="TH">Thailand</option>
+                <option value="Timor-Leste" data-cc="TL">Timor-Leste</option>
+                <option value="Togo" data-cc="TG">Togo</option>
+                <option value="Tokelau" data-cc="TK">Tokelau</option>
+                <option value="Tonga" data-cc="TO">Tonga</option>
+                <option value="Trinidad &amp; Tobago" data-cc="TT">Trinidad &amp; Tobago</option>
+                <option value="Tunisia" data-cc="TN">Tunisia</option>
+                <option value="Türkiye" data-cc="TR">Türkiye</option>
+                <option value="Turkmenistan" data-cc="TM">Turkmenistan</option>
+                <option value="Turks &amp; Caicos Islands" data-cc="TC">Turks &amp; Caicos Islands</option>
+                <option value="Tuvalu" data-cc="TV">Tuvalu</option>
+                <option value="U.S. Outlying Islands" data-cc="UM">U.S. Outlying Islands</option>
+                <option value="U.S. Virgin Islands" data-cc="VI">U.S. Virgin Islands</option>
+                <option value="Uganda" data-cc="UG">Uganda</option>
+                <option value="Ukraine" data-cc="UA">Ukraine</option>
+                <option value="United Arab Emirates" data-cc="AE">United Arab Emirates</option>
+                <option value="United Kingdom" data-cc="GB">United Kingdom</option>
+                <option value="United States" data-cc="US">United States</option>
+                <option value="Uruguay" data-cc="UY">Uruguay</option>
+                <option value="Uzbekistan" data-cc="UZ">Uzbekistan</option>
+                <option value="Vanuatu" data-cc="VU">Vanuatu</option>
+                <option value="Vatican City" data-cc="VA">Vatican City</option>
+                <option value="Venezuela" data-cc="VE">Venezuela</option>
+                <option value="Vietnam" data-cc="VN">Vietnam</option>
+                <option value="Wallis &amp; Futuna" data-cc="WF">Wallis &amp; Futuna</option>
+                <option value="Western Sahara" data-cc="EH">Western Sahara</option>
+                <option value="Yemen" data-cc="YE">Yemen</option>
+                <option value="Zambia" data-cc="ZM">Zambia</option>
+                <option value="Zimbabwe" data-cc="ZW">Zimbabwe</option>
+              </select>
+              <div class="err" id="address-country-err">Please choose the country you live in now.</div></div>
           </div>
+          <div class="note hidden" id="address-manual-note"><b>We'll verify your identity by hand.</b> Our usual identity check (a passport photo and a selfie, run by Stripe) isn't available to people living in your country. Nothing changes for you until after payment: one of our team will then ask for a photo of your passport and confirm your identity personally, at no extra cost.</div>
+          <div class="stop hidden" id="address-blocked-note"><b>We can't take a claim from your country online.</b> Sanctions rules mean our payment and identity providers can't serve people living there, so please don't continue. You can still claim your super yourself, free, through the ATO's <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">DASP online application</a>.</div>
         </fieldset>
 
         <!-- The ATO's DASP contact screen requires the most recent Australian postal
@@ -675,16 +922,27 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
   // passport country: manual identity check for some, no claim at all for others
   var MANUAL_CC = ['CN', 'HK', 'MO', 'RU'];
   var BLOCKED_CC = ['CU', 'IR', 'KP', 'SY'];
+  /* Checked for the passport AND the country they live in: Stripe's terms say
+     "linked directly or indirectly". Each select shows its own note, and the
+     address note stays quiet when the passport note already says the same. */
   var passportCountry = document.getElementById('passport_country');
-  function passportCc() {
-    var o = passportCountry.options[passportCountry.selectedIndex];
+  var addressCountry = document.getElementById('address_country');
+  function ccOf(sel) {
+    var o = sel.options[sel.selectedIndex];
     return (o && o.getAttribute('data-cc')) || '';
   }
-  passportCountry.addEventListener('change', function () {
-    var cc = passportCc();
-    document.getElementById('passport-manual-note').classList.toggle('hidden', MANUAL_CC.indexOf(cc) === -1);
-    document.getElementById('passport-blocked-note').classList.toggle('hidden', BLOCKED_CC.indexOf(cc) === -1);
-  });
+  function passportCc() { return ccOf(passportCountry); }
+  function countryNotes() {
+    var p = passportCc(), a = ccOf(addressCountry);
+    var pManual = MANUAL_CC.indexOf(p) !== -1, pBlocked = BLOCKED_CC.indexOf(p) !== -1;
+    var aManual = MANUAL_CC.indexOf(a) !== -1, aBlocked = BLOCKED_CC.indexOf(a) !== -1;
+    document.getElementById('passport-manual-note').classList.toggle('hidden', !pManual || aBlocked);
+    document.getElementById('passport-blocked-note').classList.toggle('hidden', !pBlocked);
+    document.getElementById('address-manual-note').classList.toggle('hidden', !aManual || pManual || pBlocked);
+    document.getElementById('address-blocked-note').classList.toggle('hidden', !aBlocked || pBlocked);
+  }
+  passportCountry.addEventListener('change', countryNotes);
+  addressCountry.addEventListener('change', countryNotes);
 
   // no TFN: say what it costs, once they have looked at the field and left it empty
   var tfnField = document.getElementById('tfn');
@@ -745,7 +1003,9 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
         document.getElementById('address_city').value = get('locality') || get('postal_town') || get('sublocality') || '';
         document.getElementById('address_region').value = get('administrative_area_level_1') || '';
         document.getElementById('address_postcode').value = get('postal_code') || '';
-        document.getElementById('address_country').value = get('country') || '';
+        var cc = get('country', true);
+        var opt = cc && document.querySelector('#address_country option[data-cc="' + cc + '"]');
+        if (opt) { document.getElementById('address_country').value = opt.value; countryNotes(); }
       });
     };
     var gs = document.createElement('script');
@@ -797,6 +1057,14 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       : 'Please choose the country that issued your passport.';
     if (blocked) {
       setInvalid(passportCountry, true);
+      bad = true;
+    }
+    var livesBlocked = BLOCKED_CC.indexOf(ccOf(addressCountry)) !== -1;
+    document.getElementById('address-country-err').textContent = livesBlocked
+      ? 'We can\'t take a claim from this country online, see below.'
+      : 'Please choose the country you live in now.';
+    if (livesBlocked) {
+      setInvalid(addressCountry, true);
       bad = true;
     }
 

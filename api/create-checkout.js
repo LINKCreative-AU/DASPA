@@ -9,7 +9,7 @@ const db = require('./_lib/supabase');
 const email = require('./_lib/email');
 const { stripeHeaders } = require('./_lib/stripe');
 const { clientIp } = require('./_lib/guard');
-const { sanctioned } = require('./_lib/manual-only');
+const { sanctionedReason } = require('./_lib/manual-only');
 
 /* Online claims are for adults. Decided 4 November 2026: Australia has no
    single minimum working age (each state sets its own), Stripe Identity cannot
@@ -84,8 +84,8 @@ module.exports = async (req, res) => {
        written straight to Supabase from the browser, so the form is not the
        control. This is: no Checkout Session, so no charge, for a claimant we
        could never complete. */
-    if (sanctioned(claim.passport_country)) {
-      return res.status(403).json({ error: 'We cannot take a claim for this passport country.', reason: 'country_not_supported' });
+    if (sanctionedReason(claim)) {
+      return res.status(403).json({ error: 'We cannot take a claim for this passport or country of residence.', reason: 'country_not_supported' });
     }
     if (claim.date_of_birth && ageOn(claim.date_of_birth, new Date()) < MIN_AGE) {
       return res.status(403).json({ error: `Online claims are for people aged ${MIN_AGE} and over.`, reason: 'under_age' });

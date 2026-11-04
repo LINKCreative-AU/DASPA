@@ -17,7 +17,7 @@
 // verifying anyone "linked directly or indirectly" with China or the Russian
 // Federation. That is a policy restriction, not a coverage gap: both countries
 // appear in Stripe's supported-document list. The agreement sits on the same
-// Stripe account that processes every payment, so manualOnly() below refuses
+// Stripe account that processes every payment, so manualOnlyReason() below refuses
 // those claims with a 403 before any session is created, and /verify explains
 // the manual route rather than showing an error. Confirmed with Juan,
 // 7 September 2026. ABN Assist has no equivalent because its claimants are
@@ -33,7 +33,7 @@ const email = require('./_lib/email');
 const identity = require('./_lib/identity');
 const verified = require('./_lib/identity-verified');
 const { guard } = require('./_lib/guard');
-const { manualOnly } = require('./_lib/manual-only');
+const { manualOnlyReason } = require('./_lib/manual-only');
 
 /* The country gate now lives in _lib/manual-only.js so this endpoint and
    /api/identity share one copy. Two copies of a compliance rule is one copy
@@ -88,11 +88,12 @@ module.exports = async (req, res) => {
        refuses them. That is the same failure the August 2026 incident produced,
        paid and then stuck, so it is caught here rather than at Stripe's error
        page. 403 is distinct from every other code /verify handles. */
-    if (manualOnly(claim.passport_country)) {
-      await db.insertAudit(claim.id, 'identity_manual_required', String(claim.passport_country || ''))
+    const manualReason = manualOnlyReason(claim);
+    if (manualReason) {
+      await db.insertAudit(claim.id, 'identity_manual_required', manualReason)
         .catch(() => {});
-      await email.opsNeedsReview(claim, 'manual identity verification required: passport issued by '
-        + (claim.passport_country || 'an unstated country') + ', which Stripe Identity cannot verify')
+      await email.opsNeedsReview(claim, `manual identity verification required: ${manualReason}, `
+        + 'which Stripe Identity is not allowed to verify')
         .catch(() => {});
       return res.status(403).json({ error: 'manual verification required' });
     }

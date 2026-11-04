@@ -71,4 +71,21 @@ function sanctioned(country) {
   return SANCTIONED.some((re) => re.test(c));
 }
 
-module.exports = { manualOnly, sanctioned };
+/* Claim-level versions, checking where the client lives as well as who issued
+   the passport. Stripe's wording is "linked directly or indirectly", and a
+   French passport holder living in Shanghai is linked with China whatever the
+   passport says. Decided 4 November 2026.
+
+   Each returns a short reason naming the field and country, or null, so the
+   team alert can say which one tripped it. Passport first, because that is
+   the document Stripe would be looking at. */
+function why(claim, test) {
+  const c = claim || {};
+  if (test(c.passport_country)) return `passport issued by ${c.passport_country}`;
+  if (test(c.address_country)) return `client lives in ${c.address_country}`;
+  return null;
+}
+const manualOnlyReason = (claim) => why(claim, manualOnly);
+const sanctionedReason = (claim) => why(claim, sanctioned);
+
+module.exports = { manualOnly, sanctioned, manualOnlyReason, sanctionedReason };

@@ -247,7 +247,7 @@
         }
 
         if (data.httpStatus === 403 && data.error === 'manual verification required') {
-          stop('We can\'t verify a passport from your country of issue electronically, so one of our team will verify your identity by hand instead, at no extra cost. Nothing has gone wrong and your payment is safe. Please <a href="/upload-form">send us a photo of your passport</a>, or ' + WA + ' and we will walk you through it.');
+          stop('We can\'t verify your identity electronically for your passport or the country you live in, so one of our team will verify your identity by hand instead, at no extra cost. Nothing has gone wrong and your payment is safe. Please <a href="/upload-form">send us a photo of your passport</a>, or ' + WA + ' and we will walk you through it.');
           btn.textContent = IDLE_LABEL;
           return null;
         }

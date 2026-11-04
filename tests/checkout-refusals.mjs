@@ -79,6 +79,13 @@ for (const c of ['China', 'Russia', 'Hong Kong SAR China', 'Macao SAR China', 'T
 }
 
 {
+  const r = await checkout({ passport_country: 'Germany', address_country: 'Iran' });
+  eq('a German passport living in Iran is refused', r.code, 403);
+  eq('and never reaches Stripe', stripeCalls, 0);
+}
+eq('a German passport living in China goes through (manual, not blocked)',
+  (await checkout({ passport_country: 'Germany', address_country: 'China' })).code, 200);
+{
   const r = await checkout({ date_of_birth: yearsAgo(17) });
   eq('a 17 year old is refused', r.code, 403);
   eq('the refusal says under age', r.payload && r.payload.reason, 'under_age');

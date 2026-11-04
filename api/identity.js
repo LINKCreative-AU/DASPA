@@ -45,7 +45,7 @@ const email = require('./_lib/email');
 const identity = require('./_lib/identity');
 const verified = require('./_lib/identity-verified');
 const { guard } = require('./_lib/guard');
-const { manualOnly } = require('./_lib/manual-only');
+const { manualOnlyReason } = require('./_lib/manual-only');
 const { stripeHeaders } = require('./_lib/stripe');
 
 /* Shape first, database second. A malformed value is rejected before it can
@@ -130,11 +130,12 @@ async function flagManual(claim) {
   if (await db.hasAudit(claim.id, 'identity_manual_required')) return;
 
   let sent = true;
-  await email.opsNeedsReview(claim, 'manual identity verification required: passport issued by '
-    + (claim.passport_country || 'an unstated country') + ', which Stripe Identity cannot verify')
+  const reason = manualOnlyReason(claim) || 'country Stripe Identity cannot verify';
+  await email.opsNeedsReview(claim, `manual identity verification required: ${reason}, `
+    + 'which Stripe Identity is not allowed to verify')
     .catch((e) => { sent = false; console.error('identity: ops alert failed:', e.message); });
 
-  if (sent) await db.insertAudit(claim.id, 'identity_manual_required', String(claim.passport_country || ''));
+  if (sent) await db.insertAudit(claim.id, 'identity_manual_required', reason);
 }
 
 module.exports = async (req, res) => {
@@ -199,7 +200,7 @@ module.exports = async (req, res) => {
         }
         status = 'verified';
       }
-      const manual = manualOnly(claim.passport_country);
+      const manual = !!manualOnlyReason(claim);
       if (manual && status !== 'verified') await flagManual(claim);
 
       /* 'pending' is written when a session is CREATED, not when a document is
@@ -246,7 +247,7 @@ module.exports = async (req, res) => {
 
     /* A claimant Stripe will not verify must never be sent into a flow that
        refuses them. Caught here rather than at Stripe's error page. */
-    if (manualOnly(claim.passport_country)) {
+    if (manualOnlyReason(claim)) {
       await flagManual(claim);
       return res.status(403).json({ error: 'manual verification required' });
     }
