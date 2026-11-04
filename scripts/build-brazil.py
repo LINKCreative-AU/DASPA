@@ -125,7 +125,7 @@ BODY = """<div class="answer-first">
   <li><b>A registered tax agent lodges it.</b> We search every fund plus ATO-held money, prepare the application and chase it through.</li>
   <li><b>The money reaches your account.</b> Paid by the fund or the ATO directly to you, typically within about 28 days of a complete application.</li>
 </ul>
-<p>One flat fee of $150 covers all of it, however many funds you turn out to have, and it is refunded in full if we recover nothing. If your situation is simple, the ATO also runs a free DASP application system you are welcome to use; there is a full comparison on <a href="/can-i-claim-my-super-myself-for-free">doing it yourself for free</a>.</p>
+<p>One flat fee of $150.00 covers all of it, however many funds you turn out to have, and it is refunded in full if we recover nothing. If your situation is simple, the ATO also runs a free DASP application system you are welcome to use; there is a full comparison on <a href="/can-i-claim-my-super-myself-for-free">doing it yourself for free</a>.</p>
 
 <h2>Common questions</h2>
 __FAQS__"""
@@ -171,7 +171,7 @@ SCHEMA = """<script type="application/ld+json">
     "@type": "Offer",
     "price": "150.00",
     "priceCurrency": "AUD",
-    "description": "Flat fee $150 covering every super fund and ATO-held super. No super, no fee: refunded in full if no super is recovered."
+    "description": "Flat fee $150.00 covering every super fund and ATO-held super. No super, no fee: refunded in full if no super is recovered."
    }
   },
   {
@@ -225,7 +225,7 @@ HTML = """<!DOCTYPE html>
 <div class="cta-band">
   <div>
     <h2>Ready when you are. <em>5 minutes, flat fee.</em></h2>
-    <p>$150 &middot; every fund plus ATO-held super &middot; paid to your bank worldwide in about 28 days.</p>
+    <p>$150.00 &middot; every fund plus ATO-held super &middot; paid to your bank worldwide in about 28 days.</p>
   </div>
   <a class="btn" href="/claim">Start my claim</a>
 </div>

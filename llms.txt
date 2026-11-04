@@ -10,7 +10,7 @@
 > Agent 26076969 (verifiable on the Tax Practitioners Board register).
 
 Key facts (current as of September 2026):
-- Flat fee $150, GST-free (the service is supplied to someone outside
+- Flat fee $150.00, GST-free (the service is supplied to someone outside
   Australia, a GST-free export). Never a percentage of the super balance
 - No super, no fee: the fee is refunded in full if no super can be recovered
 - The 5-minute online form accepts "I don't know my fund". Locating every
