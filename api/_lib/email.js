@@ -146,6 +146,9 @@ const opsRef = (c) =>
          : 'Tax file number: NOT PROVIDED, so the ATO may review this claim manually',
    c.passport_number ? `Passport:  ${c.passport_number} (${c.passport_country || 'country not given'})` : null,
    c.visa_subclass ? `Visa:      ${c.visa_subclass}${c.visa_status ? `, ${c.visa_status}` : ''}` : null,
+   /* The client's answer, to set against the ATO visa screen, which shows Home
+      Affairs' answer to the same question. If they disagree, do not submit. */
+   c.whm_ever_held ? `Ever 417/462: ${{ yes: 'YES', no: 'no', unsure: 'not sure, check with the client' }[c.whm_ever_held] || c.whm_ever_held}` : null,
    c.date_departed ? `Departed:  ${c.date_departed}` : null,
    c.fund_unknown ? 'Fund:      unknown, needs the all-accounts search'
      : (c.fund_name ? `Fund:      ${c.fund_name}${c.fund_member_number ? ` (member ${c.fund_member_number})` : ''}` : null),

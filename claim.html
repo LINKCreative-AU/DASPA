@@ -46,6 +46,8 @@
           <div class="field"><label for="full_name">Full name <span class="why">exactly as in your passport</span></label>
             <input type="text" id="full_name" name="full_name" autocomplete="name" required>
             <div class="err">Please enter your full name as shown in your passport.</div></div>
+          <div class="field"><label for="other_names">Other names you've used <span class="why">optional, e.g. a maiden name or a different spelling at work</span></label>
+            <input type="text" id="other_names" name="other_names"></div>
           <div class="row2">
             <div class="field"><label for="date_of_birth">Date of birth</label>
               <input type="date" id="date_of_birth" name="date_of_birth" autocomplete="bday" required>
@@ -96,6 +98,18 @@
             <div class="err">Please pick the closest answer, “not sure” is fine.</div>
             <div class="note hidden" id="visa-active-note">A DASP can only be paid once the visa has ended. No problem. We'll tell you whether Home Affairs will cancel it on request, which depends on the subclass, and what to do if it will not.</div>
           </div>
+          <!-- Asked separately from the dropdown on purpose. The dropdown records one
+               visa; the ATO checks with Home Affairs whether the client EVER held a 417
+               or 462, and the fund sets the tax rate from that. Someone who arrived on a
+               417 and left on a 482 answers "482" above and "yes" here. -->
+          <div class="field"><label class="lab">Have you <b>ever</b> held a Working Holiday (417) or Work and Holiday (462) visa? <span class="why">at any time, not only your last visa</span></label>
+            <div class="seg">
+              <label><input type="radio" name="whm_ever_held" value="yes" required>Yes</label>
+              <label><input type="radio" name="whm_ever_held" value="no">No</label>
+              <label><input type="radio" name="whm_ever_held" value="unsure">Not sure</label>
+            </div>
+            <div class="err">Please pick one, “not sure” is fine.</div>
+          </div>
         </fieldset>
 
         <fieldset>
@@ -121,6 +135,9 @@
             </div>
             <div class="note">Know of more than one fund? Enter the main one, we search for all of them anyway.</div>
           </div>
+          <div class="field"><label for="employment_history">Where did you work in Australia? <span class="why">employer names and rough dates, one per line</span></label>
+            <textarea id="employment_history" name="employment_history" placeholder="e.g. Sunny Farms, Bundaberg, Mar–Aug 2022&#10;City Cafe Pty Ltd, Sydney, Sep 2022–Feb 2023"></textarea>
+            <div class="note">Optional, but it is how your fund confirms an account is yours, especially if you don't know the fund. Business names from your payslips are perfect.</div></div>
         </fieldset>
 
         <fieldset>
@@ -145,6 +162,12 @@
             <div class="field"><label for="bank_iban">Account number or IBAN</label>
               <input type="text" id="bank_iban" name="bank_iban">
               <div class="err">Please enter your account number or IBAN.</div></div>
+            <div class="row2">
+              <div class="field"><label for="bank_address">Bank's address <span class="why">branch or head office, city and country</span></label>
+                <input type="text" id="bank_address" name="bank_address"></div>
+              <div class="field"><label for="bank_currency">Currency to be paid in <span class="why">e.g. EUR, GBP</span></label>
+                <input type="text" id="bank_currency" name="bank_currency" autocapitalize="characters" maxlength="3" placeholder="EUR"></div>
+            </div>
           </div>
           <div id="bank-au" class="hidden">
             <div class="row2">
@@ -163,6 +186,8 @@
           <div class="field"><label for="address_line">Street address <span class="why" id="addr-hint">start typing. We'll find it</span></label>
             <input type="text" id="address_line" name="address_line" autocomplete="street-address" required>
             <div class="err">Please enter your street address.</div></div>
+          <div class="field"><label for="address_line2">Apartment, unit, floor <span class="why">optional</span></label>
+            <input type="text" id="address_line2" name="address_line2" autocomplete="address-line2"></div>
           <div class="row2">
             <div class="field"><label for="address_city">City / town</label>
               <input type="text" id="address_city" name="address_city" required>
@@ -176,6 +201,47 @@
             <div class="field"><label for="address_country">Country</label>
               <input type="text" id="address_country" name="address_country" autocomplete="country-name" required>
               <div class="err">Please enter the country you're in now.</div></div>
+          </div>
+        </fieldset>
+
+        <!-- The ATO's DASP contact screen requires the most recent Australian postal
+             address (line 1, state, postcode) and has an optional previous one. -->
+        <fieldset>
+          <div class="fs-title">Your last address in Australia</div>
+          <div class="field"><label for="au_address_line">Street address <span class="why">as best you remember, include the unit number</span></label>
+            <input type="text" id="au_address_line" name="au_address_line" required>
+            <div class="err">Please enter your last street address in Australia.</div></div>
+          <div class="row2">
+            <div class="field"><label for="au_address_suburb">Suburb / town</label>
+              <input type="text" id="au_address_suburb" name="au_address_suburb"></div>
+            <div class="field"><label for="au_address_state">State / territory</label>
+              <select id="au_address_state" name="au_address_state" required>
+                <option value="">Choose…</option>
+                <option value="ACT">ACT</option><option value="NSW">NSW</option><option value="NT">NT</option><option value="QLD">QLD</option>
+                <option value="SA">SA</option><option value="TAS">TAS</option><option value="VIC">VIC</option><option value="WA">WA</option>
+              </select>
+              <div class="err">Please choose the state.</div></div>
+          </div>
+          <div class="field"><label for="au_address_postcode">Postcode</label>
+            <input type="text" id="au_address_postcode" name="au_address_postcode" inputmode="numeric" maxlength="4" placeholder="4 digits" required>
+            <div class="err">An Australian postcode is 4 digits.</div></div>
+          <label class="check"><input type="checkbox" id="au_prev_toggle"><span>I lived at <b>another address</b> in Australia before that (optional, helps your fund find you)</span></label>
+          <div id="au-prev-fields" class="hidden">
+            <div class="field"><label for="au_prev_address_line">Previous street address</label>
+              <input type="text" id="au_prev_address_line" name="au_prev_address_line"></div>
+            <div class="row2">
+              <div class="field"><label for="au_prev_address_suburb">Suburb / town</label>
+                <input type="text" id="au_prev_address_suburb" name="au_prev_address_suburb"></div>
+              <div class="field"><label for="au_prev_address_state">State / territory</label>
+                <select id="au_prev_address_state" name="au_prev_address_state">
+                  <option value="">Choose…</option>
+                  <option value="ACT">ACT</option><option value="NSW">NSW</option><option value="NT">NT</option><option value="QLD">QLD</option>
+                  <option value="SA">SA</option><option value="TAS">TAS</option><option value="VIC">VIC</option><option value="WA">WA</option>
+                </select></div>
+            </div>
+            <div class="field"><label for="au_prev_address_postcode">Postcode</label>
+              <input type="text" id="au_prev_address_postcode" name="au_prev_address_postcode" inputmode="numeric" maxlength="4" placeholder="4 digits">
+              <div class="err">An Australian postcode is 4 digits, or leave it blank.</div></div>
           </div>
         </fieldset>
 
@@ -303,6 +369,19 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     });
   });
 
+  // previous Australian address, optional and folded away
+  var auPrevToggle = document.getElementById('au_prev_toggle');
+  auPrevToggle.addEventListener('change', function () {
+    document.getElementById('au-prev-fields').classList.toggle('hidden', !auPrevToggle.checked);
+  });
+
+  // a 417 or 462 in the dropdown answers the "ever held" question for them
+  document.getElementById('visa_subclass').addEventListener('change', function (e) {
+    if (e.target.value === '417' || e.target.value === '462') {
+      form.querySelector('input[name=whm_ever_held][value=yes]').checked = true;
+    }
+  });
+
   // gentle heads-up if visa still active
   form.querySelectorAll('input[name=visa_status]').forEach(function (r) {
     r.addEventListener('change', function () {
@@ -376,9 +455,18 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     var tfnDigits = tfn.value.replace(/\D/g, '');
     if (setInvalid(tfn, tfn.value.trim() !== '' && (tfnDigits.length < 8 || tfnDigits.length > 9))) bad = true;
 
-    if (!form.querySelector('input[name=visa_status]:checked')) {
-      form.querySelector('input[name=visa_status]').closest('.field').classList.add('invalid');
-      bad = true;
+    ['visa_status', 'whm_ever_held'].forEach(function (name) {
+      if (!form.querySelector('input[name=' + name + ']:checked')) {
+        form.querySelector('input[name=' + name + ']').closest('.field').classList.add('invalid');
+        bad = true;
+      }
+    });
+
+    var auPc = document.getElementById('au_address_postcode');
+    if (setInvalid(auPc, !/^\d{4}$/.test(auPc.value.trim()))) bad = true;
+    if (auPrevToggle.checked) {
+      var prevPc = document.getElementById('au_prev_address_postcode');
+      if (setInvalid(prevPc, prevPc.value.trim() !== '' && !/^\d{4}$/.test(prevPc.value.trim()))) bad = true;
     }
 
     var intl = form.querySelector('input[name=bank_type]:checked').value === 'intl';
@@ -418,6 +506,7 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
     var now = new Date().toISOString();
     var id = crypto.randomUUID(); // client-side id: RLS is insert-only, so PostgREST can't return the row
     var intl = form.querySelector('input[name=bank_type]:checked').value === 'intl';
+    var prev = auPrevToggle.checked;
 
     var record = {
       id: id,
@@ -440,7 +529,21 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
       bank_swift: intl ? v('bank_swift') : null,
       bank_account_number: intl ? v('bank_iban') : v('bank_account_number'),
       bank_bsb: intl ? null : v('bank_bsb'),
+      bank_address: intl ? v('bank_address') : null,
+      bank_currency: intl && v('bank_currency') ? v('bank_currency').trim().toUpperCase() : null,
+      whm_ever_held: form.querySelector('input[name=whm_ever_held]:checked').value,
+      other_names: v('other_names'),
+      employment_history: v('employment_history'),
+      au_address_line: v('au_address_line'),
+      au_address_suburb: v('au_address_suburb'),
+      au_address_state: v('au_address_state'),
+      au_address_postcode: (v('au_address_postcode') || '').trim() || null,
+      au_prev_address_line: prev ? v('au_prev_address_line') : null,
+      au_prev_address_suburb: prev ? v('au_prev_address_suburb') : null,
+      au_prev_address_state: prev ? v('au_prev_address_state') : null,
+      au_prev_address_postcode: prev ? v('au_prev_address_postcode') : null,
       address_line: v('address_line'),
+      address_line2: v('address_line2'),
       address_city: v('address_city'),
       address_region: v('address_region'),
       address_postcode: v('address_postcode'),

@@ -39,6 +39,18 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    3. `supabase/2026-09-07-stripe-identity-step2-drop-didit.sql` to drop the old
       pair. Not before step 2, or the live form starts failing silently for clients.
 
+   **ATO lodgement fields (4 November 2026).** Apply
+   `supabase/2026-11-04-ato-lodgement-fields.sql` **before** deploying the
+   `claim.html` and `api/claims-sweep.js` that use it. It adds the fields the
+   ATO's DASP intermediary screens ask for and the form did not collect: the
+   most recent Australian address (required by the ATO), a previous one, other
+   names, a second overseas address line, "ever held a 417 or 462", employers
+   and dates, and the bank address and currency for an international transfer.
+   It restates anon's column-level INSERT grant with the new columns. Deployed
+   the other way round, the form 400s for every client and the sweep's redaction
+   PATCH fails. The live form names none of the new columns, so running the
+   migration first is safe.
+
    Also apply `supabase/2026-09-07-rate-limits.sql` whenever convenient. It is an
    upgrade rather than a prerequisite: without it `api/_lib/guard.js` logs one
    warning and rate limits per warm instance only.
