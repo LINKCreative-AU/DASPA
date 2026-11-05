@@ -155,12 +155,37 @@ module.exports = async (req, res) => {
       cancel_url: `${config.SITE_URL}/claim?cancelled=1`,
     });
 
-    const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+    const create = (body) => fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
       headers: stripeHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-      body: params.toString(),
+      body: body.toString(),
     });
-    const session = await r.json();
+
+    /* Checkout in DASPA colours rather than the account default (a blue Pay
+       button on a dark panel, which matches nothing on the site). Asked for by
+       Juan, 5 November 2026. Per session rather than in the dashboard because
+       the Stripe account's dashboard branding is the account's, and this keeps
+       DASPA's look in DASPA's code. Values are the --navy and --yellow tokens
+       in assets/site.css. branding_settings needs API 2025-09-30 or later; the
+       pin in _lib/stripe.js is newer.
+       https://docs.stripe.com/changelog/clover/2025-09-30/checkout-sessions-branding-settings
+
+       Cosmetic, so it must never cost a sale: if Stripe rejects anything under
+       branding_settings, the session is created again without it. */
+    const branded = new URLSearchParams(params);
+    branded.set('branding_settings[display_name]', 'DASPA');
+    branded.set('branding_settings[background_color]', '#091F5B');
+    branded.set('branding_settings[button_color]', '#FCC800');
+    branded.set('branding_settings[border_style]', 'rounded');
+
+    let r = await create(branded);
+    let session = await r.json();
+    if (!r.ok && /^branding_settings/.test((session.error && session.error.param) || '')) {
+      console.warn('stripe rejected branding_settings, creating the session without it:',
+        session.error.message);
+      r = await create(params);
+      session = await r.json();
+    }
     if (!r.ok) {
       console.error('stripe session create failed:', session.error && session.error.message);
       return res.status(502).json({ error: 'payment provider unavailable' });

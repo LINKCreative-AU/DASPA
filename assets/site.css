@@ -421,8 +421,7 @@ html[lang="ja"] body{font-family:'Plus Jakarta Sans','Hiragino Sans','Yu Gothic'
 .vcard h3{font-size:18px;font-weight:700;color:var(--blue);text-align:center;line-height:1.3;margin-bottom:12px}
 .vcard p{font-size:14.5px;color:var(--muted);margin-bottom:11px}
 .vcard p:last-child{margin-bottom:0}
-.vcard .btn{display:block;width:100%;text-align:center;background:var(--green);margin:6px 0 12px}
-.vcard .btn:hover{background:#168a54}
+.vcard .btn{display:block;width:100%;text-align:center;margin:6px 0 12px}
 .vcard .btn[disabled]{opacity:.55;cursor:default}
 .vmeta{display:flex;flex-wrap:wrap;gap:6px 30px;justify-content:center;font-size:14px;color:var(--muted);margin-bottom:22px}
 .vmeta b{color:var(--ink);font-weight:700}

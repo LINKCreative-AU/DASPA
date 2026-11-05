@@ -30,8 +30,13 @@ process.env.SITE_URL = 'https://daspa.com.au';
 process.env.PAYMENTS_LIVE = 'true';
 
 let stripeCalls = 0;
-global.fetch = async () => {
+let stripeBodies = [];
+let stripeResponder = null; // (body, callNumber) => response, or null for success
+global.fetch = async (url, opts = {}) => {
   stripeCalls++;
+  const body = String(opts.body || '');
+  stripeBodies.push(body);
+  if (stripeResponder) { const r = stripeResponder(body, stripeCalls); if (r) return r; }
   return { ok: true, status: 200, json: async () => ({ id: 'cs_test', url: 'https://checkout.stripe.test/x' }) };
 };
 
@@ -61,7 +66,7 @@ const yearsAgo = (y, dayOffset = 0) => {
 async function checkout(fields) {
   claim = { id: 'c1', email: 't@e.com', full_name: 'T', payment_status: 'unpaid', stripe_session_id: null,
     passport_country: 'France', date_of_birth: '1990-01-01', ...fields };
-  stripeCalls = 0;
+  stripeCalls = 0; stripeBodies = [];
   let code = 200, payload = null;
   const res = { status(c) { code = c; return this; }, json(p) { payload = p; return this; }, setHeader() {} };
   await handler({ method: 'POST', body: { claimId: '11111111-1111-1111-1111-111111111111' }, headers: {} }, res);
@@ -104,6 +109,37 @@ eq('a German passport living in China goes through (manual, not blocked)',
 eq('the day before the 18th birthday is refused', (await checkout({ date_of_birth: yearsAgo(18, 1) })).code, 403);
 eq('the 18th birthday itself goes through', (await checkout({ date_of_birth: yearsAgo(18) })).code, 200);
 eq('a missing date of birth is not blocked here', (await checkout({ date_of_birth: null })).code, 200);
+
+// --- DASPA colours on the Checkout page ------------------------------------
+{
+  const r = await checkout({});
+  const b = new URLSearchParams(stripeBodies[0]);
+  eq('checkout is branded: navy background', b.get('branding_settings[background_color]'), '#091F5B');
+  eq('checkout is branded: yellow button', b.get('branding_settings[button_color]'), '#FCC800');
+  eq('checkout shows DASPA as the name', b.get('branding_settings[display_name]'), 'DASPA');
+  eq('a branded session goes through', r.code, 200);
+}
+{
+  /* Branding is cosmetic. If Stripe ever rejects it, the client must still get
+     a payment page, so the session is made again without it. */
+  stripeResponder = (body, n) => (n === 1
+    ? { ok: false, status: 400, json: async () => ({ error: { param: 'branding_settings[button_color]', message: 'Invalid hex' } }) }
+    : null);
+  const r = await checkout({});
+  stripeResponder = null;
+  eq('a rejected branding is retried', stripeCalls, 2);
+  eq('the retry carries no branding', new URLSearchParams(stripeBodies[1]).has('branding_settings[button_color]'), false);
+  eq('and the client still gets a payment page', r.code, 200);
+  eq('with the session url', r.payload && r.payload.url, 'https://checkout.stripe.test/x');
+}
+{
+  /* Any other Stripe error is a real failure, not a branding one: no retry. */
+  stripeResponder = () => ({ ok: false, status: 400, json: async () => ({ error: { param: 'customer_email', message: 'Invalid email' } }) });
+  const r = await checkout({});
+  stripeResponder = null;
+  eq('a non-branding error is not retried', stripeCalls, 1);
+  eq('and is reported as the provider failing', r.code, 502);
+}
 
 // the form's country names (Intl region names) land on the right side of both rules
 eq('Hong Kong SAR China is manual-only', manualOnly('Hong Kong SAR China'), true);

@@ -387,7 +387,7 @@
                  save the TFN as a password. -->
             <input type="text" id="tfn" name="tfn" inputmode="numeric" placeholder="123 456 789" autocomplete="off" spellcheck="false" maxlength="11">
             <div class="err" id="tfn-err">That doesn't look like a valid TFN. Check each digit, or leave it blank.</div></div>
-          <div class="note hidden" id="tfn-missing-note"><b>No TFN? Your claim can take longer.</b> The ATO warns processing may be delayed without one, and we have to find each of your super accounts by other details, so super the ATO already holds for you can be missed. If you can find it on a payslip, tax return or ATO letter, add it here.</div>
+          <div class="note" id="tfn-missing-note"><b>No TFN? Your claim can take longer.</b> The ATO warns processing may be delayed without one, and we have to find each of your super accounts by other details, so super the ATO already holds for you can be missed. If you can find it on a payslip, tax return or ATO letter, add it here.</div>
           <div class="note">🔒 <b>Your TFN is protected:</b> encrypted in transit (TLS) and encrypted at rest in our secure database. It's optional, but it's the most reliable way to find <b>every</b> account in your name, including super already moved to the ATO, and it's collected under taxation law solely for your claim (see our <a href="/privacy" target="_blank">privacy policy</a>).</div>
         </fieldset>
 
@@ -441,7 +441,7 @@
           <div id="bank-au" class="hidden">
             <div class="row2">
               <div class="field"><label for="bank_bsb">BSB</label>
-                <input type="text" id="bank_bsb" name="bank_bsb" inputmode="numeric" placeholder="000-000">
+                <input type="text" id="bank_bsb" name="bank_bsb" inputmode="numeric" placeholder="000-000" maxlength="7" autocomplete="off">
                 <div class="err">A BSB is 6 digits.</div></div>
               <div class="field"><label for="bank_account_number">Account number</label>
                 <input type="text" id="bank_account_number" name="bank_account_number" inputmode="numeric">
@@ -967,13 +967,24 @@ var GOOGLE_MAPS_API_KEY = 'GOOGLE_MAPS_API_KEY_PLACEHOLDER';
   passportCountry.addEventListener('change', countryNotes);
   addressCountry.addEventListener('change', countryNotes);
 
-  // no TFN: say what it costs, once they have looked at the field and left it empty
+  // BSB: digits only, six at most, shown as 000-000 while typing
+  var bsbField = document.getElementById('bank_bsb');
+  bsbField.addEventListener('input', function () {
+    var d = bsbField.value.replace(/\D/g, '').slice(0, 6);
+    bsbField.value = d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
+  });
+  bsbField.addEventListener('blur', function () {
+    var n = bsbField.value.replace(/\D/g, '').length;
+    setInvalid(bsbField, n > 0 && n !== 6);
+  });
+
+  // no TFN: say what it costs, from the start and for as long as the field is empty
   var tfnField = document.getElementById('tfn');
   function tfnNote() {
     document.getElementById('tfn-missing-note').classList.toggle('hidden', tfnField.value.trim() !== '');
   }
-  tfnField.addEventListener('blur', tfnNote);
-  tfnField.addEventListener('input', function () { if (tfnField.value.trim()) tfnNote(); });
+  tfnField.addEventListener('input', tfnNote);
+  tfnNote(); // a browser that restores the field on reload starts with it filled
 
   // employers become required when the fund is unknown
   function employmentRequired() {
