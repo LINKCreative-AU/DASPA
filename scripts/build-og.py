@@ -126,7 +126,12 @@ CARDS = {
  "faq": ("Straight answers about claiming your super", "Tax, timing, lost funds, overseas payments and the free ATO option."),
  "pricing": ("One flat fee. Never a percentage.", "$150 covers every fund. No super recovered, no fee."),
  "visas": ("Which visa were you on?", "417, 462, 482, 500 and the rest. Your subclass sets your tax rate."),
- "claim-super-from": ("Claiming your Australian super from overseas", "You do not need to go back, and you do not need an Australian bank."),
+ # Kicker corrected 5 November 2026. It said "you do not need an Australian
+ # bank", which is untrue once super has moved to the ATO: the ATO pays only
+ # into an Australian account in your name or by cheque. The rendered PNG
+ # still carries the old line until this script is next run with Pillow.
+ "claim-super-from": ("Claiming your Australian super from overseas", "You do not need to go back to claim it."),
+ "palm-scheme": ("PALM scheme worker? Claim your super.", "For the Pacific and Timor-Leste: when to claim, and how it reaches you."),
  "australiansuper": ("Claim your super from AustralianSuper", "Australia's biggest fund, and the passport step that stalls big balances."),
  "brazil": ("Claim your Australian super from Brazil", "Studied here on a 500? You pay the lower rate, not the backpacker one."),
  "uk": ("Claim your Australian super from the UK", "Paid to a UK account. Flat fee $150, every fund included."),
