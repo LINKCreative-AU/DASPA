@@ -212,32 +212,49 @@ const email = load();
   ok('it offers a person instead', m.text.includes('fresh link'));
 }
 
-/* ---------- the team alert ---------- */
+/* ---------- the team alert ----------
+   Juan, 5 November 2026: every field the client submitted, sensitive ones
+   included, in ABN Assist's "New paid order" layout. Bank details used to be
+   the deliberate exclusion; they are in now. */
 
 {
-  const m = await call(email.opsPaid, paidClaim(), 15000);
+  const m = await call(email.opsPaid, paidClaim({
+    bank_type: 'international', bank_account_name: 'Alessia Di Marco', bank_name: 'Banca Esempio',
+    bank_swift: 'BEXAITMM', bank_account_number: 'IT60X0542811101000000123456', bank_currency: 'EUR',
+    given_names: 'Alessia', family_name: 'Di Marco', au_address_line: '1 Example St', au_address_state: 'VIC',
+    au_address_postcode: '3182', employment_history: 'Example Cafe 2025', other_visas: ['none'],
+    whm_ever_held: 'yes', address_country: 'Italy', client_ip: '203.0.113.7',
+  }), 15000);
   eq('it goes to the ops list', m.to, ['claims@daspa.com.au']);
-  ok('the subject says do not lodge yet', m.subject.includes('ID NOT VERIFIED'));
-  ok('and names the client and amount', m.subject.includes('Alessia Di Marco') && m.subject.includes('150.00'));
-  ok('the body leads with it', m.text.includes('DO NOT LODGE'));
+
+  ok('the subject has the ABN Assist shape', m.subject.startsWith('[DASPA] New DASP claim DASP00020155, $150.00, '));
+  ok('with the time in AEST', / at \d{1,2}:\d{2} [ap]m AEST/.test(m.subject));
+  ok('and says the ID is not verified', m.subject.endsWith('ID not verified'));
+  ok('the body leads with do not lodge', m.text.indexOf('Do not lodge') < m.text.indexOf('ORDER'));
   ok('and says a second alert is the go-ahead', m.text.includes('go-ahead'));
   ok('it carries the link so the team can resend it', m.text.includes('/verify-id?c=cus_'));
 
-  /* Juan, 10 September 2026: the team needs the TFN to lodge. It is in full,
-     which makes the do-not-forward line load-bearing rather than decorative. */
-  ok('the TFN is there in full', m.text.includes('123456789'));
-  ok('spelled out, not abbreviated', m.text.includes('Tax file number: 123456789'));
-  ok('with a do-not-forward warning', m.text.includes('DO NOT FORWARD'));
-  ok('that says why', m.text.includes('contains a tax file number'));
+  ok('there is an html part', typeof m.html === 'string' && m.html.length > 5000);
+  ok('laid out in sections', ['ORDER', 'CLIENT', 'PASSPORT AND VISA', 'TAX AND SUPER', 'PAYOUT ACCOUNT',
+    'CURRENT ADDRESS (OUTSIDE AUSTRALIA)', 'LAST ADDRESS IN AUSTRALIA', 'WHERE IT CAME FROM']
+    .every((h) => m.html.includes(h) && m.text.includes(h)));
 
-  ok('passport too, since lodgement needs it', m.text.includes('YA1234567'));
-  ok('and the fund', m.text.includes('AustralianSuper'));
-  ok('and the order number', m.text.includes('DASP00020155'));
+  ok('the TFN is there in full', m.text.includes('123 456 789'));
+  ok('spelled out, not abbreviated', m.text.includes('Tax file number: 123 456 789'));
+  ok('passport too', m.text.includes('YA1234567'));
+  ok('the bank account is there now', m.text.includes('IT60X0542811101000000123456') && m.html.includes('IT60X0542811101000000123456'));
+  ok('with SWIFT and currency', m.text.includes('BEXAITMM') && m.text.includes('Currency: EUR'));
+  ok('the split name', m.text.includes('Given names: Alessia') && m.text.includes('Family name: Di Marco'));
+  ok('the Australian address', m.text.includes('1 Example St') && m.text.includes('State: VIC'));
+  ok('the employers', m.text.includes('Example Cafe 2025'));
+  ok('the 417/462 answer', m.text.includes('Ever held a 417 or 462: YES'));
+  ok('and the IP address', m.text.includes('203.0.113.7'));
+  ok('a blank answer says so', m.text.includes('Other names used: Not given'));
 
-  /* Bank details are the deliberate exclusion: not needed to lodge, and
-     readable off the claim when they are. */
-  no('no bank account number', m.text.includes('bank_account_number'));
-  ok('and it says where they are', m.text.includes('Bank details are on the claim in Supabase'));
+  ok('do not forward, in both parts', m.text.includes('DO NOT FORWARD') && m.html.includes('DO NOT FORWARD'));
+  ok('and says why', m.text.includes('Contains a tax file number, passport and bank details'));
+  eq('a reply goes to the client', m.reply_to, 'alessia@example.com');
+  no('the internal alert does not carry the client footer', m.html.includes('You are receiving this because you placed an order'));
 }
 {
   const m = await call(email.opsPaid, paidClaim({ tfn: null }), 15000);
@@ -245,10 +262,16 @@ const email = load();
   ok('with the consequence', m.text.includes('manually'));
 }
 {
+  // Every value came from a form, so the HTML must escape it.
+  const m = await call(email.opsPaid, paidClaim({ full_name: '<script>x</script>', other_names: 'O\'Brien & Co' }), 15000);
+  no('no raw markup from the form', m.html.includes('<script>x</script>'));
+  ok('ampersands are escaped', m.html.includes('O&#39;Brien &amp; Co'));
+}
+{
   const m = await call(email.opsVerified, paidClaim());
-  ok('the go-ahead is a different subject', m.subject.includes('READY TO LODGE'));
+  ok('the go-ahead is a different subject', m.subject.startsWith('[DASPA] READY TO LODGE DASP00020155'));
   ok('and warns that lodgement is still off', m.text.includes('LODGEMENT_LIVE is off'));
-  ok('it carries the TFN too, since this is the lodge-now email', m.text.includes('123456789'));
+  ok('it carries the TFN too, since this is the lodge-now email', m.text.includes('123 456 789'));
 }
 {
   process.env.LODGEMENT_LIVE = 'true';
@@ -256,6 +279,11 @@ const email = load();
   const m = await call(e2.opsVerified, paidClaim());
   no('with lodgement live the warning goes', m.text.includes('LODGEMENT_LIVE is off'));
   delete process.env.LODGEMENT_LIVE;
+}
+{
+  const m = await call(email.opsNewClaim, paidClaim({ payment_status: 'unpaid', paid_at: null }));
+  ok('the pre-payment alert says it is not paid', m.subject.includes('not paid yet') && m.text.includes('Paid: Not paid yet'));
+  ok('and carries the full detail too', m.text.includes('123 456 789'));
 }
 
 /* ---------- nothing before payment ---------- */
@@ -307,10 +335,10 @@ const email = load();
     (await call(e.paymentConfirmed, noRef)).subject,
     'Your payment is confirmed');
 
-  /* The ops alerts name the client, not the order, and are read by people who
-     already have the claim open. Leave them alone. */
+  /* The ops alerts follow ABN Assist's subject shape instead: a [DASPA] tag,
+     what happened, then the order number. Set 5 November 2026. */
   ok('ops alerts keep their own subject shape',
-    (await call(e.opsVerified, c)).subject.startsWith('READY TO LODGE:'));
+    (await call(e.opsVerified, c)).subject.startsWith('[DASPA] READY TO LODGE'));
 }
 
 /* ---------- no key, no send ---------- */

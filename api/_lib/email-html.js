@@ -70,7 +70,7 @@ function esc(v) {
 /* The whole document. `preheader` is the grey line a client sees next to the
    subject in their inbox before opening it; left empty, most clients show the
    first words of the body instead, which here would be the phone number. */
-function shell({ title, preheader, body }) {
+function shell({ title, preheader, body, footerNote }) {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light only"><title>${esc(title)}</title></head>
@@ -100,7 +100,7 @@ ${body}
         <a href="mailto:claims@daspa.com.au" style="color:${C.link}">claims@daspa.com.au</a> &middot; 1800 546 526 in Australia &middot; +61 7 2101 4373 from overseas</p>
       </td></tr>
       <tr><td style="padding:16px 28px;font-family:${FONT};font-size:11px;color:${C.muted};text-align:center;line-height:1.5">
-        You are receiving this because you placed an order with DASPA. This is a service message about that order, not marketing.
+        ${footerNote ? esc(footerNote) : 'You are receiving this because you placed an order with DASPA. This is a service message about that order, not marketing.'}
       </td></tr>
     </table>
   </td></tr>
@@ -222,9 +222,51 @@ ${taxable ? `        <tr>
         </div>`;
 }
 
+/* ------------------------------------------------------------ team alerts
+   The layout of ABN Assist's "New paid order" alert, which Juan supplied as
+   the reference on 5 November 2026: a status banner, a summary chip, then
+   every submitted field in labelled sections, label left and value right in
+   bold. Everything is escaped here, because every value came from a form. */
+
+/* The status banner. kind 'stop' is amber (do not lodge yet), 'go' is green
+   (cleared), 'alert' is red (refund, dispute, needs a human). */
+const banner = ({ kind, title, text, url }) => {
+  const k = {
+    stop: { bg: C.amberBg, edge: C.amberEdge, ink: C.ink },
+    go: { bg: C.greenBg, edge: C.green, ink: C.ink },
+    alert: { bg: '#FDECEC', edge: '#C0392B', ink: C.ink },
+  }[kind] || { bg: C.chipBg, edge: C.navy, ink: C.ink };
+  return `        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin:0 0 16px">
+          <tr><td style="background:${k.bg};border-left:4px solid ${k.edge};border-radius:0 10px 10px 0;padding:14px 18px;font-size:14px;color:${k.ink};line-height:1.55">
+            <b style="font-size:15px">${esc(title)}</b>${text ? `<br>${esc(text)}` : ''}${url ? `<br><a href="${esc(url)}" style="color:${C.link};word-break:break-all">${esc(url)}</a>` : ''}
+          </td></tr>
+        </table>`;
+};
+
+/* One line that says what this is: service, money, reference. */
+const summary = (text, tone) => `        <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 22px">
+          <tr><td style="background:${tone === 'muted' ? C.chipBg : C.greenBg};border-radius:10px;padding:12px 16px;font-size:15px;font-weight:bold;color:${tone === 'muted' ? C.navy : C.green}">${esc(text)}</td></tr>
+        </table>`;
+
+/* A titled block of label / value rows. rows: [[label, value], ...]; a value
+   of null or '' prints as "Not given", so a blank answer is visibly blank
+   rather than silently missing. */
+const section = (title, rows) => `        <div style="margin:0 0 6px;padding-top:6px;font-size:12px;font-weight:bold;letter-spacing:.08em;color:${C.navy}">${esc(String(title).toUpperCase())}</div>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 20px">
+${rows.map(([k, v]) => {
+    const blank = v === null || v === undefined || v === '';
+    return `          <tr>
+            <td width="38%" style="padding:9px 12px 9px 0;border-bottom:1px solid ${C.line};font-size:13px;color:${C.muted};vertical-align:top">${esc(k)}</td>
+            <td style="padding:9px 0;border-bottom:1px solid ${C.line};font-size:14px;font-weight:bold;color:${blank ? C.muted : C.ink};vertical-align:top;word-break:break-word;white-space:pre-line">${blank ? 'Not given' : esc(v)}</td>
+          </tr>`;
+  }).join('\n')}
+        </table>`;
+
+const small = (text) => `        <p style="margin:4px 0 0;font-size:13px;color:${C.muted};line-height:1.6">${esc(text)}</p>`;
+
 const link = (url, label) =>
   `<a href="${esc(url)}" style="color:${C.link};font-weight:bold">${esc(label || url)}</a>`;
 
 const mailto = () => link(`mailto:${config.CONTACT_EMAIL || 'claims@daspa.com.au'}`, 'claims@daspa.com.au');
 
-module.exports = { shell, esc, h1, h2, p, chip, callout, done, steps, invoiceBlock, link, mailto, C };
+module.exports = { shell, esc, h1, h2, p, chip, callout, done, steps, invoiceBlock, link, mailto, banner, summary, section, small, C };

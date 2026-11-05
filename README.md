@@ -282,11 +282,16 @@ next, the invoice rendered in the body and the same invoice attached as a PDF.
 The body and the attachment are built from one model, so their figures cannot
 disagree.
 
-**The team alert carries the tax file number in full.** That was a decision, not
-an oversight, and it has consequences: `OPS_EMAIL` must stay a small internal
-list, the alert carries a do-not-forward line, and the TFN must stay out of
-ActiveCampaign when that is wired up. The reasoning is in the comment above
-`opsRef`. Bank details are still excluded.
+**The team alert carries everything the client submitted**, TFN, passport and
+bank details included, in the layout of ABN Assist's "New paid order" alert.
+The TFN went in on 10 September 2026 and the rest on 5 November 2026, both at
+Juan's request: the team lodges from it. That has consequences. `OPS_EMAIL`
+must stay a small private list, every alert says DO NOT FORWARD, none of it may
+go to ActiveCampaign when that is wired up, and Resend keeps a copy of each
+message, so Resend logins need restricting too. The reasoning is in the comment
+above `opsSections` in `api/_lib/email.js`. The alert that fires before payment
+carries the same detail, so an abandoned claim's TFN stays in the inbox after
+the seven-day sweep clears it from the database.
 
 ## Scheduled email
 

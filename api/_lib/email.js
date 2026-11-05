@@ -86,7 +86,7 @@ async function send(to, subject, text, opts = {}) {
 // OPS_EMAIL takes one address or a comma-separated list. When it is unset the
 // alert still goes to the function log rather than vanishing, which is the
 // fallback the kit's "leads never dropped" standard asks for.
-async function notifyOps(subject, lines) {
+async function notifyOps(subject, lines, opts = {}) {
   /* Drops null and undefined, KEEPS empty strings. filter(Boolean) used to be
      here, which removed the deliberate blank lines too and ran the whole alert
      into one block: the do-not-lodge banner, the link and the claim details
@@ -102,7 +102,7 @@ async function notifyOps(subject, lines) {
     return false;
   }
   try {
-    return await send(to, subject, body);
+    return await send(to, subject, body, opts);
   } catch (e) {
     // An ops alert must never be the reason a claim or a webhook fails.
     console.error('ops notify failed:', subject, e && e.message, '\n' + body);
@@ -110,56 +110,217 @@ async function notifyOps(subject, lines) {
   }
 }
 
-/* Reference block for an ops alert.
- *
- * THE TFN IS HERE IN FULL, AND THAT WAS A DECISION.
- *
- * It used to be excluded, with a comment saying it had no business sitting in
- * an inbox. Juan overruled that on 10 September 2026, and the reason holds: the
- * team needs it to lodge, and the alternative is every lodgement starting with
- * somebody opening Supabase to copy a number across, which is slower and no
- * more private, because the number is on their screen either way.
- *
- * What follows from that:
- *   - OPS_EMAIL must stay a small internal list. Every address on it can read
- *     a tax file number.
- *   - the alert carries a do-not-forward line, because the usual way this
- *     leaks is a well-meaning forward to somebody who needed one other fact
- *     out of the same email;
- *   - it stays OUT of ActiveCampaign when that is wired up. A marketing
- *     platform has broad staff access, app integrations and export tooling,
- *     which is a different exposure from a restricted inbox, and nothing in a
- *     CRM needs a TFN.
- *
- * Bank details stay excluded. The team does not key them to lodge, and they can
- * be read off the claim when they are actually needed. */
-const opsRef = (c) =>
-  [`Claim id:  ${c.id}`,
-   c.order_number ? `Order:     ${c.order_number}` : null,
-   `Name:      ${c.full_name || '(not given)'}`,
-   /* Split as the ATO asks for it, when the claim has the split (from
-      4 November 2026). Older claims only have the line above. */
-   c.family_name ? `  Family:  ${c.family_name}` : null,
-   c.family_name ? `  Given:   ${c.given_names || '(none, single-name passport)'}` : null,
-   `Email:     ${c.email || '(not given)'}`,
-   c.phone ? `Phone:     ${c.phone}` : null,
-   c.date_of_birth ? `Born:      ${c.date_of_birth}` : null,
-   /* Spelled out rather than abbreviated, so a skim of the inbox cannot mistake
-      it for a reference number and quote it to somebody. */
-   c.tfn ? `Tax file number: ${c.tfn}`
-         : 'Tax file number: NOT PROVIDED, so the ATO may review this claim manually',
-   c.passport_number ? `Passport:  ${c.passport_number} (${c.passport_country || 'country not given'})` : null,
-   c.visa_subclass ? `Visa:      ${c.visa_subclass}${c.visa_status ? `, ${c.visa_status}` : ''}` : null,
-   Array.isArray(c.other_visas) && c.other_visas.length ? `Earlier visas: ${c.other_visas.join(', ')}` : null,
-   /* The client's answer, to set against the ATO visa screen, which shows Home
-      Affairs' answer to the same question. If they disagree, do not submit. */
-   c.whm_ever_held ? `Ever 417/462: ${{ yes: 'YES', no: 'no', unsure: 'not sure, check with the client' }[c.whm_ever_held] || c.whm_ever_held}` : null,
-   c.date_departed ? `Departed:  ${c.date_departed}` : null,
-   c.fund_unknown ? 'Fund:      unknown, needs the all-accounts search'
-     : (c.fund_name ? `Fund:      ${c.fund_name}${c.fund_member_number ? ` (member ${c.fund_member_number})` : ''}` : null),
-   '',
-   'Bank details are on the claim in Supabase, not in this email.',
-   'DO NOT FORWARD. This email contains a tax file number.'].filter((l) => l !== null);
+/* ------------------------------------------------------------ team alerts
+
+   EVERYTHING THE CLIENT SUBMITTED, INCLUDING THE SENSITIVE FIELDS.
+
+   Juan, 5 November 2026: the team alert must carry every field from the form,
+   TFN, passport and bank details included, laid out like ABN Assist's "New paid
+   order" alert. It goes to OPS_EMAIL, a private mailbox only the team reads.
+   This replaces two earlier positions: the TFN went in on 10 September 2026,
+   and bank details, which were held back then, now go in as well.
+
+   What follows from that, and it is load-bearing:
+     - OPS_EMAIL must stay a small internal list. Every address on it can read
+       a TFN, a passport number and a bank account.
+     - every alert says DO NOT FORWARD, top and bottom, because the usual leak
+       is a well-meaning forward to someone who needed one other fact;
+     - none of this goes to ActiveCampaign or any CRM when that is wired up;
+     - Resend keeps a copy of every message it sends, so Resend's dashboard is
+       now also somewhere these values live. Restrict who can log in there.
+
+   One builder, two renderings: opsSections() produces the content once, and
+   the HTML table and the plain-text part are both drawn from it, so the two
+   can never disagree about what the client submitted. */
+
+const VISAS = {
+  417: 'Working Holiday (417)', 462: 'Work and Holiday (462)',
+  482: 'Skilled, TSS / Skills in Demand (482)', 500: 'Student (500)',
+  485: 'Temporary Graduate (485)', 600: 'Visitor (600)', other: 'Other / not sure',
+};
+const EARLIER = { ...VISAS, other: 'Another visa', none: 'No other visa', unsure: 'Not sure' };
+
+// 2026-03-15 -> 15/03/2026. Anything else is shown as it came.
+function auDate(d) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d || ''));
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : (d || null);
+}
+/* A timestamp in Brisbane time, the way ABN Assist prints it:
+   "05/11/2026 at 12:20 pm AEST". Brisbane has no daylight saving, so AEST is
+   always right for it. */
+function auWhen(ts) {
+  if (!ts) return null;
+  const d = new Date(ts);
+  if (Number.isNaN(d.getTime())) return String(ts);
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-AU', {
+    timeZone: 'Australia/Brisbane', day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: 'numeric', minute: '2-digit', hour12: true,
+  }).formatToParts(d).map((x) => [x.type, x.value]));
+  return `${parts.day}/${parts.month}/${parts.year} at ${parts.hour}:${parts.minute} `
+    + `${String(parts.dayPeriod || '').toLowerCase()} AEST`;
+}
+const money = (cents) => (Number.isFinite(cents) ? `$${(cents / 100).toFixed(2)}` : null);
+const tfnSpaced = (t) => {
+  const d = String(t || '').replace(/\D/g, '');
+  return d.length === 9 ? `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6)}` : (t || null);
+};
+const VERIFICATION = {
+  not_started: 'Not started', pending: 'Started, not finished',
+  verified: 'Verified', needs_review: 'Needs review',
+};
+
+function opsSections(c, amountCents) {
+  const intl = c.bank_type === 'international';
+  const paidCents = Number.isFinite(amountCents) ? amountCents : c.amount_paid_cents;
+  const gst = c.gst_treatment === 'taxable' ? 'inc GST' : c.gst_treatment === 'gst_free' ? 'GST-free' : null;
+  const prevAu = c.au_prev_address_line || c.au_prev_address_suburb
+    || c.au_prev_address_state || c.au_prev_address_postcode;
+  let paid = 'Not paid yet';
+  if (c.payment_status === 'refunded') paid = 'Refunded';
+  else if (c.payment_status === 'paid' || c.paid_at) paid = [money(paidCents) || 'Paid', gst].filter(Boolean).join(', ');
+
+  return [
+    ['Order', [
+      ['Service', 'DASP claim'],
+      ['Paid', paid],
+      ['Order / invoice number', c.order_number],
+      ['Form submitted', auWhen(c.created_at)],
+      ['Paid at', auWhen(c.paid_at)],
+      ['Identity check', VERIFICATION[c.verification_status] || c.verification_status],
+      ['Claim status', c.claim_status],
+      ['Claim id', c.id],
+      ['Stripe session', c.stripe_session_id],
+      ['Stripe payment', c.stripe_payment_intent_id],
+      ['Stripe customer', c.stripe_customer_id],
+    ]],
+    ['Client', [
+      ...(c.family_name
+        ? [['Given names', c.given_names || '(none, single-name passport)'], ['Family name', c.family_name]]
+        : [['Full name', c.full_name]]),
+      ['Other names used', c.other_names],
+      ['Date of birth', auDate(c.date_of_birth)],
+      ['Email', c.email],
+      ['Phone', c.phone],
+    ]],
+    ['Passport and visa', [
+      ['Passport number', c.passport_number],
+      ['Country of issue', c.passport_country],
+      ['Visa when they left', VISAS[c.visa_subclass] || c.visa_subclass],
+      ['Visa status', c.visa_status],
+      ['Earlier visas', Array.isArray(c.other_visas) && c.other_visas.length
+        ? c.other_visas.map((v) => EARLIER[v] || v).join(', ') : null],
+      /* The client's answer, to set against the ATO visa screen, which shows
+         Home Affairs' answer to the same question. If they disagree, do not
+         submit: email DASPmail@ato.gov.au. */
+      ['Ever held a 417 or 462',
+        { yes: 'YES', no: 'No', unsure: 'Not sure, check with the client' }[c.whm_ever_held] || c.whm_ever_held],
+      ['Left Australia', auDate(c.date_departed)],
+    ]],
+    ['Tax and super', [
+      /* Spelled out rather than abbreviated, so a skim of the inbox cannot
+         mistake it for a reference number and quote it to somebody. */
+      ['Tax file number', c.tfn ? tfnSpaced(c.tfn) : 'NOT PROVIDED, so the ATO may review this claim manually'],
+      ['Fund', c.fund_unknown ? 'Unknown, run the all-accounts search' : c.fund_name],
+      ['Member number', c.fund_unknown ? null : c.fund_member_number],
+      ['Employers and dates', c.employment_history],
+    ]],
+    ['Payout account', intl ? [
+      ['Account type', 'Outside Australia (international transfer)'],
+      ['Account name', c.bank_account_name],
+      ['Bank', c.bank_name],
+      ['SWIFT / BIC', c.bank_swift],
+      ['Account number or IBAN', c.bank_account_number],
+      ['Bank address', c.bank_address],
+      ['Currency', c.bank_currency],
+    ] : [
+      ['Account type', c.bank_type === 'australian' ? 'Australian account (EFT)' : c.bank_type],
+      ['Account name', c.bank_account_name],
+      ['BSB', c.bank_bsb],
+      ['Account number', c.bank_account_number],
+    ]],
+    ['Current address (outside Australia)', [
+      ['Street', c.address_line],
+      ['Apartment, unit, floor', c.address_line2],
+      ['City / town', c.address_city],
+      ['State / region', c.address_region],
+      ['Postcode', c.address_postcode],
+      ['Country', c.address_country],
+    ]],
+    ['Last address in Australia', [
+      ['Street', c.au_address_line],
+      ['Suburb / town', c.au_address_suburb],
+      ['State', c.au_address_state],
+      ['Postcode', c.au_address_postcode],
+      ...(prevAu ? [
+        ['Previous street', c.au_prev_address_line],
+        ['Previous suburb', c.au_prev_address_suburb],
+        ['Previous state', c.au_prev_address_state],
+        ['Previous postcode', c.au_prev_address_postcode],
+      ] : [['Previous address', 'None given']]),
+    ]],
+    ['Authority and consent', [
+      ['Written authority accepted', auWhen(c.authority_accepted_at)],
+      ['Identity check consent', auWhen(c.identity_consent_at)],
+    ]],
+    ['Where it came from', [
+      ['IP address', c.client_ip],
+      ['Country (from the connection)', c.edge_country],
+    ]],
+  ];
+}
+
+const DO_NOT_FORWARD = 'DO NOT FORWARD. Contains a tax file number, passport and bank details.';
+const blankOr = (v) => (v === null || v === undefined || v === '' ? 'Not given' : v);
+
+/* Renders and sends one team alert about a claim.
+   banner:  { kind: 'stop'|'go'|'alert'|'info', title, text?, url? }
+   summary: the one-line chip, e.g. "DASP claim · $150.00 paid · DASP00020165"
+   notes:   extra plain sentences under the banner (refund reason, due date) */
+function notifyOpsClaim(subject, c, { heading, banner, summary, summaryTone, amountCents, notes = [] }) {
+  const sections = opsSections(c, amountCents);
+  const who = c.full_name || 'the client';
+  const text = [
+    DO_NOT_FORWARD,
+    '',
+    `*** ${banner.title} ***`,
+    banner.text || null,
+    banner.url || null,
+    ...notes,
+    '',
+    summary,
+    '',
+    ...sections.flatMap(([title, rows]) => [
+      String(title).toUpperCase(),
+      ...rows.map(([k, v]) => `${k}: ${blankOr(v)}`),
+      '',
+    ]),
+    `Reply to this email to answer ${who} directly.`,
+    DO_NOT_FORWARD,
+  ];
+
+  const html = H.shell({
+    title: subject,
+    preheader: `${banner.title} ${summary}`,
+    footerNote: `Internal alert for the DASPA team. ${DO_NOT_FORWARD}`,
+    body: [
+      H.h1(heading),
+      H.banner(banner),
+      ...notes.map((n) => H.small(n)),
+      H.summary(summary, summaryTone),
+      ...sections.map(([title, rows]) => H.section(title, rows)),
+      H.small(`Reply to this email to answer ${who} directly.`),
+    ].join('\n'),
+  });
+
+  return notifyOps(subject, text, { html, replyTo: c.email || undefined });
+}
+
+/* "[DASPA] New DASP claim DASP00020165, $150.00, 05/11/2026 at 12:20 pm AEST,
+   ID not verified": the ABN Assist subject shape. The order number comes right
+   after what happened, because that is what the team searches the inbox for. */
+const opsSubject = (what, c, tail) =>
+  `[DASPA] ${[what, c.order_number].filter(Boolean).join(' ')}`
+  + (tail && tail.filter(Boolean).length ? `, ${tail.filter(Boolean).join(', ')}` : '');
 
 /* Was a WhatsApp line until 8 September 2026. WHATSAPP_NUMBER has never been
    set, so config.whatsappLink() resolved to /wa, which redirects to /faq: every
@@ -219,12 +380,20 @@ module.exports = {
   suppressed,
 
   // ---- alerts to us, not to the client ----------------------------------
+  /* Sent when the form is submitted and a payment link issued, BEFORE payment.
+     Same full layout as the paid alert, at Juan's request, so the team sees
+     every new claim complete. Note what that means for an abandoned claim:
+     claims-sweep clears its TFN and bank details from the database after
+     seven days, but this email keeps them in the inbox until someone deletes
+     it. */
   opsNewClaim(c) {
-    return notifyOps(`New DASP claim: ${c.full_name || 'unnamed'}`, [
-      'A claim form was submitted and a payment link issued.',
-      '',
-      ...opsRef(c),
-    ]);
+    return notifyOpsClaim(opsSubject('New DASP claim', c, ['not paid yet']), c, {
+      heading: 'New claim, not paid yet',
+      banner: { kind: 'info', title: 'Payment link issued. Not paid yet.',
+        text: 'The client has submitted the form and been sent to Stripe. A paid alert follows if they pay.' },
+      summary: ['DASP claim', 'not paid yet', c.order_number].filter(Boolean).join(' \u00b7 '),
+      summaryTone: 'muted',
+    });
   },
 
   /* Arrives BEFORE the team is cleared to lodge, and its whole purpose is to
@@ -233,65 +402,71 @@ module.exports = {
      look alike and habit wins. Same reasoning as ABN Assist. */
   opsPaid(c, amountCents) {
     const vUrl = verifyUrl(c);
-    return notifyOps(
-      `PAID, ID NOT VERIFIED: ${c.full_name || 'unnamed'}`
-        + `${amountCents ? `, $${(amountCents / 100).toFixed(2)}` : ''}`,
-      [
-        '*** ID NOT VERIFIED YET. DO NOT LODGE. ***',
-        'A second alert arrives when the client verifies. That one is the go-ahead.',
-        vUrl ? `Send them this link if they say it never arrived:\n${vUrl}` : null,
-        '',
-        ...opsRef(c),
-      ].filter((l) => l !== null)
-    );
+    const paid = money(Number.isFinite(amountCents) ? amountCents : c.amount_paid_cents);
+    return notifyOpsClaim(
+      opsSubject('New DASP claim', c, [paid, auWhen(c.paid_at || new Date()), 'ID not verified']), c, {
+        heading: 'New paid claim',
+        amountCents,
+        banner: { kind: 'stop', title: 'ID not verified yet. Do not lodge.',
+          text: 'A second alert arrives when the client verifies. That one is the go-ahead.'
+            + (vUrl ? ' Send them this link if they need it:' : ''),
+          url: vUrl },
+        summary: ['DASP claim', paid ? `${paid} paid` : 'paid', c.order_number].filter(Boolean).join(' \u00b7 '),
+      });
   },
 
   opsVerified(c) {
-    return notifyOps(`READY TO LODGE: ${c.full_name || 'unnamed'}`, [
-      'Identity verified. Paid and verified, so this claim is cleared for an agent.',
-      config.LODGEMENT_LIVE ? null
-        : 'NOTE: LODGEMENT_LIVE is off, so nothing can be lodged yet. This one waits.',
-      '',
-      ...opsRef(c),
-    ].filter((l) => l !== null));
+    return notifyOpsClaim(opsSubject('READY TO LODGE', c, ['ID verified']), c, {
+      heading: 'Ready to lodge',
+      banner: { kind: 'go', title: 'Identity verified. Cleared for an agent to lodge.',
+        text: config.LODGEMENT_LIVE ? null
+          : 'NOTE: LODGEMENT_LIVE is off, so nothing can be lodged yet. This one waits.' },
+      summary: ['DASP claim', 'paid and verified', c.order_number].filter(Boolean).join(' \u00b7 '),
+    });
   },
 
   opsNeedsReview(c, status) {
-    return notifyOps(`Needs review: ${c.full_name || 'unnamed'}`, [
-      `The identity check came back "${status}", so this one needs a human before it can proceed.`,
-      '',
-      ...opsRef(c),
-    ]);
+    return notifyOpsClaim(opsSubject('NEEDS REVIEW', c, [String(status)]), c, {
+      heading: 'Needs review',
+      banner: { kind: 'alert', title: 'This claim needs a human before it can go further.',
+        text: `The identity check came back "${status}".` },
+      summary: ['DASP claim', 'on hold', c.order_number].filter(Boolean).join(' \u00b7 '),
+      summaryTone: 'muted',
+    });
   },
 
   /* A refund landed. Loud on purpose: a refunded claim must not be lodged, and
      the team works the queue by status, so somebody has to know the status
      changed under them. */
   opsRefunded(c, { amountCents, full, reason }) {
-    const money = amountCents ? `$${(amountCents / 100).toFixed(2)}` : 'an unstated amount';
-    return notifyOps(`${full ? 'REFUNDED' : 'PARTIAL REFUND'}: ${c.full_name || 'unnamed'}`, [
-      full
-        ? `${money} refunded in full. The claim is on hold and must NOT be lodged.`
-        : `${money} refunded, which is less than the fee, so the claim is still marked paid `
-          + 'and is on hold pending a decision. Check whether this was intended.',
-      reason ? `Stripe reason: ${reason}` : null,
-      '',
-      ...opsRef(c),
-    ].filter(Boolean));
+    const amt = money(amountCents) || 'An unstated amount';
+    return notifyOpsClaim(opsSubject(full ? 'REFUNDED' : 'PARTIAL REFUND', c, [money(amountCents)]), c, {
+      heading: full ? 'Refunded' : 'Partial refund',
+      banner: { kind: 'alert',
+        title: full ? 'Refunded in full. Do NOT lodge.' : 'Partly refunded. On hold.',
+        text: full
+          ? `${amt} refunded in full. The claim is on hold and must NOT be lodged.`
+          : `${amt} refunded, which is less than the fee, so the claim is still marked paid `
+            + 'and is on hold pending a decision. Check whether this was intended.' },
+      notes: reason ? [`Stripe reason: ${reason}`] : [],
+      summary: ['DASP claim', 'on hold', c.order_number].filter(Boolean).join(' \u00b7 '),
+      summaryTone: 'muted',
+    });
   },
 
   /* A chargeback, which is not a refund: the money has not gone back yet and
      there is a deadline to respond. Nothing is marked refunded here. */
   opsDispute(c, { amountCents, reason, dueBy }) {
-    const money = amountCents ? `$${(amountCents / 100).toFixed(2)}` : 'an unstated amount';
-    return notifyOps(`DISPUTE OPENED: ${c.full_name || 'unnamed'}`, [
-      `${money} disputed with the cardholder's bank. The claim is on hold.`,
-      reason ? `Reason given: ${reason}` : null,
-      dueBy ? `Evidence due by: ${dueBy}` : null,
-      'This needs a response in Stripe. See the Online Services Stripe dispute process.',
-      '',
-      ...opsRef(c),
-    ].filter(Boolean));
+    const amt = money(amountCents) || 'An unstated amount';
+    return notifyOpsClaim(opsSubject('DISPUTE OPENED', c, [money(amountCents), dueBy ? `due ${dueBy}` : null]), c, {
+      heading: 'Dispute opened',
+      banner: { kind: 'alert', title: 'Card dispute opened. On hold.',
+        text: `${amt} disputed with the cardholder's bank. This needs a response in Stripe: `
+          + 'see the Online Services Stripe dispute process.' },
+      notes: [reason ? `Reason given: ${reason}` : null, dueBy ? `Evidence due by: ${dueBy}` : null].filter(Boolean),
+      summary: ['DASP claim', 'disputed', c.order_number].filter(Boolean).join(' \u00b7 '),
+      summaryTone: 'muted',
+    });
   },
 
   opsPaperForm(name, from, phone, note) {
