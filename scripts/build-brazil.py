@@ -222,10 +222,21 @@ HTML = """<!DOCTYPE html>
 <main class="page">
   <div class="wrap-narrow prose">
 {body}
+<nav class="related" aria-label="Keep reading">
+  <p class="related-h">Keep reading</p>
+  <ul>
+    <li><a href="/dasp">DASP guide</a>: who can claim, the tax rates and the three ways to apply</li>
+    <li><a href="/dasp-calculator">DASP calculator</a>: what you would get back, by visa and balance</li>
+    <li><a href="/how-much-is-super-taxed-when-leaving-australia">DASP tax rates</a>: the 2026 rate table, worked in dollars</li>
+    <li><a href="/dasp-processing-time">How long a DASP takes</a>: the 28-day standard, and how to check your status</li>
+    <li><a href="/dasp-online-application">DASP online application</a>: the ways to lodge, compared</li>
+    <li><a href="/dasp-nat-7204-application-form">DASP form (NAT 7204)</a>: the paper application, and where to send it</li>
+  </ul>
+</nav>
 <div class="cta-band">
   <div>
     <h2>Ready when you are. <em>5 minutes, flat fee.</em></h2>
-    <p>$150 &middot; every fund plus ATO-held super &middot; paid to your bank worldwide in about 28 days.</p>
+    <p>$150 &middot; every fund plus ATO-held super &middot; generally paid within 28 days.</p>
   </div>
   <a class="btn" href="/claim">Start my claim</a>
 </div>
@@ -245,6 +256,10 @@ for token in ("__ATO__", "__CAPS__", "__FAQS__", "__FAQ_ITEMS__"):
     assert token not in HTML, token
 
 out = os.path.join(ROOT, SLUG + ".html")
+# The template is written with \n but HEADER, FOOTER and TAIL are lifted from
+# philippines.html, which is CRLF, so the page came out with mixed endings.
+# Normalise to the template page's own ending, as the other generators now do.
+eol = "\r\n" if "\r\n" in tpl else "\n"
 with open(out, "w", encoding="utf-8", newline="") as fh:
-    fh.write(HTML)
+    fh.write(HTML.replace("\r\n", "\n").replace("\n", eol))
 print("wrote %s.html  title=%d desc=%d  %d FAQs" % (SLUG, len(TITLE), len(DESC), len(FAQ)))

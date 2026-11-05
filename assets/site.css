@@ -181,6 +181,17 @@ section.page-band{padding:44px 0}
 :target{scroll-margin-top:calc(var(--hdr-h, 67px) + 16px)}
 .by-visa p{margin-bottom:10px}
 
+/* Keep reading: the internal anchor map. Each content page links every page
+   that owns a money query, with the words that page should rank for, in body
+   content rather than the footer, and never to itself. */
+.related{margin:30px 0 22px;padding:16px 20px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;max-width:var(--measure)}
+.related .related-h{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 8px}
+.related ul{margin:0 0 0 18px}
+.related li{margin-bottom:6px;font-size:15px;color:var(--muted)}
+.related a{font-weight:700;color:var(--blue)}
+
 /* ---- Stage 7: the band ----------------------------------------------------
    A section is a card on a tinted page, so a boundary is seen before a word is
    read. Two columns: the answer on the left, the thing it refers to on the
