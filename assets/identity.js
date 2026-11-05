@@ -271,6 +271,10 @@
     }
 
     if (s.first_name && el.heroTitle) el.heroTitle.textContent = 'Thank you, ' + s.first_name + '.';
+    /* The fee is paid by now (pending_payment returned above), so the Google
+       Ads conversion can go, with the email as enhanced-conversion data. A
+       no-op on every visit that did not arrive from Stripe; see site.js. */
+    if (typeof window.gadsPaid === 'function') window.gadsPaid(s.email || null);
     if (s.order_number && el.order && el.email) {
       el.order.textContent = s.order_number;
       el.email.textContent = s.email || '';

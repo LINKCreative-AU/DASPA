@@ -186,13 +186,14 @@ function initQuiz() {
    in the DASPA Google Ads account. It loads on every page because the ad click
    lands on a content page, which is where Google stores the click ID, and the
    paid conversion happens later on /verify-id.
-   Consent Mode v2: no advertising cookies are set in the EEA, UK and
-   Switzerland (there is no consent banner yet, so Google gets cookieless pings
-   there); elsewhere conversion measurement is on. ad_personalization stays
-   denied everywhere because DASPA does no remarketing. The privacy policy
-   (section 9) describes this, so keep the two in step. */
+   Consent Mode v2: in the EEA, UK and Switzerland nothing is stored and no
+   user data is sent until the visitor accepts the cookie bar below; elsewhere
+   conversion measurement is on. ad_personalization stays denied everywhere
+   because DASPA does no remarketing. The privacy policy (section 9) describes
+   all of this, so keep the two in step. */
 var GADS_ID = 'AW-18408794255';
 var GADS_PAID = GADS_ID + '/6SbyCL-xtLIdEI_R_8lE';
+var CONSENT_KEY = 'daspa-cookie-choice';
 window.dataLayer = window.dataLayer || [];
 function gtag() { window.dataLayer.push(arguments); }
 gtag('consent', 'default', {
@@ -202,21 +203,99 @@ gtag('consent', 'default', {
 gtag('consent', 'default', {
   ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'denied', analytics_storage: 'denied'
 });
+
+function readChoice() { try { return window.localStorage.getItem(CONSENT_KEY); } catch (e) { return null; } }
+function saveChoice(v) { try { window.localStorage.setItem(CONSENT_KEY, v); } catch (e) { /* the choice lasts this page only */ } }
+function applyChoice(v) {
+  var g = v === 'granted' ? 'granted' : 'denied';
+  gtag('consent', 'update', { ad_storage: g, ad_user_data: g });
+}
+// A remembered choice is applied before config, so the first hit already respects it.
+if (readChoice()) applyChoice(readChoice());
+
 gtag('js', new Date());
-gtag('config', GADS_ID);
+gtag('config', GADS_ID, { allow_enhanced_conversions: true });
+
+/* The paid conversion. Stripe's success_url is /verify-id?s={CHECKOUT_SESSION_ID},
+   so a live session id in the URL means the fee was just paid. The session id
+   is the transaction_id, so a reload or a return visit is never counted twice,
+   and the emailed /verify-id?c=&o= links carry no s at all. Test-mode sessions
+   (cs_test_) are ignored. identity.js calls gadsPaid(email) once the server has
+   returned the claim, so the email goes with it as enhanced-conversion data
+   (gtag hashes it before it leaves the browser, and consent mode withholds it
+   where ad_user_data is denied). If the server never answers, it fires without
+   the email after eight seconds rather than not at all. The session id is read
+   here, before identity.js rewrites the address bar. */
+var gadsPaid = (function () {
+  var sid = '';
+  if (location.pathname.replace(/\.html$/, '') === '/verify-id') {
+    sid = new URLSearchParams(location.search).get('s') || '';
+  }
+  if (!/^cs_live_/.test(sid)) return function () {};
+  var done = false;
+  function fire(email) {
+    if (done) return;
+    done = true;
+    if (email) gtag('set', 'user_data', { email: String(email).trim().toLowerCase() });
+    gtag('event', 'conversion', { send_to: GADS_PAID, value: FEE, currency: 'AUD', transaction_id: sid });
+  }
+  window.setTimeout(function () { fire(null); }, 8000);
+  return fire;
+})();
+
 (function () {
   var s = document.createElement('script');
   s.async = true;
   s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GADS_ID;
   document.head.appendChild(s);
-
-  // Stripe's success_url is /verify-id?s={CHECKOUT_SESSION_ID}, so a live
-  // session id in the URL means the fee was just paid. The session id is the
-  // transaction_id, so a reload or a return visit is never counted twice, and
-  // the emailed /verify-id?c=&o= links carry no s at all. Test-mode sessions
-  // (cs_test_) are ignored.
-  if (location.pathname.replace(/\.html$/, '') !== '/verify-id') return;
-  var sid = new URLSearchParams(location.search).get('s') || '';
-  if (!/^cs_live_/.test(sid)) return;
-  gtag('event', 'conversion', { send_to: GADS_PAID, value: FEE, currency: 'AUD', transaction_id: sid });
 })();
+
+/* Cookie bar, for visitors in Europe only. Google decides the consent default
+   from the visitor's IP; the page cannot see that, so it uses the device time
+   zone instead. Both mistakes are safe: a European visitor whose device says
+   otherwise never sees the bar and stays at the denied default, and anyone
+   else shown it is simply asked. The privacy page's "change my cookie choice"
+   button reopens it for anyone. */
+function inEurope() {
+  var tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return false; }
+  return /^Europe\//.test(tz) || /^(Atlantic\/(Reykjavik|Canary|Madeira|Azores|Faroe)|Arctic\/Longyearbyen)$/.test(tz);
+}
+function showCookieBar() {
+  if (document.getElementById('cookie-bar')) return;
+  var bar = document.createElement('div');
+  bar.id = 'cookie-bar';
+  bar.className = 'cookie-bar';
+  bar.setAttribute('role', 'region');
+  bar.setAttribute('aria-label', 'Cookie choice');
+  var p = document.createElement('p');
+  p.appendChild(document.createTextNode('May we use cookies to see which of our ads brought you here? They are used only to measure our advertising, never to show you ads elsewhere. '));
+  var a = document.createElement('a');
+  a.href = '/privacy#cookies';
+  a.textContent = 'How we use cookies';
+  p.appendChild(a);
+  var btns = document.createElement('div');
+  btns.className = 'cookie-btns';
+  [['denied', 'No thanks', 'cookie-no'], ['granted', 'Accept', 'btn cookie-yes']].forEach(function (b) {
+    var el = document.createElement('button');
+    el.type = 'button';
+    el.className = b[2];
+    el.textContent = b[1];
+    el.addEventListener('click', function () {
+      saveChoice(b[0]);
+      applyChoice(b[0]);
+      bar.parentNode.removeChild(bar);
+    });
+    btns.appendChild(el);
+  });
+  bar.appendChild(p);
+  bar.appendChild(btns);
+  document.body.appendChild(bar);
+}
+document.addEventListener('DOMContentLoaded', function () {
+  if (!readChoice() && inEurope()) showCookieBar();
+  var again = document.querySelectorAll('[data-cookie-choice]');
+  for (var i = 0; i < again.length; i++) {
+    again[i].addEventListener('click', function () { showCookieBar(); });
+  }
+});

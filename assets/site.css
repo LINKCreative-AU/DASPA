@@ -549,3 +549,12 @@ html[lang="ja"] body{font-family:'Plus Jakarta Sans','Hiragino Sans','Yu Gothic'
 .vcard .btn[disabled]{opacity:.55;cursor:default}
 .vmeta{display:flex;flex-wrap:wrap;gap:6px 30px;justify-content:center;font-size:14px;color:var(--muted);margin-bottom:22px}
 .vmeta b{color:var(--ink);font-weight:700}
+
+/* cookie bar (EEA/UK/CH visitors, see site.js) */
+.cookie-bar{position:fixed;left:16px;right:16px;bottom:16px;z-index:60;max-width:760px;margin:0 auto;background:var(--navy);color:#fff;border-radius:12px;box-shadow:0 8px 28px rgba(9,31,91,.35);padding:14px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.cookie-bar p{margin:0;flex:1 1 320px;font-size:14px;line-height:1.5}
+.cookie-bar a{color:#fff;text-decoration:underline}
+.cookie-btns{display:flex;gap:10px;align-items:center}
+.cookie-bar .cookie-yes{padding:9px 20px;font-size:15px}
+.cookie-no{background:none;border:1px solid rgba(255,255,255,.6);color:#fff;font:inherit;font-size:15px;font-weight:600;padding:9px 16px;border-radius:10px;cursor:pointer}
+.linklike{background:none;border:0;padding:0;font:inherit;color:var(--blue);text-decoration:underline;cursor:pointer}
