@@ -25,6 +25,7 @@
 
 const db = require('./supabase');
 const email = require('./email');
+const idDocs = require('./id-documents');
 
 /* Marks a claim verified and does what follows from it.
    Returns { claimed } so a caller can log whether this call was the one that
@@ -89,8 +90,60 @@ async function markVerified({ claimId, customerId, sessionId, at }) {
   ]);
   if (sent) await db.insertAudit(claim.id, 'email_verified', claim.email);
 
+  /* After the announcements, because a purge failure must not cost the client
+     their email. */
+  const purged = await purgeIdDocuments(claim);
+
   console.log(`identity: ${claim.id} verified, client email=${sent}, ops alert=${alerted}`);
-  return { claimed: true, claimId: claim.id, sent, alerted };
+  return { claimed: true, claimId: claim.id, sent, alerted, purged };
 }
 
-module.exports = { markVerified };
+/* Destroys any ID documents the client uploaded through /id-verification, now
+   that the check they were for has passed.
+
+   Only reaches anything for the few claims that came through the manual
+   upload. The team downloads those images and runs the check by hand in Stripe
+   against the client's Stripe customer; Stripe then sends the same
+   identity.verification_session.verified event as for a check the client did
+   themselves, the webhook resolves the claim through related_customer, and
+   markVerified above lands here. Juan's point, 5 November 2026: the
+   verification is through Stripe even when we do it, so this fires either way.
+
+   What is kept is the record that a check was done (submission.json in the
+   bucket and the two timestamp columns), not the photographs. Ported from
+   abnassist-site/lib/identity-verified.js.
+
+   The path is cleared only after the delete succeeds. A failed purge leaves the
+   pointer in place, so the 30-day sweep can finish the job rather than leaving
+   images nothing knows about. Every failure is a logged no-op: the verification
+   is already recorded and must not be undone by a storage problem. */
+async function purgeIdDocuments(claim) {
+  const prefix = claim && claim.id_documents_path;
+  if (!prefix) return { skipped: 'none held' };
+
+  let result;
+  try {
+    result = await idDocs.purge(prefix);
+  } catch (e) {
+    console.error(`identity: ID documents for ${claim.id} at ${prefix} were NOT deleted:`, e.message);
+    return { error: e.message, prefix };
+  }
+
+  try {
+    await db.updateClaim(claim.id, {
+      id_documents_path: null,
+      id_documents_deleted_at: result.at || new Date().toISOString(),
+    });
+    await db.insertAudit(claim.id, 'id_documents_deleted', `${result.deleted} file(s), claim verified`)
+      .catch(() => {});
+  } catch (e) {
+    /* The images are already gone, so this is bookkeeping rather than
+       retention. Loud, because the row now points at an empty folder. */
+    console.error(`identity: deleted ${result.deleted} ID document(s) for ${claim.id} but could not clear the path:`, e.message);
+  }
+
+  console.log(`identity: ${claim.id} verified, ${result.deleted} uploaded ID document(s) destroyed`);
+  return result;
+}
+
+module.exports = { markVerified, purgeIdDocuments };

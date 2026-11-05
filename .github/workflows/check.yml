@@ -120,3 +120,9 @@ jobs:
       # this endpoint is the control.
       - name: Checkout refusals
         run: node tests/checkout-refusals.mjs
+
+      # The manual passport upload: refused without a paid claim, linked to the
+      # claim, team emailed download links not attachments, images destroyed
+      # when Stripe marks the claim verified, and the 30-day sweep.
+      - name: Passport upload
+        run: node tests/id-document.mjs

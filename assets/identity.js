@@ -60,11 +60,34 @@
     (o.after || []).forEach(function (node) { el.body.appendChild(node); });
   }
 
-  /* The only fallback we offer is a person. There is no self-service ID
-     upload yet, so nothing here may link to one: sending a claimant to a page
-     that cannot take their document is worse than telling them to email us.
-     Pre-filling the subject with the order number saves the team a round trip
-     asking which claim this is. */
+  /* Two fallbacks. The manual passport upload at /id-verification, added on
+     5 November 2026 (ported from ABN Assist, at Juan's request, in place of
+     "email us"), is the one offered when the check itself will not work: the
+     team gets the passport in private storage and runs the check by hand in
+     Stripe. Email stays for when something is wrong on our side.
+
+     The upload link carries the order number, so the client does not have to
+     find it; the page prefills it. The mail link pre-fills the subject with it,
+     which saves the team a round trip asking which claim this is. */
+  function uploadHref() {
+    return '/id-verification' + (O ? '?o=' + encodeURIComponent(O) : '');
+  }
+  function uploadLine(text) {
+    var p = document.createElement('p');
+    var a = document.createElement('a');
+    a.href = uploadHref();
+    a.textContent = text;
+    p.appendChild(a);
+    return p;
+  }
+  function uploadButton(label) {
+    var a = document.createElement('a');
+    a.className = 'btn';
+    a.href = uploadHref();
+    a.textContent = label;
+    return a;
+  }
+
   function mailLine(text, subject) {
     var p = document.createElement('p');
     var a = document.createElement('a');
@@ -119,8 +142,7 @@
       button: verifyButton(),
       after: [
         para('Handled by Stripe Identity. Your document goes to Stripe, not to us, and we only ever see whether it succeeded.'),
-        mailLine('Cannot get it to work, or your document is not accepted? Email claims@daspa.com.au with your order reference and we will assist you.',
-          subject('Identity verification help')),
+        uploadLine('Cannot get it to work, or your passport is not accepted? Send us a photo of your passport instead and we will check it by hand.'),
       ],
     });
   }
@@ -131,9 +153,10 @@
       title: 'We will verify your identity by hand',
       paras: [
         'The automated check cannot be used for your passport or the country you live in, so one of our team will do it manually instead. This is not a problem with your claim.',
-        'We will email you with what we need and how to send it securely. There is nothing for you to do right now.',
+        'Upload a clear photo of your passport\'s photo page. It goes into private storage only our team can open, and it is deleted once your identity is confirmed.',
       ],
-      after: [mailLine('Rather get started? Email us.', subject('Manual identity verification'))],
+      button: uploadButton('Send us your passport'),
+      after: [mailLine('Questions? Email claims@daspa.com.au with your order reference.', subject('Manual identity verification'))],
     });
   }
 
@@ -212,8 +235,11 @@
         'Please try again in a few minutes, or email claims@daspa.com.au and we will send you a fresh link.',
       ],
       button: verifyButton(),
-      after: [mailLine('Or email claims@daspa.com.au with your order reference and we will assist you.',
-        subject('Identity verification help'))],
+      after: [
+        uploadLine('Or send us a photo of your passport instead and we will check it by hand.'),
+        mailLine('Or email claims@daspa.com.au with your order reference and we will assist you.',
+          subject('Identity verification help')),
+      ],
     });
   }
 

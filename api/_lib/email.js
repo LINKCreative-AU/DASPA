@@ -270,14 +270,21 @@ function opsSections(c, amountCents) {
 }
 
 const DO_NOT_FORWARD = 'DO NOT FORWARD. Contains a tax file number, passport and bank details.';
-const blankOr = (v) => (v === null || v === undefined || v === '' ? 'Not given' : v);
+const blankOr = (v) => {
+  if (v === null || v === undefined || v === '') return 'Not given';
+  // A link value prints as its label and the URL, since a text part has no anchors.
+  if (typeof v === 'object' && v.href) return `${v.label || 'Download'} ${v.href}`;
+  return v;
+};
 
 /* Renders and sends one team alert about a claim.
    banner:  { kind: 'stop'|'go'|'alert'|'info', title, text?, url? }
    summary: the one-line chip, e.g. "DASP claim · $150.00 paid · DASP00020165"
    notes:   extra plain sentences under the banner (refund reason, due date) */
-function notifyOpsClaim(subject, c, { heading, banner, summary, summaryTone, amountCents, notes = [] }) {
-  const sections = opsSections(c, amountCents);
+function notifyOpsClaim(subject, c, { heading, banner, summary, summaryTone, amountCents, notes = [], leadSections = [] }) {
+  /* leadSections go above the claim, for an alert whose news is not the claim
+     itself: the uploaded ID documents, say. */
+  const sections = [...leadSections, ...opsSections(c, amountCents)];
   const who = c.full_name || 'the client';
   const text = [
     DO_NOT_FORWARD,
@@ -454,6 +461,44 @@ module.exports = {
       notes: [reason ? `Reason given: ${reason}` : null, dueBy ? `Evidence due by: ${dueBy}` : null].filter(Boolean),
       summary: ['DASP claim', 'disputed', c.order_number].filter(Boolean).join(' \u00b7 '),
       summaryTone: 'muted',
+    });
+  },
+
+  /* Passport photos uploaded through /id-verification. AMBER, because it is a
+     task: somebody has to download them and run the check by hand in Stripe.
+     The full claim follows the documents, so the check can be done from this
+     one email. Ported from ABN Assist's teamIdDocuments, 5 November 2026. */
+  opsIdDocuments(c, { documents = [], missing = [], note, linked, matchedOn, uploaderName, uploaderEmail, prefix, linkDays = 7 }) {
+    const count = documents.length;
+    const mb = (b) => (b < 1048576 ? `${Math.max(1, Math.round(b / 1024))}KB` : `${(b / 1048576).toFixed(1)}MB`);
+    const docRows = documents.map((d, i) => [
+      `${i + 1}. ${d.name} (${mb(d.size || 0)})`,
+      d.url ? { href: d.url, label: 'Download' } : 'Link failed, open the storage bucket',
+    ]);
+    return notifyOpsClaim(opsSubject('ID DOCUMENTS TO CHECK', c, [`${count} file${count === 1 ? '' : 's'}`]), c, {
+      heading: 'ID documents to check',
+      banner: { kind: 'stop', title: 'Run the identity check by hand in Stripe.',
+        text: `${uploaderName || c.full_name || 'The client'} uploaded ${count === 1 ? 'a document' : `${count} documents`} `
+          + 'because the automatic check would not work for them. Run it in Stripe against their Stripe customer '
+          + `(${c.stripe_customer_id || 'see the order section'}), so the verification lands on this claim.` },
+      notes: [
+        missing.length ? `Did not arrive: ${missing.join(', ')}. Ask them to send ${missing.length === 1 ? 'it' : 'those'} again.` : null,
+        linked
+          ? `These files are deleted automatically once Stripe marks ${c.order_number || 'this claim'} verified, and within 30 days either way.`
+          : 'NOT linked to the claim, so they will not be deleted on verification. The 30-day sweep still catches them.',
+      ].filter(Boolean),
+      summary: ['ID documents', `${count} file${count === 1 ? '' : 's'}`, c.order_number].filter(Boolean).join(' \u00b7 '),
+      summaryTone: 'muted',
+      leadSections: [
+        [`Documents (links expire in ${linkDays} days)`, docRows],
+        ['Upload', [
+          ['Uploaded by', uploaderName],
+          ['Their email', uploaderEmail],
+          ['Matched to the claim by', matchedOn],
+          ['What went wrong for them', note],
+          ['Stored at', prefix],
+        ]],
+      ],
     });
   },
 

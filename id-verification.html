@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Passport Upload | DASPA</title>
+<meta name="description" content="For DASPA clients whose automatic identity check will not go through: upload a photo of your passport to private storage and a registered tax agent checks it by hand.">
+<link rel="canonical" href="https://daspa.com.au/id-verification">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+/* The manual ID upload, ported from ABN Assist's /id-verification in DASPA's
+   palette. Same drop zone as /upload-form so the two read as one site. */
+.idu-drop{border:2px dashed #c9cce0;border-radius:12px;background:#f4f6ff;padding:26px 16px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.idu-drop:hover,.idu-drop.over,.idu-drop:focus{border-color:var(--blue);background:#eef2ff;outline:none}
+.idu-drop b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+.idu-drop span{color:var(--muted);font-size:13px}
+.idu-count{font-size:12.5px;color:var(--muted);margin-top:8px}
+.idu-file{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;margin-top:7px;font-size:13.5px;background:#fff}
+.idu-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink);font-weight:600}
+.idu-size{color:var(--muted);flex:none}
+.idu-tick{flex:none;font-weight:700;color:var(--green)}
+.idu-bar{flex:none;width:90px;height:6px;border-radius:3px;background:#e3e5f2;overflow:hidden}
+.idu-bar i{display:block;height:100%;background:var(--blue)}
+.idu-remove{flex:none;border:0;background:none;color:#c62828;font-size:18px;cursor:pointer;line-height:1}
+#idu-status.ok{background:#eef2ff;border-color:var(--blue);color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="/"><img src="/assets/daspa-logo-white.svg" alt="DASPA" width="83" height="30"><small>Get your super back</small></a>
+    <a class="rta-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><b>Registered Tax Agent</b>26076969</a>
+    <span class="head-spacer"></span>
+    <a class="calc-link" href="/dasp-calculator" aria-label="DASP calculator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 7h7"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01"/></svg><span class="cl-label">DASP Calculator</span></a>
+    <a class="wa-btn" href="/wa" data-wa target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg><span class="wa-label">WhatsApp</span></a>
+    <a class="btn start" href="/claim" style="visibility:hidden">Start my claim</a>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="crumbs"><a href="/">DASPA</a> › Secure passport upload</div>
+    <h1>Send us your passport <em>securely</em></h1>
+    <p class="sub">If the automatic identity check would not work for you, upload a photo of your passport here and a registered tax agent checks it by hand, at no extra cost.</p>
+  </div>
+</section>
+
+<main class="page">
+  <div class="wrap-narrow">
+    <div class="note" style="margin-bottom:18px">Upload a clear photo of your <b>passport's photo page</b>: in focus, no glare or shadows, every detail readable. JPG, PNG, HEIC, WEBP and PDF are all accepted, up to 25MB per file and four files in total. We never need your tax file number for this.</div>
+
+    <form class="form-card" id="idu-form" novalidate>
+      <!-- The decoy for _lib/guard.js. Off screen rather than display:none, which
+           some bots skip; tabindex and autocomplete keep real people and password
+           managers out of it. -->
+      <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+        <label for="company_website">Leave this field empty</label>
+        <input type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off" data-1p-ignore data-lpignore="true" data-bwignore data-form-type="other">
+      </div>
+      <div class="form-head"><h2>Send us your passport</h2><span class="stepnum">PRIVATE STORAGE</span></div>
+      <div class="form-body">
+        <div class="row2">
+          <div class="field"><label for="idu-name">Your name <span class="why">as in your passport</span></label>
+            <input type="text" id="idu-name" name="name" autocomplete="name" required>
+            <div class="err">Please enter your name.</div></div>
+          <div class="field"><label for="idu-email">Your email <span class="why">the one you paid with</span></label>
+            <input type="email" id="idu-email" name="email" autocomplete="email" required>
+            <div class="err">Please enter a valid email address.</div></div>
+        </div>
+        <div class="field"><label for="idu-order">Order number <span class="why">optional, starts with DASP, it is in your confirmation email</span></label>
+          <input type="text" id="idu-order" name="order" autocomplete="off" autocapitalize="characters" placeholder="DASP00000000"></div>
+        <div class="field">
+          <label class="lab" id="idu-drop-label">Your passport photo</label>
+          <div class="idu-drop" id="idu-drop" role="button" tabindex="0" aria-labelledby="idu-drop-label" aria-describedby="idu-drop-hint">
+            <b>Drop your files here, or tap to choose</b>
+            <span id="idu-drop-hint">JPG, PNG, HEIC, WEBP or PDF &middot; up to 25MB each &middot; four files at most</span>
+          </div>
+          <input type="file" id="idu-file" class="hidden" multiple accept="image/*,.pdf,.heic,.heif">
+          <div class="idu-count" id="idu-count"></div>
+          <div id="idu-list"></div>
+          <div class="err" id="idu-file-err" style="display:none"></div>
+        </div>
+        <div class="field"><label for="idu-note">What went wrong? <span class="why">optional, but it helps us fix it</span></label>
+          <textarea id="idu-note" name="note" placeholder="For example: the camera would not open, or my passport was not accepted."></textarea></div>
+        <div class="stop hidden" id="idu-status" role="status" aria-live="polite"></div>
+      </div>
+      <div class="form-foot">
+        <div class="total">Stuck on this too?<b><a href="mailto:claims@daspa.com.au" style="color:var(--navy);text-decoration:none;font-size:15px">claims@daspa.com.au</a></b></div>
+        <button type="submit" class="btn" id="idu-submit">Send my passport</button>
+      </div>
+    </form>
+
+    <div class="form-card hidden" id="idu-thanks">
+      <div class="form-head"><h2>Passport received &check;</h2></div>
+      <div class="form-body">
+        <p>Thank you. Your passport is with our registered tax agents, and we have your email as <b id="idu-thanks-email"></b>. There is nothing further for you to do.</p>
+        <p>We check uploads during business hours, Brisbane time. If anything is unreadable we will email you and ask for one more photo. Otherwise the next thing you hear from us is that your identity is verified and your claim is ready to lodge.</p>
+        <p>Questions in the meantime? Email <a href="mailto:claims@daspa.com.au">claims@daspa.com.au</a> with your order number.</p>
+      </div>
+    </div>
+
+    <div class="form-card" style="margin-top:26px">
+      <div class="form-body">
+        <h2 style="font-size:18px;margin:0 0 10px">What happens to your passport photo</h2>
+        <p style="font-size:14.5px;color:var(--muted);margin:0 0 10px">It travels over an encrypted connection into private storage that only our team can open. It is not posted anywhere, it is not attached to an email, and it is used for one thing: confirming you are who you say you are, which we are required to do before lodging your DASP claim on your behalf.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin:0 0 10px">We keep it only as long as we need it. Once your identity is confirmed the images are deleted, and all we keep is the record that the check was done. If the check is never completed, they are deleted within 30 days of the upload anyway.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin:0">Australian Registration Office Pty Ltd, Registered Tax Agent 26076969. Our <a href="/privacy">Privacy Policy</a> covers how we handle identity documents.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="/"><img src="/assets/daspa-logo-white.svg" alt="DASPA" width="83" height="30"></a>
+        <div class="entity">
+          Operated by Australian Registration Office Pty Ltd<br>
+          ABN <a href="https://abr.business.gov.au/ABN/View?abn=58645964156" target="_blank" rel="noopener">58 645 964 156</a><br>
+          Tax Agent Number <a href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener">26076969</a><br>
+          <a href="/tpb">Important Information for Clients</a>
+        </div>
+      </div>
+      <div class="foot-links">
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Claim your super</h4>
+            <a href="/claim">Start my claim</a>
+            <a href="/dasp-calculator">DASP tax calculator</a>
+            <a href="/dasp-online-application">DASP online application</a>
+            <a href="/dasp-nat-7204-application-form">Application form (PDF)</a>
+            <a href="/pricing">Pricing</a>
+          </div>
+          <div class="foot-col">
+            <h4>Guides</h4>
+            <a href="/claim-super-leaving-australia">Claiming super after leaving</a>
+            <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
+            <a href="/dasp-processing-time">How long a DASP takes</a>
+            <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
+            <a href="/can-i-claim-my-super-myself-for-free">Doing it yourself for free</a>
+            <a href="/faq">FAQ</a>
+          </div>
+          <div class="foot-col">
+            <h4>By visa and country</h4>
+            <a href="/visas">DASP by visa</a>
+            <a href="/visa-417">Working holiday 417</a>
+            <a href="/visa-482">Skilled 482</a>
+            <a href="/claim-super-from">Claiming from overseas</a>
+            <a href="/uk">From the UK</a>
+            <a href="/ireland">From Ireland</a>
+          </div>
+        </div>
+        <div class="foot-legal">
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/tpb">Important Information for Clients</a>
+          <a href="mailto:claims@daspa.com.au">Email us</a>
+        </div>
+      </div>
+      <div>
+        <a class="tpb-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><img src="/assets/tpb-mark-on-dark.png" alt="Tax Practitioners Board, Registered Tax Practitioner 26076969" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="disclaimer">
+      DASPA is a lodgement service operated by a registered tax agent; we are not a financial adviser and nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO. No agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account. We never hold client money. Identity verification is powered by <a href="https://stripe.com/identity" target="_blank" rel="noopener">Stripe Identity</a>. © Australian Registration Office Pty Ltd.
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/id-document.js"></script>
+<script defer src="https://registrationoffice.com.au/t.js" data-site="daspa"></script>
+</body>
+</html>

@@ -86,8 +86,9 @@ for (const f of files) {
   const BRAND = ' | DASPA';
   const titleNoBrand = title.endsWith(BRAND) ? title.slice(0, -BRAND.length) : title;
   /* og tags are social-sharing presentation, so they only apply to a page
-     meant to be shared. The five noindex pages here are steps inside a paid
-     flow: /claim, /confirmation, /upload-form, /verify and /verify-id. Two of
+     meant to be shared. The six noindex pages here are steps inside a paid
+     flow: /claim, /confirmation, /upload-form, /id-verification, /verify and
+     /verify-id. Three of
      them handle identity documents, and giving an ID upload page an inviting
      1200x630 card would be worse than giving it none. Treated as
      not-applicable, the same way schema already is above. If any of these ever

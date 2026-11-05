@@ -255,14 +255,21 @@ const section = (title, rows) => `        <div style="margin:0 0 6px;padding-top
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 20px">
 ${rows.map(([k, v]) => {
     const blank = v === null || v === undefined || v === '';
+    /* A value can be a link: { href, label }. The href goes in the anchor and
+       nowhere else, because a signed storage URL is 400 characters of JWT and
+       printed as text it buries the email. */
+    const cell = blank ? 'Not given'
+      : (v && typeof v === 'object' && v.href)
+        ? `<a href="${esc(v.href)}" style="color:${C.link};font-weight:bold;text-decoration:none">${esc(v.label || 'Download')} &rarr;</a>`
+        : esc(v);
     return `          <tr>
-            <td width="38%" style="padding:9px 12px 9px 0;border-bottom:1px solid ${C.line};font-size:13px;color:${C.muted};vertical-align:top">${esc(k)}</td>
-            <td style="padding:9px 0;border-bottom:1px solid ${C.line};font-size:14px;font-weight:bold;color:${blank ? C.muted : C.ink};vertical-align:top;word-break:break-word;white-space:pre-line">${blank ? 'Not given' : esc(v)}</td>
+            <td width="38%" style="padding:9px 12px 9px 0;border-bottom:1px solid ${C.line};font-size:13px;color:${C.muted};vertical-align:top;word-break:break-word">${esc(k)}</td>
+            <td style="padding:9px 0;border-bottom:1px solid ${C.line};font-size:14px;font-weight:bold;color:${blank ? C.muted : C.ink};vertical-align:top;word-break:break-word;white-space:pre-line">${cell}</td>
           </tr>`;
   }).join('\n')}
         </table>`;
 
-const small = (text) => `        <p style="margin:4px 0 0;font-size:13px;color:${C.muted};line-height:1.6">${esc(text)}</p>`;
+const small = (text) => `        <p style="margin:4px 0 14px;font-size:13px;color:${C.muted};line-height:1.6">${esc(text)}</p>`;
 
 const link = (url, label) =>
   `<a href="${esc(url)}" style="color:${C.link};font-weight:bold">${esc(label || url)}</a>`;

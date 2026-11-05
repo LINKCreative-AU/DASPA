@@ -453,10 +453,37 @@ pages, and should be confirmed against ARO's executed copy.
    `manualOnly()` matches the claim's free-text `passport_country` (China, PRC, the
    two SARs, Russia, in several spellings and scripts), returns **403** without
    creating a session, and alerts ops. `/verify` reads that 403 and points the
-   client at `/upload-form` for a manual check at no extra cost, so nobody pays and
-   then hits a Stripe refusal. Taiwan is deliberately allowed through; **get a
+   client at `/id-verification` to upload a passport photo for a manual check at
+   no extra cost. Since 5 November 2026 the check also looks at the country the
+   client lives in (`manualOnlyReason`), not only the passport. Taiwan is deliberately allowed through; **get a
    written answer from Stripe on Taiwanese passports before launch**, since Stripe
    lists Taiwan separately in its own supported-document tables.
+
+## Manual passport upload (`/id-verification`)
+
+Added 5 November 2026, ported from ABN Assist's `/id-verification` at Juan's
+request, so a client whose Stripe Identity check will not work uploads their
+passport instead of emailing it. The identity page links here from the "not
+completed" card (with the order number prefilled), from the China and Russia
+manual-check card, and from the "could not start the check" card.
+
+| Part | What it does |
+|---|---|
+| `id-verification.html`, `assets/id-document.js` | The page. Up to four files, JPG, PNG, HEIC, WEBP or PDF, 25 MB each. The file goes from the phone straight to storage, never through our function (Vercel caps a body at 4.5 MB) |
+| `api/id-document.js` | `start` finds the **paid** claim by order number or email, refuses with 404 before storing anything if there is none, and hands back a signed upload URL per file. `finish` checks what actually arrived, stamps the claim and emails the team |
+| `api/_lib/id-documents.js` | Everything that touches the private `id-documents-daspa` bucket (created on first use) |
+| `opsIdDocuments` in `api/_lib/email.js` | The team alert: a Download link per file (expires in 7 days, never an attachment), the client's note, their Stripe customer ID, then the full claim |
+| `api/_lib/identity-verified.js` | Deletes the images the moment the claim is verified. The team runs the check by hand in Stripe against the client's Stripe customer; Stripe sends the same `verified` event, the webhook finds the claim through `related_customer`, and the purge runs there |
+| `api/id-documents-sweep.js` | Daily (cron, 16:30 UTC), deletes anything older than 30 days whatever its state. Needs `CRON_SECRET`, fails closed without it |
+| `supabase/2026-11-05-id-documents.sql` | `id_documents_path`, `id_documents_at`, `id_documents_deleted_at` on `claims`. Applied 5 November 2026. Service-role only, not on anon's grant |
+
+**For the team.** Run the manual check in Stripe against the client's **Stripe
+customer** (it is in the alert). A session not attached to that customer will
+not find the claim, so the claim will not be marked verified and the images
+will wait for the 30-day sweep instead.
+
+The images are deleted; `submission.json` in the bucket and the two timestamp
+columns stay, as the record that a check was done. Tests: `node tests/id-document.mjs`.
 
 ## Checks and generators
 
