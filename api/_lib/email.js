@@ -502,18 +502,6 @@ module.exports = {
     });
   },
 
-  opsPaperForm(name, from, phone, note) {
-    return notifyOps(`Paper form received: ${name || 'unnamed'}`, [
-      'A completed paper application arrived through /upload-form.',
-      'It is in storage and has no claim record yet, so it needs keying in and a payment link.',
-      '',
-      `Name:  ${name || '(not given)'}`,
-      `Email: ${from || '(not given)'}`,
-      phone ? `Phone: ${phone}` : null,
-      note ? `Note:  ${note}` : null,
-    ]);
-  },
-
   /* THE ONE EMAIL THAT MATTERS. First contact, because nothing is sent before
      payment any more: a client who has not paid has not ordered anything and
      does not need a receipt for it.

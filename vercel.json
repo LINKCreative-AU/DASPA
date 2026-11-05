@@ -1,6 +1,23 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/dasp-nat-7204-application-form",
+      "destination": "/dasp-online-application",
+      "permanent": true
+    },
+    {
+      "source": "/assets/DASPA-DASP-Application-Form.pdf",
+      "destination": "/dasp-online-application",
+      "permanent": true
+    },
+    {
+      "source": "/upload-form",
+      "destination": "/id-verification",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/googlec958a1798c20283a.html",

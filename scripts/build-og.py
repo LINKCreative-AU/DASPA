@@ -119,7 +119,6 @@ CARDS = {
  "dasp-processing-time": ("How long does a DASP actually take?", "What starts the clock, what stalls it, and how to chase a slow claim."),
  "can-i-claim-tax-back-on-super-withdrawal": ("Can you claim the tax back on your super?", "The one narrow exception, and the refund most people miss."),
  "can-i-claim-my-super-myself-for-free": ("Yes, you can do this yourself for free.", "The ATO route step by step, and where DIY claims come unstuck."),
- "dasp-nat-7204-application-form": ("The DASP application form, as a fillable PDF", "Our version of NAT 7204. Fill it in, send it back, we lodge it."),
  "faq": ("Straight answers about claiming your super", "Tax, timing, lost funds, overseas payments and the free ATO option."),
  "pricing": ("One flat fee. Never a percentage.", "$150.00 covers every fund. No super recovered, no fee."),
  "visas": ("Which visa were you on?", "417, 462, 482, 500 and the rest. Your subclass sets your tax rate."),

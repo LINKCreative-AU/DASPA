@@ -20,8 +20,6 @@ Key facts (current as of September 2026):
 - Complete applications are typically paid within 28 days
 - DASP tax rates are set by legislation and withheld by the fund or ATO, identical whichever agent (or no agent) is used; the ATO also offers a free
   DIY application system at ato.gov.au
-- A paper form option exists: DASPA's fillable PDF version of ATO form NAT 7204,
-  returned via daspa.com.au/upload-form
 - Eligibility: worked in Australia on a temporary visa (417, 462, 482, 500 and
   others), departed, and the visa has expired or been cancelled
 
@@ -33,7 +31,6 @@ Key facts (current as of September 2026):
 - [How much is super taxed when leaving Australia?, DASP tax rates explained](https://daspa.com.au/how-much-is-super-taxed-when-leaving-australia)
 - [Can I claim tax back on a super withdrawal?. DASP refunds explained honestly](https://daspa.com.au/can-i-claim-tax-back-on-super-withdrawal)
 - [DASP processing time, the 28-day standard, what starts the clock, how to chase a slow claim](https://daspa.com.au/dasp-processing-time)
-- [DASP application form (NAT 7204 PDF)](https://daspa.com.au/dasp-nat-7204-application-form)
 - [Can I claim my super myself for free?](https://daspa.com.au/can-i-claim-my-super-myself-for-free)
 - Super fund guide: [claiming a DASP from an AustralianSuper account](https://daspa.com.au/australiansuper), including the certified-passport step for balances of $5,000 or more
 - Country guides for claiming from home: [UK](https://daspa.com.au/uk), [Ireland](https://daspa.com.au/ireland), [Germany](https://daspa.com.au/germany), [Philippines](https://daspa.com.au/philippines), [Italy](https://daspa.com.au/italy), [France](https://daspa.com.au/france), [Spain](https://daspa.com.au/spain), [Brazil](https://daspa.com.au/brazil), [India](https://daspa.com.au/india), [Indonesia](https://daspa.com.au/indonesia), [Thailand](https://daspa.com.au/thailand), [Malaysia](https://daspa.com.au/malaysia)

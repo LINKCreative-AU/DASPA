@@ -71,7 +71,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | `STRIPE_PUBLISHABLE_KEY` | the embedded verification modal on `/verify`. Unset is not a fault: `/verify` falls back to Stripe's hosted page, which is also the fallback whenever the modal cannot run |
    | `RESEND_API_KEY` / `EMAIL_FROM` | transactional email (skipped gracefully if unset) |
    | `WHATSAPP_NUMBER` | digits with country code. Resolves `/wa`, used by every WhatsApp CTA and the status emails. Unset → `/wa` redirects to `/faq` |
-   | `OPS_EMAIL` | where new claims, payments, verifications and paper forms are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
+   | `OPS_EMAIL` | where paid claims, verifications, uploaded passports, refunds and disputes are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
    | `SITE_URL` | defaults to `https://daspa.com.au` |
    | `CRON_SECRET` | protects `/api/cron-nudge` (Vercel sends it automatically) |
    | `INVOICE_SECRET` | **not used any more, leave it unset.** DASPA builds its own invoice in `_lib/invoice.js` and `_lib/invoice-pdf.js`, and `email.paymentConfirmed` attaches it. The old call to `registrationoffice.com.au/api/invoice` is gone. Setting this does nothing, and the row is kept only so nobody re-adds it. Same position as abnassist-site |
