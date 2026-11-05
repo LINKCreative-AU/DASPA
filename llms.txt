@@ -29,7 +29,7 @@ Key facts (current as of September 2026):
 - [Start a claim](https://daspa.com.au/claim): the 5-minute form
 - [DASP tax calculator](https://daspa.com.au/dasp-calculator): payout estimate by visa type
 - [DASP online application guide](https://daspa.com.au/dasp-online-application)
-- [Claiming super when leaving Australia, full guide](https://daspa.com.au/claim-super-leaving-australia)
+- [Claiming super when leaving Australia, full guide](https://daspa.com.au/dasp)
 - [How much is super taxed when leaving Australia?, DASP tax rates explained](https://daspa.com.au/how-much-is-super-taxed-when-leaving-australia)
 - [Can I claim tax back on a super withdrawal?. DASP refunds explained honestly](https://daspa.com.au/can-i-claim-tax-back-on-super-withdrawal)
 - [DASP processing time, the 28-day standard, what starts the clock, how to chase a slow claim](https://daspa.com.au/dasp-processing-time)
