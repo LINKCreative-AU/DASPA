@@ -61,19 +61,34 @@
   --sky:#EBF8FD;     /* band tint, and the default disc surface */
   --edge:#CFE9F5;    /* the border that goes with a tinted surface */
   --straw:#FFF8E4;   /* the one tint of --yellow; never a band surface */
-  --measure:48em;    /* about 80 characters. .page-band-sub measured 83 */
+  /* Width system, matched to abnassist (kit Stage 5): the shell widens while the
+     reading column does not. --measure is per site under rule 34, and is set by
+     measurement rather than copied. Plus Jakarta Sans runs about 0.473em a
+     character here (704px of .wrap-narrow held 94 to 99 characters at 15.5px),
+     so ABN's 48em is about 100 characters on this site, not 80. 36em is about
+     76, and because it is in em it holds that at 15.5px and at the 17px lead. */
+  --shell:1600px;                    /* chrome, bands, card rows */
+  --gutter:clamp(20px,4.5vw,88px);   /* fluid, so no jump at a breakpoint */
+  --measure:36em;                    /* about 76 characters, measured */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
-.wrap{max-width:1060px;margin:0 auto;padding:0 18px}
-.wrap-narrow{max-width:740px;margin:0 auto;padding:0 18px}
+.wrap{max-width:var(--shell);margin:0 auto;padding:0 var(--gutter)}
+.wrap-narrow{max-width:calc(740px + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
+/* Running text is held to the measure wherever it sits. Most of this site's
+   prose lives straight inside .wrap-narrow rather than in .prose, which is why
+   63 paragraphs measured 94 to 99 characters a line before any of this. */
+.wrap-narrow :is(p,li),.prose :is(p,li),.res-box p,.form-body p{max-width:var(--measure)}
 img{max-width:100%}
 
 /* ---------- header (sticky, every page) ---------- */
 header.site{background:var(--navy);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(20,25,60,.25)}
-header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
+/* The header takes the same gutter as the body, so the logo's left edge and
+   the content's left edge are one line. At 16px against an 88px body gutter
+   they sat 72px apart at 1440. */
+header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px var(--gutter)}
 /* The wordmark is artwork now, not styled text. Two files, because the
    lettering is white-on-navy in the header and navy-on-white in the body; a
    single file recoloured with a CSS filter would be a guess at the brand
@@ -127,7 +142,7 @@ header.site .btn.start{font-size:13.5px;padding:10px 14px;border-radius:99px;fle
 .page-hero{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:34px 0 38px}
 .page-hero h1{font-size:clamp(25px,5vw,36px);font-weight:700;line-height:1.15}
 .page-hero h1 em{font-style:normal;color:var(--yellow)}
-.page-hero .sub{color:#c9cfe8;margin-top:10px;font-size:15.5px;max-width:640px}
+.page-hero .sub{color:#c9cfe8;margin-top:10px;font-size:15.5px;max-width:var(--measure)}
 .page-hero .crumbs{font-size:12px;color:#8f98c2;font-weight:600;letter-spacing:.05em;margin-bottom:12px;text-transform:uppercase}
 .page-hero .crumbs a{color:#8f98c2;text-decoration:none}
 
