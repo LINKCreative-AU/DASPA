@@ -180,3 +180,43 @@ function initQuiz() {
 
   render();
 }
+
+/* ---------- Google Ads tag ----------
+   Measures which ads lead to a paid claim: conversion action "DASP claim paid"
+   in the DASPA Google Ads account. It loads on every page because the ad click
+   lands on a content page, which is where Google stores the click ID, and the
+   paid conversion happens later on /verify-id.
+   Consent Mode v2: no advertising cookies are set in the EEA, UK and
+   Switzerland (there is no consent banner yet, so Google gets cookieless pings
+   there); elsewhere conversion measurement is on. ad_personalization stays
+   denied everywhere because DASPA does no remarketing. The privacy policy
+   (section 9) describes this, so keep the two in step. */
+var GADS_ID = 'AW-18408794255';
+var GADS_PAID = GADS_ID + '/6SbyCL-xtLIdEI_R_8lE';
+window.dataLayer = window.dataLayer || [];
+function gtag() { window.dataLayer.push(arguments); }
+gtag('consent', 'default', {
+  ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+  region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+});
+gtag('consent', 'default', {
+  ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'denied', analytics_storage: 'denied'
+});
+gtag('js', new Date());
+gtag('config', GADS_ID);
+(function () {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GADS_ID;
+  document.head.appendChild(s);
+
+  // Stripe's success_url is /verify-id?s={CHECKOUT_SESSION_ID}, so a live
+  // session id in the URL means the fee was just paid. The session id is the
+  // transaction_id, so a reload or a return visit is never counted twice, and
+  // the emailed /verify-id?c=&o= links carry no s at all. Test-mode sessions
+  // (cs_test_) are ignored.
+  if (location.pathname.replace(/\.html$/, '') !== '/verify-id') return;
+  var sid = new URLSearchParams(location.search).get('s') || '';
+  if (!/^cs_live_/.test(sid)) return;
+  gtag('event', 'conversion', { send_to: GADS_PAID, value: FEE, currency: 'AUD', transaction_id: sid });
+})();
