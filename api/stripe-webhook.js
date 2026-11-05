@@ -63,7 +63,29 @@ module.exports = async (req, res) => {
   }
 
   try {
-    if (event.type === 'checkout.session.completed') {
+    /* PAID MEANS PAID. checkout.session.completed only says the client
+       finished the payment page. For a card (and Klarna, Zip, wallets) the
+       money is confirmed at that moment and session.payment_status is 'paid'.
+       For a delayed method such as a bank debit it says 'unpaid', and the
+       money arrives days later as checkout.session.async_payment_succeeded,
+       or never. This handler used to mark the claim paid and send the client
+       and the team their emails on 'completed' regardless, which for a
+       delayed method would have started the work on money that had not
+       arrived. Juan, 5 November 2026: emails go out after payment.
+
+       So both events are handled, and neither acts unless the session says
+       paid. async_payment_succeeded has to be ticked on the webhook
+       destination in Stripe for a delayed payment to ever be recorded; card
+       payments do not need it. */
+    const sessionEvent = event.type === 'checkout.session.completed'
+      || event.type === 'checkout.session.async_payment_succeeded';
+    if (sessionEvent && event.data.object.payment_status !== 'paid') {
+      const session = event.data.object;
+      const claimId = (session.metadata && session.metadata.claim_id) || session.client_reference_id;
+      console.warn(`stripe-webhook: ${event.type} for ${claimId || 'an unknown claim'} with payment_status `
+        + `${session.payment_status}, so nothing is marked paid and no email goes out yet`);
+      if (claimId) await db.insertAudit(claimId, 'payment_not_yet_received', `${event.type}: ${session.payment_status}`);
+    } else if (sessionEvent) {
       const session = event.data.object;
       const claimId = (session.metadata && session.metadata.claim_id) || session.client_reference_id;
       if (claimId) {

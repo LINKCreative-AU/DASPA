@@ -380,21 +380,9 @@ module.exports = {
   suppressed,
 
   // ---- alerts to us, not to the client ----------------------------------
-  /* Sent when the form is submitted and a payment link issued, BEFORE payment.
-     Same full layout as the paid alert, at Juan's request, so the team sees
-     every new claim complete. Note what that means for an abandoned claim:
-     claims-sweep clears its TFN and bank details from the database after
-     seven days, but this email keeps them in the inbox until someone deletes
-     it. */
-  opsNewClaim(c) {
-    return notifyOpsClaim(opsSubject('New DASP claim', c, ['not paid yet']), c, {
-      heading: 'New claim, not paid yet',
-      banner: { kind: 'info', title: 'Payment link issued. Not paid yet.',
-        text: 'The client has submitted the form and been sent to Stripe. A paid alert follows if they pay.' },
-      summary: ['DASP claim', 'not paid yet', c.order_number].filter(Boolean).join(' \u00b7 '),
-      summaryTone: 'muted',
-    });
-  },
+  /* There is no alert for an unpaid claim, deliberately. opsNewClaim used to
+     fire when a payment link was issued and was removed on 5 November 2026:
+     unpaid orders send no email to anyone. opsPaid below is the first. */
 
   /* Arrives BEFORE the team is cleared to lodge, and its whole purpose is to
      hand them everything needed to lodge. So the subject says so: the go-ahead

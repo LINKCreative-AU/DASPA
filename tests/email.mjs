@@ -281,9 +281,7 @@ const email = load();
   delete process.env.LODGEMENT_LIVE;
 }
 {
-  const m = await call(email.opsNewClaim, paidClaim({ payment_status: 'unpaid', paid_at: null }));
-  ok('the pre-payment alert says it is not paid', m.subject.includes('not paid yet') && m.text.includes('Paid: Not paid yet'));
-  ok('and carries the full detail too', m.text.includes('123 456 789'));
+  eq('there is no pre-payment team alert any more', typeof load().opsNewClaim, 'undefined');
 }
 
 /* ---------- nothing before payment ---------- */
@@ -295,7 +293,8 @@ const email = load();
 {
   const src = require('node:fs').readFileSync('api/create-checkout.js', 'utf8');
   no('and create-checkout does not mail the client', /email\.(formReceived|paymentConfirmed)/.test(src));
-  ok('it still alerts the team', src.includes('email.opsNewClaim'));
+  /* Juan, 5 November 2026: an unpaid order emails nobody, team included. */
+  no('and it does not alert the team either', /email\./.test(src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '')));
 }
 {
   const src = require('node:fs').readFileSync('api/stripe-webhook.js', 'utf8');

@@ -124,5 +124,33 @@ check('trailing newline in env -> still accepted', await postWith(CLEAN + '\n', 
 check('padding and CRLF in env -> still accepted', await postWith('  ' + CLEAN + ' \r\n', CLEAN) === 200);
 check('genuinely wrong secret -> still rejected', await postWith(CLEAN, 'whsec_wrong') === 400);
 
+/* ---- emails go out after payment, and only then (Juan, 5 November 2026) ---- */
+{
+  const unpaidClaim = { id: 'claim-9', full_name: 'Test Person', email: 't@e.com', payment_status: 'unpaid' };
+  dbFake.getClaim = async () => ({ ...unpaidClaim });
+  const sessionObj = (payment_status) => ({ object: { id: 'cs_test_9', payment_status, amount_total: 15000,
+    customer: 'cus_9', payment_intent: 'pi_9', metadata: { claim_id: 'claim-9' } } });
+
+  writes.length = 0; mails.length = 0;
+  let r = await post({ type: 'checkout.session.completed', created: 1, data: sessionObj('unpaid') });
+  check('completed but unpaid (a delayed method) -> 200', r.code === 200);
+  check('completed but unpaid -> nothing marked paid', !writes.some(w => w.kind === 'update' && w.patch.payment_status === 'paid'));
+  check('completed but unpaid -> no email to anyone', mails.length === 0);
+  check('completed but unpaid -> recorded in the audit', writes.some(w => w.kind === 'audit' && w.ev === 'payment_not_yet_received'));
+
+  writes.length = 0; mails.length = 0;
+  r = await post({ type: 'checkout.session.async_payment_succeeded', created: 1, data: sessionObj('paid') });
+  check('the delayed payment arriving -> marked paid', writes.some(w => w.kind === 'update' && w.patch.payment_status === 'paid'));
+  check('the delayed payment arriving -> client confirmation sent', mails.some(m => m.name === 'paymentConfirmed'));
+  check('the delayed payment arriving -> team alert sent', mails.some(m => m.name === 'opsPaid'));
+
+  writes.length = 0; mails.length = 0;
+  r = await post({ type: 'checkout.session.completed', created: 1, data: sessionObj('paid') });
+  check('a card payment (completed and paid) -> marked paid', writes.some(w => w.kind === 'update' && w.patch.payment_status === 'paid'));
+  check('a card payment -> client confirmation and team alert', mails.some(m => m.name === 'paymentConfirmed') && mails.some(m => m.name === 'opsPaid'));
+
+  dbFake.getClaim = async () => null;
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall assertions passed');
 process.exit(fails ? 1 : 0);

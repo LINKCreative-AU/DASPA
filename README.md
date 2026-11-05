@@ -67,7 +67,7 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | Var | Purpose |
    |---|---|
    | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | server-side DB access |
-   | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout, identity verification, and the one webhook that serves both (endpoint: `/api/stripe-webhook`, three events, see step 4) |
+   | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout, identity verification, and the one webhook that serves both (endpoint: `/api/stripe-webhook`, six events, see step 4) |
    | `STRIPE_PUBLISHABLE_KEY` | the embedded verification modal on `/verify`. Unset is not a fault: `/verify` falls back to Stripe's hosted page, which is also the fallback whenever the modal cannot run |
    | `RESEND_API_KEY` / `EMAIL_FROM` | transactional email (skipped gracefully if unset) |
    | `WHATSAPP_NUMBER` | digits with country code. Resolves `/wa`, used by every WhatsApp CTA and the status emails. Unset → `/wa` redirects to `/faq` |
@@ -373,11 +373,12 @@ pages, and should be confirmed against ARO's executed copy.
 
 4. **Stripe webhook**: add endpoint `https://daspa.com.au/api/stripe-webhook`.
    Payment and identity both run on Stripe, so they share that endpoint and the one
-   signing secret. Tick exactly these **three** events, not "receive all events":
+   signing secret. Tick exactly these **six** events, not "receive all events":
 
    | Event | What the handler does |
    |---|---|
-   | `checkout.session.completed` | marks the claim paid, records the customer and payment intent, sends the payment confirmation, asks the portal for the tax invoice |
+   | `checkout.session.completed` | when the session says `payment_status=paid` (card, Klarna, Zip, wallets): marks the claim paid, records the customer and payment intent, sends the client their confirmation and invoice and the team the full alert. When it says `unpaid` (a delayed method such as a bank debit): writes an audit row and **nothing else, no email to anyone** |
+   | `checkout.session.async_payment_succeeded` | the delayed payment arriving: the same as a paid `completed`. Without this ticked, a delayed payment is never recorded. Added 5 November 2026, when Juan set the rule that every email waits for payment |
    | `identity.verification_session.verified` | `verification_status=verified`, `claim_status=ready_for_lodgement`, sends the verified email |
    | `identity.verification_session.requires_input` | ops alert carrying `last_error`, because Stripe does not distinguish "blurry photo, would pass on a retry" from "genuinely declined". The claim is deliberately NOT moved, so the client can retry from the same link |
    | `charge.refunded` | full refund → `payment_status=refunded`, `claim_status=on_hold`; partial → `on_hold` only, still paid. Ops alerted either way |

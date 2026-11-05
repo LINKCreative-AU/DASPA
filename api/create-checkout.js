@@ -6,7 +6,6 @@
 
 const config = require('./_lib/config');
 const db = require('./_lib/supabase');
-const email = require('./_lib/email');
 const { stripeHeaders } = require('./_lib/stripe');
 const { clientIp } = require('./_lib/guard');
 const { sanctionedReason, ineligiblePassport } = require('./_lib/manual-only');
@@ -200,15 +199,21 @@ module.exports = async (req, res) => {
       client_ip: clientIp(req),
     });
 
-    /* NO EMAIL TO THE CLIENT HERE.
-       This used to send "We have your super claim" the moment a payment link
-       was issued, so somebody who never paid got a confirmation for an order
-       they had not placed. Juan, 11 September 2026: nothing goes to the client
-       before payment. The webhook's paymentConfirmed is now first contact.
+    /* NO EMAIL TO ANYONE HERE, CLIENT OR TEAM.
+       This used to send the client "We have your super claim" the moment a
+       payment link was issued; Juan stopped that on 11 September 2026. It also
+       sent the team a full alert, and Juan stopped that too on 5 November 2026:
+       an unpaid order gets no email at all. Payment is what lets the team
+       engage the client and do the work, so the webhook's paymentConfirmed
+       (to the client) and opsPaid (to the team) are the first emails a claim
+       produces.
 
-       The ops alert stays, so a claim never sits in the table unseen. */
+       Also why it matters for privacy: the team alert carries the TFN and bank
+       details, and claims-sweep clears those from an unpaid row after seven
+       days. An email sent here would have kept them in the inbox regardless.
+
+       The audit row stays, so an unpaid claim is still traceable. */
     if (firstAttempt) {
-      await email.opsNewClaim(claim);
       await db.insertAudit(claim.id, 'checkout_started', claim.email);
     }
 
