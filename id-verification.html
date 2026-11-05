@@ -16,9 +16,14 @@
 <style>
 /* The manual ID upload, ported from ABN Assist's /id-verification in DASPA's
    palette. Same drop zone as /upload-form so the two read as one site. */
-.idu-drop{border:2px dashed #c9cce0;border-radius:12px;background:#f4f6ff;padding:26px 16px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
-.idu-drop:hover,.idu-drop.over,.idu-drop:focus{border-color:var(--blue);background:#eef2ff;outline:none}
+/* White, like every other input on the form, with an upload icon, so it reads
+   as a field to fill rather than a tinted panel (Juan, 5 November 2026). */
+.idu-drop{border:2px dashed #b9bee0;border-radius:12px;background:#fff;padding:24px 16px 22px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.idu-drop:hover,.idu-drop.over,.idu-drop:focus{border-color:var(--blue);background:#f7f8ff;outline:none}
+.idu-icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:#eef2ff;color:var(--blue);margin-bottom:10px}
+.idu-icon svg{width:24px;height:24px}
 .idu-drop b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+.idu-drop b u{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
 .idu-drop span{color:var(--muted);font-size:13px}
 .idu-count{font-size:12.5px;color:var(--muted);margin-top:8px}
 .idu-file{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;margin-top:7px;font-size:13.5px;background:#fff}
@@ -79,7 +84,8 @@
         <div class="field">
           <label class="lab" id="idu-drop-label">Your passport photo</label>
           <div class="idu-drop" id="idu-drop" role="button" tabindex="0" aria-labelledby="idu-drop-label" aria-describedby="idu-drop-hint">
-            <b>Drop your files here, or tap to choose</b>
+            <div class="idu-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"/><path d="M7.5 8.5 12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></div>
+            <b><u>Choose files</u> or drag them here</b>
             <span id="idu-drop-hint">JPG, PNG, HEIC, WEBP or PDF &middot; up to 25MB each &middot; four files at most</span>
           </div>
           <input type="file" id="idu-file" class="hidden" multiple accept="image/*,.pdf,.heic,.heif">

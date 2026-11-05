@@ -88,7 +88,10 @@ async function start(req, res) {
 
   const b = req.body || {};
   const name = String(b.name || '').trim();
-  const emailAddr = String(b.email || '').trim();
+  /* Whitespace and zero-width characters stripped, not just trimmed: they are
+     invisible, an address cannot contain them, and one left in would make the
+     claim lookup below miss a client who did everything right. */
+  const emailAddr = String(b.email || '').replace(/[\s\u200B-\u200D\u2060\uFEFF]/g, '');
   if (!name) return res.status(400).json({ error: 'name required' });
   if (!/^\S+@\S+\.\S+$/.test(emailAddr)) return res.status(400).json({ error: 'valid email required' });
 

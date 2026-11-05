@@ -209,7 +209,21 @@
 
   /* ---------- submit ---------- */
 
+  /* An email address cannot contain spaces, so any whitespace in the field is
+     something the client cannot see: a non-breaking space from autofill or a
+     paste, a zero-width character from a copied signature. JS's \s covers the
+     first and not the second. Both made a valid-looking address fail the check
+     below in testing on 5 November 2026, so the field is cleaned before it is
+     checked, and the cleaned value is what is sent. */
+  function cleanEmail() {
+    var em = form.querySelector('[name=email]');
+    var v = em.value.replace(/[\s\u200B-\u200D\u2060\uFEFF]/g, '');
+    if (v !== em.value) em.value = v;
+    return v;
+  }
+
   function fieldsValid() {
+    cleanEmail();
     var ok = true;
     form.querySelectorAll('.field').forEach(function (w) {
       var inp = w.querySelector('input, textarea');
@@ -218,7 +232,7 @@
       if (bad) ok = false;
     });
     var em = form.querySelector('[name=email]');
-    if (em.value.trim() && !/^\S+@\S+\.\S+$/.test(em.value)) {
+    if (em.value && !/^[^@]+@[^@]+\.[^@]+$/.test(em.value)) {
       em.closest('.field').classList.add('invalid');
       ok = false;
     }
@@ -248,7 +262,7 @@
           company_website: (form.company_website && form.company_website.value) || '',
           elapsed_ms: Date.now() - OPENED_AT,
           name: form.name.value.trim(),
-          email: form.email.value.trim(),
+          email: cleanEmail(),
           order: form.order.value.trim() || null,
           note: form.note.value.trim() || null,
           files: queue.map(function (q) { return { name: q.file.name, size: q.file.size }; }),
