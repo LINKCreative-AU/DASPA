@@ -76,5 +76,10 @@
 
 <script src="/assets/site.js"></script>
 <script src="/assets/identity.js"></script>
+<!-- Stripe's success_url lands here, so this is the conversion page. The
+     explicit data-success is load-bearing: t.js's default pattern looks for
+     thank-you, success, confirmation and the like, and "verify-id" is none of
+     them. -->
+<script defer src="https://registrationoffice.com.au/t.js" data-site="daspa" data-success="verify-id"></script>
 </body>
 </html>
