@@ -424,7 +424,7 @@ for (const [label, src] of MALFORMED) {
   eq('the refusal names the remedy, not the reason', r.payload, { error: 'manual verification required' });
   eq('the refusal never reaches Stripe', sessions.length, 0);
   eq('the refusal is recorded against the claim', audits.map((a) => a.ev), ['identity_manual_required']);
-  eq('the audit records which country', audits[0].detail, 'China');
+  eq('the audit records which field and country', audits[0].detail, 'passport issued by China');
   eq('the team is told there is manual work', opsMails.length, 1);
   ok('the ops note explains what happened', /manual identity verification/.test(opsMails[0].status));
 }
@@ -437,6 +437,27 @@ for (const [label, src] of MALFORMED) {
   rows = [claim({ passport_country: 'Taiwan' })];
   const r = await call('POST', { c: CUS, o: ORD });
   eq('Taiwan is not caught by the China patterns', r.code, 200);
+}
+{
+  /* Stripe's wording is "linked directly or indirectly", so where the client
+     lives counts as well as who issued the passport. */
+  rows = [claim({ passport_country: 'France', address_country: 'China' })];
+  stripeVerified = false; alreadyFlagged = false;
+  const r = await call('POST', { c: CUS, o: ORD });
+  eq('a French passport living in China is refused', r.code, 403);
+  eq('the refusal never reaches Stripe either', sessions.length, 0);
+  eq('the audit says it was the address', audits[0] && audits[0].detail, 'client lives in China');
+}
+{
+  rows = [claim({ passport_country: 'France', address_country: 'Russia' })];
+  alreadyFlagged = false;
+  const r = await call('GET', { c: CUS, o: ORD });
+  eq('the GET flags a client living in Russia', r.payload.manual_only, true);
+}
+{
+  rows = [claim({ passport_country: 'France', address_country: 'Taiwan' })];
+  const r = await call('POST', { c: CUS, o: ORD });
+  eq('living in Taiwan is not caught', r.code, 200);
 }
 
 /* ---------- POST, the happy path ---------- */

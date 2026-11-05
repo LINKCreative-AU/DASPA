@@ -14,7 +14,7 @@ AU searches/month, ~10,000+ global, keyword difficulty 0–3 across almost the w
 |---|---|---|
 | DASP acronym (~3,200) | `dasp` 450 · `departing australia superannuation payment` 200 | **/** (homepage), title "DASP Claims, Departing Australia Superannuation Payment, Done For You" |
 | Application terms (~450+) | `dasp online application` 250 · `dasp application` 90 · `…login` 20 | **/dasp-online-application**, answer-first "it's online-only, two ways to apply"; honest ATO-option comparison; catches the login long-tail in FAQs |
-| Form / PDF terms (~90+) | `dasp form` 40 · `dasp application form (pdf)` 50 · `nat 7204` long-tail | **/dasp-nat-7204-application-form**, the only downloadable DASP form PDF in the niche: DASPA-branded fillable 2-page form (our version of ATO NAT 7204, `/assets/DASPA-DASP-Application-Form.pdf`). Steers to online first; completed forms come back via **/upload-form** (noindexed). Never to the ATO/fund. Breadcrumb + FAQPage schema |
+| Form / PDF terms (~90+) | `dasp form` 40 · `dasp application form (pdf)` 50 · `nat 7204` long-tail | **Not targeted since 5 November 2026.** The DASPA paper form, its PDF, `/dasp-nat-7204-application-form` and `/upload-form` were removed (confirmed with James). The old URLs 301 to `/dasp-online-application` and `/id-verification`. `/dasp-online-application` still answers "is there a paper form" and names the ATO's own NAT 7204 |
 | Natural language (~1,600) | `withdraw super leaving australia` 300 · `claim superannuation leaving australia` 200 · `how to claim/withdraw…` ~200 · `how much super do I get back` 60 · `permanent resident leaving australia superannuation` 50 | **/claim-super-leaving-australia**, the 2026 guide; step-by-step, rates table, six-month rule, PR/NZ section, Article + FAQ schema |
 | Tax & calculator (~500) | `dasp tax calculator` 60 · `dasp tax rate` 50 · `dasp calculator` 30 · `superannuation refund calculator` 150 (natural cluster) | **/dasp-calculator**, title leads "DASP Tax Calculator", copy carries "superannuation refund calculator"; 3 tools (payout calc, balance-from-wages estimator, 6-month deadline checker) |
 | Visa long-tail | `dasp 417`, per-visa questions | **/visa-417, /visa-462, /visa-482, /visa-500** |
@@ -30,7 +30,7 @@ AU searches/month, ~10,000+ global, keyword difficulty 0–3 across almost the w
   BreadcrumbList on the calculator; Article + BreadcrumbList on the guide.
 - **Canonical tag** on every page; **Open Graph + locale** on every indexable page.
 - **Sitemap.xml** lists all indexable pages; **robots.txt** allows everything except the claim flow.
-- **Deliberately noindexed:** `/claim`, `/verify`, `/confirmation`, `/upload-form`, transactional steps with
+- **Deliberately noindexed:** `/claim`, `/verify`, `/confirmation`, `/id-verification`, transactional steps with
   personal context; indexing them adds nothing and risks thin-content dilution. Everything else
   is indexable.
 - **Social cards**: every indexable page has a branded 1200x630 `og:image` plus `twitter:card`,

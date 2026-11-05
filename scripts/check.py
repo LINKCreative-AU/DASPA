@@ -48,7 +48,7 @@ EM_DASH = "—"
 # Transactional steps, kept out of the index. The language pages are NOT listed
 # here: they each carry their own noindex meta tag, and reading that is more
 # reliable than a list somebody has to remember to append to.
-NOINDEX = {"claim", "verify", "confirmation", "upload-form"}
+NOINDEX = {"claim", "verify", "confirmation", "id-verification"}
 
 # Scripts a page may contain, keyed on its own <html lang>. A stray Cyrillic
 # character once reached a Japanese call to action and nothing would have caught

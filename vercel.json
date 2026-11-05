@@ -1,6 +1,28 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/dasp-nat-7204-application-form",
+      "destination": "/dasp-online-application",
+      "permanent": true
+    },
+    {
+      "source": "/assets/DASPA-DASP-Application-Form.pdf",
+      "destination": "/dasp-online-application",
+      "permanent": true
+    },
+    {
+      "source": "/upload-form",
+      "destination": "/id-verification",
+      "permanent": true
+    },
+    {
+      "source": "/claim-super-leaving-australia",
+      "destination": "/dasp",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/googlec958a1798c20283a.html",
@@ -15,13 +37,10 @@
     {
       "path": "/api/claims-sweep",
       "schedule": "0 16 * * *"
-    }
-  ],
-  "redirects": [
+    },
     {
-      "source": "/claim-super-leaving-australia",
-      "destination": "/dasp",
-      "permanent": true
+      "path": "/api/id-documents-sweep",
+      "schedule": "30 16 * * *"
     }
   ]
 }

@@ -167,7 +167,11 @@ process.env.CRON_SECRET = SECRET;
   for (const f of ['tfn', 'passport_number', 'date_of_birth', 'client_ip',
     'bank_type', 'bank_account_name', 'bank_name', 'bank_swift', 'bank_bsb',
     'bank_account_number', 'address_line', 'address_city', 'address_region',
-    'address_postcode', 'address_country']) {
+    'address_postcode', 'address_country', 'address_line2',
+    'au_address_line', 'au_address_suburb', 'au_address_state', 'au_address_postcode',
+    'au_prev_address_line', 'au_prev_address_suburb', 'au_prev_address_state',
+    'au_prev_address_postcode', 'bank_address', 'bank_currency', 'other_names',
+    'employment_history']) {
     eq(`clears ${f}`, p[f], null);
   }
   ok('stamps redacted_at', typeof p.redacted_at === 'string' && p.redacted_at.length > 10);
@@ -176,7 +180,7 @@ process.env.CRON_SECRET = SECRET;
      the ability to follow an abandoned cart up, for no privacy gain: none of
      them is a government identifier, a bank account or a home address. */
   for (const f of ['full_name', 'email', 'phone', 'passport_country',
-    'visa_subclass', 'visa_status', 'date_departed', 'order_number',
+    'visa_subclass', 'visa_status', 'whm_ever_held', 'date_departed', 'order_number',
     'created_at', 'payment_status', 'fund_name', 'fund_member_number']) {
     eq(`keeps ${f}`, Object.prototype.hasOwnProperty.call(p, f), false);
   }
@@ -238,7 +242,7 @@ process.env.CRON_SECRET = SECRET;
   eq('a dry run reports', [r.code, r.payload.dry_run, r.payload.found], [200, true, 2]);
   eq('a dry run writes nothing', patches.length, 0);
   eq('a dry run audits nothing', audits.length, 0);
-  eq('it lists what it would clear', r.payload.would_clear.length, 15);
+  eq('it lists what it would clear', r.payload.would_clear.length, 28);
   eq('and which claims', r.payload.claims.map((c) => c.order_number),
      ['DASP00020140', 'DASP00020141']);
   /* The report names fields and order numbers, never values. would_clear is a

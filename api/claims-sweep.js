@@ -63,6 +63,21 @@ const REDACT = {
   address_postcode: null,
   address_country: null,
   client_ip: null,
+  // added with 2026-11-04-ato-lodgement-fields.sql: more home addresses, the
+  // rest of the bank block, and two things that identify a person
+  address_line2: null,
+  au_address_line: null,
+  au_address_suburb: null,
+  au_address_state: null,
+  au_address_postcode: null,
+  au_prev_address_line: null,
+  au_prev_address_suburb: null,
+  au_prev_address_state: null,
+  au_prev_address_postcode: null,
+  bank_address: null,
+  bank_currency: null,
+  other_names: null,
+  employment_history: null,
 };
 
 /* A ceiling on one run. If the cutoff were ever computed wrong, the filter

@@ -43,4 +43,63 @@ function manualOnly(country) {
   return MANUAL_ONLY.some((re) => re.test(c));
 }
 
-module.exports = { manualOnly };
+/* Passports we cannot take at all, which is a different thing from manual-only.
+
+   Stripe's Identity use-case terms (docs.stripe.com/identity/use-cases, read
+   4 November 2026) bar verifying anyone linked with Cuba, Iran, North Korea or
+   Syria, and the same countries are on Stripe's restricted list for taking
+   payment, so there is no manual route either: we could not charge the fee.
+   China and Russia are manual-only because Stripe can still take their payment.
+
+   The same terms also name the Crimea, Donetsk and Luhansk regions. A passport
+   country cannot express a region, so those are not caught here; a Ukrainian
+   passport is fine.
+
+   The claim form now picks the country from a list (names from the browser's
+   Intl region names, e.g. "North Korea"), but older rows and any hand-typed
+   value are free text, so this matches spellings rather than one string. */
+const SANCTIONED = [
+  /\bcuba\b/, /\bcub\b/,
+  /\biran\b/, /\birn\b/, /islamic republic of iran/,
+  /\bnorth korea\b/, /\bdprk\b/, /\bprk\b/, /democratic people'?s republic of korea/,
+  /\bsyria\b/, /\bsyrian\b/, /\bsyr\b/,
+];
+
+function sanctioned(country) {
+  const c = String(country || '').toLowerCase().trim();
+  if (!c) return false;
+  return SANCTIONED.some((re) => re.test(c));
+}
+
+/* Passports whose holders cannot get a DASP at all. A DASP is for former
+   temporary residents; the ATO excludes Australian and New Zealand citizens
+   (and Australian permanent residents) by citizenship, whatever visa a New
+   Zealander lived on. A New Zealander's route is a trans-Tasman transfer to a
+   KiwiSaver provider instead. Decided with Juan, 4 November 2026: both are
+   blocked at the form and refused at checkout. Returns 'AU', 'NZ' or null. */
+function ineligiblePassport(country) {
+  const c = String(country || '').toLowerCase().trim();
+  if (!c) return null;
+  if (/\bnew zealand\b|\baotearoa\b|^nzl?$/.test(c)) return 'NZ';
+  if (/\baustralian?\b|^aus?$/.test(c)) return 'AU';
+  return null;
+}
+
+/* Claim-level versions, checking where the client lives as well as who issued
+   the passport. Stripe's wording is "linked directly or indirectly", and a
+   French passport holder living in Shanghai is linked with China whatever the
+   passport says. Decided 4 November 2026.
+
+   Each returns a short reason naming the field and country, or null, so the
+   team alert can say which one tripped it. Passport first, because that is
+   the document Stripe would be looking at. */
+function why(claim, test) {
+  const c = claim || {};
+  if (test(c.passport_country)) return `passport issued by ${c.passport_country}`;
+  if (test(c.address_country)) return `client lives in ${c.address_country}`;
+  return null;
+}
+const manualOnlyReason = (claim) => why(claim, manualOnly);
+const sanctionedReason = (claim) => why(claim, sanctioned);
+
+module.exports = { manualOnly, sanctioned, manualOnlyReason, sanctionedReason, ineligiblePassport };

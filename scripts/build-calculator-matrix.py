@@ -92,7 +92,7 @@ by_visa = "\n".join("      " + visa_line(*v) for v in VISAS)
 
 SECTION = """
       <h2 id="matrix">What lands in your bank, at a glance</h2>
-      <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $150 fee, so it is the number you would actually see. Find the row nearest your balance.</p>
+      <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $150.00 fee, so it is the number you would actually see. Find the row nearest your balance.</p>
       <div class="table-scroll">
       <table>
         <thead><tr><th>Your balance</th><th>Working holiday<br><small>417 or 462, 65%</small></th><th>Other temporary visa<br><small>482 or 500, 35%</small></th></tr></thead>

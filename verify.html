@@ -42,7 +42,7 @@
       <div class="form-body">
         <ul class="checklist" style="grid-template-columns:1fr;margin-bottom:16px">
           <li>Claim form received</li>
-          <li id="paid-line">Payment confirmed: $150 flat fee</li>
+          <li id="paid-line">Payment confirmed: $150.00 flat fee</li>
         </ul>
         <p style="font-size:14.5px;margin-bottom:12px">Verification is required by law before a registered tax agent can lodge on your behalf. It's powered by <b>Stripe Identity</b>, the same provider that took your payment. Your <b>passport</b> and selfie go to Stripe, not to us, and we only ever see whether the check succeeded. Allow <b>camera access</b> when asked.</p>
         <div class="note">Tip: use your phone, find decent light, and take the selfie without a hat or sunglasses. Most people are done in under two minutes.</div>
@@ -247,7 +247,7 @@
         }
 
         if (data.httpStatus === 403 && data.error === 'manual verification required') {
-          stop('We can\'t verify a passport from your country of issue electronically, so one of our team will verify your identity by hand instead, at no extra cost. Nothing has gone wrong and your payment is safe. Please <a href="/upload-form">send us a photo of your passport</a>, or ' + WA + ' and we will walk you through it.');
+          stop('We can\'t verify your identity electronically for your passport or the country you live in, so one of our team will verify your identity by hand instead, at no extra cost. Nothing has gone wrong and your payment is safe. Please <a href="/id-verification">send us a photo of your passport</a>, or ' + WA + ' and we will walk you through it.');
           btn.textContent = IDLE_LABEL;
           return null;
         }

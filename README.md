@@ -39,6 +39,18 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    3. `supabase/2026-09-07-stripe-identity-step2-drop-didit.sql` to drop the old
       pair. Not before step 2, or the live form starts failing silently for clients.
 
+   **ATO lodgement fields (4 November 2026).** Apply
+   `supabase/2026-11-04-ato-lodgement-fields.sql` **before** deploying the
+   `claim.html` and `api/claims-sweep.js` that use it. It adds the fields the
+   ATO's DASP intermediary screens ask for and the form did not collect: the
+   most recent Australian address (required by the ATO), a previous one, other
+   names, a second overseas address line, the earlier visas and whether any was a 417 or 462, employers
+   and dates, and the bank address and currency for an international transfer.
+   It restates anon's column-level INSERT grant with the new columns. Deployed
+   the other way round, the form 400s for every client and the sweep's redaction
+   PATCH fails. The live form names none of the new columns, so running the
+   migration first is safe.
+
    Also apply `supabase/2026-09-07-rate-limits.sql` whenever convenient. It is an
    upgrade rather than a prerequisite: without it `api/_lib/guard.js` logs one
    warning and rate limits per warm instance only.
@@ -55,11 +67,11 @@ gradient `#ffff5f → #fae541`, Fira Sans) so the two sites read as siblings.
    | Var | Purpose |
    |---|---|
    | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | server-side DB access |
-   | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout, identity verification, and the one webhook that serves both (endpoint: `/api/stripe-webhook`, three events, see step 4) |
+   | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | checkout, identity verification, and the one webhook that serves both (endpoint: `/api/stripe-webhook`, six events, see step 4) |
    | `STRIPE_PUBLISHABLE_KEY` | the embedded verification modal on `/verify`. Unset is not a fault: `/verify` falls back to Stripe's hosted page, which is also the fallback whenever the modal cannot run |
    | `RESEND_API_KEY` / `EMAIL_FROM` | transactional email (skipped gracefully if unset) |
    | `WHATSAPP_NUMBER` | digits with country code. Resolves `/wa`, used by every WhatsApp CTA and the status emails. Unset → `/wa` redirects to `/faq` |
-   | `OPS_EMAIL` | where new claims, payments, verifications and paper forms are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
+   | `OPS_EMAIL` | where paid claims, verifications, uploaded passports, refunds and disputes are announced. One address or a comma-separated list. Unset → alerts go to the function log only |
    | `SITE_URL` | defaults to `https://daspa.com.au` |
    | `CRON_SECRET` | protects `/api/cron-nudge` (Vercel sends it automatically) |
    | `INVOICE_SECRET` | **not used any more, leave it unset.** DASPA builds its own invoice in `_lib/invoice.js` and `_lib/invoice-pdf.js`, and `email.paymentConfirmed` attaches it. The old call to `registrationoffice.com.au/api/invoice` is gone. Setting this does nothing, and the row is kept only so nobody re-adds it. Same position as abnassist-site |
@@ -270,11 +282,16 @@ next, the invoice rendered in the body and the same invoice attached as a PDF.
 The body and the attachment are built from one model, so their figures cannot
 disagree.
 
-**The team alert carries the tax file number in full.** That was a decision, not
-an oversight, and it has consequences: `OPS_EMAIL` must stay a small internal
-list, the alert carries a do-not-forward line, and the TFN must stay out of
-ActiveCampaign when that is wired up. The reasoning is in the comment above
-`opsRef`. Bank details are still excluded.
+**The team alert carries everything the client submitted**, TFN, passport and
+bank details included, in the layout of ABN Assist's "New paid order" alert.
+The TFN went in on 10 September 2026 and the rest on 5 November 2026, both at
+Juan's request: the team lodges from it. That has consequences. `OPS_EMAIL`
+must stay a small private list, every alert says DO NOT FORWARD, none of it may
+go to ActiveCampaign when that is wired up, and Resend keeps a copy of each
+message, so Resend logins need restricting too. The reasoning is in the comment
+above `opsSections` in `api/_lib/email.js`. The alert that fires before payment
+carries the same detail, so an abandoned claim's TFN stays in the inbox after
+the seven-day sweep clears it from the database.
 
 ## Scheduled email
 
@@ -356,11 +373,12 @@ pages, and should be confirmed against ARO's executed copy.
 
 4. **Stripe webhook**: add endpoint `https://daspa.com.au/api/stripe-webhook`.
    Payment and identity both run on Stripe, so they share that endpoint and the one
-   signing secret. Tick exactly these **three** events, not "receive all events":
+   signing secret. Tick exactly these **six** events, not "receive all events":
 
    | Event | What the handler does |
    |---|---|
-   | `checkout.session.completed` | marks the claim paid, records the customer and payment intent, sends the payment confirmation, asks the portal for the tax invoice |
+   | `checkout.session.completed` | when the session says `payment_status=paid` (card, Klarna, Zip, wallets): marks the claim paid, records the customer and payment intent, sends the client their confirmation and invoice and the team the full alert. When it says `unpaid` (a delayed method such as a bank debit): writes an audit row and **nothing else, no email to anyone** |
+   | `checkout.session.async_payment_succeeded` | the delayed payment arriving: the same as a paid `completed`. Without this ticked, a delayed payment is never recorded. Added 5 November 2026, when Juan set the rule that every email waits for payment |
    | `identity.verification_session.verified` | `verification_status=verified`, `claim_status=ready_for_lodgement`, sends the verified email |
    | `identity.verification_session.requires_input` | ops alert carrying `last_error`, because Stripe does not distinguish "blurry photo, would pass on a retry" from "genuinely declined". The claim is deliberately NOT moved, so the client can retry from the same link |
    | `charge.refunded` | full refund → `payment_status=refunded`, `claim_status=on_hold`; partial → `on_hold` only, still paid. Ops alerted either way |
@@ -435,10 +453,37 @@ pages, and should be confirmed against ARO's executed copy.
    `manualOnly()` matches the claim's free-text `passport_country` (China, PRC, the
    two SARs, Russia, in several spellings and scripts), returns **403** without
    creating a session, and alerts ops. `/verify` reads that 403 and points the
-   client at `/upload-form` for a manual check at no extra cost, so nobody pays and
-   then hits a Stripe refusal. Taiwan is deliberately allowed through; **get a
+   client at `/id-verification` to upload a passport photo for a manual check at
+   no extra cost. Since 5 November 2026 the check also looks at the country the
+   client lives in (`manualOnlyReason`), not only the passport. Taiwan is deliberately allowed through; **get a
    written answer from Stripe on Taiwanese passports before launch**, since Stripe
    lists Taiwan separately in its own supported-document tables.
+
+## Manual passport upload (`/id-verification`)
+
+Added 5 November 2026, ported from ABN Assist's `/id-verification` at Juan's
+request, so a client whose Stripe Identity check will not work uploads their
+passport instead of emailing it. The identity page links here from the "not
+completed" card (with the order number prefilled), from the China and Russia
+manual-check card, and from the "could not start the check" card.
+
+| Part | What it does |
+|---|---|
+| `id-verification.html`, `assets/id-document.js` | The page. Up to four files, JPG, PNG, HEIC, WEBP or PDF, 25 MB each. The file goes from the phone straight to storage, never through our function (Vercel caps a body at 4.5 MB) |
+| `api/id-document.js` | `start` finds the **paid** claim by order number or email, refuses with 404 before storing anything if there is none, and hands back a signed upload URL per file. `finish` checks what actually arrived, stamps the claim and emails the team |
+| `api/_lib/id-documents.js` | Everything that touches the private `id-documents-daspa` bucket (created on first use) |
+| `opsIdDocuments` in `api/_lib/email.js` | The team alert: a Download link per file (expires in 7 days, never an attachment), the client's note, their Stripe customer ID, then the full claim |
+| `api/_lib/identity-verified.js` | Deletes the images the moment the claim is verified. The team runs the check by hand in Stripe against the client's Stripe customer; Stripe sends the same `verified` event, the webhook finds the claim through `related_customer`, and the purge runs there |
+| `api/id-documents-sweep.js` | Daily (cron, 16:30 UTC), deletes anything older than 30 days whatever its state. Needs `CRON_SECRET`, fails closed without it |
+| `supabase/2026-11-05-id-documents.sql` | `id_documents_path`, `id_documents_at`, `id_documents_deleted_at` on `claims`. Applied 5 November 2026. Service-role only, not on anon's grant |
+
+**For the team.** Run the manual check in Stripe against the client's **Stripe
+customer** (it is in the alert). A session not attached to that customer will
+not find the claim, so the claim will not be marked verified and the images
+will wait for the 30-day sweep instead.
+
+The images are deleted; `submission.json` in the bucket and the two timestamp
+columns stay, as the record that a check was done. Tests: `node tests/id-document.mjs`.
 
 ## Checks and generators
 

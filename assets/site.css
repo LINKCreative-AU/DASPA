@@ -398,7 +398,7 @@ fieldset:first-of-type .fs-title{margin-top:4px;padding-top:0;border-top:none}
 .field{margin-bottom:14px}
 .field label,label.lab{display:block;font-size:13.5px;font-weight:600;margin-bottom:5px}
 label .why{font-weight:500;color:var(--muted);font-size:12px}
-input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],select,textarea{width:100%;font-family:inherit;font-size:16px;font-weight:500;padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],input[type=password],select,textarea{width:100%;font-family:inherit;font-size:16px;font-weight:500;padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
 textarea{min-height:84px;resize:vertical}
 .row2{display:grid;grid-template-columns:1fr;gap:12px 12px}
@@ -406,6 +406,8 @@ textarea{min-height:84px;resize:vertical}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--muted);font-weight:500;cursor:pointer;margin-bottom:12px}
 .check input{margin-top:3px;width:18px;height:18px;accent-color:var(--blue);flex:none}
 .check b{color:var(--ink)}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.field .checks label.check{display:flex;gap:8px;margin-bottom:9px;color:var(--ink);font-size:13.5px;font-weight:500}
 .note{background:var(--bg);border-left:4px solid var(--yellow);border-radius:8px;padding:10px 14px;font-size:12.5px;color:var(--muted);margin:10px 0}
 .stop{background:#fdecea;border-left:4px solid var(--red);border-radius:8px;padding:12px 14px;font-size:13.5px;color:#8c2b22;margin:10px 0;font-weight:600}
 .err{color:var(--red);font-size:12.5px;font-weight:600;margin-top:4px;display:none}
@@ -539,8 +541,7 @@ html[lang="ja"] body{font-family:'Plus Jakarta Sans','Hiragino Sans','Yu Gothic'
 .vcard h3{font-size:18px;font-weight:700;color:var(--blue);text-align:center;line-height:1.3;margin-bottom:12px}
 .vcard p{font-size:14.5px;color:var(--muted);margin-bottom:11px}
 .vcard p:last-child{margin-bottom:0}
-.vcard .btn{display:block;width:100%;text-align:center;background:var(--green);margin:6px 0 12px}
-.vcard .btn:hover{background:#168a54}
+.vcard .btn{display:block;width:100%;text-align:center;margin:6px 0 12px}
 .vcard .btn[disabled]{opacity:.55;cursor:default}
 .vmeta{display:flex;flex-wrap:wrap;gap:6px 30px;justify-content:center;font-size:14px;color:var(--muted);margin-bottom:22px}
 .vmeta b{color:var(--ink);font-weight:700}

@@ -122,9 +122,8 @@ CARDS = {
  "dasp-processing-time": ("How long does a DASP actually take?", "What starts the clock, what stalls it, and how to chase a slow claim."),
  "can-i-claim-tax-back-on-super-withdrawal": ("Can you claim the tax back on your super?", "The one narrow exception, and the refund most people miss."),
  "can-i-claim-my-super-myself-for-free": ("Yes, you can do this yourself for free.", "The ATO route step by step, and where DIY claims come unstuck."),
- "dasp-nat-7204-application-form": ("The DASP application form, as a fillable PDF", "Our version of NAT 7204. Fill it in, send it back, we lodge it."),
  "faq": ("Straight answers about claiming your super", "Tax, timing, lost funds, overseas payments and the free ATO option."),
- "pricing": ("One flat fee. Never a percentage.", "$150 covers every fund. No super recovered, no fee."),
+ "pricing": ("One flat fee. Never a percentage.", "$150.00 covers every fund. No super recovered, no fee."),
  "visas": ("Which visa were you on?", "417, 462, 482, 500 and the rest. Your subclass sets your tax rate."),
  # Kicker corrected 5 November 2026. It said "you do not need an Australian
  # bank", which is untrue once super has moved to the ATO: the ATO pays only
@@ -134,7 +133,7 @@ CARDS = {
  "palm-scheme": ("PALM scheme worker? Claim your super.", "For the Pacific and Timor-Leste: when to claim, and how it reaches you."),
  "australiansuper": ("Claim your super from AustralianSuper", "Australia's biggest fund, and the passport step that stalls big balances."),
  "brazil": ("Claim your Australian super from Brazil", "Studied here on a 500? You pay the lower rate, not the backpacker one."),
- "uk": ("Claim your Australian super from the UK", "Paid to a UK account. Flat fee $150, every fund included."),
+ "uk": ("Claim your Australian super from the UK", "Paid to a UK account. Flat fee $150.00, every fund included."),
  "ireland": ("Claim your Australian super from Ireland", "Several jobs usually means several funds. We find all of them."),
  "germany": ("Claim your Australian super from Germany", "Paid to a German account, paperwork handled in English."),
  "france": ("Claim your Australian super from France", "No notaire, no consulate queue. A passport and a selfie."),

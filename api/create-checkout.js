@@ -6,9 +6,25 @@
 
 const config = require('./_lib/config');
 const db = require('./_lib/supabase');
-const email = require('./_lib/email');
 const { stripeHeaders } = require('./_lib/stripe');
 const { clientIp } = require('./_lib/guard');
+const { sanctionedReason, ineligiblePassport } = require('./_lib/manual-only');
+
+/* Online claims are for adults. Decided 4 November 2026: Australia has no
+   single minimum working age (each state sets its own), Stripe Identity cannot
+   verify anyone under 16, under-18s only earn super guarantee in weeks they
+   work more than 30 hours for one employer, and a minor giving a tax agent
+   written authority to act is a question nobody needs to answer at checkout.
+   Under-18s are pointed to the team instead. claim.html enforces the same. */
+const MIN_AGE = 18;
+function ageOn(dob, now) {
+  const d = new Date(`${String(dob).slice(0, 10)}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return Infinity; // unreadable: let the team see it, do not block on it
+  let age = now.getUTCFullYear() - d.getUTCFullYear();
+  const m = now.getUTCMonth() - d.getUTCMonth();
+  if (m < 0 || (m === 0 && now.getUTCDate() < d.getUTCDate())) age--;
+  return age;
+}
 
 /* Where Vercel's edge thinks this request came from, as a two-letter ISO 3166-1
    code. https://vercel.com/docs/headers/request-headers
@@ -62,6 +78,26 @@ module.exports = async (req, res) => {
     const claim = await db.getClaim(claimId);
     if (!claim) return res.status(404).json({ error: 'claim not found' });
     if (claim.payment_status === 'paid') return res.status(409).json({ error: 'already paid' });
+
+    /* The form blocks both of these before the row is written, but the row is
+       written straight to Supabase from the browser, so the form is not the
+       control. This is: no Checkout Session, so no charge, for a claimant we
+       could never complete. */
+    const ineligible = ineligiblePassport(claim.passport_country);
+    if (ineligible) {
+      return res.status(403).json({
+        error: ineligible === 'NZ'
+          ? 'New Zealand citizens cannot claim a DASP. Your Australian super can usually be transferred to a KiwiSaver provider instead.'
+          : 'Australian citizens cannot claim a DASP. It is only for people who were in Australia on a temporary visa.',
+        reason: 'not_eligible',
+      });
+    }
+    if (sanctionedReason(claim)) {
+      return res.status(403).json({ error: 'We cannot take a claim for this passport or country of residence.', reason: 'country_not_supported' });
+    }
+    if (claim.date_of_birth && ageOn(claim.date_of_birth, new Date()) < MIN_AGE) {
+      return res.status(403).json({ error: `Online claims are for people aged ${MIN_AGE} and over.`, reason: 'under_age' });
+    }
 
     const firstAttempt = !claim.stripe_session_id;
 
@@ -118,12 +154,37 @@ module.exports = async (req, res) => {
       cancel_url: `${config.SITE_URL}/claim?cancelled=1`,
     });
 
-    const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+    const create = (body) => fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
       headers: stripeHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-      body: params.toString(),
+      body: body.toString(),
     });
-    const session = await r.json();
+
+    /* Checkout in DASPA colours rather than the account default (a blue Pay
+       button on a dark panel, which matches nothing on the site). Asked for by
+       Juan, 5 November 2026. Per session rather than in the dashboard because
+       the Stripe account's dashboard branding is the account's, and this keeps
+       DASPA's look in DASPA's code. Values are the --navy and --yellow tokens
+       in assets/site.css. branding_settings needs API 2025-09-30 or later; the
+       pin in _lib/stripe.js is newer.
+       https://docs.stripe.com/changelog/clover/2025-09-30/checkout-sessions-branding-settings
+
+       Cosmetic, so it must never cost a sale: if Stripe rejects anything under
+       branding_settings, the session is created again without it. */
+    const branded = new URLSearchParams(params);
+    branded.set('branding_settings[display_name]', 'DASPA');
+    branded.set('branding_settings[background_color]', '#091F5B');
+    branded.set('branding_settings[button_color]', '#FCC800');
+    branded.set('branding_settings[border_style]', 'rounded');
+
+    let r = await create(branded);
+    let session = await r.json();
+    if (!r.ok && /^branding_settings/.test((session.error && session.error.param) || '')) {
+      console.warn('stripe rejected branding_settings, creating the session without it:',
+        session.error.message);
+      r = await create(params);
+      session = await r.json();
+    }
     if (!r.ok) {
       console.error('stripe session create failed:', session.error && session.error.message);
       return res.status(502).json({ error: 'payment provider unavailable' });
@@ -138,15 +199,21 @@ module.exports = async (req, res) => {
       client_ip: clientIp(req),
     });
 
-    /* NO EMAIL TO THE CLIENT HERE.
-       This used to send "We have your super claim" the moment a payment link
-       was issued, so somebody who never paid got a confirmation for an order
-       they had not placed. Juan, 11 September 2026: nothing goes to the client
-       before payment. The webhook's paymentConfirmed is now first contact.
+    /* NO EMAIL TO ANYONE HERE, CLIENT OR TEAM.
+       This used to send the client "We have your super claim" the moment a
+       payment link was issued; Juan stopped that on 11 September 2026. It also
+       sent the team a full alert, and Juan stopped that too on 5 November 2026:
+       an unpaid order gets no email at all. Payment is what lets the team
+       engage the client and do the work, so the webhook's paymentConfirmed
+       (to the client) and opsPaid (to the team) are the first emails a claim
+       produces.
 
-       The ops alert stays, so a claim never sits in the table unseen. */
+       Also why it matters for privacy: the team alert carries the TFN and bank
+       details, and claims-sweep clears those from an unpaid row after seven
+       days. An email sent here would have kept them in the inbox regardless.
+
+       The audit row stays, so an unpaid claim is still traceable. */
     if (firstAttempt) {
-      await email.opsNewClaim(claim);
       await db.insertAudit(claim.id, 'checkout_started', claim.email);
     }
 
