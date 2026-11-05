@@ -161,6 +161,26 @@ section.page-band{padding:44px 0}
 .band-body .steps3{grid-template-columns:minmax(0,1fr)}
 .band-body .features{grid-template-columns:minmax(0,1fr)}
 
+/* Key takeaways: five lines a reader can leave with. The explainers Google
+   cites on the DASP results carry one, and a summary in plain sentences is the
+   kind of text an AI answer quotes. A label, not a heading, so it adds nothing
+   to the outline that would need its own answer paragraph. */
+.takeaways{background:var(--sky);border:1px solid var(--edge);border-left:4px solid var(--navy);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:18px 0 26px;max-width:var(--measure)}
+.prose .takeaways-h{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--navy);margin:0 0 8px}
+.takeaways ul{margin:0 0 0 18px}
+.takeaways li{margin-bottom:6px;font-size:15px}
+.prose .updated{font-size:13px;color:var(--muted);margin-top:16px}
+
+/* A linked anchor must land below the sticky header, not under it. The header
+   is 67px at 1440 and 62px at 375, and every anchor had scroll-margin 0, so
+   /#eligibility and /dasp-calculator#deadline both arrived with their target
+   hidden. The per-visa anchors (#417 and so on) are outreach landing points
+   and need it most. --hdr-h is unset on this site, so the fallback decides. */
+:target{scroll-margin-top:calc(var(--hdr-h, 67px) + 16px)}
+.by-visa p{margin-bottom:10px}
+
 /* ---- Stage 7: the band ----------------------------------------------------
    A section is a card on a tinted page, so a boundary is seen before a word is
    read. Two columns: the answer on the left, the thing it refers to on the
