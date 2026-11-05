@@ -55,18 +55,40 @@
   --amber:#c98a1b;
   --wa:#25d366;
   --accent:#FCC800;         /* the wordmark's final letter, and highlights on navy */
+  /* Stage 7, kit rule 34. Checked against THIS site's navy, not ABN Assist's:
+     navy/straw 14.57, ink/straw 14.14, muted/straw 5.55, yellow/navy 9.86,
+     blue/sky 10.09, muted/sky 5.43. All AA. */
+  --sky:#EBF8FD;     /* band tint, and the default disc surface */
+  --edge:#CFE9F5;    /* the border that goes with a tinted surface */
+  --straw:#FFF8E4;   /* the one tint of --yellow; never a band surface */
+  /* Width system, matched to abnassist (kit Stage 5): the shell widens while the
+     reading column does not. --measure is per site under rule 34, and is set by
+     measurement rather than copied. Plus Jakarta Sans runs about 0.473em a
+     character here (704px of .wrap-narrow held 94 to 99 characters at 15.5px),
+     so ABN's 48em is about 100 characters on this site, not 80. 36em is about
+     76, and because it is in em it holds that at 15.5px and at the 17px lead. */
+  --shell:1600px;                    /* chrome, bands, card rows */
+  --gutter:clamp(20px,4.5vw,88px);   /* fluid, so no jump at a breakpoint */
+  --measure:36em;                    /* about 76 characters, measured */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
-.wrap{max-width:1060px;margin:0 auto;padding:0 18px}
-.wrap-narrow{max-width:740px;margin:0 auto;padding:0 18px}
+.wrap{max-width:var(--shell);margin:0 auto;padding:0 var(--gutter)}
+.wrap-narrow{max-width:calc(740px + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
+/* Running text is held to the measure wherever it sits. Most of this site's
+   prose lives straight inside .wrap-narrow rather than in .prose, which is why
+   63 paragraphs measured 94 to 99 characters a line before any of this. */
+.wrap-narrow :is(p,li),.prose :is(p,li),.res-box p,.form-body p{max-width:var(--measure)}
 img{max-width:100%}
 
 /* ---------- header (sticky, every page) ---------- */
 header.site{background:var(--navy);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(20,25,60,.25)}
-header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
+/* The header takes the same gutter as the body, so the logo's left edge and
+   the content's left edge are one line. At 16px against an 88px body gutter
+   they sat 72px apart at 1440. */
+header.site .wrap{display:flex;align-items:center;gap:10px;padding:10px var(--gutter)}
 /* The wordmark is artwork now, not styled text. Two files, because the
    lettering is white-on-navy in the header and navy-on-white in the body; a
    single file recoloured with a CSS filter would be a guess at the brand
@@ -114,13 +136,13 @@ header.site .btn.start{font-size:13.5px;padding:10px 14px;border-radius:99px;fle
 .hero h1 em{font-style:normal;color:var(--yellow)}
 .hero .sub{color:#c9cfe8;margin-top:12px;font-size:16.5px;max-width:560px}
 .hero .cta-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;align-items:center}
-.hero .microtrust{margin-top:14px;font-size:12.5px;color:#aeb6d8;font-weight:500}
+.hero .microtrust{margin-top:14px;font-size:12.5px;color:#aeb6d8;font-weight:500;max-width:var(--measure)}
 
 /* page hero (inner pages) */
 .page-hero{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:34px 0 38px}
 .page-hero h1{font-size:clamp(25px,5vw,36px);font-weight:700;line-height:1.15}
 .page-hero h1 em{font-style:normal;color:var(--yellow)}
-.page-hero .sub{color:#c9cfe8;margin-top:10px;font-size:15.5px;max-width:640px}
+.page-hero .sub{color:#c9cfe8;margin-top:10px;font-size:15.5px;max-width:var(--measure)}
 .page-hero .crumbs{font-size:12px;color:#8f98c2;font-weight:600;letter-spacing:.05em;margin-bottom:12px;text-transform:uppercase}
 .page-hero .crumbs a{color:#8f98c2;text-decoration:none}
 
@@ -129,15 +151,113 @@ main.page{padding:34px 0 54px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
 .card + .card{margin-top:16px}
 section.page-band{padding:44px 0}
+/* A converted section's gap is carried by the card's own margin, so the
+   section's 44px top and bottom would stack to 88px between two cards. */
+.page-band.pb-tight{padding:0 0 18px}
+.page-band.pb-tight:first-of-type{padding-top:30px}
+/* A three-across grid inside a 465px band column gives each step about 145px,
+   which crushes the words. In a band the steps run as a vertical rail, which
+   is what the reference site does with the same content. */
+.band-body .steps3{grid-template-columns:minmax(0,1fr)}
+.band-body .features{grid-template-columns:minmax(0,1fr)}
+
+/* Key takeaways: five lines a reader can leave with. The explainers Google
+   cites on the DASP results carry one, and a summary in plain sentences is the
+   kind of text an AI answer quotes. A label, not a heading, so it adds nothing
+   to the outline that would need its own answer paragraph. */
+.takeaways{background:var(--sky);border:1px solid var(--edge);border-left:4px solid var(--navy);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:18px 0 26px;max-width:var(--measure)}
+.prose .takeaways-h{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--navy);margin:0 0 8px}
+.takeaways ul{margin:0 0 0 18px}
+.takeaways li{margin-bottom:6px;font-size:15px}
+.prose .updated{font-size:13px;color:var(--muted);margin-top:16px}
+
+/* A linked anchor must land below the sticky header, not under it. The header
+   is 67px at 1440 and 62px at 375, and every anchor had scroll-margin 0, so
+   /#eligibility and /dasp-calculator#deadline both arrived with their target
+   hidden. The per-visa anchors (#417 and so on) are outreach landing points
+   and need it most. --hdr-h is unset on this site, so the fallback decides. */
+:target{scroll-margin-top:calc(var(--hdr-h, 67px) + 16px)}
+.by-visa p{margin-bottom:10px}
+
+/* Keep reading: the internal anchor map. Each content page links every page
+   that owns a money query, with the words that page should rank for, in body
+   content rather than the footer, and never to itself. */
+.related{margin:30px 0 22px;padding:16px 20px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;max-width:var(--measure)}
+.related .related-h{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 8px}
+.related ul{margin:0 0 0 18px}
+.related li{margin-bottom:6px;font-size:15px;color:var(--muted)}
+.related a{font-weight:700;color:var(--blue)}
+
+/* Who is lodging, said before the form and not only in the footer: the same
+   subtle line ABN Assist carries. Google's misrepresentation policy and the
+   customer both need to see that this is not the ATO. */
+.form-identity{font-size:13px;color:var(--muted);margin:0 0 10px}
+
+/* ---- Stage 7: the band ----------------------------------------------------
+   A section is a card on a tinted page, so a boundary is seen before a word is
+   read. Two columns: the answer on the left, the thing it refers to on the
+   right. .page-band above stays for the pages not yet converted. */
+.band{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px 48px;
+  align-items:start;margin:0 0 18px}
+.band-full{display:block}
+.band-lead{min-width:0}
+.band-body{min-width:0}
+@media(max-width:880px){.band{grid-template-columns:minmax(0,1fr);gap:14px}}
+
+/* Surface alternation by explicit class, never nth-child: a hidden sibling
+   breaks the count. A tint sits on a card, so the step is sky against white. */
+.band.tint{background:var(--sky);border-color:var(--edge)}
+
+/* The 4px bar names the category before the heading is read. Three categories,
+   each also named by a word in the heading beside it, so colour is a second
+   channel and never the only one. */
+.band[data-kind="rule"]{border-top:4px solid var(--yellow)}
+.band[data-kind="choice"]{border-top:4px solid var(--blue)}
+.band[data-kind="us"]{border-top:4px solid var(--navy)}
+
+/* Kit Part 12, verbatim, so the snippets test pins the same literals here. */
+.disc{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;
+  border-radius:50%;background:var(--sky);color:var(--blue);flex:none}
+.disc svg{width:22px;height:22px}
+.disc.rule{background:var(--straw);color:var(--navy)}
+.disc.us{background:var(--navy);color:var(--yellow)}
+/* The default disc is --sky, which is also the tinted band's surface, so
+   without this every marker on a tint is invisible. Bites once per project. */
+.band.tint .disc:not(.rule):not(.us){background:var(--card);border:1px solid var(--edge)}
+.disc.sm{width:30px;height:30px;flex:none}
+.disc.sm svg{width:17px;height:17px}
+.band-kicker{margin-bottom:10px}
+
+/* rule 25: the category is the heading, not an 11px eyebrow above it. Both
+   spans sit inside the one <h2>, so the document outline is unchanged. */
+.sec-h{display:block;margin:0 0 10px}
+.sec-h .sec-label{display:block;font-size:clamp(21px,4vw,27px);font-weight:700;line-height:1.2}
+.sec-h .sec-sub{display:block;font-size:15px;line-height:1.45;font-weight:600;color:var(--muted);
+  margin-top:4px;max-width:var(--measure)}
+
+/* The numbers a worried reader hunts for, above the prose. Rule 20: four items
+   of the same kind are told apart by a word, not by four drawings. */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 26px}
+.facts>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0}
+.facts dt{font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:3px 0 0;font-size:21px;font-weight:800;color:var(--navy);line-height:1.15;font-variant-numeric:tabular-nums}
+.facts dd small{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-top:3px}
 section.page-band h2,.prose h2{font-size:clamp(21px,4vw,27px);font-weight:700;line-height:1.2;margin-bottom:8px}
 section.page-band .page-band-sub{color:var(--muted);font-size:15px;margin-bottom:22px;max-width:620px}
 .prose h2{margin:26px 0 8px}
 .prose h3{font-size:18px;font-weight:700;margin:20px 0 6px}
-.prose p{margin-bottom:12px;font-size:15.5px}
+.prose p{margin-bottom:12px;font-size:15.5px;max-width:var(--measure)}
 .prose ul,.prose ol{margin:0 0 14px 22px;font-size:15.5px}
 .prose li{margin-bottom:6px}
 .prose a{color:var(--blue);font-weight:600}
-.prose .lead{font-size:17px;color:var(--muted)}
+/* rule 15: the lead IS the answer, so it is body text, not a caption. Pinned
+   byte-identical to abnassist site.css so tests/kit-snippets.mjs ports over. */
+.prose .lead{font-size:17px;color:var(--ink);max-width:var(--measure)}
+.prose .lead b,.prose .lead strong{color:var(--navy)}
 .prose table{width:100%;border-collapse:collapse;font-size:14.5px;margin:12px 0}
 .prose th,.prose td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
 .prose th{font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}

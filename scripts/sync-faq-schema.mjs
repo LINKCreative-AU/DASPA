@@ -94,8 +94,16 @@ for (const f of fs.readdirSync(ROOT).filter(n => n.endsWith('.html'))) {
   if (check) {
     console.error(`  ${f} differs (${qs.length} questions)`);
   } else {
-    const out = h.replace(block[0],
-      '<script type="application/ld+json">\n' + JSON.stringify(data, null, 1) + '\n</script>');
+    /* Write in the page's own line endings. JSON.stringify breaks lines with
+       \n, and splicing that into a CRLF page left the FAQ block as LF lines
+       inside a CRLF file: 100 of them on each of two pages on 5 November 2026,
+       and invisible to --check, which compares parsed JSON rather than bytes.
+       A function replacer, because a string replacement treats $& and $' as
+       patterns, and this schema is full of dollar amounts. */
+    const eol = h.includes('\r\n') ? '\r\n' : '\n';
+    const fresh = ('<script type="application/ld+json">\n' + JSON.stringify(data, null, 1) + '\n</script>')
+      .replace(/\n/g, eol);
+    const out = h.replace(block[0], () => fresh);
     fs.writeFileSync(p, out);
     console.log(`  ${f}: FAQPage rebuilt from ${qs.length} <details>`);
   }

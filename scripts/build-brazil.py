@@ -112,8 +112,8 @@ BODY = """<div class="answer-first">
 <p>Student visa holders can work limited hours, so the assumption is often that there cannot be much super sitting there. In practice there usually is. Employers must pay super on top of your wages at a legislated rate, currently 12%, from the first dollar you earn, and student work tends to mean several employers over a couple of years: a cafe, a cleaning contract, a bit of hospitality. Each one may have used a different fund.</p>
 <p>That is the part people find hardest to unpick themselves, and it is the core of what we do: we search for every account in your name, including money already sitting with the ATO, under one flat fee.</p>
 
-<h2>Paid to your Brazilian account</h2>
-<p>Your DASP is paid to a Brazilian account using your bank's SWIFT/BIC. Banco do Brasil, Itau, Bradesco, Caixa, Santander and the digital banks all receive international transfers. The money arrives in Australian dollars and your bank converts it to reais at its own rate; some people use a multi-currency account to control the conversion themselves. We never hold your money, the fund or the ATO pays you directly.</p>
+<h2>Getting it paid into your Brazilian account</h2>
+<p>If your fund offers international transfer, your DASP can be paid to a Brazilian account using your bank's SWIFT/BIC. Banco do Brasil, Itau, Bradesco, Caixa, Santander and the digital banks all receive international transfers. The money arrives in Australian dollars and your bank converts it to reais at its own rate; some people use a multi-currency account to control the conversion themselves. We never hold your money: your fund pays you directly. Super already held by the ATO can only be paid into an Australian bank account in your name or by cheque.</p>
 
 <h2>No cartorio, no consulate queue</h2>
 <p>Identity is verified electronically with your passport and a selfie, from your phone, in about two minutes. There is no cartorio, no notarised copies and no appointment at the Australian consulate in Sao Paulo or Brasilia. Funds approached directly will often ask for certified documents, particularly above about A$5,000, and removing that step is a large part of why people use a registered tax agent.</p>
@@ -158,7 +158,8 @@ SCHEMA = """<script type="application/ld+json">
    "@id": "https://daspa.com.au/#org",
    "name": "DASPA",
    "legalName": "Australian Registration Office Pty Ltd",
-   "url": "https://daspa.com.au/"
+   "url": "https://daspa.com.au/",
+   "sameAs": ["https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969"]
   },
   {
    "@type": "Service",
@@ -222,10 +223,20 @@ HTML = """<!DOCTYPE html>
 <main class="page">
   <div class="wrap-narrow prose">
 {body}
+<nav class="related" aria-label="Keep reading">
+  <p class="related-h">Keep reading</p>
+  <ul>
+    <li><a href="/dasp">DASP guide</a>: who can claim, the tax rates and the three ways to apply</li>
+    <li><a href="/dasp-calculator">DASP calculator</a>: what you would get back, by visa and balance</li>
+    <li><a href="/how-much-is-super-taxed-when-leaving-australia">DASP tax rates</a>: the 2026 rate table, worked in dollars</li>
+    <li><a href="/dasp-processing-time">How long a DASP takes</a>: the 28-day standard, and how to check your status</li>
+    <li><a href="/dasp-online-application">DASP online application</a>: the ways to lodge, compared</li>
+  </ul>
+</nav>
 <div class="cta-band">
   <div>
     <h2>Ready when you are. <em>5 minutes, flat fee.</em></h2>
-    <p>$150.00 &middot; every fund plus ATO-held super &middot; paid to your bank worldwide in about 28 days.</p>
+    <p>$150.00 &middot; every fund plus ATO-held super &middot; generally paid within 28 days.</p>
   </div>
   <a class="btn" href="/claim">Start my claim</a>
 </div>
@@ -245,6 +256,10 @@ for token in ("__ATO__", "__CAPS__", "__FAQS__", "__FAQ_ITEMS__"):
     assert token not in HTML, token
 
 out = os.path.join(ROOT, SLUG + ".html")
+# The template is written with \n but HEADER, FOOTER and TAIL are lifted from
+# philippines.html, which is CRLF, so the page came out with mixed endings.
+# Normalise to the template page's own ending, as the other generators now do.
+eol = "\r\n" if "\r\n" in tpl else "\n"
 with open(out, "w", encoding="utf-8", newline="") as fh:
-    fh.write(HTML)
+    fh.write(HTML.replace("\r\n", "\n").replace("\n", eol))
 print("wrote %s.html  title=%d desc=%d  %d FAQs" % (SLUG, len(TITLE), len(DESC), len(FAQ)))

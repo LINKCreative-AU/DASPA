@@ -721,8 +721,12 @@ for p in PAGES:
 
     assert "—" not in html, p["slug"]
     assert "__RATE_TABLE__" not in html and "__PAYOUT_TABLE__" not in html, p["slug"]
+    # The template is \n, but HEADER, FOOTER and TAIL come from uk.html, which
+    # is CRLF, so every language page came out with mixed endings. Write in
+    # the source page's own ending, as the other generators now do.
+    _eol = "\r\n" if "\r\n" in tpl else "\n"
     with open(os.path.join(ROOT, p["slug"] + ".html"), "w", encoding="utf-8", newline="") as fh:
-        fh.write(html)
+        fh.write(html.replace("\r\n", "\n").replace("\n", _eol))
     print("%-18s %-6s  %s" % (p["slug"] + ".html", meta["lang"], p["head_term"]))
 
 # The English homepage points at each language's landing page.

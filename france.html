@@ -55,7 +55,10 @@
    "@id": "https://daspa.com.au/#org",
    "name": "DASPA",
    "legalName": "Australian Registration Office Pty Ltd",
-   "url": "https://daspa.com.au/"
+   "url": "https://daspa.com.au/",
+   "sameAs": [
+    "https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969"
+   ]
   },
   {
    "@type": "Service",
@@ -120,6 +123,7 @@
     <a class="logo" href="/"><img src="/assets/daspa-logo-white.svg" alt="DASPA" width="83" height="30"><small>Get your super back</small></a>
     <a class="rta-badge" href="https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969" target="_blank" rel="noopener"><b>Registered Tax Agent</b>26076969</a>
     <span class="head-spacer"></span>
+    <a class="calc-link" href="/dasp" aria-label="DASP guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5A9 9 0 0 1 12 7a9 9 0 0 1 9-1.5V19a9 9 0 0 0-9-1.5A9 9 0 0 0 3 19z"/><path d="M12 7v10.5"/></svg><span class="cl-label">DASP guide</span></a>
     <a class="calc-link" href="/dasp-calculator" aria-label="DASP calculator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 7h7"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01"/></svg><span class="cl-label">DASP Calculator</span></a>
     <a class="wa-btn" href="/wa" data-wa target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg><span class="wa-label">WhatsApp</span></a>
     <a class="btn start" href="/claim">Start my claim</a>
@@ -141,7 +145,7 @@
 <h2>What French travellers usually get back</h2>
 <p>Every legal employer, the banana farm in Queensland, the Melbourne bistro, the Sydney warehouse, paid 12% superannuation on top of your wage into a default fund, whether you asked for it or not. A year or two of typical working-holiday jobs leaves <b>$3,000–$8,000</b> behind, and it does not come home unless you claim it. After the legislated 65% working-holiday tax (per the ATO source above) and our flat fee, a $5,600 balance still puts roughly <b>$1,800 (≈ €1,100)</b> in your account.</p>
 <h2>Paid to your French bank</h2>
-<p>BNP Paribas, Crédit Agricole, Société Générale, La Banque Postale, BoursoBank, any account that accepts international payments works. We collect your IBAN-linked SWIFT/BIC details in the form, and the fund or the ATO pays you directly in AUD; your bank converts to euro at its own rate. Prefer to control the conversion? A multi-currency account like Wise or Revolut works too. We never hold your money at any point.</p>
+<p>BNP Paribas, Crédit Agricole, Société Générale, La Banque Postale, BoursoBank, any account that accepts international payments works. We collect your IBAN-linked SWIFT/BIC details in the form, and a fund that offers international transfer pays you directly in AUD; your bank converts to euro at its own rate. Super already held by the ATO can only be paid into an Australian bank account in your name or by cheque. Prefer to control the conversion? A multi-currency account like Wise or Revolut works too. We never hold your money at any point.</p>
 <h2>No notaire, no consulate queue</h2>
 <p>The French know official paperwork better than anyone. With DASPA there is none of it: identity is verified electronically with your passport and a selfie, powered by Stripe Identity, no certified copies, no notaire, no appointment at the consulate in Paris or Lyon, no posting documents to Australia. (Claiming directly from a super fund yourself can involve certified identity documents, the exact hassle this replaces.)</p>
 <h2>Left Australia a while ago?</h2>
@@ -157,10 +161,20 @@
 <details><summary>Do I need certified copies of my documents, or a notaire?</summary><div class="a"><p>No. With DASPA, identity is verified electronically with your passport and a selfie, powered by Stripe Identity, no certified copies, no notaire, no appointment at the consulate, no posting documents to Australia. Claiming directly from a super fund yourself, by contrast, can involve certified identity documents, which is exactly the paperwork most people come to us to avoid.</p></div></details>
 <details><summary>How do I know DASPA is legitimate?</summary><div class="a"><p>DASPA is operated by Australian Registration Office Pty Ltd, Registered Tax Agent 26076969. You can verify that independently on the Australian Tax Practitioners Board public register (linked in our footer). Only registered agents may lawfully charge for DASP lodgement. And the ATO offers a free DIY application system at ato.gov.au if you’d rather do it yourself; our flat $150.00 is for having every fund found, the forms handled and the claim chased for you, refunded in full if we recover no super.</p></div></details>
 </div>
+<nav class="related" aria-label="Keep reading">
+  <p class="related-h">Keep reading</p>
+  <ul>
+    <li><a href="/dasp">DASP guide</a>: who can claim, the tax rates and the three ways to apply</li>
+    <li><a href="/dasp-calculator">DASP calculator</a>: what you would get back, by visa and balance</li>
+    <li><a href="/how-much-is-super-taxed-when-leaving-australia">DASP tax rates</a>: the 2026 rate table, worked in dollars</li>
+    <li><a href="/dasp-processing-time">How long a DASP takes</a>: the 28-day standard, and how to check your status</li>
+    <li><a href="/dasp-online-application">DASP online application</a>: the ways to lodge, compared</li>
+  </ul>
+</nav>
 <div class="cta-band">
   <div>
     <h2>Ready when you are. <em>5 minutes, flat fee.</em></h2>
-    <p>$150.00 · every fund plus ATO-held super · paid to your bank worldwide in about 28 days.</p>
+    <p>$150.00 · every fund plus ATO-held super · generally paid within 28 days.</p>
   </div>
   <a class="btn" href="/claim">Start my claim</a>
 </div>
@@ -189,7 +203,7 @@
           </div>
           <div class="foot-col">
             <h4>Guides</h4>
-            <a href="/claim-super-leaving-australia">Claiming super after leaving</a>
+            <a href="/dasp">Claiming super after leaving</a>
             <a href="/how-much-is-super-taxed-when-leaving-australia">How much is super taxed?</a>
             <a href="/dasp-processing-time">How long a DASP takes</a>
             <a href="/can-i-claim-tax-back-on-super-withdrawal">Can I claim the tax back?</a>
@@ -218,7 +232,7 @@
       </div>
     </div>
     <div class="disclaimer">
-      DASPA is a lodgement service operated by a registered tax agent; we are not a financial adviser and nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO. No agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account. We never hold client money. Identity verification is powered by <a href="https://stripe.com/identity" target="_blank" rel="noopener">Stripe Identity</a>. © Australian Registration Office Pty Ltd.
+      DASPA is an independent lodgement service operated by a registered tax agent. We are not the ATO or any government agency, and we are not a financial adviser; nothing on this site is financial advice. DASP tax rates are set by legislation and withheld by your super fund or the ATO. No agent can change them. The ATO provides a free DASP application system at <a href="https://www.ato.gov.au/" target="_blank" rel="noopener">ato.gov.au</a>; you can use it yourself at no cost. Your super is paid by your fund or the ATO directly to your nominated bank account. We never hold client money. Identity verification is powered by <a href="https://stripe.com/identity" target="_blank" rel="noopener">Stripe Identity</a>. © Australian Registration Office Pty Ltd.
     </div>
   </div>
 </footer>

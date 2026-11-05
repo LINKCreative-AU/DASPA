@@ -16,6 +16,11 @@
       "source": "/upload-form",
       "destination": "/id-verification",
       "permanent": true
+    },
+    {
+      "source": "/claim-super-leaving-australia",
+      "destination": "/dasp",
+      "permanent": true
     }
   ],
   "rewrites": [

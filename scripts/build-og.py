@@ -114,7 +114,10 @@ CARDS = {
  "index": ("Left Australia? Your super can come with you.", "Every fund, plus ATO-held super. Flat fee, no super no fee."),
  "dasp-calculator": ("What will you actually get back?", "Payout calculator, balance estimator and the six-month deadline check."),
  "dasp-online-application": ("Apply for your DASP online in five minutes", "Two ways to lodge, compared. No paper forms."),
- "claim-super-leaving-australia": ("How to claim your super when leaving Australia", "The 2026 guide: eligibility, rates, timing and claiming from abroad."),
+ # Was "claim-super-leaving-australia" until the guide moved to /dasp on
+ # 5 November 2026. The card wording is unchanged and still accurate, so the
+ # PNG was renamed rather than re-rendered.
+ "dasp": ("How to claim your super when leaving Australia", "The 2026 guide: eligibility, rates, timing and claiming from abroad."),
  "how-much-is-super-taxed-when-leaving-australia": ("How much is super taxed when you leave?", "The 2026 rate table, worked in dollars, and the trap that raises it."),
  "dasp-processing-time": ("How long does a DASP actually take?", "What starts the clock, what stalls it, and how to chase a slow claim."),
  "can-i-claim-tax-back-on-super-withdrawal": ("Can you claim the tax back on your super?", "The one narrow exception, and the refund most people miss."),
@@ -122,7 +125,12 @@ CARDS = {
  "faq": ("Straight answers about claiming your super", "Tax, timing, lost funds, overseas payments and the free ATO option."),
  "pricing": ("One flat fee. Never a percentage.", "$150.00 covers every fund. No super recovered, no fee."),
  "visas": ("Which visa were you on?", "417, 462, 482, 500 and the rest. Your subclass sets your tax rate."),
- "claim-super-from": ("Claiming your Australian super from overseas", "You do not need to go back, and you do not need an Australian bank."),
+ # Kicker corrected 5 November 2026. It said "you do not need an Australian
+ # bank", which is untrue once super has moved to the ATO: the ATO pays only
+ # into an Australian account in your name or by cheque. The rendered PNG
+ # still carries the old line until this script is next run with Pillow.
+ "claim-super-from": ("Claiming your Australian super from overseas", "You do not need to go back to claim it."),
+ "palm-scheme": ("PALM scheme worker? Claim your super.", "For the Pacific and Timor-Leste: when to claim, and how it reaches you."),
  "australiansuper": ("Claim your super from AustralianSuper", "Australia's biggest fund, and the passport step that stalls big balances."),
  "brazil": ("Claim your Australian super from Brazil", "Studied here on a 500? You pay the lower rate, not the backpacker one."),
  "uk": ("Claim your Australian super from the UK", "Paid to a UK account. Flat fee $150.00, every fund included."),
@@ -162,6 +170,12 @@ for slug in CARDS:
     with open(path, encoding="utf-8", newline="") as fh:
         t = fh.read()
     before = t
+    # Work in \n and write back in the page's own ending. The tag block is
+    # built with \n and the pages are CRLF, so every run used to leave the six
+    # og/twitter lines as LF inside a CRLF file: the seven stray LF lines each
+    # page carried until 5 November 2026 came from here.
+    eol = "\r\n" if "\r\n" in t else "\n"
+    t = t.replace("\r\n", "\n")
     img = "https://daspa.com.au/assets/og/%s.png" % slug
     tags = ('<meta property="og:image" content="%s">\n'
             '<meta property="og:image:width" content="1200">\n'
@@ -170,7 +184,7 @@ for slug in CARDS:
             '%s\n<meta name="twitter:image" content="%s">' % (img, TW, img))
     t = re.sub(r'\n<meta property="og:image".*?<meta name="twitter:image"[^>]*>', "", t, flags=re.S)
     m = re.search(r'<meta property="og:url" content="[^"]*">', t)
-    t = t[:m.end()] + "\n" + tags + t[m.end():]
+    t = (t[:m.end()] + "\n" + tags + t[m.end():]).replace("\n", eol)
     if t != before:
         with open(path, "w", encoding="utf-8", newline="") as fh:
             fh.write(t)
