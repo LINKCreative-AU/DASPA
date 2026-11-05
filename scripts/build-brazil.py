@@ -158,7 +158,8 @@ SCHEMA = """<script type="application/ld+json">
    "@id": "https://daspa.com.au/#org",
    "name": "DASPA",
    "legalName": "Australian Registration Office Pty Ltd",
-   "url": "https://daspa.com.au/"
+   "url": "https://daspa.com.au/",
+   "sameAs": ["https://myprofile.tpb.gov.au/public-register/practitioner/?ran=26076969"]
   },
   {
    "@type": "Service",
