@@ -136,7 +136,7 @@ header.site .btn.start{font-size:13.5px;padding:10px 14px;border-radius:99px;fle
 .hero h1 em{font-style:normal;color:var(--yellow)}
 .hero .sub{color:#c9cfe8;margin-top:12px;font-size:16.5px;max-width:560px}
 .hero .cta-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;align-items:center}
-.hero .microtrust{margin-top:14px;font-size:12.5px;color:#aeb6d8;font-weight:500}
+.hero .microtrust{margin-top:14px;font-size:12.5px;color:#aeb6d8;font-weight:500;max-width:var(--measure)}
 
 /* page hero (inner pages) */
 .page-hero{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:34px 0 38px}
@@ -191,6 +191,11 @@ section.page-band{padding:44px 0}
 .related ul{margin:0 0 0 18px}
 .related li{margin-bottom:6px;font-size:15px;color:var(--muted)}
 .related a{font-weight:700;color:var(--blue)}
+
+/* Who is lodging, said before the form and not only in the footer: the same
+   subtle line ABN Assist carries. Google's misrepresentation policy and the
+   customer both need to see that this is not the ATO. */
+.form-identity{font-size:13px;color:var(--muted);margin:0 0 10px}
 
 /* ---- Stage 7: the band ----------------------------------------------------
    A section is a card on a tinted page, so a boundary is seen before a word is
