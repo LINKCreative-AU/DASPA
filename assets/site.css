@@ -468,6 +468,11 @@ footer.site .foot-cols{display:grid;grid-template-columns:1fr;gap:20px}
 @media(min-width:620px){footer.site .foot-cols{grid-template-columns:repeat(3,1fr);gap:18px}}
 footer.site .foot-col h4{color:#fff;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;margin:0 0 10px;font-weight:700}
 footer.site .foot-col a{display:block;margin-bottom:7px}
+/* Every country guide one link from every page. Twelve of the fourteen were
+   linked only from /claim-super-from and /dasp, neither yet indexed, so Google
+   could reach them through the sitemap alone. */
+footer.site .foot-countries{margin:4px 0 16px;font-size:13px;line-height:1.8}
+footer.site .foot-countries b{color:#fff;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;margin-right:8px}
 footer.site .foot-legal{margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;gap:8px 18px}
 
 /* The self-hosted subsets are latin and latin-ext only, so the Korean and
