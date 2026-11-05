@@ -51,6 +51,45 @@ wage_rows = "\n".join(
     % (money(w), money(w * float(SG[0][0])), money(w * float(SG[1][0])))
     for w in WAGES)
 
+# Per visa: one plain sentence each, with its own anchor.
+#
+# Why: this page is the site's link asset. The AI answer on the `dasp` results
+# ends by asking for the reader's visa and balance, which is exactly what the
+# calculator takes, but a widget gives an AI nothing to quote. A sentence per
+# visa at a stated balance does, and an anchor per visa gives an outreach link
+# somewhere specific to land (/dasp-calculator#417).
+#
+# Computed from WHM, OTHER and FEE, the same constants the table uses, so the
+# sentences cannot disagree with the table or with the calculator above them.
+SAMPLE = 10000
+VISAS = [
+    ("417", "Working Holiday visa (subclass 417)", WHM, "/visa-417"),
+    ("462", "Work and Holiday visa (subclass 462)", WHM, "/visa-462"),
+    ("482", "Skilled visa (subclass 482)", OTHER, "/visa-482"),
+    ("500", "Student visa (subclass 500)", OTHER, "/visa-500"),
+]
+assert round(SAMPLE * WHM) == 6500 and round(SAMPLE * OTHER) == 3500
+
+
+def visa_line(code, name, rate, guide):
+    tax = SAMPLE * rate
+    paid = SAMPLE - tax
+    if rate == WHM:
+        basis = "DASP tax is %d%%" % round(rate * 100)
+        caveat = ""
+    else:
+        # The ordinary rate only holds if none of the super in that fund came
+        # from a working holiday visa; if any did, the fund applies 65% to all.
+        basis = "DASP tax is %d%% on the taxed element" % round(rate * 100)
+        caveat = ", provided none of your super in that fund came from a working holiday visa"
+    return ('<p id="%s"><b>%s.</b> %s, so on a %s balance %s is withheld and %s is paid out%s. '
+            'After our %s fee you would receive %s. <a href="%s">%s guide</a></p>'
+            % (code, name, basis, money(SAMPLE), money(tax), money(paid), caveat,
+               money(FEE), money(net(SAMPLE, rate)), guide, code))
+
+
+by_visa = "\n".join("      " + visa_line(*v) for v in VISAS)
+
 SECTION = """
       <h2 id="matrix">What lands in your bank, at a glance</h2>
       <p>The same maths as the calculator above, worked out in advance. Every figure is what reaches your account <em>after</em> DASP tax and after our $150 fee, so it is the number you would actually see. Find the row nearest your balance.</p>
@@ -64,6 +103,12 @@ __ROWS__
       </div>
       <p style="font-size:13px;color:var(--muted)">Rates are legislated and withheld by your fund or the ATO, and they are the same whether the super is still with your fund or already ATO-held: the rate follows the visa you held. Figures assume the whole balance is a taxed element, which is the normal case; a rare untaxed element is withheld at 45%. Amounts are rounded to the nearest dollar.</p>
 
+      <h3 id="by-visa">What you keep, by visa</h3>
+      <div class="by-visa">
+__BYVISA__
+      </div>
+      <p style="font-size:13px;color:var(--muted)">One rule changes these numbers: if any of your super in a fund came from contributions made while you held a working holiday visa (417 or 462), that fund applies 65% to the whole payment, including super earned later on another visa. Source: <a href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/temporary-residents-and-superannuation/departing-australia-superannuation-payment-dasp" target="_blank" rel="noopener">ATO, DASP</a>, last updated 21 April 2026.</p>
+
       <h3>No idea what your balance is? Work back from your wages</h3>
       <p>Super is paid on top of your wages at a rate set by law, so your gross Australian earnings give a usable estimate of what should be sitting in a fund somewhere. This is before DASP tax; put the result into the calculator above to see what you would keep.</p>
       <div class="table-scroll">
@@ -75,10 +120,15 @@ __WAGEROWS__
       </table>
       </div>
       <p style="font-size:13px;color:var(--muted)">An estimate of what you were owed, not a statement of what was paid. If an employer underpaid your super it can often be chased through the ATO, which is worth raising with us before you claim.</p>
-""".replace("__ROWS__", rows).replace("__WAGEROWS__", wage_rows)
+""".replace("__ROWS__", rows).replace("__WAGEROWS__", wage_rows).replace("__BYVISA__", by_visa)
 
 with open(PAGE, encoding="utf-8", newline="") as fh:
     t = fh.read()
+# The section is built with \n but the page is CRLF. Inserting bare \n lines
+# into it leaves mixed endings, which is what broke two byte-comparing guard
+# tests on abnassist. Work in \n, write back in the file's own ending.
+eol = "\r\n" if "\r\n" in t else "\n"
+t = t.replace("\r\n", "\n")
 
 anchor = "      <h2>More detail for your visa</h2>"
 assert anchor in t, "anchor not found"
@@ -91,7 +141,7 @@ else:
     t = t.replace(anchor, SECTION + "\n" + anchor, 1)
 
 with open(PAGE, "w", encoding="utf-8", newline="") as fh:
-    fh.write(t)
+    fh.write(t.replace("\n", eol))
 
 print("matrix written: %d balance rows, %d wage rows" % (len(BANDS), len(WAGES)))
 for b in (5000, 20000):
